@@ -68,6 +68,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <Content Include="Register_User.aspx" />
     <Content Include="SSS_LINQ_.dbml">
       <Generator>MSLinqToSQLGenerator</Generator>
       <LastGenOutput>SSS_LINQ_.designer.cs</LastGenOutput>
@@ -90,6 +91,8 @@
     </Content>
     <Content Include="Index.aspx" />
     <Content Include="SSS_SERVICE.asmx" />
+    <Content Include="Upload_Image.aspx" />
+    <Content Include="View_Users.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -101,6 +104,13 @@
       <DependentUpon>Index.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Register_User.aspx.cs">
+      <DependentUpon>Register_User.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Register_User.aspx.designer.cs">
+      <DependentUpon>Register_User.aspx</DependentUpon>
+    </Compile>
     <Compile Include="SSS_LINQ_.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -109,6 +119,20 @@
     <Compile Include="SSS_SERVICE.asmx.cs">
       <DependentUpon>SSS_SERVICE.asmx</DependentUpon>
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Upload_Image.aspx.cs">
+      <DependentUpon>Upload_Image.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Upload_Image.aspx.designer.cs">
+      <DependentUpon>Upload_Image.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="View_Users.aspx.cs">
+      <DependentUpon>View_Users.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="View_Users.aspx.designer.cs">
+      <DependentUpon>View_Users.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

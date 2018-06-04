@@ -20,9 +20,10 @@ namespace SSS_WEB_SERVICE
 	using System.Linq.Expressions;
 	using System.ComponentModel;
 	using System;
-	
-	
-	[global::System.Data.Linq.Mapping.DatabaseAttribute(Name="SSS_DATABASE")]
+	using System.IO;
+	using System.Drawing.Imaging;
+
+	[global::System.Data.Linq.Mapping.DatabaseAttribute(Name="SSS_DATABASE_")]
 	public partial class SSS_LINQ_DataContext : System.Data.Linq.DataContext
 	{
 		
@@ -33,13 +34,16 @@ namespace SSS_WEB_SERVICE
     partial void InsertImage(Image instance);
     partial void UpdateImage(Image instance);
     partial void DeleteImage(Image instance);
+    partial void InsertTrained_Model(Trained_Model instance);
+    partial void UpdateTrained_Model(Trained_Model instance);
+    partial void DeleteTrained_Model(Trained_Model instance);
     partial void InsertUser(User instance);
     partial void UpdateUser(User instance);
     partial void DeleteUser(User instance);
     #endregion
 		
 		public SSS_LINQ_DataContext() : 
-				base(global::System.Configuration.ConfigurationManager.ConnectionStrings["SSS_DATABASEConnectionString"].ConnectionString, mappingSource)
+				base(global::System.Configuration.ConfigurationManager.ConnectionStrings["SSS_DATABASE_ConnectionString"].ConnectionString, mappingSource)
 		{
 			OnCreated();
 		}
@@ -76,6 +80,14 @@ namespace SSS_WEB_SERVICE
 			}
 		}
 		
+		public System.Data.Linq.Table<Trained_Model> Trained_Models
+		{
+			get
+			{
+				return this.GetTable<Trained_Model>();
+			}
+		}
+		
 		public System.Data.Linq.Table<User> Users
 		{
 			get
@@ -90,7 +102,12 @@ namespace SSS_WEB_SERVICE
 	{
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
+
+		internal static Image FromStream(MemoryStream ms)
+		{
+			throw new NotImplementedException();
+		}
+
 		private int _Id;
 		
 		private string _Image_Path;
@@ -193,6 +210,142 @@ namespace SSS_WEB_SERVICE
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
 		}
+
+
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Trained_Models")]
+	public partial class Trained_Model : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private string _Model_Name;
+		
+		private System.Nullable<int> _Number_OF_Users;
+		
+		private System.Nullable<int> _Model_Version;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnModel_NameChanging(string value);
+    partial void OnModel_NameChanged();
+    partial void OnNumber_OF_UsersChanging(System.Nullable<int> value);
+    partial void OnNumber_OF_UsersChanged();
+    partial void OnModel_VersionChanging(System.Nullable<int> value);
+    partial void OnModel_VersionChanged();
+    #endregion
+		
+		public Trained_Model()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Model_Name", DbType="NVarChar(MAX)")]
+		public string Model_Name
+		{
+			get
+			{
+				return this._Model_Name;
+			}
+			set
+			{
+				if ((this._Model_Name != value))
+				{
+					this.OnModel_NameChanging(value);
+					this.SendPropertyChanging();
+					this._Model_Name = value;
+					this.SendPropertyChanged("Model_Name");
+					this.OnModel_NameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Number_OF_Users", DbType="Int")]
+		public System.Nullable<int> Number_OF_Users
+		{
+			get
+			{
+				return this._Number_OF_Users;
+			}
+			set
+			{
+				if ((this._Number_OF_Users != value))
+				{
+					this.OnNumber_OF_UsersChanging(value);
+					this.SendPropertyChanging();
+					this._Number_OF_Users = value;
+					this.SendPropertyChanged("Number_OF_Users");
+					this.OnNumber_OF_UsersChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Model_Version", DbType="Int")]
+		public System.Nullable<int> Model_Version
+		{
+			get
+			{
+				return this._Model_Version;
+			}
+			set
+			{
+				if ((this._Model_Version != value))
+				{
+					this.OnModel_VersionChanging(value);
+					this.SendPropertyChanging();
+					this._Model_Version = value;
+					this.SendPropertyChanged("Model_Version");
+					this.OnModel_VersionChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Users")]
@@ -205,6 +358,8 @@ namespace SSS_WEB_SERVICE
 		
 		private string _User_Name;
 		
+		private System.Nullable<int> _Model_ID;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -213,6 +368,8 @@ namespace SSS_WEB_SERVICE
     partial void OnIdChanged();
     partial void OnUser_NameChanging(string value);
     partial void OnUser_NameChanged();
+    partial void OnModel_IDChanging(System.Nullable<int> value);
+    partial void OnModel_IDChanged();
     #endregion
 		
 		public User()
@@ -256,6 +413,26 @@ namespace SSS_WEB_SERVICE
 					this._User_Name = value;
 					this.SendPropertyChanged("User_Name");
 					this.OnUser_NameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Model_ID", DbType="Int")]
+		public System.Nullable<int> Model_ID
+		{
+			get
+			{
+				return this._Model_ID;
+			}
+			set
+			{
+				if ((this._Model_ID != value))
+				{
+					this.OnModel_IDChanging(value);
+					this.SendPropertyChanging();
+					this._Model_ID = value;
+					this.SendPropertyChanged("Model_ID");
+					this.OnModel_IDChanged();
 				}
 			}
 		}

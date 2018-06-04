@@ -2,16 +2,22 @@
 <ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="SSS_LINQ_">
   <DataContextMoniker Name="/SSS_LINQ_DataContext" />
   <nestedChildShapes>
-    <classShape Id="7e7868f7-6d11-4956-8ff8-9b97c860f753" absoluteBounds="1.125, 1.375, 2, 1.3862939453125">
+    <classShape Id="57884982-3c01-42d7-9d98-eb8d8efb1535" absoluteBounds="2.125, 0.625, 2, 1.3862939453125">
       <DataClassMoniker Name="/SSS_LINQ_DataContext/Image" />
       <nestedChildShapes>
-        <elementListCompartment Id="a05a023c-6e81-40f5-b003-b3eda0bed8a0" absoluteBounds="1.1400000000000001, 1.835, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="5b86db7f-f06f-46eb-8c04-89615b9a771b" absoluteBounds="2.14, 1.085, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="58eba8dc-cb7e-46f4-8a0d-7d47c9095f8e" absoluteBounds="5.25, 2.75, 2, 1.1939925130208333">
+    <classShape Id="00dbf276-b2fb-4bcf-9b0c-192285d60e40" absoluteBounds="1.125, 2.5, 2, 1.5785953776041666">
+      <DataClassMoniker Name="/SSS_LINQ_DataContext/Trained_Model" />
+      <nestedChildShapes>
+        <elementListCompartment Id="1dbe344b-29b4-4cf9-a1e6-d51eb635847e" absoluteBounds="1.1400000000000001, 2.96, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="0bf04c63-ad87-4941-bd53-e48b00da4ac7" absoluteBounds="3.75, 2.875, 2, 1.3862939453125">
       <DataClassMoniker Name="/SSS_LINQ_DataContext/User" />
       <nestedChildShapes>
-        <elementListCompartment Id="10bd7d52-9f7f-4c18-8508-a00926c88af7" absoluteBounds="5.265, 3.21, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="89633108-d205-41b2-aea7-05bbc44a7fcc" absoluteBounds="3.765, 3.335, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
   </nestedChildShapes>
