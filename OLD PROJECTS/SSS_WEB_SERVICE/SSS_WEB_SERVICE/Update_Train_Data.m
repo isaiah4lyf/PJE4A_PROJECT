@@ -1,4 +1,3 @@
-
 image = imread(image_Path);
 
 if(size(image,3)==4) % resize image
@@ -21,9 +20,9 @@ for i=1:m
     A = [A;user_ID];
 end
 feattures_New = [A featuresOriginal];
-feattures_New
 
 file = load(path);
-new_File = [file.new_File;feattures_New];
+new_File = [featuresOriginal];
 save(path,'new_File');
 
+feattures_New

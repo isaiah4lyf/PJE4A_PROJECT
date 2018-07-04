@@ -95,10 +95,26 @@ public class Main_Activity  extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_);
 
-
-
-
         txvResult = (TextView) findViewById(R.id.textView);
+
+        Thread thread = new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+
+
+                try {
+                    Simple_Client client = new Simple_Client(txvResult);
+
+                }
+                catch (Exception ex)
+                {
+                    txvResult.setText(ex.toString());
+                }
+
+            }
+        });
+        thread.start();
 
 
 
@@ -112,11 +128,11 @@ public class Main_Activity  extends AppCompatActivity{
 
 
         // Record to the external cache directory for visibility
-        mFileName = getExternalCacheDir().getAbsolutePath();
-        mFileName += "/audiorecordtest.3gp";
+       // mFileName = getExternalCacheDir().getAbsolutePath();
+       // mFileName += "/audiorecordtest.3gp";
         //Toast.makeText(this,mFileName,Toast.LENGTH_LONG).show();
 
-        ActivityCompat.requestPermissions(this, permissions, REQUEST_RECORD_AUDIO_PERMISSION);
+       // ActivityCompat.requestPermissions(this, permissions, REQUEST_RECORD_AUDIO_PERMISSION);
 
         /*
         LinearLayout ll = new LinearLayout(this);
@@ -211,9 +227,7 @@ public class Main_Activity  extends AppCompatActivity{
                 if (resultCode == RESULT_OK && data != null) {
                     ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
                     txvResult.setText(result.get(0));
-                    onRecord(mStartRecording);
 
-                    mStartRecording = !mStartRecording;
                 }
                 break;
         }

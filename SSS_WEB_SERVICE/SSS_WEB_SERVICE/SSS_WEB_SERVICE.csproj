@@ -48,6 +48,13 @@
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.8\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="MWArray, Version=2.16.0.0, Culture=neutral, PublicKeyToken=e1d84a0da19db86f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Desktop\Untitled\for_redistribution_files_only\MWArray.dll</HintPath>
+    </Reference>
+    <Reference Include="myIntegrand">
+      <HintPath>..\..\..\Desktop\Untitled\for_redistribution_files_only\myIntegrand.dll</HintPath>
+    </Reference>
     <Reference Include="System.Data.Linq" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -68,7 +75,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <Content Include="Register_User.aspx" />
     <Content Include="SSS_LINQ_.dbml">
       <Generator>MSLinqToSQLGenerator</Generator>
       <LastGenOutput>SSS_LINQ_.designer.cs</LastGenOutput>
@@ -89,28 +95,11 @@
     <Content Include="App_Data\SSS_DATABASE_log.ldf">
       <DependentUpon>SSS_DATABASE.mdf</DependentUpon>
     </Content>
-    <Content Include="Index.aspx" />
     <Content Include="SSS_SERVICE.asmx" />
-    <Content Include="Upload_Image.aspx" />
-    <Content Include="View_Users.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Index.aspx.cs">
-      <DependentUpon>Index.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Index.aspx.designer.cs">
-      <DependentUpon>Index.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Register_User.aspx.cs">
-      <DependentUpon>Register_User.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Register_User.aspx.designer.cs">
-      <DependentUpon>Register_User.aspx</DependentUpon>
-    </Compile>
     <Compile Include="SSS_LINQ_.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -119,20 +108,6 @@
     <Compile Include="SSS_SERVICE.asmx.cs">
       <DependentUpon>SSS_SERVICE.asmx</DependentUpon>
       <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Upload_Image.aspx.cs">
-      <DependentUpon>Upload_Image.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Upload_Image.aspx.designer.cs">
-      <DependentUpon>Upload_Image.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="View_Users.aspx.cs">
-      <DependentUpon>View_Users.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="View_Users.aspx.designer.cs">
-      <DependentUpon>View_Users.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
