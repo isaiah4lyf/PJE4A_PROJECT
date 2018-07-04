@@ -47,6 +47,25 @@ namespace SSS_WEB_SERVICE
 
 		}
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 		[WebMethod]
 		public string  CONTACT_JAVA_SERVER()
 		{

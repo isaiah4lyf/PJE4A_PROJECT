@@ -23,17 +23,16 @@ public class Send_Packets_UDP {
         	DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
             try {
             	System.out.println("Ready to receive");
-            	serverSocket.receive(receivePacket);
-                String sentence = new String( receivePacket.getData());
-                System.out.println("RECEIVED: " + sentence);
+            	//serverSocket.receive(receivePacket);
+                //String sentence = new String( receivePacket.getData());
+                //System.out.println("RECEIVED: " + sentence);
                   
                   
                 InetAddress IPAddress = receivePacket.getAddress();
                 int port = receivePacket.getPort();
-                String capitalizedSentence = sentence.toUpperCase();
+                String capitalizedSentence = "Hi";
                 sendData = capitalizedSentence.getBytes();
                 DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, port);
-                System.out.println(sendPacket.toString());
                 serverSocket.send(sendPacket);
             
 			} catch (IOException e) {

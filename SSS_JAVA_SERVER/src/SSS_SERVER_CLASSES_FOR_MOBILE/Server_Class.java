@@ -15,12 +15,13 @@ public class Server_Class {
 	private FileWriter logFile;
 	private File log;
 	private MatlabEngine matEng;
+	private String URL;  
 
-	public Server_Class(int port,String Location,MatlabEngine matEng)
+	public Server_Class(int port,String Location,MatlabEngine matEng,String URL)
 	{
 		this.Location = Location;
 		this.matEng = matEng;
-	
+		this.URL = URL;
 		try
 		{
 			log = new File("data/server/DataFile.txt");
@@ -45,7 +46,7 @@ public class Server_Class {
 			{
 				Socket connectionToClient = server.accept();
 				System.out.println("New client");
-				Client_Handler handler = new Client_Handler(connectionToClient,Location,logFile,log,matEng);
+				Client_Handler handler = new Client_Handler(connectionToClient,Location,logFile,log,matEng,URL);
 				Thread clientThread = new Thread(handler);
 				System.out.println("Starting client thread");
 				clientThread.start();

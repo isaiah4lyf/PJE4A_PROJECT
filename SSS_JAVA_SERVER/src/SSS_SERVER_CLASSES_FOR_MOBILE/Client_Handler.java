@@ -30,14 +30,16 @@ public class Client_Handler implements Runnable{
 	private FileReader readFile;
 	private File log;
 	private MatlabEngine matEng;
+	private String URL;
 	
-	public Client_Handler(Socket socketConnectionToClient,String Location, FileWriter	logFile,File log,MatlabEngine matEng)
+	public Client_Handler(Socket socketConnectionToClient,String Location, FileWriter	logFile,File log,MatlabEngine matEng,String URL)
 	{
 		connectionToClient = socketConnectionToClient;
 		this.Location = Location;
 		this.logFile = logFile;
 		this.log = log;
 		this.matEng = matEng;
+		this.URL = URL;
 		
 		try
 		{
@@ -93,6 +95,9 @@ public class Client_Handler implements Runnable{
 					String Var = matEng.getVariable("y").toString();
 					sendMessage(Var);
 					//System.out.println(output);
+					
+					
+					
 				
 				} catch (Exception e) {
 					// TODO Auto-generated catch block

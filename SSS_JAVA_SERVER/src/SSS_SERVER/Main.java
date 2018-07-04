@@ -11,6 +11,7 @@ import SSS_SERVER_CLASSES_FOR_WEB_SERVICE.Server_Class_Web;
 
 public class Main {
 	private  static MatlabEngine matEng = null;
+	private static String URL;
 	public static void main(String[] args) {
 		
 		try {
@@ -24,7 +25,7 @@ public class Main {
 
 
 	                try {
-	                	Server_Class_Web server = new Server_Class_Web(8080,"data/server",matEng);
+	                	Server_Class server = new Server_Class(8080,"data/server",matEng,URL);
 	        			
 
 	                }
@@ -44,7 +45,7 @@ public class Main {
 
 	                try {
 	        			//Server_Class server_web = new Server_Class(4343,"data/server",matEng);
-	                	Send_Packets_UDP up = new Send_Packets_UDP();
+	                	//Send_Packets_UDP up = new Send_Packets_UDP();
 	                }
 	                catch (Exception ex)
 	                {
