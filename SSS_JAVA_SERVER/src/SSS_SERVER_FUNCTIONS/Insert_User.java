@@ -6,20 +6,21 @@ import org.ksoap2.serialization.SoapPrimitive;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
-public class Insert_Image {
-	public Insert_Image()
+public class Insert_User {
+	public Insert_User()
 	{
 	}
-	public String do_The_Work(String URL)
+	public String do_The_Work(String URL,String User_Name)
 	{
 		 String address = "";
 	        try {
 	            final String NAMESPACE = "http://tempuri.org/";
-	            final String SOAP_ACTION = "http://tempuri.org/INSERT_IMAGE";
-	            final String METHOD_NAME = "INSERT_IMAGE";
+	           
+	            final String SOAP_ACTION = "http://tempuri.org/INSERT_USER";
+	            final String METHOD_NAME = "INSERT_USER";
 	            SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
-	            request.addProperty("user_ID","1");
-	            request.addProperty("image_Path","hey");
+	            request.addProperty("user_Name",User_Name);
+
 	            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
 	            envelope.dotNet = true;
 	            envelope.setOutputSoapObject(request);
@@ -27,6 +28,7 @@ public class Insert_Image {
 	            androidHttpTransport.call(SOAP_ACTION, envelope);
 	            SoapPrimitive response = (SoapPrimitive) envelope.getResponse();
 	            address = response.toString();
+
 
 	        } catch (Exception e) {
 	            address = e.getLocalizedMessage();

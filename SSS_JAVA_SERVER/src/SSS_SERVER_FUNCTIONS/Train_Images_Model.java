@@ -6,20 +6,21 @@ import org.ksoap2.serialization.SoapPrimitive;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
-public class Insert_Image {
-	public Insert_Image()
+public class Train_Images_Model {
+	public Train_Images_Model()
 	{
 	}
-	public String do_The_Work(String URL)
+	public String do_The_Work(String URL,String User_ID)
 	{
 		 String address = "";
 	        try {
 	            final String NAMESPACE = "http://tempuri.org/";
-	            final String SOAP_ACTION = "http://tempuri.org/INSERT_IMAGE";
-	            final String METHOD_NAME = "INSERT_IMAGE";
+	           
+	            final String SOAP_ACTION = "http://tempuri.org/TRAIN_IMAGES_MODEL";
+	            final String METHOD_NAME = "TRAIN_IMAGES_MODEL";
 	            SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
-	            request.addProperty("user_ID","1");
-	            request.addProperty("image_Path","hey");
+	            request.addProperty("user_ID",User_ID);
+
 	            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
 	            envelope.dotNet = true;
 	            envelope.setOutputSoapObject(request);
@@ -28,6 +29,7 @@ public class Insert_Image {
 	            SoapPrimitive response = (SoapPrimitive) envelope.getResponse();
 	            address = response.toString();
 
+
 	        } catch (Exception e) {
 	            address = e.getLocalizedMessage();
 	        }
@@ -35,4 +37,3 @@ public class Insert_Image {
 	        return address;
 	}
 }
-

@@ -9,12 +9,15 @@ import org.ksoap2.transport.HttpTransportSE;
 public class Insert_Image {
 	public Insert_Image()
 	{
+
+
 	}
 	public String do_The_Work(String URL)
 	{
 		 String address = "";
 	        try {
 	            final String NAMESPACE = "http://tempuri.org/";
+	           
 	            final String SOAP_ACTION = "http://tempuri.org/INSERT_IMAGE";
 	            final String METHOD_NAME = "INSERT_IMAGE";
 	            SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
@@ -27,6 +30,7 @@ public class Insert_Image {
 	            androidHttpTransport.call(SOAP_ACTION, envelope);
 	            SoapPrimitive response = (SoapPrimitive) envelope.getResponse();
 	            address = response.toString();
+
 
 	        } catch (Exception e) {
 	            address = e.getLocalizedMessage();
