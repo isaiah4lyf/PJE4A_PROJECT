@@ -34,7 +34,7 @@ public class Insert_Image {
             //txvResult.setText(ex.toString());
         }
     }
-    public String Do_The_work(String User_Name)
+    public String Do_The_work(String User_Name,String User_ID)
     {
         File pictureFile = getOutputMediaFile();
         BufferedInputStream imageByte = null;
@@ -47,7 +47,8 @@ public class Insert_Image {
 
 
             sendCommand("INSERT_IMAGE");
-            sendCommand("Ississ");
+            sendCommand(User_ID);
+            sendCommand(User_Name);
             sendCommand(String.valueOf(ImageSize));
             sendCommand("Image_Name");
             out.write(buffer);
@@ -85,7 +86,7 @@ public class Insert_Image {
                 Environment.DIRECTORY_PICTURES), "MyCameraApp");
         File mediaFile;
         mediaFile = new File(mediaStorageDir.getPath() + File.separator +
-                "0216-bey"+  ".jpg");
+                "22587190 - Copy"+  ".jpg");
         return mediaFile;
     }
 }

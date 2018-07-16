@@ -149,22 +149,24 @@ public class Main_Activity  extends AppCompatActivity{
                 txvResult.setText("Hello");
 
                 try {
-                    ///Sending an image
-                    Insert_Image client = new Insert_Image();
-                    txvResult.setText(client.Do_The_work("Issi"));
-
-                    //Predicting a user
-                    //Pred_User pred = new Pred_User();
-                    //txvResult.setText(pred.Do_The_work("Issis"));
-
                     //Registering a user
                     //Insert_User insert_user = new Insert_User();
-                    //txvResult.setText(insert_user.Do_The_work("Ississ"));
+                    //txvResult.setText(insert_user.Do_The_work("Isaiah"));
+
+                    ///Sending an image
+                    //Insert_Image client = new Insert_Image();
+                    //txvResult.setText(client.Do_The_work("Isaiah","81"));
+
 
 
                     //retrain the model
-                    Train_Images_Model train = new Train_Images_Model();
-                    train.Do_The_work("77");
+                    //Train_Images_Model train = new Train_Images_Model();
+                    //train.Do_The_work("81");
+
+                    //Predicting a user
+                    Pred_User pred = new Pred_User();
+                    txvResult.setText(pred.Do_The_work("Beyonce"));
+
 
                 }
                 catch (Exception ex)

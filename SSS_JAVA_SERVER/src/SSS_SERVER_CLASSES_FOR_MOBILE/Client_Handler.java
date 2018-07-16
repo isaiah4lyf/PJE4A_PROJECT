@@ -89,6 +89,7 @@ public class Client_Handler implements Runnable{
 						case "INSERT_IMAGE":
 			
 							processing = false;
+							String user_ID_ = in.readUTF();
 							String user_name = in.readUTF();
 							String size_string = in.readUTF();
 							System.out.println(size_string);
@@ -135,14 +136,14 @@ public class Client_Handler implements Runnable{
 										// TODO Auto-generated catch block
 										e.printStackTrace();
 									}
-								close();
+								
 							}
 
 							File image = new File("data/MATLAB_TRAIN_DATA/"+user_name+"/"+title+".jpg");
 							matEng.eval("image_Path = '"+ image.getAbsolutePath().toString()+"'",null,null);
-							matEng.eval("user_ID = "+77,null,null);
+							matEng.eval("user_ID = "+user_ID_,null,null);
 							Update_Train_Data Upd = new Update_Train_Data();
-							String model_Name = Upd.do_The_Work(URL, "77");
+							String model_Name = Upd.do_The_Work(URL, user_ID_);
 							String[] model_Name_Tokens = model_Name.split("_");
 							String Matlab_Path = new File(".").getCanonicalPath() + "/data";
 							int model_Version =  Integer.parseInt(model_Name_Tokens[2]) - 1;
@@ -151,7 +152,7 @@ public class Client_Handler implements Runnable{
 							matEng.eval("path = '"+ML_features_Database+"'",null,null);
 							matEng.eval("path2 = '"+ML_features_Database2+"'",null,null);
 							matEng.eval("run('" + Matlab_Path + "/MATLAB_SCRIPTS/Update_Training_Data11.m')",null,null);
-
+							processing = false;
 							break;
 						case "TRAIN_IMAGES_MODEL":
 							
@@ -202,7 +203,7 @@ public class Client_Handler implements Runnable{
 
 							matEng.eval("path2 = '"+Trained_Model_File+"'",null,null);
 							matEng.eval("run('" + Matlab_Path_train + "/MATLAB_SCRIPTS/RUN_ESS5.m')",null,null);
-
+							processing = false;
 							break;
 							
 						case "PRED_USER":
@@ -213,8 +214,7 @@ public class Client_Handler implements Runnable{
 							int[] results = new int[models_string.length];
 							int[] fet_Match = new int[models_string.length];
 							
-							
-							
+													
 							for (int i = 0; i < models_string.length; i++)
 							{
 								String model_ID = models_string[i].split(",")[0];
@@ -222,8 +222,6 @@ public class Client_Handler implements Runnable{
 								String[] users_string = users.Do_The_Work(URL,model_ID);
 								System.out.println(users_string[0]);
 								
-								
-
 								matEng.eval("clear all",null,null);
 								
 								if (users_string.length  == 4)
@@ -258,7 +256,7 @@ public class Client_Handler implements Runnable{
 									matEng.eval("class_4 = "+Integer.parseInt(users_string[0].split(",")[0]+4),null,null);
 
 								}
-								File image2 = new File("0216-bey.jpg");
+								File image2 = new File("22587190 - Copy.jpg");
 								matEng.eval("Image_Name_of = '"+ image2.getAbsolutePath().toString()+"'",null,null);
 								
 								String Trained_Model2 = Matlab_Path_train + "/MATLAB_TRAINED_MODELS/" + models_string[i].split(",")[1] + "_" + models_string[i].split(",")[3] + ".mat";
@@ -307,6 +305,7 @@ public class Client_Handler implements Runnable{
 							/*
 							return result_With_Max;
 							*/
+							processing = false;
 							break;
 						
 					}
@@ -327,7 +326,7 @@ public class Client_Handler implements Runnable{
 		finally
 		{
 			
-			//close();
+			close();
 			
 		}
 	}
@@ -353,6 +352,9 @@ public class Client_Handler implements Runnable{
 		try
 		{
 			connectionToClient.close();
+			out.close();
+			in.close();
+			System.out.println("Closing Client Connection....");
 		}
 		catch (IOException ex)
 		{
