@@ -17,6 +17,8 @@ import com.mathworks.engine.MatlabSyntaxException;
 import SSS_SERVER_FUNCTIONS.Insert_Image;
 import SSS_SERVER_FUNCTIONS.Insert_User;
 import SSS_SERVER_FUNCTIONS.Return_Train_Models;
+import SSS_SERVER_FUNCTIONS.Return_User_With_ID;
+import SSS_SERVER_FUNCTIONS.Return_Users_In_Model;
 import SSS_SERVER_FUNCTIONS.Train_Images_Model;
 import SSS_SERVER_FUNCTIONS.Update_Train_Data;
 import sun.misc.BASE64Decoder;
@@ -26,16 +28,13 @@ import sun.misc.BASE64Decoder;
 public class Client_Handler implements Runnable{
 
 	private Socket			connectionToClient;
-	private OutputStream	os;
-	private InputStream		is;
-	private PrintWriter		txtout;
-	private BufferedReader	txtin;
+
 	private DataInputStream in;
 	private DataOutputStream out;
 	private MatlabEngine matEng;
 	private String URL;
 	private ServerSocket	server;
-	
+	private String Matlab_Path_train;
 	
 	
 	public Client_Handler(Socket socketConnectionToClient,MatlabEngine matEng,String URL,ServerSocket server)
@@ -46,13 +45,12 @@ public class Client_Handler implements Runnable{
 		this.server = server;
 		try
 		{
-			os = connectionToClient.getOutputStream();
-			is = connectionToClient.getInputStream();
+
 			in = new DataInputStream(connectionToClient.getInputStream());
 			out = new DataOutputStream(connectionToClient.getOutputStream());
+			Matlab_Path_train  = new File(".").getCanonicalPath() + "/data";
 			
-			//txtin = new BufferedReader(new InputStreamReader(connectionToClient.getInputStream()));
-			//txtout = new PrintWriter(os);
+
 		}
 		catch (IOException ex)
 		{
@@ -103,7 +101,7 @@ public class Client_Handler implements Runnable{
 
 							break;
 						case "INSERT_IMAGE":
-							/*
+			
 							processing = false;
 							String size_string = in.readUTF();
 							System.out.println(size_string);
@@ -113,8 +111,8 @@ public class Client_Handler implements Runnable{
 							BufferedOutputStream ByteToFile = null;
 							try{
 								System.out.println(size);
-								byte[] buffer = new byte[size+300];
-								readFully(in,buffer,0,size+300);
+								byte[] buffer = new byte[size];
+								readFully(in,buffer,0,size);
 								int extra = in.available();
 								if (extra > 0)
 								{
@@ -152,8 +150,7 @@ public class Client_Handler implements Runnable{
 									}
 								close();
 							}
-							*/
-							
+
 							File image = new File("0216-bey.jpg");
 							matEng.eval("image_Path = '"+ image.getAbsolutePath().toString()+"'",null,null);
 							matEng.eval("user_ID = "+64,null,null);
@@ -174,10 +171,7 @@ public class Client_Handler implements Runnable{
 							
 							Train_Images_Model train_model = new Train_Images_Model();
 							String[] response_Tokens = train_model.do_The_Work(URL, "64").split(",");
-							
 							System.out.println(response_Tokens[0]);
-							
-							
 							if (response_Tokens.length-1  == 4)
 							{
 								matEng.eval("class_1 = "+Integer.parseInt(response_Tokens[1]),null,null);
@@ -211,7 +205,7 @@ public class Client_Handler implements Runnable{
 
 							}
 
-							String Matlab_Path_train = new File(".").getCanonicalPath() + "/data";
+							
 							String ML_features_Database_train = Matlab_Path_train + "/MATLAB_TRAIN_DATA/" + response_Tokens[0] + ".mat";
 							
 							matEng.eval("path = '"+ML_features_Database_train+"'",null,null);
@@ -221,82 +215,109 @@ public class Client_Handler implements Runnable{
 
 							matEng.eval("path2 = '"+Trained_Model_File+"'",null,null);
 							matEng.eval("run('" + Matlab_Path_train + "/MATLAB_SCRIPTS/RUN_ESS5.m')",null,null);
-							//matlab.Execute("run('" + Matlab_Path + "MATLAB_SCRIPTS/RUN_ESS5.m')");
-
 
 							break;
 							
 						case "PRED_USER":
-							
-							
-							Return_Train_Models models = new Return_Train_Models();
-							String models_string = models.Do_The_Work(URL);
-							
-							System.out.println(models_string);
-							
-							/*
-							List<Trained_Model> trained_Models = (from Trained_Model in linq.Trained_Models
-																  select Trained_Model).ToList();
-							int[] results = new int[trained_Models.Count];
-							int[] fet_Match = new int[trained_Models.Count];
-							for (int i = 0; i < trained_Models.Count; i++)
-							{
-								List<User> users = (from User in linq.Users
-													where User.Model_ID == trained_Models.ElementAt(i).Id
-													select User).ToList();
-								matlab.Execute("'clear all'");
 
-								if (users.Count == 4)
+							Return_Train_Models models = new Return_Train_Models();
+							String[] models_string = models.Do_The_Work(URL);
+
+							int[] results = new int[models_string.length];
+							int[] fet_Match = new int[models_string.length];
+							
+							
+							
+							for (int i = 0; i < models_string.length; i++)
+							{
+								String model_ID = models_string[i].split(",")[0];
+								Return_Users_In_Model users = new Return_Users_In_Model();
+								String[] users_string = users.Do_The_Work(URL,model_ID);
+								System.out.println(users_string[0]);
+								
+								
+
+								matEng.eval("clear all",null,null);
+								
+								if (users_string.length  == 4)
 								{
-									matlab.PutWorkspaceData("class_1", "base", users.ElementAt(0).Id);
-									matlab.PutWorkspaceData("class_2", "base", users.ElementAt(1).Id);
-									matlab.PutWorkspaceData("class_3", "base", users.ElementAt(2).Id);
-									matlab.PutWorkspaceData("class_4", "base", users.ElementAt(3).Id);
+									matEng.eval("class_1 = "+Integer.parseInt(users_string[0].split(",")[0]),null,null);
+									matEng.eval("class_2 = "+Integer.parseInt(users_string[1].split(",")[0]),null,null);
+									matEng.eval("class_3 = "+Integer.parseInt(users_string[2].split(",")[0]),null,null);
+									matEng.eval("class_4 = "+Integer.parseInt(users_string[3].split(",")[0]),null,null);
+
 								}
-								else if (users.Count == 3)
+								else if (users_string.length == 3)
 								{
-									matlab.PutWorkspaceData("class_1", "base", users.ElementAt(0).Id);
-									matlab.PutWorkspaceData("class_2", "base", users.ElementAt(1).Id);
-									matlab.PutWorkspaceData("class_3", "base", users.ElementAt(2).Id);
-									matlab.PutWorkspaceData("class_4", "base", users.ElementAt(2).Id + 1);
+									matEng.eval("class_1 = "+Integer.parseInt(users_string[0].split(",")[0]),null,null);
+									matEng.eval("class_2 = "+Integer.parseInt(users_string[1].split(",")[0]),null,null);
+									matEng.eval("class_3 = "+Integer.parseInt(users_string[2].split(",")[0]),null,null);
+									matEng.eval("class_4 = "+Integer.parseInt(users_string[2].split(",")[0]+1),null,null);
+		
 								}
-								else if (users.Count == 2)
+								else if (users_string.length == 2)
 								{
-									matlab.PutWorkspaceData("class_1", "base", users.ElementAt(0).Id);
-									matlab.PutWorkspaceData("class_2", "base", users.ElementAt(1).Id);
-									matlab.PutWorkspaceData("class_3", "base", users.ElementAt(1).Id + 1);
-									matlab.PutWorkspaceData("class_4", "base", users.ElementAt(1).Id + 2);
+									matEng.eval("class_1 = "+Integer.parseInt(users_string[0].split(",")[0]),null,null);
+									matEng.eval("class_2 = "+Integer.parseInt(users_string[1].split(",")[0]),null,null);
+									matEng.eval("class_3 = "+Integer.parseInt(users_string[1].split(",")[0]+1),null,null);
+									matEng.eval("class_4 = "+Integer.parseInt(users_string[1].split(",")[0]+2),null,null);
+
 								}
 								else
 								{
-									matlab.PutWorkspaceData("class_1", "base", users.ElementAt(0).Id);
-									matlab.PutWorkspaceData("class_2", "base", users.ElementAt(0).Id + 2);
-									matlab.PutWorkspaceData("class_3", "base", users.ElementAt(0).Id + 3);
-									matlab.PutWorkspaceData("class_4", "base", users.ElementAt(0).Id + 4);
+									matEng.eval("class_1 = "+Integer.parseInt(users_string[0].split(",")[0]),null,null);
+									matEng.eval("class_2 = "+Integer.parseInt(users_string[0].split(",")[0]+2),null,null);
+									matEng.eval("class_3 = "+Integer.parseInt(users_string[0].split(",")[0]+3),null,null);
+									matEng.eval("class_4 = "+Integer.parseInt(users_string[0].split(",")[0]+4),null,null);
+
 								}
+								File image2 = new File("0216-bey.jpg");
+								matEng.eval("Image_Name_of = '"+ image2.getAbsolutePath().toString()+"'",null,null);
+								
+								String Trained_Model2 = Matlab_Path_train + "/MATLAB_TRAINED_MODELS/" + models_string[i].split(",")[1] + "_" + models_string[i].split(",")[3] + ".mat";
+								matEng.eval("path = '"+Trained_Model2+"'",null,null);
+								matEng.eval("run('" + Matlab_Path_train + "/MATLAB_SCRIPTS/Predict_User10.m')",null,null);
+								
+								StringWriter output_class = new StringWriter();
+								matEng.eval("max_Class",output_class,null);
+								String max_class_String = output_class.toString().replaceAll("\n","");
+								int max_class = Integer.parseInt(max_class_String.split("=")[1].replaceAll(" ",""));
+								
+								StringWriter output_num = new StringWriter();
+								matEng.eval("max_Num",output_num,null);
+								String max_num_String = output_num.toString().replaceAll("\n","");
+								int max_num = Integer.parseInt(max_num_String.split("=")[1].replaceAll(" ",""));
 
-
-								matlab.PutWorkspaceData("Image_Name_of", "base", image_Name);
-
-								string Trained_Model2 = Matlab_Path + "MATLAB_TRAINED_MODELS/" + trained_Models.ElementAt(i).Model_Name + "_" + trained_Models.ElementAt(i).Model_Version + ".mat";
-								matlab.PutWorkspaceData("path", "base", Trained_Model2);
-								matlab.Execute("run('" + Matlab_Path + "MATLAB_SCRIPTS/Predict_User10.m')");
-								results[i] = Convert.ToInt32(Regex.Split(matlab.Execute("max_Class").Replace(" ", string.Empty), "=")[1]);
-								string[] value0 = Regex.Split(matlab.Execute("max_Num").Replace(" ", string.Empty), "=");
-								fet_Match[i] = Convert.ToInt32(value0[1]);
+								results[i] = max_class;
+								fet_Match[i] = max_num;
+								
+			
 							}
-							int max = fet_Match.Max();
-							string result_With_Max = "";
-							for (int i = 0; i < trained_Models.Count; i++)
+							
+							int max = fet_Match[0];
+							for(int i = 0; i < fet_Match.length; i++)
+							{
+								if(fet_Match[i] > max)
+								{
+									max = fet_Match[i];
+								}
+							}
+							
+							String result_With_Max = "";
+							for (int i = 0; i < models_string.length; i++)
 							{
 								if (fet_Match[i] == max)
 								{
-									User user = (from User in linq.Users
-												 where User.Id == results[i]
-												 select User).First();
-									result_With_Max = user.User_Name;
+					
+									Return_User_With_ID user = new Return_User_With_ID();
+									
+									result_With_Max = user.do_The_Work(URL, String.valueOf(results[i]));
 								}
 							}
+							
+							System.out.println(result_With_Max);
+							
+							/*
 							return result_With_Max;
 							*/
 							break;
@@ -352,10 +373,15 @@ public class Client_Handler implements Runnable{
 		}
 	}
 
+	
 	private void sendMessage(String message)
 	{
-		txtout.println(message);
-		txtout.flush();
+        try {
+            out.writeUTF(message);
+            out.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 	}
 
 	private BufferedImage getImage(String ID,String Location)

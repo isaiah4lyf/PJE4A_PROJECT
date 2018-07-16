@@ -1,4 +1,5 @@
 package SSS_SERVER_FUNCTIONS;
+
 import java.io.IOException;
 
 import org.ksoap2.SoapEnvelope;
@@ -7,20 +8,20 @@ import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 import org.xmlpull.v1.XmlPullParserException;
-public class Return_Train_Models {
-	
-	public Return_Train_Models()
+
+public class Return_Users_In_Model {
+	public Return_Users_In_Model()
 	{
 	}
 	
-	public String[] Do_The_Work(String URL)
+	public String[] Do_The_Work(String URL,String Model_ID)
 	{
         final String NAMESPACE = "http://tempuri.org/";
-        final String SOAP_ACTION = "http://tempuri.org/RETURN_TRAINED_MODELS";
-        final String METHOD_NAME = "RETURN_TRAINED_MODELS";
+        final String SOAP_ACTION = "http://tempuri.org/RETURN_USERS_IN_MODEL";
+        final String METHOD_NAME = "RETURN_USERS_IN_MODEL";
         SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
 
-         
+        request.addProperty("Model_ID",Model_ID);
          SoapSerializationEnvelope envelope_collection = new SoapSerializationEnvelope(SoapEnvelope.VER11);
          envelope_collection.dotNet = true;
          envelope_collection.setOutputSoapObject(request);
@@ -43,17 +44,17 @@ public class Return_Train_Models {
 		}
 
 		int size = response_collection.getPropertyCount();
-		String[] models = null;
+		String[] users = null;
          if(size > 0)
          {
-        	 models = new String[size];
+        	 users = new String[size];
              for(int i = 0; i<size; i++)
              {
-            	 models[i] = response_collection.getProperty(i).toString();
+            	 users[i] = response_collection.getProperty(i).toString();
              }
          }
 
   
-         return models;
+         return users;
 	}
 }

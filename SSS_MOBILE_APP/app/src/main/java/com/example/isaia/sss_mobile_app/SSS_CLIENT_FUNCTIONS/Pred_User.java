@@ -1,19 +1,16 @@
 package com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS;
 
-
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
-
 import java.io.IOException;
-
 import java.net.Socket;
 
-public class Insert_User {
+public class Pred_User {
     private Socket clientSocket;
     private DataOutputStream out;
     private DataInputStream in;
 
-    public Insert_User()
+    public Pred_User()
     {
         IP_Address address = new IP_Address();
         String host = address.getIP_Address();
@@ -27,12 +24,12 @@ public class Insert_User {
         }
         catch (Exception ex)
         {
-           // txvResult.setText(ex.toString());
+            // txvResult.setText(ex.toString());
         }
     }
     public String Do_The_work(String User_Name)
     {
-        sendCommand("REG");
+        sendCommand("PRED_USER");
         sendCommand(User_Name);
         return readResponse();
     }

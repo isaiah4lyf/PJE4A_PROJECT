@@ -59,6 +59,7 @@ import java.util.Locale;
 import android.util.Log;
 
 import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Insert_User;
+import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Pred_User;
 
 
 public class Main_Activity  extends AppCompatActivity{
@@ -146,7 +147,14 @@ public class Main_Activity  extends AppCompatActivity{
                 txvResult.setText("Hello");
 
                 try {
-                    Simple_Client client = new Simple_Client(txvResult);
+                    ///Sending an image
+                    //Simple_Client client = new Simple_Client(txvResult);
+
+                    //Predicting a user
+                    Pred_User pred = new Pred_User();
+                    txvResult.setText(pred.Do_The_work("Issis"));
+
+                    //Registering a user
                     //Insert_User insert_user = new Insert_User();
                     //txvResult.setText(insert_user.Do_The_work("Issis"));
 

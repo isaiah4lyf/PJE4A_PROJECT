@@ -8,6 +8,8 @@ import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.IP_Address;
+
 import java.io.*;
 import java.net.Socket;
 import java.text.SimpleDateFormat;
@@ -25,9 +27,9 @@ public class Simple_Client{
 
     public Simple_Client(TextView txvResult)
     {
-        String host = "192.168.0.137";
-        String port = "8080";
-        String port2 = "7071";
+        IP_Address address = new IP_Address();
+        String host = address.getIP_Address();
+        String port = address.getPort();
 
         try
         {
@@ -54,9 +56,9 @@ public class Simple_Client{
             File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
                     Environment.DIRECTORY_PICTURES), "MyCameraApp");
 
-            sendCommand("PRED_USER");
-           // sendCommand(String.valueOf(ImageSize));
-           //sendCommand("Image_Name");
+            sendCommand("INSERT_IMAGE");
+            sendCommand(String.valueOf(ImageSize));
+            sendCommand("Image_Name");
 
             //String readLine = readResponse();
             //txvResult.setText(readLine);
@@ -65,8 +67,8 @@ public class Simple_Client{
             //Binary/Images
            // clientSocket2 = new Socket(host, Integer.parseInt(port2));
 
-            //img.write(buffer);
-            //img.flush();
+            img.write(buffer);
+            img.flush();
 
 
         }
@@ -85,8 +87,6 @@ public class Simple_Client{
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
     }
 
     private String readResponse()

@@ -14,7 +14,7 @@ import SSS_SERVER_CLASSES_FOR_WEB_SERVICE.Server_Class_Web;
 
 public class Main {
 	private  static MatlabEngine matEng = null;
-	private static String URL = "http://192.168.0.137/SSS_SERVICE.asmx";
+	private static String URL = "http://192.168.43.175/SSS_SERVICE.asmx";
 	public static void main(String[] args) {
 		
 		try {
