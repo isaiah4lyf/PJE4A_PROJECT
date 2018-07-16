@@ -11,21 +11,16 @@ import com.mathworks.engine.MatlabEngine;
 public class Server_Class {
 	private ServerSocket	server;
 	private boolean			running;
-	private String Location;
-	private FileWriter logFile;
-	private File log;
 	private MatlabEngine matEng;
 	private String URL;  
 
-	public Server_Class(int port,String Location,MatlabEngine matEng,String URL)
+	public Server_Class(int port,MatlabEngine matEng,String URL)
 	{
-		this.Location = Location;
 		this.matEng = matEng;
 		this.URL = URL;
 		try
 		{
-			log = new File("data/server/DataFile.txt");
-			logFile = new FileWriter(log);
+
 			System.out.println("Creating server for mobile");
 			server = new ServerSocket(port);
 			running = true;
@@ -46,7 +41,7 @@ public class Server_Class {
 			{
 				Socket connectionToClient = server.accept();
 				System.out.println("New client");
-				Client_Handler handler = new Client_Handler(connectionToClient,matEng,URL,server);
+				Client_Handler handler = new Client_Handler(connectionToClient,matEng,URL);
 				Thread clientThread = new Thread(handler);
 				System.out.println("Starting client thread");
 				clientThread.start();

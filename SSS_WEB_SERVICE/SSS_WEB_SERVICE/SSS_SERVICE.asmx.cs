@@ -110,10 +110,6 @@ namespace SSS_WEB_SERVICE
 					status = "true";
 				}
 			}
-			if(status != "false")
-			{
-				System.IO.Directory.CreateDirectory(Server.MapPath("SSS_JAVA_SERVER/data/MATLAB_TRAIN_DATA/" + user_Name));
-			}
 			return status;
 		}
 

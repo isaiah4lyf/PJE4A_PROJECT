@@ -33,24 +33,20 @@ public class Client_Handler implements Runnable{
 	private DataOutputStream out;
 	private MatlabEngine matEng;
 	private String URL;
-	private ServerSocket	server;
 	private String Matlab_Path_train;
 	
 	
-	public Client_Handler(Socket socketConnectionToClient,MatlabEngine matEng,String URL,ServerSocket server)
+	public Client_Handler(Socket socketConnectionToClient,MatlabEngine matEng,String URL)
 	{
 		this.connectionToClient = socketConnectionToClient;
 		this.matEng = matEng;
 		this.URL = URL;
-		this.server = server;
 		try
 		{
-
 			in = new DataInputStream(connectionToClient.getInputStream());
 			out = new DataOutputStream(connectionToClient.getOutputStream());
 			Matlab_Path_train  = new File(".").getCanonicalPath() + "/data";
 			
-
 		}
 		catch (IOException ex)
 		{
@@ -67,10 +63,8 @@ public class Client_Handler implements Runnable{
 		{
 			while (processing)
 			{
-				//byte[] buffer_String = new byte[1024];
-				
-				String command = in.readUTF();
 
+				String command = in.readUTF();
 				System.out.println(command);
 				try 
 				{
@@ -81,21 +75,13 @@ public class Client_Handler implements Runnable{
 							Insert_User clas = new Insert_User();						
 							String response = clas.do_The_Work(URL,User_Name);
 							System.out.println(response);
+							if(response.equals("true"))
+							{
+								File dir = new File("data/MATLAB_TRAIN_DATA/" + User_Name);
+								dir.mkdir();
+							}
 							processing = false;
 						
-							/*
-							StringWriter output = new StringWriter();
-							matEng.eval("run('C:/Users/isaia/PJE4A_PROJECT/SSS_JAVA_SERVER/src/SSS_SERVER/Matlab_Sripts/Test.m');",output,null);
-							String Var = matEng.getVariable("y").toString();
-							sendMessage(Var);
-							//System.out.println(output);
-							Insert_Image clas = new Insert_Image();
-							
-							String response = clas.do_The_Work(URL);
-							System.out.println(response);
-							processing = false;
-							*/
-							
 							break;
 						case "LOGIN":
 
@@ -103,6 +89,7 @@ public class Client_Handler implements Runnable{
 						case "INSERT_IMAGE":
 			
 							processing = false;
+							String user_name = in.readUTF();
 							String size_string = in.readUTF();
 							System.out.println(size_string);
 							int size = Integer.parseInt(size_string);
@@ -119,17 +106,17 @@ public class Client_Handler implements Runnable{
 									byte[] buffer2 = new byte[extra];
 									in.read(buffer2);
 								}
-								File imageInsta = new File("57g.jpg");
+								File imageInsta = new File("data/MATLAB_TRAIN_DATA/"+user_name+"/"+title+".jpg");
 								if(imageInsta.exists()){
 									
-									ByteToFile = new BufferedOutputStream(new FileOutputStream(new File("iu(1).jpg")));
+									ByteToFile = new BufferedOutputStream(new FileOutputStream(new File("data/MATLAB_TRAIN_DATA/"+user_name+"/"+title+"(1).jpg")));
 									ByteToFile.write(buffer);
 									ByteToFile.flush();
 									ByteToFile.close();
 								}
 								else
 								{
-									ByteToFile = new BufferedOutputStream(new FileOutputStream(new File("57g.jpg")));
+									ByteToFile = new BufferedOutputStream(new FileOutputStream(new File("data/MATLAB_TRAIN_DATA/"+user_name+"/"+title+".jpg")));
 									ByteToFile.write(buffer);
 									ByteToFile.flush();
 									ByteToFile.close();
@@ -151,7 +138,7 @@ public class Client_Handler implements Runnable{
 								close();
 							}
 
-							File image = new File("0216-bey.jpg");
+							File image = new File("data/MATLAB_TRAIN_DATA/"+user_name+"/"+title+".jpg");
 							matEng.eval("image_Path = '"+ image.getAbsolutePath().toString()+"'",null,null);
 							matEng.eval("user_ID = "+64,null,null);
 							Update_Train_Data Upd = new Update_Train_Data();
@@ -373,7 +360,6 @@ public class Client_Handler implements Runnable{
 		}
 	}
 
-	
 	private void sendMessage(String message)
 	{
         try {
@@ -384,28 +370,5 @@ public class Client_Handler implements Runnable{
         }
 	}
 
-	private BufferedImage getImage(String ID,String Location)
-	{
-		String filename = ID + ".jpg";
-		BufferedImage image = null;
-		try
-		{
-			image = ImageIO.read(new File(Location, filename));
-		}
-		catch (IOException ex)
-		{
-			ex.printStackTrace();
-		}
-		return image;
-	}
-	
-	private static void clearInput(InputStream is) throws IOException
-	{
-		int extra = is.available();
-		if (extra > 0)
-		{
-			byte[] buffer = new byte[extra];
-			is.read(buffer);
-		}
-	}
+
 }
