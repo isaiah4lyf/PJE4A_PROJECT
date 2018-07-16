@@ -61,6 +61,7 @@ import android.util.Log;
 import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Insert_Image;
 import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Insert_User;
 import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Pred_User;
+import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Train_Images_Model;
 
 
 public class Main_Activity  extends AppCompatActivity{
@@ -159,6 +160,11 @@ public class Main_Activity  extends AppCompatActivity{
                     //Registering a user
                     //Insert_User insert_user = new Insert_User();
                     //txvResult.setText(insert_user.Do_The_work("Ississ"));
+
+
+                    //retrain the model
+                    Train_Images_Model train = new Train_Images_Model();
+                    train.Do_The_work("77");
 
                 }
                 catch (Exception ex)

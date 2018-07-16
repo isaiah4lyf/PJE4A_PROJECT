@@ -140,9 +140,9 @@ public class Client_Handler implements Runnable{
 
 							File image = new File("data/MATLAB_TRAIN_DATA/"+user_name+"/"+title+".jpg");
 							matEng.eval("image_Path = '"+ image.getAbsolutePath().toString()+"'",null,null);
-							matEng.eval("user_ID = "+64,null,null);
+							matEng.eval("user_ID = "+77,null,null);
 							Update_Train_Data Upd = new Update_Train_Data();
-							String model_Name = Upd.do_The_Work(URL, "64");
+							String model_Name = Upd.do_The_Work(URL, "77");
 							String[] model_Name_Tokens = model_Name.split("_");
 							String Matlab_Path = new File(".").getCanonicalPath() + "/data";
 							int model_Version =  Integer.parseInt(model_Name_Tokens[2]) - 1;
@@ -155,9 +155,9 @@ public class Client_Handler implements Runnable{
 							break;
 						case "TRAIN_IMAGES_MODEL":
 							
-							
+							String user_ID = in.readUTF();
 							Train_Images_Model train_model = new Train_Images_Model();
-							String[] response_Tokens = train_model.do_The_Work(URL, "64").split(",");
+							String[] response_Tokens = train_model.do_The_Work(URL, user_ID).split(",");
 							System.out.println(response_Tokens[0]);
 							if (response_Tokens.length-1  == 4)
 							{
