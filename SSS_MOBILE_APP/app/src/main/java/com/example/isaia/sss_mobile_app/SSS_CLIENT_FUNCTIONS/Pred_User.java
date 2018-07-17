@@ -1,7 +1,12 @@
 package com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS;
 
+import android.os.Environment;
+
+import java.io.BufferedInputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.Socket;
 
@@ -27,11 +32,29 @@ public class Pred_User {
             // txvResult.setText(ex.toString());
         }
     }
-    public String Do_The_work(String User_Name)
+    public String Do_The_work(String User_Name,String User_ID)
     {
-        sendCommand("PRED_USER");
-        sendCommand(User_Name);
-        return readResponse();
+        String response = "";
+        File pictureFile = getOutputMediaFile();
+        BufferedInputStream imageByte = null;
+        try {
+            imageByte = new BufferedInputStream(new FileInputStream(pictureFile));
+            int ImageSize = imageByte.available();
+            byte[] buffer = new byte[ImageSize];
+            imageByte.read(buffer);
+
+            sendCommand("PRED_USER");
+            sendCommand(User_ID);
+            sendCommand(User_Name);
+            sendCommand(String.valueOf(ImageSize));
+            sendCommand("Image_Name");
+            out.write(buffer);
+            out.flush();
+            response = readResponse();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return response;
     }
 
     protected void sendCommand(String message)
@@ -55,5 +78,13 @@ public class Pred_User {
             response = ex.toString();
         }
         return response;
+    }
+    private static File getOutputMediaFile(){
+        File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES), "MyCameraApp");
+        File mediaFile;
+        mediaFile = new File(mediaStorageDir.getPath() + File.separator +
+                "22587190 - Copy"+  ".jpg");
+        return mediaFile;
     }
 }

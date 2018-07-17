@@ -151,7 +151,7 @@ public class Main_Activity  extends AppCompatActivity{
                 try {
                     //Registering a user
                     //Insert_User insert_user = new Insert_User();
-                    //txvResult.setText(insert_user.Do_The_work("Isaiah"));
+                    //txvResult.setText(insert_user.Do_The_work("CHRIS"));
 
                     ///Sending an image
                     //Insert_Image client = new Insert_Image();
@@ -165,7 +165,7 @@ public class Main_Activity  extends AppCompatActivity{
 
                     //Predicting a user
                     Pred_User pred = new Pred_User();
-                    txvResult.setText(pred.Do_The_work("Beyonce"));
+                    txvResult.setText(pred.Do_The_work("Beyonce","81"));
 
 
                 }

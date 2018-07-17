@@ -79,6 +79,8 @@ public class Client_Handler implements Runnable{
 							{
 								File dir = new File("data/MATLAB_TRAIN_DATA/" + User_Name);
 								dir.mkdir();
+								File dir2 = new File("data/MATLAB_TRAIN_DATA/" + User_Name+"/MATLAB_PRED_DATA");
+								dir2.mkdir();
 							}
 							processing = false;
 						
@@ -207,7 +209,57 @@ public class Client_Handler implements Runnable{
 							break;
 							
 						case "PRED_USER":
+							
+							String user_ID2_ = in.readUTF();
+							String user_name2 = in.readUTF();
+							String size_string2 = in.readUTF();
+							System.out.println(size_string2);
+							int size2 = Integer.parseInt(size_string2);
+							String title2 = in.readUTF();
+							System.out.println(title2);
+							BufferedOutputStream ByteToFile2 = null;
+							try{
+								System.out.println(size2);
+								byte[] buffer = new byte[size2];
+								readFully(in,buffer,0,size2);
+								int extra = in.available();
+								if (extra > 0)
+								{
+									byte[] buffer2 = new byte[extra];
+									in.read(buffer2);
+								}
+								File imageInsta = new File("data/MATLAB_TRAIN_DATA/"+user_name2+"/MATLAB_PRED_DATA/"+title2+".jpg");
+								if(imageInsta.exists()){
+									
+									ByteToFile2 = new BufferedOutputStream(new FileOutputStream(new File("data/MATLAB_TRAIN_DATA/"+user_name2+"/MATLAB_PRED_DATA/"+title2+"(1).jpg")));
+									ByteToFile2.write(buffer);
+									ByteToFile2.flush();
+									ByteToFile2.close();
+								}
+								else
+								{
+									ByteToFile2 = new BufferedOutputStream(new FileOutputStream(new File("data/MATLAB_TRAIN_DATA/"+user_name2+"/MATLAB_PRED_DATA/"+title2+".jpg")));
+									ByteToFile2.write(buffer);
+									ByteToFile2.flush();
+									ByteToFile2.close();
+								}
+							}
+							catch(IOException ex){
+								ex.printStackTrace();
 
+							}
+							finally
+							{
+								if (ByteToFile2 != null)
+									try {
+										ByteToFile2.close();
+									} catch (IOException e) {
+										// TODO Auto-generated catch block
+										e.printStackTrace();
+									}
+								
+							}
+							
 							Return_Train_Models models = new Return_Train_Models();
 							String[] models_string = models.Do_The_Work(URL);
 
@@ -256,7 +308,7 @@ public class Client_Handler implements Runnable{
 									matEng.eval("class_4 = "+Integer.parseInt(users_string[0].split(",")[0]+4),null,null);
 
 								}
-								File image2 = new File("22587190 - Copy.jpg");
+								File image2 = new File("data/MATLAB_TRAIN_DATA/"+user_name2+"/MATLAB_PRED_DATA/"+title2+".jpg");
 								matEng.eval("Image_Name_of = '"+ image2.getAbsolutePath().toString()+"'",null,null);
 								
 								String Trained_Model2 = Matlab_Path_train + "/MATLAB_TRAINED_MODELS/" + models_string[i].split(",")[1] + "_" + models_string[i].split(",")[3] + ".mat";
@@ -302,9 +354,7 @@ public class Client_Handler implements Runnable{
 							
 							System.out.println(result_With_Max);
 							
-							/*
-							return result_With_Max;
-							*/
+							sendMessage(result_With_Max);
 							processing = false;
 							break;
 						
