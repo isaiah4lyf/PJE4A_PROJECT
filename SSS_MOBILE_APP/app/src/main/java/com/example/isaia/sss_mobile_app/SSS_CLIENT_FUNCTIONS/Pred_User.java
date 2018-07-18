@@ -32,22 +32,23 @@ public class Pred_User {
             // txvResult.setText(ex.toString());
         }
     }
-    public String Do_The_work(String User_Name,String User_ID)
+    public String Do_The_work(String User_Name,String User_ID,String image_Name)
     {
         String response = "";
-        File pictureFile = getOutputMediaFile();
+        File pictureFile = getOutputMediaFile(image_Name);
         BufferedInputStream imageByte = null;
         try {
             imageByte = new BufferedInputStream(new FileInputStream(pictureFile));
             int ImageSize = imageByte.available();
             byte[] buffer = new byte[ImageSize];
             imageByte.read(buffer);
+            String name = pictureFile.getName();
 
             sendCommand("PRED_USER");
             sendCommand(User_ID);
             sendCommand(User_Name);
             sendCommand(String.valueOf(ImageSize));
-            sendCommand("Image_Name");
+            sendCommand(name);
             out.write(buffer);
             out.flush();
             response = readResponse();
@@ -79,12 +80,12 @@ public class Pred_User {
         }
         return response;
     }
-    private static File getOutputMediaFile(){
+    private static File getOutputMediaFile(String image_name){
         File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_PICTURES), "MyCameraApp");
         File mediaFile;
         mediaFile = new File(mediaStorageDir.getPath() + File.separator +
-                "22587190 - Copy"+  ".jpg");
+                image_name);
         return mediaFile;
     }
 }

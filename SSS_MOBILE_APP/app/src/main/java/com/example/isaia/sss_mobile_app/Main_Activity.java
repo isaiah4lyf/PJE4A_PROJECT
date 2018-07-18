@@ -94,12 +94,14 @@ public class Main_Activity  extends AppCompatActivity{
     private static final String TAG = "MyActivity";
     private TextView txvResult;
     private byte[] data_To;
+    private String function;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_);
 
         txvResult = (TextView) findViewById(R.id.textView);
+        function = "Insert_Image";
 
 
         /*
@@ -146,7 +148,7 @@ public class Main_Activity  extends AppCompatActivity{
             @Override
             public void run() {
 
-                txvResult.setText("Hello");
+                //txvResult.setText("Hello");
 
                 try {
                     //Registering a user
@@ -155,17 +157,17 @@ public class Main_Activity  extends AppCompatActivity{
 
                     ///Sending an image
                     //Insert_Image client = new Insert_Image();
-                    //txvResult.setText(client.Do_The_work("Isaiah","81"));
+                    //txvResult.setText(client.Do_The_work("CHRIS","82"));
 
 
 
                     //retrain the model
                     //Train_Images_Model train = new Train_Images_Model();
-                    //train.Do_The_work("81");
+                    //train.Do_The_work("82");
 
                     //Predicting a user
-                    Pred_User pred = new Pred_User();
-                    txvResult.setText(pred.Do_The_work("Beyonce","81"));
+                    //Pred_User pred = new Pred_User();
+                    //txvResult.setText(pred.Do_The_work("CHRIS","82"));
 
 
                 }
@@ -183,13 +185,13 @@ public class Main_Activity  extends AppCompatActivity{
 
         //Camera code
 
-        /*
         mCamera = getCameraInstance();
         preview = findViewById(R.id.camera_preview);
         try {
 
 
             // Create our Preview view and set it as the content of our activity.
+
             mPreview = new CameraPreview(this, mCamera);
 
            preview.addView(mPreview);
@@ -200,38 +202,32 @@ public class Main_Activity  extends AppCompatActivity{
             Toast.makeText(this,e.toString(),Toast.LENGTH_LONG);
         }
 
-        final Button captureButton = (Button) findViewById(R.id.button_capture);
-        captureButton.setOnClickListener(
+        final Button Insert_Image = (Button) findViewById(R.id.Insert_Image);
+        Insert_Image.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         // get an image from the camera
+                        function = "Insert_Image";
                         mCamera.takePicture(null, null,mPicture);
-                        Thread thread = new Thread(new Runnable() {
-
-                            @Override
-                            public void run() {
-
-                                txvResult.setText("Hello");
-
-                                try {
-                                    Simple_Client client = new Simple_Client(txvResult);
-
-                                }
-                                catch (Exception ex)
-                                {
-                                    txvResult.setText(ex.toString());
-                                }
-
-                            }
-                        });
-
-                        thread.start();
-
 
                     }
                 }
         );
+
+        final Button pred_user = (Button) findViewById(R.id.Predict_User);
+        pred_user.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // get an image from the camera
+                        function = "Predict_User";
+                        mCamera.takePicture(null, null,mPicture);
+                    }
+                }
+        );
+        /*
+
         /*
         for(int i = 0; i<3; i++)
         {
@@ -380,9 +376,6 @@ public class Main_Activity  extends AppCompatActivity{
         @Override
         public void onPictureTaken(byte[] data, Camera camera) {
 
-
-
-
             File pictureFile = getOutputMediaFile(MEDIA_TYPE_IMAGE);
             if (pictureFile == null){
                 //Log.d(TAG, "Error creating media file, check storage permissions: " +
@@ -394,6 +387,35 @@ public class Main_Activity  extends AppCompatActivity{
                 FileOutputStream fos = new FileOutputStream(pictureFile);
                 fos.write(data);
                 fos.close();
+
+                if(function.equals("Predict_User"))
+                {
+                    Intent intent = null;
+                    try {
+
+                        intent = new Intent(getApplicationContext(), Class.forName("com.example.isaia.sss_mobile_app.Predict_User"));
+                        intent.putExtra("Image_Name",pictureFile.getName());
+                        startActivity(intent);
+
+                    } catch (ClassNotFoundException e) {
+                        Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_LONG).show();
+                    }
+                }
+                else
+                {
+                    Intent intent = null;
+                    try {
+
+                        intent = new Intent(getApplicationContext(), Class.forName("com.example.isaia.sss_mobile_app.Insert_Image"));
+                        intent.putExtra("Image_Name",pictureFile.getName());
+                        startActivity(intent);
+
+                    } catch (ClassNotFoundException e) {
+                        Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_LONG).show();
+                    }
+                }
+
+
             } catch (FileNotFoundException e) {
                 Log.d(TAG, "File not found: " + e.getMessage());
             } catch (IOException e) {

@@ -1,23 +1,21 @@
 package com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS;
 
 import android.os.Environment;
-import android.widget.TextView;
 
 import java.io.BufferedInputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.Socket;
 
-public class Insert_Image {
+public class Insert_Image_ {
     private Socket clientSocket;
     private DataOutputStream out;
     private DataInputStream in;
 
-    public Insert_Image()
+    public Insert_Image_()
     {
         IP_Address address = new IP_Address();
         String host = address.getIP_Address();

@@ -31,7 +31,7 @@ ptsOriginal = detectSURFFeatures(J);
 %% Display locations of interest in image.
 %imshow(J); hold on;
 %plot(ptsOriginal.selectStrongest(100));
-%imwrite(J,'C:\Users\isaia\Pictures\rihanna\new3.jpg')
+imwrite(J,image_Path)
 
 
 [featuresOriginal,validPtsOriginal] = ...
