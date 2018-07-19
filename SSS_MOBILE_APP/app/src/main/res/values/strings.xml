@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">SSS_MOBILE_APP</string>
+
+    <string name="title_activity_camera_">Camera_Activity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+
+    <string name="title_activity_camera">Camera</string>
 </resources>
