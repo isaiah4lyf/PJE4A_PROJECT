@@ -3,7 +3,8 @@ file = load(path);
 trainedClassifier  = file.trainedClassifier;
 
 
-image1 = imread(Image_Name_of);
+image_un = imread(Image_Name_of);
+image1 = imrotate(image_un,90);
 %% Measure Distance from Stereo Camera to a Face
 %% Load stereo parameters.
 

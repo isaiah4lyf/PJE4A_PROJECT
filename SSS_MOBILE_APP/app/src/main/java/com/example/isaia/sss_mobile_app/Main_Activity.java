@@ -95,6 +95,9 @@ public class Main_Activity  extends AppCompatActivity{
     private TextView txvResult;
     private byte[] data_To;
     private String function;
+    private String User_Name;
+    private String Password;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -102,28 +105,95 @@ public class Main_Activity  extends AppCompatActivity{
 
         txvResult = (TextView) findViewById(R.id.textView);
         function = "Insert_Image";
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            User_Name = extras.getString("User_Name");
+            Password = extras.getString("Password");
+        }
+
+        //Camera code
+        mCamera = getCameraInstance();
+        preview = findViewById(R.id.camera_preview);
+        try {
+            // Create our Preview view and set it as the content of our activity.
+            mPreview = new CameraPreview(this, mCamera);
+            preview.addView(mPreview);
+        }
+        catch (Exception e){
+            // Camera is not available (in use or does not exist)
+            Toast.makeText(this,e.toString(),Toast.LENGTH_LONG);
+        }
+
+        final Button Insert_Image = (Button) findViewById(R.id.Insert_Image);
+        Insert_Image.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // get an image from the camera
+                        function = "Insert_Image";
+                        mCamera.takePicture(null, null,mPicture);
+
+                    }
+                }
+        );
+        final Button pred_user = (Button) findViewById(R.id.Predict_User);
+        pred_user.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // get an image from the camera
+                        function = "Predict_User";
+                        mCamera.takePicture(null, null,mPicture);
+                    }
+                }
+        );
 
 
-        /*
+        final Button retrain = (Button) findViewById(R.id.Train_Models);
+        retrain.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = null;
+                        try {
 
+                            intent = new Intent(getApplicationContext(), Class.forName("com.example.isaia.sss_mobile_app.Train_Models"));
+                            intent.putExtra("User_Name",User_Name);
+                            intent.putExtra("Password",Password);
+                            startActivity(intent);
 
-       */
+                        } catch (ClassNotFoundException e) {
+                            Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_LONG).show();
+                        }
+                    }
+                }
+        );
+        final Button from_Gall = (Button) findViewById(R.id.Upload_From);
+        from_Gall.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = null;
+                        try {
 
+                            intent = new Intent(getApplicationContext(), Class.forName("com.example.isaia.sss_mobile_app.Upload_Image_From_Gall"));
+                            intent.putExtra("User_Name",User_Name);
+                            intent.putExtra("Password",Password);
+                            startActivity(intent);
 
-
-
-
-
-
-
-
+                        } catch (ClassNotFoundException e) {
+                            Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_LONG).show();
+                        }
+                    }
+                }
+        );
 
         // Record to the external cache directory for visibility
-       // mFileName = getExternalCacheDir().getAbsolutePath();
-       // mFileName += "/audiorecordtest.3gp";
+        // mFileName = getExternalCacheDir().getAbsolutePath();
+        // mFileName += "/audiorecordtest.3gp";
         //Toast.makeText(this,mFileName,Toast.LENGTH_LONG).show();
 
-       // ActivityCompat.requestPermissions(this, permissions, REQUEST_RECORD_AUDIO_PERMISSION);
+        // ActivityCompat.requestPermissions(this, permissions, REQUEST_RECORD_AUDIO_PERMISSION);
 
         /*
         LinearLayout ll = new LinearLayout(this);
@@ -143,106 +213,8 @@ public class Main_Activity  extends AppCompatActivity{
         */
 
 
-        Thread thread = new Thread(new Runnable() {
 
-            @Override
-            public void run() {
-
-                //txvResult.setText("Hello");
-
-                try {
-                    //Registering a user
-                    //Insert_User insert_user = new Insert_User();
-                    //txvResult.setText(insert_user.Do_The_work("CHRIS"));
-
-                    ///Sending an image
-                    //Insert_Image client = new Insert_Image();
-                    //txvResult.setText(client.Do_The_work("CHRIS","82"));
-
-
-
-                    //retrain the model
-                    //Train_Images_Model train = new Train_Images_Model();
-                    //train.Do_The_work("82");
-
-                    //Predicting a user
-                    //Pred_User pred = new Pred_User();
-                    //txvResult.setText(pred.Do_The_work("CHRIS","82"));
-
-
-                }
-                catch (Exception ex)
-                {
-                    txvResult.setText(ex.toString());
-                }
-            }
-        });
-
-        thread.start();
-
-
-
-
-        //Camera code
-
-        mCamera = getCameraInstance();
-        preview = findViewById(R.id.camera_preview);
-        try {
-
-
-            // Create our Preview view and set it as the content of our activity.
-
-            mPreview = new CameraPreview(this, mCamera);
-
-           preview.addView(mPreview);
-
-        }
-        catch (Exception e){
-            // Camera is not available (in use or does not exist)
-            Toast.makeText(this,e.toString(),Toast.LENGTH_LONG);
-        }
-
-        final Button Insert_Image = (Button) findViewById(R.id.Insert_Image);
-        Insert_Image.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        // get an image from the camera
-                        function = "Insert_Image";
-                        mCamera.takePicture(null, null,mPicture);
-
-                    }
-                }
-        );
-
-        final Button pred_user = (Button) findViewById(R.id.Predict_User);
-        pred_user.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        // get an image from the camera
-                        function = "Predict_User";
-                        mCamera.takePicture(null, null,mPicture);
-                    }
-                }
-        );
-        /*
-
-        /*
-        for(int i = 0; i<3; i++)
-        {
-            try {
-                Thread.sleep(0);
-                captureButton.performClick();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-        }
-        */
     }
-
-
 
 
     //Speech Recognizer
@@ -395,6 +367,8 @@ public class Main_Activity  extends AppCompatActivity{
 
                         intent = new Intent(getApplicationContext(), Class.forName("com.example.isaia.sss_mobile_app.Predict_User"));
                         intent.putExtra("Image_Name",pictureFile.getName());
+                        intent.putExtra("User_Name",User_Name);
+                        intent.putExtra("Password",Password);
                         startActivity(intent);
 
                     } catch (ClassNotFoundException e) {
@@ -408,6 +382,8 @@ public class Main_Activity  extends AppCompatActivity{
 
                         intent = new Intent(getApplicationContext(), Class.forName("com.example.isaia.sss_mobile_app.Insert_Image"));
                         intent.putExtra("Image_Name",pictureFile.getName());
+                        intent.putExtra("User_Name",User_Name);
+                        intent.putExtra("Password",Password);
                         startActivity(intent);
 
                     } catch (ClassNotFoundException e) {

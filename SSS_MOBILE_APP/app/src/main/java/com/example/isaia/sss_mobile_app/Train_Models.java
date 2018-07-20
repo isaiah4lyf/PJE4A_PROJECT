@@ -5,53 +5,32 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
-import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Pred_User;
+import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Train_Images_Model;
 
-public class Predict_User extends AppCompatActivity {
+public class Train_Models extends AppCompatActivity {
     private TextView txvResult;
-    private String Image_Name;
     private String User_Name;
     private String Password;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_predict__user);
-        txvResult = (TextView) findViewById(R.id.textView);
+        setContentView(R.layout.activity_train__models);
         Bundle extras = getIntent().getExtras();
-        Image_Name = "";
-
         if (extras != null) {
-            Image_Name = extras.getString("Image_Name");
             User_Name = extras.getString("User_Name");
             Password = extras.getString("Password");
         }
-
+        txvResult = (TextView) findViewById(R.id.textView);
         Thread thread = new Thread(new Runnable() {
 
             @Override
             public void run() {
 
-                //txvResult.setText("Hello");
-
                 try {
-                    //Registering a user
-                    //Insert_User insert_user = new Insert_User();
-                    //txvResult.setText(insert_user.Do_The_work("CHRIS"));
-
-                    ///Sending an image
-                    //Insert_Image client = new Insert_Image();
-                    //txvResult.setText(client.Do_The_work("CHRIS","82"));
 
 
-
-                    //retrain the model
-                    //Train_Images_Model train = new Train_Images_Model();
-                    //train.Do_The_work("82");
-
-                    pred_user_asy tast = new pred_user_asy();
+                    insert_image_asy tast = new insert_image_asy();
                     tast.execute();
-                    //Pred_User pred = new Pred_User();
-                    //pred.Do_The_work("CHRIS","82",Image_Name);
 
                 }
                 catch (Exception ex)
@@ -63,7 +42,8 @@ public class Predict_User extends AppCompatActivity {
 
         thread.start();
     }
-    private class pred_user_asy extends AsyncTask<String, Void, String> {
+
+    private class insert_image_asy extends AsyncTask<String, Void, String> {
 
         @Override
         protected void onPreExecute() {
@@ -72,8 +52,12 @@ public class Predict_User extends AppCompatActivity {
         @Override
         protected String doInBackground(String... urls) {
 
-            Pred_User pred = new Pred_User();
-            return pred.Do_The_work(User_Name,Password,Image_Name);
+            String response = "";
+
+            //retrain the model
+            Train_Images_Model train = new Train_Images_Model();
+            response += " " + train.Do_The_work(Password);
+            return  response;
         }
         @Override
         protected void onPostExecute(String result) {

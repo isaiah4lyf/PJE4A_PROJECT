@@ -97,6 +97,7 @@ public class Client_Handler implements Runnable{
 							System.out.println(size_string);
 							int size = Integer.parseInt(size_string);
 							String title = in.readUTF();
+							String from_Cam = in.readUTF();
 							System.out.println(title);
 							BufferedOutputStream ByteToFile = null;
 							try{
@@ -109,17 +110,17 @@ public class Client_Handler implements Runnable{
 									byte[] buffer2 = new byte[extra];
 									in.read(buffer2);
 								}
-								File imageInsta = new File("data/MATLAB_TRAIN_DATA/"+user_name+"/"+title+".jpg");
+								File imageInsta = new File("data/MATLAB_TRAIN_DATA/"+user_name+"/"+title);
 								if(imageInsta.exists()){
 									
-									ByteToFile = new BufferedOutputStream(new FileOutputStream(new File("data/MATLAB_TRAIN_DATA/"+user_name+"/"+title+"(1).jpg")));
+									ByteToFile = new BufferedOutputStream(new FileOutputStream(new File("data/MATLAB_TRAIN_DATA/"+user_name+"/(1)"+title)));
 									ByteToFile.write(buffer);
 									ByteToFile.flush();
 									ByteToFile.close();
 								}
 								else
 								{
-									ByteToFile = new BufferedOutputStream(new FileOutputStream(new File("data/MATLAB_TRAIN_DATA/"+user_name+"/"+title+".jpg")));
+									ByteToFile = new BufferedOutputStream(new FileOutputStream(new File("data/MATLAB_TRAIN_DATA/"+user_name+"/"+title)));
 									ByteToFile.write(buffer);
 									ByteToFile.flush();
 									ByteToFile.close();
@@ -140,10 +141,21 @@ public class Client_Handler implements Runnable{
 									}
 								
 							}
+							
 
-							File image = new File("data/MATLAB_TRAIN_DATA/"+user_name+"/"+title+".jpg");
+							
+							File image = new File("data/MATLAB_TRAIN_DATA/"+user_name+"/"+title);
 							matEng.eval("image_Path = '"+ image.getAbsolutePath().toString()+"'",null,null);
 							matEng.eval("user_ID = "+user_ID_,null,null);
+							matEng.eval("image1 = imread(image_Path);",null,null);
+							if(from_Cam.equals("yes"))
+							{
+								matEng.eval("I1 = imrotate(image1,90);",null,null);
+							}
+							else
+							{
+								matEng.eval("I1 = image1;",null,null);
+							}
 							Update_Train_Data Upd = new Update_Train_Data();
 							String model_Name = Upd.do_The_Work(URL, user_ID_);
 							String[] model_Name_Tokens = model_Name.split("_");

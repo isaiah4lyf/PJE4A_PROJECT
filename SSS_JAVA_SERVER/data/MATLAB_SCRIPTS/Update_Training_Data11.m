@@ -1,4 +1,3 @@
-I1 = imread(image_Path);
 
 %% Measure Distance from Stereo Camera to a Face
 %% Load stereo parameters.
