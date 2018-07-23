@@ -2,22 +2,40 @@
 <ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="SSS_LINQ_">
   <DataContextMoniker Name="/SSS_LINQ_DataContext" />
   <nestedChildShapes>
-    <classShape Id="57884982-3c01-42d7-9d98-eb8d8efb1535" absoluteBounds="2.125, 0.625, 2, 1.3862939453125">
+    <classShape Id="57884982-3c01-42d7-9d98-eb8d8efb1535" absoluteBounds="2.75, 0.625, 2, 1.3862939453125">
       <DataClassMoniker Name="/SSS_LINQ_DataContext/Image" />
       <nestedChildShapes>
-        <elementListCompartment Id="5b86db7f-f06f-46eb-8c04-89615b9a771b" absoluteBounds="2.14, 1.085, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="5b86db7f-f06f-46eb-8c04-89615b9a771b" absoluteBounds="2.765, 1.085, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="00dbf276-b2fb-4bcf-9b0c-192285d60e40" absoluteBounds="1.125, 2.5, 2, 1.5785953776041666">
+    <classShape Id="00dbf276-b2fb-4bcf-9b0c-192285d60e40" absoluteBounds="0.5, 0.5, 2, 1.5785953776041666">
       <DataClassMoniker Name="/SSS_LINQ_DataContext/Trained_Model" />
       <nestedChildShapes>
-        <elementListCompartment Id="1dbe344b-29b4-4cf9-a1e6-d51eb635847e" absoluteBounds="1.1400000000000001, 2.96, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="1dbe344b-29b4-4cf9-a1e6-d51eb635847e" absoluteBounds="0.51500000000000012, 0.96, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="0bf04c63-ad87-4941-bd53-e48b00da4ac7" absoluteBounds="3.75, 2.875, 2, 1.3862939453125">
+    <classShape Id="0bf04c63-ad87-4941-bd53-e48b00da4ac7" absoluteBounds="5, 0.625, 2, 1.3862939453125">
       <DataClassMoniker Name="/SSS_LINQ_DataContext/User" />
       <nestedChildShapes>
-        <elementListCompartment Id="89633108-d205-41b2-aea7-05bbc44a7fcc" absoluteBounds="3.765, 3.335, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="89633108-d205-41b2-aea7-05bbc44a7fcc" absoluteBounds="5.0150000000000006, 1.085, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="c45c5d15-4f77-493d-a143-69d89e597610" absoluteBounds="0.5, 2.5, 2, 1.5785953776041666">
+      <DataClassMoniker Name="/SSS_LINQ_DataContext/Trained_Models_Interaction_Data" />
+      <nestedChildShapes>
+        <elementListCompartment Id="09d1df1f-394d-4604-b27e-a9aa1357e777" absoluteBounds="0.51500000000000012, 2.96, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="a33ee7a5-588b-47ed-992e-f346a834e659" absoluteBounds="2.75, 2.5, 2, 1.5785953776041666">
+      <DataClassMoniker Name="/SSS_LINQ_DataContext/Trained_Models_Voice_Note" />
+      <nestedChildShapes>
+        <elementListCompartment Id="1060907d-6678-479d-bf11-af635ddb8388" absoluteBounds="2.765, 2.96, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="3300e9e6-c1d7-4c9b-a710-0548b57bacab" absoluteBounds="5.125, 2.625, 2, 1.3862939453125">
+      <DataClassMoniker Name="/SSS_LINQ_DataContext/Voice_Note" />
+      <nestedChildShapes>
+        <elementListCompartment Id="e27d5163-3dff-47f5-9a2a-10f283a5e1f5" absoluteBounds="5.14, 3.085, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
   </nestedChildShapes>

@@ -22,4 +22,27 @@
       <Column Name="Model_ID" Type="System.Int32" DbType="Int" CanBeNull="true" />
     </Type>
   </Table>
+  <Table Name="dbo.Trained_Models_Interaction_Data" Member="Trained_Models_Interaction_Datas">
+    <Type Name="Trained_Models_Interaction_Data">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Model_Name" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Number_OF_Users" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Model_Version" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Trained_Models_Voice_Notes" Member="Trained_Models_Voice_Notes">
+    <Type Name="Trained_Models_Voice_Note">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Model_Name" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Number_OF_Users" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Model_Version" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Voice_Notes" Member="Voice_Notes">
+    <Type Name="Voice_Note">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Voice_Note_Path" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="User_ID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
 </Database>
