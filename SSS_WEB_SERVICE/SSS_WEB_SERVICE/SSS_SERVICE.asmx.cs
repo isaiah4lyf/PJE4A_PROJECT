@@ -195,6 +195,23 @@ namespace SSS_WEB_SERVICE
 			return user_string;
 		}
 
+		[WebMethod]
+		public string DECREMENT_IMAGES_MODEL_VERSION(string user_ID)
+		{
+			User user = (from User in linq.Users
+						 where Convert.ToInt32(User.Id) == Convert.ToInt32(user_ID)
+						 select User).First();
+			Trained_Model model_To_Update = (from Trained_Model in linq.Trained_Models
+											 where Trained_Model.Id == user.Model_ID
+											 select Trained_Model).First();
+
+			int new_Model_Verion = Convert.ToInt32(model_To_Update.Model_Version - 1);
+
+			model_To_Update.Model_Version = new_Model_Verion;
+			linq.SubmitChanges();
+			return "ok";
+		}
+
 
 
 

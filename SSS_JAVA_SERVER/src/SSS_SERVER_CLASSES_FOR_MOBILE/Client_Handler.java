@@ -1,27 +1,16 @@
 package SSS_SERVER_CLASSES_FOR_MOBILE;
-import java.awt.image.BufferedImage;
 import java.io.*;
-import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.StringTokenizer;
-import java.util.concurrent.ExecutionException;
-import java.util.*;
-
-import javax.imageio.ImageIO;
-
-import com.mathworks.engine.EngineException;
 import com.mathworks.engine.MatlabEngine;
-import com.mathworks.engine.MatlabExecutionException;
-import com.mathworks.engine.MatlabSyntaxException;
 
-import SSS_SERVER_FUNCTIONS.Insert_Image;
+import SSS_SERVER_FUNCTIONS.Decrement_Images_Model_Version;
 import SSS_SERVER_FUNCTIONS.Insert_User;
 import SSS_SERVER_FUNCTIONS.Return_Train_Models;
 import SSS_SERVER_FUNCTIONS.Return_User_With_ID;
 import SSS_SERVER_FUNCTIONS.Return_Users_In_Model;
 import SSS_SERVER_FUNCTIONS.Train_Images_Model;
 import SSS_SERVER_FUNCTIONS.Update_Train_Data;
-import sun.misc.BASE64Decoder;
+
 
 
 
@@ -75,13 +64,11 @@ public class Client_Handler implements Runnable{
 							Insert_User clas = new Insert_User();						
 							String response = clas.do_The_Work(URL,User_Name);
 							System.out.println(response);
-							if(response.equals("true"))
-							{
-								File dir = new File("data/MATLAB_TRAIN_DATA/" + User_Name);
-								dir.mkdir();
-								File dir2 = new File("data/MATLAB_TRAIN_DATA/" + User_Name+"/MATLAB_PRED_DATA");
-								dir2.mkdir();
-							}
+
+							File dir = new File("data/MATLAB_TRAIN_DATA/" + User_Name);
+							dir.mkdir();
+							File dir2 = new File("data/MATLAB_TRAIN_DATA/" + User_Name+"/MATLAB_PRED_DATA");
+							dir2.mkdir();
 							processing = false;
 						
 							break;
@@ -148,6 +135,7 @@ public class Client_Handler implements Runnable{
 							matEng.eval("image_Path = '"+ image.getAbsolutePath().toString()+"'",null,null);
 							matEng.eval("user_ID = "+user_ID_,null,null);
 							matEng.eval("image1 = imread(image_Path);",null,null);
+							System.out.println(from_Cam);
 							if(from_Cam.equals("yes"))
 							{
 								matEng.eval("I1 = imrotate(image1,90);",null,null);
@@ -166,6 +154,17 @@ public class Client_Handler implements Runnable{
 							matEng.eval("path = '"+ML_features_Database+"'",null,null);
 							matEng.eval("path2 = '"+ML_features_Database2+"'",null,null);
 							matEng.eval("run('" + Matlab_Path + "/MATLAB_SCRIPTS/Update_Training_Data11.m')",null,null);
+							double status = matEng.getVariable("status");
+							double exception = matEng.getVariable("status");
+							
+							if(status == 1.0 || exception == 1.0)
+							{
+								image.delete();
+								Decrement_Images_Model_Version dec = new Decrement_Images_Model_Version();
+								System.out.println(dec.do_The_Work(URL, String.valueOf(user_ID_)));
+								
+							}
+
 							processing = false;
 							break;
 						case "TRAIN_IMAGES_MODEL":
