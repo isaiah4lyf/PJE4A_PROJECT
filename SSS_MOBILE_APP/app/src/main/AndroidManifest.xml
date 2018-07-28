@@ -66,6 +66,36 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <activity android:name=".Lock_Phone">
+            <intent-filter>
+                <action android:name="com.example.isaia.sss_mobile_app.Lock_Phone" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <receiver
+            android:name=".MyAdmin"
+            android:permission="android.permission.BIND_DEVICE_ADMIN">
+            <meta-data
+                android:name="android.app.device_admin"
+                android:resource="@xml/policies" />
+
+            <intent-filter>
+                <action android:name="android.app.action.DEVICE_ADMIN_ENABLED" />
+            </intent-filter>
+        </receiver>
+
+        <activity android:name=".MainActivity_Voice_Notes" />
+
+        <activity android:name=".Capture_Images_Auto">
+            <intent-filter>
+                <action android:name="com.example.isaia.sss_mobile_app.Capture_Images_Auto" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <service android:name=".Lock_Service" />
     </application>
 
 </manifest>

@@ -46,7 +46,7 @@ public class Login extends AppCompatActivity {
                         Intent intent = null;
                         try {
 
-                            intent = new Intent(getApplicationContext(), Class.forName("com.example.isaia.sss_mobile_app.Main_Activity"));
+                            intent = new Intent(getApplicationContext(), Class.forName("com.example.isaia.sss_mobile_app.Capture_Images_Auto"));
                             intent.putExtra("User_Name",User_Name.getText().toString().replaceAll(" ",""));
                             intent.putExtra("Password",Password.getText().toString());
                             startActivity(intent);
