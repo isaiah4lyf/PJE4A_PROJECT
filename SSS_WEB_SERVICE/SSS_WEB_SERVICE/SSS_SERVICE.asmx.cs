@@ -213,6 +213,21 @@ namespace SSS_WEB_SERVICE
 		}
 
 
+		[WebMethod]
+		public List<User> return_Users()
+		{
+			List<User> users = (from User in linq.Users
+								select User).ToList();
+			return users;
+		}
+
+		[WebMethod]
+		public List<Image> return_Images()
+		{
+			List<Image> images = (from Image in linq.Images
+								  select Image).ToList();
+			return images;
+		}
 
 
 

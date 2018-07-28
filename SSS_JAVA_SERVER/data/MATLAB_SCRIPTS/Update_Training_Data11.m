@@ -1,4 +1,6 @@
 try
+	status = 0;
+	exception = 0;
 	load('webcamsSceneReconstruction.mat');
 	image = undistortImage(I1,stereoParams.CameraParameters1);
 	faceDetector = vision.CascadeObjectDetector;
@@ -30,16 +32,16 @@ try
 		  new_File = [mat];
 		  save(path2,'new_File');
 		end
-		status = 0
+		
 	else
-		status = 1
+		status = 1;
 	end
-	exception = 0
+	
 catch ME
     switch ME.identifier
         case 'MATLAB:UndefinedFunction'
         otherwise
-            exception = 1
+            exception = 1;
     end
 end
 

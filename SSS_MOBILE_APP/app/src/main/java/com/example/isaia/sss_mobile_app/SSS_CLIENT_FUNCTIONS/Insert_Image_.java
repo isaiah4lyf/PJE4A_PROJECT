@@ -36,6 +36,7 @@ public class Insert_Image_ {
     {
         File pictureFile = getOutputMediaFile(Image_Name);
         BufferedInputStream imageByte = null;
+        String respo = "";
         try {
             imageByte = new BufferedInputStream(new FileInputStream(pictureFile));
             int ImageSize = imageByte.available();
@@ -52,10 +53,11 @@ public class Insert_Image_ {
             sendCommand(From_Cam);
             out.write(buffer);
             out.flush();
+            respo = readResponse();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "ok";
+        return respo;
     }
     protected void sendCommand(String message)
     {

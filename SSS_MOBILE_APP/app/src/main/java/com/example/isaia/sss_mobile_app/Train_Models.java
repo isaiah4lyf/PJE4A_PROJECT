@@ -1,9 +1,13 @@
 package com.example.isaia.sss_mobile_app;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Train_Images_Model;
 
@@ -41,6 +45,26 @@ public class Train_Models extends AppCompatActivity {
         });
 
         thread.start();
+        final Button Login = (Button) findViewById(R.id.back);
+        Login.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // get an image from the camera
+                        Intent intent = null;
+                        try {
+
+                            intent = new Intent(getApplicationContext(), Class.forName("com.example.isaia.sss_mobile_app.Main_Activity"));
+                            intent.putExtra("User_Name",User_Name);
+                            intent.putExtra("Password",Password);
+                            startActivity(intent);
+
+                        } catch (ClassNotFoundException e) {
+                            Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_LONG).show();
+                        }
+                    }
+                }
+        );
     }
 
     private class insert_image_asy extends AsyncTask<String, Void, String> {

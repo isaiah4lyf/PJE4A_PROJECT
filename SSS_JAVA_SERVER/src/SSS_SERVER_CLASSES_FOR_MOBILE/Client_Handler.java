@@ -155,16 +155,22 @@ public class Client_Handler implements Runnable{
 							matEng.eval("path2 = '"+ML_features_Database2+"'",null,null);
 							matEng.eval("run('" + Matlab_Path + "/MATLAB_SCRIPTS/Update_Training_Data11.m')",null,null);
 							double status = matEng.getVariable("status");
-							double exception = matEng.getVariable("status");
+							double exception = matEng.getVariable("exception");
+							
 							
 							if(status == 1.0 || exception == 1.0)
 							{
 								image.delete();
 								Decrement_Images_Model_Version dec = new Decrement_Images_Model_Version();
-								System.out.println(dec.do_The_Work(URL, String.valueOf(user_ID_)));
+								dec.do_The_Work(URL, String.valueOf(user_ID_));
+								sendMessage("Invalid Image....");
 								
 							}
-
+							else
+							{
+								sendMessage("Upload Successful");
+							}
+							
 							processing = false;
 							break;
 						case "TRAIN_IMAGES_MODEL":
@@ -277,7 +283,7 @@ public class Client_Handler implements Runnable{
 							int[] results = new int[models_string.length];
 							int[] fet_Match = new int[models_string.length];
 							
-													
+							File image2 = null;					
 							for (int i = 0; i < models_string.length; i++)
 							{
 								String model_ID = models_string[i].split(",")[0];
@@ -319,53 +325,67 @@ public class Client_Handler implements Runnable{
 									matEng.eval("class_4 = "+Integer.parseInt(users_string[0].split(",")[0]+4),null,null);
 
 								}
-								File image2 = new File("data/MATLAB_TRAIN_DATA/"+user_name2+"/MATLAB_PRED_DATA/"+title2+".jpg");
+								image2 = new File("data/MATLAB_TRAIN_DATA/"+user_name2+"/MATLAB_PRED_DATA/"+title2+".jpg");
 								matEng.eval("Image_Name_of = '"+ image2.getAbsolutePath().toString()+"'",null,null);
 								
 								String Trained_Model2 = Matlab_Path_train + "/MATLAB_TRAINED_MODELS/" + models_string[i].split(",")[1] + "_" + models_string[i].split(",")[3] + ".mat";
 								matEng.eval("path = '"+Trained_Model2+"'",null,null);
 								matEng.eval("run('" + Matlab_Path_train + "/MATLAB_SCRIPTS/Predict_User10.m')",null,null);
 								
-								StringWriter output_class = new StringWriter();
-								matEng.eval("max_Class",output_class,null);
-								String max_class_String = output_class.toString().replaceAll("\n","");
-								int max_class = Integer.parseInt(max_class_String.split("=")[1].replaceAll(" ",""));
+								double status2 = matEng.getVariable("status");
+								double exception2 = matEng.getVariable("exception");
 								
-								StringWriter output_num = new StringWriter();
-								matEng.eval("max_Num",output_num,null);
-								String max_num_String = output_num.toString().replaceAll("\n","");
-								int max_num = Integer.parseInt(max_num_String.split("=")[1].replaceAll(" ",""));
+								
+								if(status2 == 1.0 || exception2 == 1.0)
+								{
+									image2.delete();
+									System.out.println("here");
+									break;									
+								}
+								else
+								{
+									StringWriter output_class = new StringWriter();
+									matEng.eval("max_Class",output_class,null);
+									String max_class_String = output_class.toString().replaceAll("\n","");
+									int max_class = Integer.parseInt(max_class_String.split("=")[1].replaceAll(" ",""));							
+									StringWriter output_num = new StringWriter();
+									matEng.eval("max_Num",output_num,null);
+									String max_num_String = output_num.toString().replaceAll("\n","");
+									int max_num = Integer.parseInt(max_num_String.split("=")[1].replaceAll(" ",""));
+									results[i] = max_class;
+									fet_Match[i] = max_num;
+								}																							
+							}									
+							double status2 = matEng.getVariable("status");
+							double exception2 = matEng.getVariable("exception");												
+							if(status2 == 1.0 || exception2 == 1.0)
+							{
+								image2.delete();
+								sendMessage("Invalid Image");
+							}
+							else
+							{
+								int max = fet_Match[0];
+								for(int i = 0; i < fet_Match.length; i++)
+								{
+									if(fet_Match[i] > max)
+									{
+										max = fet_Match[i];
+									}
+								}
+								String result_With_Max = "";
+								for (int i = 0; i < models_string.length; i++)
+								{
+									if (fet_Match[i] == max)
+									{						
+										Return_User_With_ID user = new Return_User_With_ID();										
+										result_With_Max = user.do_The_Work(URL, String.valueOf(results[i]));
+									}
+								}
+								System.out.println(result_With_Max);							
+								sendMessage(result_With_Max);
+							}
 
-								results[i] = max_class;
-								fet_Match[i] = max_num;
-								
-			
-							}
-							
-							int max = fet_Match[0];
-							for(int i = 0; i < fet_Match.length; i++)
-							{
-								if(fet_Match[i] > max)
-								{
-									max = fet_Match[i];
-								}
-							}
-							
-							String result_With_Max = "";
-							for (int i = 0; i < models_string.length; i++)
-							{
-								if (fet_Match[i] == max)
-								{
-					
-									Return_User_With_ID user = new Return_User_With_ID();
-									
-									result_With_Max = user.do_The_Work(URL, String.valueOf(results[i]));
-								}
-							}
-							
-							System.out.println(result_With_Max);
-							
-							sendMessage(result_With_Max);
 							processing = false;
 							break;
 						

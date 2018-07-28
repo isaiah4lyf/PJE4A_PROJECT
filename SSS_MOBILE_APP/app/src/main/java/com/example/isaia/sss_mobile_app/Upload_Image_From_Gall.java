@@ -8,6 +8,8 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,6 +36,26 @@ public class Upload_Image_From_Gall extends AppCompatActivity {
             User_Name = extras.getString("User_Name");
             Password = extras.getString("Password");
         }
+        final Button Login = (Button) findViewById(R.id.back);
+        Login.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // get an image from the camera
+                        Intent intent = null;
+                        try {
+
+                            intent = new Intent(getApplicationContext(), Class.forName("com.example.isaia.sss_mobile_app.Main_Activity"));
+                            intent.putExtra("User_Name",User_Name);
+                            intent.putExtra("Password",Password);
+                            startActivity(intent);
+
+                        } catch (ClassNotFoundException e) {
+                            Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_LONG).show();
+                        }
+                    }
+                }
+        );
 
     }
 

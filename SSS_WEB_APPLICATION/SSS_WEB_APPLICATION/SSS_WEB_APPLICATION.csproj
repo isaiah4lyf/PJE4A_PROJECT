@@ -1,0 +1,465 @@
+﻿<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.8\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.8\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="..\packages\Microsoft.Net.Compilers.2.4.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.2.4.0\build\Microsoft.Net.Compilers.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{00A674C3-79BE-48A9-BB40-9A889013C4F6}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SSS_WEB_APPLICATION</RootNamespace>
+    <AssemblyName>SSS_WEB_APPLICATION</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <UseIISExpress>true</UseIISExpress>
+    <Use64BitIISExpress />
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.8.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.8\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <Content Include="Index.aspx" />
+    <Content Include="STYLE\css\.DS_Store" />
+    <Content Include="STYLE\css\bootstrap.map" />
+    <Content Include="STYLE\css\main.map" />
+    <Content Include="STYLE\Dentist - Doc\.DS_Store" />
+    <Content Include="STYLE\Dentist - Doc\css\.DS_Store" />
+    <Content Include="STYLE\Dentist - Doc\fonts\.DS_Store" />
+    <Content Include="STYLE\Dentist - Doc\fonts\fontawesome-webfont.eot" />
+    <Content Include="STYLE\Dentist - Doc\fonts\fontawesome-webfont.ttf" />
+    <Content Include="STYLE\Dentist - Doc\fonts\fontawesome-webfont.woff" />
+    <Content Include="STYLE\Dentist - Doc\fonts\FontAwesome.otf" />
+    <Content Include="STYLE\Dentist - Doc\img\.DS_Store" />
+    <Content Include="STYLE\Dentist - Doc\js\.DS_Store" />
+    <Content Include="STYLE\Dentist - Doc\syntax-highlighter\.DS_Store" />
+    <Content Include="STYLE\fonts\fontawesome-webfont.eot" />
+    <Content Include="STYLE\fonts\fontawesome-webfont.ttf" />
+    <Content Include="STYLE\fonts\fontawesome-webfont.woff" />
+    <Content Include="STYLE\fonts\fontawesome-webfont.woff2" />
+    <Content Include="STYLE\fonts\FontAwesome.otf" />
+    <Content Include="STYLE\fonts\Linearicons-Free.eot" />
+    <Content Include="STYLE\fonts\Linearicons-Free.ttf" />
+    <Content Include="STYLE\fonts\Linearicons-Free.woff" />
+    <Content Include="STYLE\fonts\Linearicons-Free.woff2" />
+    <Content Include="STYLE\img\.DS_Store" />
+    <Content Include="STYLE\img\blog\.DS_Store" />
+    <Content Include="STYLE\js\.DS_Store" />
+    <Content Include="STYLE\scss\.DS_Store" />
+    <Content Include="STYLE\scss\bootstrap.scss" />
+    <Content Include="STYLE\scss\bootstrap\.DS_Store" />
+    <Content Include="STYLE\scss\bootstrap\bootstrap-grid.scss" />
+    <Content Include="STYLE\scss\bootstrap\bootstrap-reboot.scss" />
+    <Content Include="STYLE\scss\bootstrap\bootstrap.scss" />
+    <Content Include="STYLE\scss\bootstrap\mixins\_alert.scss" />
+    <Content Include="STYLE\scss\bootstrap\mixins\_background-variant.scss" />
+    <Content Include="STYLE\scss\bootstrap\mixins\_badge.scss" />
+    <Content Include="STYLE\scss\bootstrap\mixins\_border-radius.scss" />
+    <Content Include="STYLE\scss\bootstrap\mixins\_box-shadow.scss" />
+    <Content Include="STYLE\scss\bootstrap\mixins\_breakpoints.scss" />
+    <Content Include="STYLE\scss\bootstrap\mixins\_buttons.scss" />
+    <Content Include="STYLE\scss\bootstrap\mixins\_caret.scss" />
+    <Content Include="STYLE\scss\bootstrap\mixins\_clearfix.scss" />
+    <Content Include="STYLE\scss\bootstrap\mixins\_float.scss" />
+    <Content Include="STYLE\scss\bootstrap\mixins\_forms.scss" />
+    <Content Include="STYLE\scss\bootstrap\mixins\_gradients.scss" />
+    <Content Include="STYLE\scss\bootstrap\mixins\_grid-framework.scss" />
+    <Content Include="STYLE\scss\bootstrap\mixins\_grid.scss" />
+    <Content Include="STYLE\scss\bootstrap\mixins\_hover.scss" />
+    <Content Include="STYLE\scss\bootstrap\mixins\_image.scss" />
+    <Content Include="STYLE\scss\bootstrap\mixins\_list-group.scss" />
+    <Content Include="STYLE\scss\bootstrap\mixins\_lists.scss" />
+    <Content Include="STYLE\scss\bootstrap\mixins\_nav-divider.scss" />
+    <Content Include="STYLE\scss\bootstrap\mixins\_navbar-align.scss" />
+    <Content Include="STYLE\scss\bootstrap\mixins\_pagination.scss" />
+    <Content Include="STYLE\scss\bootstrap\mixins\_reset-text.scss" />
+    <Content Include="STYLE\scss\bootstrap\mixins\_resize.scss" />
+    <Content Include="STYLE\scss\bootstrap\mixins\_screen-reader.scss" />
+    <Content Include="STYLE\scss\bootstrap\mixins\_size.scss" />
+    <Content Include="STYLE\scss\bootstrap\mixins\_table-row.scss" />
+    <Content Include="STYLE\scss\bootstrap\mixins\_text-emphasis.scss" />
+    <Content Include="STYLE\scss\bootstrap\mixins\_text-hide.scss" />
+    <Content Include="STYLE\scss\bootstrap\mixins\_text-truncate.scss" />
+    <Content Include="STYLE\scss\bootstrap\mixins\_transition.scss" />
+    <Content Include="STYLE\scss\bootstrap\mixins\_visibility.scss" />
+    <Content Include="STYLE\scss\bootstrap\utilities\_align.scss" />
+    <Content Include="STYLE\scss\bootstrap\utilities\_background.scss" />
+    <Content Include="STYLE\scss\bootstrap\utilities\_borders.scss" />
+    <Content Include="STYLE\scss\bootstrap\utilities\_clearfix.scss" />
+    <Content Include="STYLE\scss\bootstrap\utilities\_display.scss" />
+    <Content Include="STYLE\scss\bootstrap\utilities\_embed.scss" />
+    <Content Include="STYLE\scss\bootstrap\utilities\_flex.scss" />
+    <Content Include="STYLE\scss\bootstrap\utilities\_float.scss" />
+    <Content Include="STYLE\scss\bootstrap\utilities\_position.scss" />
+    <Content Include="STYLE\scss\bootstrap\utilities\_screenreaders.scss" />
+    <Content Include="STYLE\scss\bootstrap\utilities\_sizing.scss" />
+    <Content Include="STYLE\scss\bootstrap\utilities\_spacing.scss" />
+    <Content Include="STYLE\scss\bootstrap\utilities\_text.scss" />
+    <Content Include="STYLE\scss\bootstrap\utilities\_visibility.scss" />
+    <Content Include="STYLE\scss\bootstrap\_alert.scss" />
+    <Content Include="STYLE\scss\bootstrap\_badge.scss" />
+    <Content Include="STYLE\scss\bootstrap\_breadcrumb.scss" />
+    <Content Include="STYLE\scss\bootstrap\_button-group.scss" />
+    <Content Include="STYLE\scss\bootstrap\_buttons.scss" />
+    <Content Include="STYLE\scss\bootstrap\_card.scss" />
+    <Content Include="STYLE\scss\bootstrap\_carousel.scss" />
+    <Content Include="STYLE\scss\bootstrap\_close.scss" />
+    <Content Include="STYLE\scss\bootstrap\_code.scss" />
+    <Content Include="STYLE\scss\bootstrap\_custom-forms.scss" />
+    <Content Include="STYLE\scss\bootstrap\_dropdown.scss" />
+    <Content Include="STYLE\scss\bootstrap\_forms.scss" />
+    <Content Include="STYLE\scss\bootstrap\_functions.scss" />
+    <Content Include="STYLE\scss\bootstrap\_grid.scss" />
+    <Content Include="STYLE\scss\bootstrap\_images.scss" />
+    <Content Include="STYLE\scss\bootstrap\_input-group.scss" />
+    <Content Include="STYLE\scss\bootstrap\_jumbotron.scss" />
+    <Content Include="STYLE\scss\bootstrap\_list-group.scss" />
+    <Content Include="STYLE\scss\bootstrap\_media.scss" />
+    <Content Include="STYLE\scss\bootstrap\_mixins.scss" />
+    <Content Include="STYLE\scss\bootstrap\_modal.scss" />
+    <Content Include="STYLE\scss\bootstrap\_nav.scss" />
+    <Content Include="STYLE\scss\bootstrap\_navbar.scss" />
+    <Content Include="STYLE\scss\bootstrap\_pagination.scss" />
+    <Content Include="STYLE\scss\bootstrap\_popover.scss" />
+    <Content Include="STYLE\scss\bootstrap\_print.scss" />
+    <Content Include="STYLE\scss\bootstrap\_progress.scss" />
+    <Content Include="STYLE\scss\bootstrap\_reboot.scss" />
+    <Content Include="STYLE\scss\bootstrap\_root.scss" />
+    <Content Include="STYLE\scss\bootstrap\_tables.scss" />
+    <Content Include="STYLE\scss\bootstrap\_tooltip.scss" />
+    <Content Include="STYLE\scss\bootstrap\_transitions.scss" />
+    <Content Include="STYLE\scss\bootstrap\_type.scss" />
+    <Content Include="STYLE\scss\bootstrap\_utilities.scss" />
+    <Content Include="STYLE\scss\bootstrap\_variables.scss" />
+    <Content Include="STYLE\scss\main.scss" />
+    <Content Include="STYLE\scss\theme\.DS_Store" />
+    <Content Include="STYLE\scss\theme\_elements.scss" />
+    <Content Include="STYLE\scss\theme\_flexbox.scss" />
+    <Content Include="STYLE\scss\theme\_footer.scss" />
+    <Content Include="STYLE\scss\theme\_header.scss" />
+    <Content Include="STYLE\scss\theme\_home.scss" />
+    <Content Include="STYLE\scss\theme\_mixins.scss" />
+    <Content Include="STYLE\scss\theme\_reset.scss" />
+    <Content Include="STYLE\scss\theme\_variables.scss" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="Web References\SSS_WEB_SERVICE\Image.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <None Include="Web References\SSS_WEB_SERVICE\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\SSS_WEB_SERVICE\SSS_SERVICE.wsdl" />
+    <Content Include="Web References\SSS_WEB_SERVICE\User.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="STYLE\css\animate.min.css" />
+    <Content Include="STYLE\css\bootstrap.css" />
+    <Content Include="STYLE\css\bootstrap\bootstrap-grid.css" />
+    <Content Include="STYLE\css\bootstrap\bootstrap-reboot.css" />
+    <Content Include="STYLE\css\bootstrap\bootstrap.css" />
+    <Content Include="STYLE\css\font-awesome.min.css" />
+    <Content Include="STYLE\css\jquery-ui.css" />
+    <Content Include="STYLE\css\linearicons.css" />
+    <Content Include="STYLE\css\magnific-popup.css" />
+    <Content Include="STYLE\css\main.css" />
+    <Content Include="STYLE\css\nice-select.css" />
+    <Content Include="STYLE\css\owl.carousel.css" />
+    <Content Include="STYLE\Dentist - Doc\css\font-awesome.min.css" />
+    <Content Include="STYLE\Dentist - Doc\css\main.css" />
+    <Content Include="STYLE\Dentist - Doc\css\normalize.min.css" />
+    <Content Include="STYLE\Dentist - Doc\fonts\fontawesome-webfont.svg" />
+    <Content Include="STYLE\Dentist - Doc\img\logo.png" />
+    <Content Include="STYLE\Dentist - Doc\index.html" />
+    <Content Include="STYLE\Dentist - Doc\js\custom.js" />
+    <Content Include="STYLE\Dentist - Doc\js\jquery-1.11.0.min.js" />
+    <Content Include="STYLE\Dentist - Doc\js\jquery.nav.js" />
+    <Content Include="STYLE\Dentist - Doc\syntax-highlighter\scripts\shAutoloader.js" />
+    <Content Include="STYLE\Dentist - Doc\syntax-highlighter\scripts\shBrushAppleScript.js" />
+    <Content Include="STYLE\Dentist - Doc\syntax-highlighter\scripts\shBrushAS3.js" />
+    <Content Include="STYLE\Dentist - Doc\syntax-highlighter\scripts\shBrushBash.js" />
+    <Content Include="STYLE\Dentist - Doc\syntax-highlighter\scripts\shBrushColdFusion.js" />
+    <Content Include="STYLE\Dentist - Doc\syntax-highlighter\scripts\shBrushCpp.js" />
+    <Content Include="STYLE\Dentist - Doc\syntax-highlighter\scripts\shBrushCSharp.js" />
+    <Content Include="STYLE\Dentist - Doc\syntax-highlighter\scripts\shBrushCss.js" />
+    <Content Include="STYLE\Dentist - Doc\syntax-highlighter\scripts\shBrushDelphi.js" />
+    <Content Include="STYLE\Dentist - Doc\syntax-highlighter\scripts\shBrushDiff.js" />
+    <Content Include="STYLE\Dentist - Doc\syntax-highlighter\scripts\shBrushErlang.js" />
+    <Content Include="STYLE\Dentist - Doc\syntax-highlighter\scripts\shBrushGroovy.js" />
+    <Content Include="STYLE\Dentist - Doc\syntax-highlighter\scripts\shBrushJava.js" />
+    <Content Include="STYLE\Dentist - Doc\syntax-highlighter\scripts\shBrushJavaFX.js" />
+    <Content Include="STYLE\Dentist - Doc\syntax-highlighter\scripts\shBrushJScript.js" />
+    <Content Include="STYLE\Dentist - Doc\syntax-highlighter\scripts\shBrushPerl.js" />
+    <Content Include="STYLE\Dentist - Doc\syntax-highlighter\scripts\shBrushPhp.js" />
+    <Content Include="STYLE\Dentist - Doc\syntax-highlighter\scripts\shBrushPlain.js" />
+    <Content Include="STYLE\Dentist - Doc\syntax-highlighter\scripts\shBrushPowerShell.js" />
+    <Content Include="STYLE\Dentist - Doc\syntax-highlighter\scripts\shBrushPython.js" />
+    <Content Include="STYLE\Dentist - Doc\syntax-highlighter\scripts\shBrushRuby.js" />
+    <Content Include="STYLE\Dentist - Doc\syntax-highlighter\scripts\shBrushSass.js" />
+    <Content Include="STYLE\Dentist - Doc\syntax-highlighter\scripts\shBrushScala.js" />
+    <Content Include="STYLE\Dentist - Doc\syntax-highlighter\scripts\shBrushSql.js" />
+    <Content Include="STYLE\Dentist - Doc\syntax-highlighter\scripts\shBrushVb.js" />
+    <Content Include="STYLE\Dentist - Doc\syntax-highlighter\scripts\shBrushXml.js" />
+    <Content Include="STYLE\Dentist - Doc\syntax-highlighter\scripts\shCore.js" />
+    <Content Include="STYLE\Dentist - Doc\syntax-highlighter\scripts\shLegacy.js" />
+    <Content Include="STYLE\Dentist - Doc\syntax-highlighter\styles\shCore.css" />
+    <Content Include="STYLE\Dentist - Doc\syntax-highlighter\styles\shCoreDefault.css" />
+    <Content Include="STYLE\Dentist - Doc\syntax-highlighter\styles\shCoreDjango.css" />
+    <Content Include="STYLE\Dentist - Doc\syntax-highlighter\styles\shCoreEclipse.css" />
+    <Content Include="STYLE\Dentist - Doc\syntax-highlighter\styles\shCoreEmacs.css" />
+    <Content Include="STYLE\Dentist - Doc\syntax-highlighter\styles\shCoreFadeToGrey.css" />
+    <Content Include="STYLE\Dentist - Doc\syntax-highlighter\styles\shCoreMDUltra.css" />
+    <Content Include="STYLE\Dentist - Doc\syntax-highlighter\styles\shCoreMidnight.css" />
+    <Content Include="STYLE\Dentist - Doc\syntax-highlighter\styles\shCoreRDark.css" />
+    <Content Include="STYLE\Dentist - Doc\syntax-highlighter\styles\shThemeDefault.css" />
+    <Content Include="STYLE\Dentist - Doc\syntax-highlighter\styles\shThemeDjango.css" />
+    <Content Include="STYLE\Dentist - Doc\syntax-highlighter\styles\shThemeEclipse.css" />
+    <Content Include="STYLE\Dentist - Doc\syntax-highlighter\styles\shThemeEmacs.css" />
+    <Content Include="STYLE\Dentist - Doc\syntax-highlighter\styles\shThemeFadeToGrey.css" />
+    <Content Include="STYLE\Dentist - Doc\syntax-highlighter\styles\shThemeMDUltra.css" />
+    <Content Include="STYLE\Dentist - Doc\syntax-highlighter\styles\shThemeMidnight.css" />
+    <Content Include="STYLE\Dentist - Doc\syntax-highlighter\styles\shThemeRDark.css" />
+    <Content Include="STYLE\fonts\fontawesome-webfont.svg" />
+    <Content Include="STYLE\fonts\Linearicons-Free.svg" />
+    <Content Include="STYLE\img\7e6e0ed705efa7164793e2a5c2a7e315.jpg" />
+    <Content Include="STYLE\img\about-img.jpg" />
+    <Content Include="STYLE\img\appoinment-img.jpg" />
+    <Content Include="STYLE\img\b1.jpg" />
+    <Content Include="STYLE\img\b2.jpg" />
+    <Content Include="STYLE\img\b3.jpg" />
+    <Content Include="STYLE\img\b4.jpg" />
+    <Content Include="STYLE\img\banner-bg.jpg" />
+    <Content Include="STYLE\img\blog\ads-banner.jpg" />
+    <Content Include="STYLE\img\blog\blog-home-banner.jpg" />
+    <Content Include="STYLE\img\blog\c1.jpg" />
+    <Content Include="STYLE\img\blog\c2.jpg" />
+    <Content Include="STYLE\img\blog\c3.jpg" />
+    <Content Include="STYLE\img\blog\c4.jpg" />
+    <Content Include="STYLE\img\blog\c5.jpg" />
+    <Content Include="STYLE\img\blog\c6.jpg" />
+    <Content Include="STYLE\img\blog\cat-widget1.jpg" />
+    <Content Include="STYLE\img\blog\cat-widget2.jpg" />
+    <Content Include="STYLE\img\blog\cat-widget3.jpg" />
+    <Content Include="STYLE\img\blog\feature-img1.jpg" />
+    <Content Include="STYLE\img\blog\feature-img2.jpg" />
+    <Content Include="STYLE\img\blog\feature-img3.jpg" />
+    <Content Include="STYLE\img\blog\feature-img4.jpg" />
+    <Content Include="STYLE\img\blog\feature-img5.jpg" />
+    <Content Include="STYLE\img\blog\next.jpg" />
+    <Content Include="STYLE\img\blog\post-img1.jpg" />
+    <Content Include="STYLE\img\blog\post-img2.jpg" />
+    <Content Include="STYLE\img\blog\pp1.jpg" />
+    <Content Include="STYLE\img\blog\pp2.jpg" />
+    <Content Include="STYLE\img\blog\pp3.jpg" />
+    <Content Include="STYLE\img\blog\pp4.jpg" />
+    <Content Include="STYLE\img\blog\prev.jpg" />
+    <Content Include="STYLE\img\blog\s-img.jpg" />
+    <Content Include="STYLE\img\blog\user-info.png" />
+    <Content Include="STYLE\img\call-action-bg.jpg" />
+    <Content Include="STYLE\img\Capture.PNG" />
+    <Content Include="STYLE\img\elements\a.jpg" />
+    <Content Include="STYLE\img\elements\a2.jpg" />
+    <Content Include="STYLE\img\elements\d.jpg" />
+    <Content Include="STYLE\img\elements\disabled-check.png" />
+    <Content Include="STYLE\img\elements\disabled-radio.png" />
+    <Content Include="STYLE\img\elements\f1.jpg" />
+    <Content Include="STYLE\img\elements\f2.jpg" />
+    <Content Include="STYLE\img\elements\f3.jpg" />
+    <Content Include="STYLE\img\elements\f4.jpg" />
+    <Content Include="STYLE\img\elements\f5.jpg" />
+    <Content Include="STYLE\img\elements\f6.jpg" />
+    <Content Include="STYLE\img\elements\f7.jpg" />
+    <Content Include="STYLE\img\elements\f8.jpg" />
+    <Content Include="STYLE\img\elements\g1.jpg" />
+    <Content Include="STYLE\img\elements\g2.jpg" />
+    <Content Include="STYLE\img\elements\g3.jpg" />
+    <Content Include="STYLE\img\elements\g4.jpg" />
+    <Content Include="STYLE\img\elements\g5.jpg" />
+    <Content Include="STYLE\img\elements\g6.jpg" />
+    <Content Include="STYLE\img\elements\g7.jpg" />
+    <Content Include="STYLE\img\elements\g8.jpg" />
+    <Content Include="STYLE\img\elements\primary-check.png" />
+    <Content Include="STYLE\img\elements\primary-radio.png" />
+    <Content Include="STYLE\img\elements\success-check.png" />
+    <Content Include="STYLE\img\elements\success-radio.png" />
+    <Content Include="STYLE\img\elements\t1.jpg" />
+    <Content Include="STYLE\img\elements\t2.jpg" />
+    <Content Include="STYLE\img\elements\t3.jpg" />
+    <Content Include="STYLE\img\elements\t4.jpg" />
+    <Content Include="STYLE\img\elements\user1.png" />
+    <Content Include="STYLE\img\elements\user2.png" />
+    <Content Include="STYLE\img\logo.png" />
+    <Content Include="STYLE\img\p3.jpg" />
+    <Content Include="STYLE\img\play-btn.png" />
+    <Content Include="STYLE\img\s1.jpg" />
+    <Content Include="STYLE\img\s2.jpg" />
+    <Content Include="STYLE\img\s3.jpg" />
+    <Content Include="STYLE\img\s4.jpg" />
+    <Content Include="STYLE\img\t1.jpg" />
+    <Content Include="STYLE\img\t1.png" />
+    <Content Include="STYLE\img\t2.jpg" />
+    <Content Include="STYLE\img\t2.png" />
+    <Content Include="STYLE\img\t3.jpg" />
+    <Content Include="STYLE\img\t3.png" />
+    <Content Include="STYLE\img\t4.jpg" />
+    <Content Include="STYLE\img\top-banner.jpg" />
+    <Content Include="STYLE\img\ui-icons_444444_256x240.png" />
+    <Content Include="STYLE\img\user.png" />
+    <Content Include="STYLE\img\video-bg.jpg" />
+    <Content Include="STYLE\js\easing.min.js" />
+    <Content Include="STYLE\js\hoverIntent.js" />
+    <Content Include="STYLE\js\jquery-ui.js" />
+    <Content Include="STYLE\js\jquery.ajaxchimp.min.js" />
+    <Content Include="STYLE\js\jquery.circlechart.js" />
+    <Content Include="STYLE\js\jquery.magnific-popup.min.js" />
+    <Content Include="STYLE\js\jquery.nice-select.min.js" />
+    <Content Include="STYLE\js\mail-script.js" />
+    <Content Include="STYLE\js\main.js" />
+    <Content Include="STYLE\js\mn-accordion.js" />
+    <Content Include="STYLE\js\owl.carousel.min.js" />
+    <Content Include="STYLE\js\superfish.min.js" />
+    <Content Include="STYLE\js\vendor\bootstrap.min.js" />
+    <Content Include="STYLE\js\vendor\jquery-2.2.4.min.js" />
+    <None Include="Web References\SSS_WEB_SERVICE\SSS_SERVICE.disco" />
+    <Content Include="Web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Index.aspx.cs">
+      <DependentUpon>Index.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Index.aspx.designer.cs">
+      <DependentUpon>Index.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\SSS_WEB_SERVICE\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferences Include="Web References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferenceUrl Include="http://192.168.43.175:8080/">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\SSS_WEB_SERVICE\</RelPath>
+      <UpdateFromURL>http://192.168.43.175:8080/</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>SSS_WEB_APPLICATION_SSS_WEB_SERVICE_SSS_SERVICE</CachedSettingsPropName>
+    </WebReferenceUrl>
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>54988</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:54988/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.2.4.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.2.4.0\build\Microsoft.Net.Compilers.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.8\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.8\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,10 +1,14 @@
 package com.example.isaia.sss_mobile_app;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Insert_Image_;
 import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Pred_User;
@@ -52,6 +56,16 @@ public class Insert_Image extends AppCompatActivity {
         });
 
         thread.start();
+        final Button Login = (Button) findViewById(R.id.back);
+        Login.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // get an image from the camera
+
+                    }
+                }
+        );
     }
     private class insert_image_asy extends AsyncTask<String, Void, String> {
 
@@ -77,6 +91,19 @@ public class Insert_Image extends AppCompatActivity {
         protected void onPostExecute(String result) {
             //if you started progress dialog dismiss it here
             txvResult.setText(result);
+
+            Toast.makeText(getApplicationContext(),result,Toast.LENGTH_LONG).show();
+            Intent intent = null;
+            try {
+
+                intent = new Intent(getApplicationContext(), Class.forName("com.example.isaia.sss_mobile_app.Main_Activity"));
+                intent.putExtra("User_Name",User_Name);
+                intent.putExtra("Password",Password);
+                startActivity(intent);
+
+            } catch (ClassNotFoundException e) {
+                Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_LONG).show();
+            }
         }
     }
 }
