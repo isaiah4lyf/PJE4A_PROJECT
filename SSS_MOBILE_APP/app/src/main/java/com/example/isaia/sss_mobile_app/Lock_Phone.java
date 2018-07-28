@@ -82,7 +82,6 @@ public class Lock_Phone extends AppCompatActivity implements View.OnClickListene
                 }
                 break;
         }
-
         super.onActivityResult(requestCode, resultCode, data);
     }
 }

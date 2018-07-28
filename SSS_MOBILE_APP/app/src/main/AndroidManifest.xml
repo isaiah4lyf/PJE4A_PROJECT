@@ -96,6 +96,7 @@
             </intent-filter>
         </activity>
         <service android:name=".Lock_Service" />
+        <service android:name=".Predict_User_Service" />
     </application>
 
 </manifest>
