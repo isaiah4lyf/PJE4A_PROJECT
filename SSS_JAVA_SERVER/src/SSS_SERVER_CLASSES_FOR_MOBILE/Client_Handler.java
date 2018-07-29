@@ -382,8 +382,9 @@ public class Client_Handler implements Runnable{
 										result_With_Max = user.do_The_Work(URL, String.valueOf(results[i]));
 									}
 								}
-								System.out.println(result_With_Max);							
-								sendMessage(result_With_Max);
+								System.out.println(result_With_Max);	
+								String[] results_tokens = result_With_Max.split(",");
+								sendMessage(results_tokens[1]);
 							}
 
 							processing = false;

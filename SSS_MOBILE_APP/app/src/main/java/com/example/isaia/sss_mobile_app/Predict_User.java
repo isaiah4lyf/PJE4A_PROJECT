@@ -1,7 +1,9 @@
 package com.example.isaia.sss_mobile_app;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -21,12 +23,7 @@ public class Predict_User extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_predict__user);
 
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
 
-            User_Name = extras.getString("User_Name");
-            Password = extras.getString("Password");
-        }
         buttonStart = (Button) findViewById(R.id.buttonStart);
         buttonStop = (Button) findViewById(R.id.buttonStop);
         //attaching onclicklistener to buttons

@@ -4,17 +4,21 @@ import android.app.ActivityManager;
 import android.app.Service;
 import android.app.admin.DevicePolicyManager;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.hardware.Camera;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.os.IBinder;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.Toast;
 
 
+import com.example.isaia.sss_mobile_app.Database.DBHelper;
 import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Pred_User;
 
 import java.io.File;
@@ -27,13 +31,14 @@ import java.util.Date;
 public class Predict_User_Service extends Service{
     private Camera mCamera;
     private boolean capture;
-    private String User_Name;
-    private String Password;
-    private String file_Name;
+    private static String User_Name;
+    private static String Password;
+    private static  String file_Name = "";
     public static final int RESULT_ENABLE = 11;
     private DevicePolicyManager devicePolicyManager;
     private ActivityManager activityManager;
     private ComponentName compName;
+
 
     @Nullable
     @Override
@@ -44,11 +49,10 @@ public class Predict_User_Service extends Service{
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        //User_Name = intent.getStringExtra("User_Name");
-        //Password = intent.getStringExtra("Password");
+        DBHelper mydb = new DBHelper(getApplicationContext());
+        User_Name = mydb.User_Name();
+        Password = mydb.Password();
 
-        User_Name = "Isaiah";
-        Password = "103";
         capture = true;
         devicePolicyManager = (DevicePolicyManager) getSystemService(DEVICE_POLICY_SERVICE);
         activityManager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
@@ -64,6 +68,7 @@ public class Predict_User_Service extends Service{
                         try {
                             mCamera = getCameraInstance();
                             mCamera.takePicture(null, null,mPicture);
+                            mCamera = null;
                             sleep(20000);
                         }
                         catch (Exception e) {

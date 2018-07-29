@@ -12,6 +12,7 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.isaia.sss_mobile_app.Database.DBHelper;
 import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Insert_Image_;
 
 import java.io.File;
@@ -39,8 +40,9 @@ public class Lock_Service  extends Service{
         //User_Name = intent.getStringExtra("User_Name");
         //Password = intent.getStringExtra("Password");
 
-        User_Name = "Isaiah";
-        Password = "103";
+        DBHelper mydb = new DBHelper(getApplicationContext());
+        User_Name = mydb.User_Name();
+        Password = mydb.Password();
         capture = true;
         try {
 
@@ -52,7 +54,13 @@ public class Lock_Service  extends Service{
                     while (capture == true) {
                         try {
                             mCamera = getCameraInstance();
+                            //mCamera.autoFocus(3);
                             mCamera.takePicture(null, null,mPicture);
+                            //mCamera.stopPreview();
+                            //mCamera.startFaceDetection();
+
+                            mCamera = null;
+
                             sleep(20000);
                         }
                         catch (Exception e) {

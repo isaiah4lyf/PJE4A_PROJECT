@@ -16,11 +16,7 @@ public class Capture_Images_Auto extends AppCompatActivity implements View.OnCli
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_capture__images__auto);
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            User_Name = extras.getString("User_Name");
-            Password = extras.getString("Password");
-        }
+
         buttonStart = (Button) findViewById(R.id.buttonStart);
         buttonStop = (Button) findViewById(R.id.buttonStop);
         //attaching onclicklistener to buttons
@@ -33,8 +29,6 @@ public class Capture_Images_Auto extends AppCompatActivity implements View.OnCli
         if (v == buttonStart) {
             //starting service
             Intent serviceIntent = new Intent(this,Lock_Service.class);
-            serviceIntent.putExtra("User_Name", User_Name);
-            serviceIntent.putExtra("Password", Password);
             this.startService(serviceIntent);
         } else if (v == buttonStop) {
             //stopping service

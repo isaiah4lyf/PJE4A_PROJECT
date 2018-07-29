@@ -58,6 +58,7 @@ import java.util.Locale;
 
 import android.util.Log;
 
+import com.example.isaia.sss_mobile_app.Database.DBHelper;
 import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Insert_Image;
 import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Insert_User;
 import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Pred_User;
@@ -89,19 +90,22 @@ public class Main_Activity  extends AppCompatActivity{
 
         txvResult = (TextView) findViewById(R.id.textView);
         function = "Insert_Image";
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            User_Name = extras.getString("User_Name");
-            Password = extras.getString("Password");
-        }
+        DBHelper mydb = new DBHelper(getApplicationContext());
+        User_Name = mydb.User_Name();
+        Password = mydb.Password();
 
         //Camera code
         mCamera = getCameraInstance();
+
+
         preview = findViewById(R.id.camera_preview);
         try {
             // Create our Preview view and set it as the content of our activity.
+            //mCamera.startFaceDetection();
             mPreview = new CameraPreview(this, mCamera);
             preview.addView(mPreview);
+
+
         }
         catch (Exception e){
             // Camera is not available (in use or does not exist)
