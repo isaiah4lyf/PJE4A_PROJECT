@@ -8,6 +8,7 @@ import android.hardware.Camera;
 import android.hardware.camera2.CameraDevice;
 import android.hardware.camera2.params.StreamConfigurationMap;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -16,6 +17,8 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.Toast;
@@ -60,6 +63,7 @@ import android.util.Log;
 
 import com.example.isaia.sss_mobile_app.Database.DBHelper;
 import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Insert_Image;
+import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Insert_Image_;
 import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Insert_User;
 import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Pred_User;
 import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Train_Images_Model;
@@ -82,6 +86,7 @@ public class Main_Activity  extends AppCompatActivity{
     private String function;
     private String User_Name;
     private String Password;
+    private String Image_Name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +98,7 @@ public class Main_Activity  extends AppCompatActivity{
         DBHelper mydb = new DBHelper(getApplicationContext());
         User_Name = mydb.User_Name();
         Password = mydb.Password();
+
 
         //Camera code
         mCamera = getCameraInstance();
@@ -109,7 +115,7 @@ public class Main_Activity  extends AppCompatActivity{
         }
         catch (Exception e){
             // Camera is not available (in use or does not exist)
-            Toast.makeText(this,e.toString(),Toast.LENGTH_LONG);
+            Toast.makeText(this,e.toString(),Toast.LENGTH_LONG).show();
         }
 
         final Button Insert_Image = (Button) findViewById(R.id.Insert_Image);
@@ -118,44 +124,20 @@ public class Main_Activity  extends AppCompatActivity{
                     @Override
                     public void onClick(View v) {
                         // get an image from the camera
-                        function = "Insert_Image";
-                        mCamera.takePicture(null, null,mPicture);
+                        try{
+                            function = "Insert_Image";
+                            mCamera.takePicture(null, null,mPicture);
 
-                    }
-                }
-        );
-        final Button pred_user = (Button) findViewById(R.id.Predict_User);
-        pred_user.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        // get an image from the camera
-                        function = "Predict_User";
-                        mCamera.takePicture(null, null,mPicture);
-                    }
-                }
-        );
-
-
-        final Button retrain = (Button) findViewById(R.id.Train_Models);
-        retrain.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = null;
-                        try {
-
-                            intent = new Intent(getApplicationContext(), Class.forName("com.example.isaia.sss_mobile_app.Train_Models"));
-                            intent.putExtra("User_Name",User_Name);
-                            intent.putExtra("Password",Password);
-                            startActivity(intent);
-
-                        } catch (ClassNotFoundException e) {
-                            Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_LONG).show();
                         }
+                        catch (Exception ex)
+                        {
+                            Toast.makeText(getApplicationContext(),ex.toString(),Toast.LENGTH_LONG);
+                        }
+
                     }
                 }
         );
+
         final Button from_Gall = (Button) findViewById(R.id.Upload_From);
         from_Gall.setOnClickListener(
                 new View.OnClickListener() {
@@ -175,13 +157,7 @@ public class Main_Activity  extends AppCompatActivity{
                     }
                 }
         );
-
-
-
-
     }
-
-
 
     //camera Code
     // A safe way to get an instance of the Camera object.
@@ -283,6 +259,23 @@ public class Main_Activity  extends AppCompatActivity{
                 fos.write(data);
                 fos.close();
 
+                Image_Name = pictureFile.getName();
+                Thread thread = new Thread(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        try {
+                            insert_image_asy tast = new insert_image_asy();
+                            tast.execute();
+                        }
+                        catch (Exception ex)
+                        {
+                        }
+                    }
+                });
+                thread.start();
+
+                /*
                 if(function.equals("Predict_User"))
                 {
                     Intent intent = null;
@@ -313,6 +306,7 @@ public class Main_Activity  extends AppCompatActivity{
                         Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_LONG).show();
                     }
                 }
+                */
 
 
             } catch (FileNotFoundException e) {
@@ -365,4 +359,39 @@ public class Main_Activity  extends AppCompatActivity{
         return mediaFile;
     }
 
+    private class insert_image_asy extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected void onPreExecute() {
+            //if you want, start progress dialog here
+        }
+        @Override
+        protected String doInBackground(String... urls) {
+
+            String response = "";
+
+            ///Sending an image
+            File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
+                    Environment.DIRECTORY_PICTURES), "MyCameraApp");
+            Insert_Image_ client = new Insert_Image_();
+            response = client.Do_The_work(User_Name,Password,mediaStorageDir.getPath() + File.separator+Image_Name,"yes");
+
+            return  response;
+        }
+        @Override
+        protected void onPostExecute(String result) {
+            //if you started progress dialog dismiss it here
+            Toast.makeText(getApplicationContext(),result,Toast.LENGTH_LONG).show();
+
+            if(mCamera != null){
+                mCamera.stopPreview();
+                mCamera.setPreviewCallback(null);
+                mCamera.release();
+                mCamera = null;
+                Intent intent = getIntent();
+                finish();
+                startActivity(intent);
+            }
+        }
+    }
 }

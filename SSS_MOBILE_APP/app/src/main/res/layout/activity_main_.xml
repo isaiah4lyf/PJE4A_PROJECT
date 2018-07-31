@@ -4,7 +4,7 @@
     android:id="@+id/activity_main_"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     tools:context="com.example.isaia.sss_mobile_app.Main_Activity">
 
     <FrameLayout
@@ -13,48 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"/>
     <Button
-        android:id="@+id/log_out"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="170dp"
-        android:layout_marginTop="130dp"
-        android:background="@drawable/button"
-        android:rotation="-90"
-        android:text="Log_Out"
-        />
-
-    <Button
-        android:id="@+id/Predict_User"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="240dp"
-        android:layout_marginTop="130dp"
-        android:background="@drawable/button"
-        android:rotation="-90"
-        android:text="Predict_User"
-        />
-    <Button
         android:id="@+id/Insert_Image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="310dp"
-        android:layout_marginTop="130dp"
-        android:background="@drawable/button"
-        android:rotation="-90"
-        android:text="Insert_Image"
-        />
-
-    <Button
-        android:id="@+id/Train_Models"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -64,7 +23,7 @@
         android:layout_marginTop="130dp"
         android:background="@drawable/button"
         android:rotation="-90"
-        android:text="Retrain_Model"
+        android:text="Capture Image"
         />
     <Button
         android:id="@+id/Upload_From"
@@ -77,7 +36,6 @@
         android:layout_marginTop="130dp"
         android:background="@drawable/button"
         android:rotation="-90"
-        android:text="Upload_Image"
+        android:text="From Gallery"
         />
-
 </RelativeLayout>

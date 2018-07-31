@@ -1,4 +1,5 @@
 package SSS_SERVER_CLASSES_FOR_MOBILE;
+import java.awt.TextArea;
 import java.io.*;
 import java.net.Socket;
 import com.mathworks.engine.MatlabEngine;
@@ -23,13 +24,15 @@ public class Client_Handler implements Runnable{
 	private MatlabEngine matEng;
 	private String URL;
 	private String Matlab_Path_train;
+	private TextArea console_Like;
 	
 	
-	public Client_Handler(Socket socketConnectionToClient,MatlabEngine matEng,String URL)
+	public Client_Handler(Socket socketConnectionToClient,MatlabEngine matEng,String URL,TextArea console_Like)
 	{
 		this.connectionToClient = socketConnectionToClient;
 		this.matEng = matEng;
 		this.URL = URL;
+		this.console_Like = console_Like;
 		try
 		{
 			in = new DataInputStream(connectionToClient.getInputStream());
@@ -46,7 +49,7 @@ public class Client_Handler implements Runnable{
 	@Override
 	public void run()
 	{
-		System.out.println("Processing client commands");
+		console_Like.append("Processing client commands \n");
 		boolean processing = true;
 		try
 		{
@@ -54,7 +57,7 @@ public class Client_Handler implements Runnable{
 			{
 
 				String command = in.readUTF();
-				System.out.println(command);
+				console_Like.append(command + "\n");
 				try 
 				{
 					switch (command)
@@ -436,7 +439,7 @@ public class Client_Handler implements Runnable{
 			connectionToClient.close();
 			out.close();
 			in.close();
-			System.out.println("Closing Client Connection....");
+			console_Like.append("Closing Client Connection.... \n");
 		}
 		catch (IOException ex)
 		{

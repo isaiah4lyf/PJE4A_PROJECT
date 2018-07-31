@@ -1,9 +1,8 @@
 package SSS_SERVER_CLASSES_FOR_MOBILE;
+import java.awt.TextArea;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.io.*;
-import java.util.*;
 import com.mathworks.engine.MatlabEngine;
 
 
@@ -13,15 +12,15 @@ public class Server_Class {
 	private boolean			running;
 	private MatlabEngine matEng;
 	private String URL;  
-
-	public Server_Class(int port,MatlabEngine matEng,String URL)
+	private TextArea console_Like;
+	public Server_Class(int port,MatlabEngine matEng,String URL,TextArea console_Like)
 	{
 		this.matEng = matEng;
 		this.URL = URL;
+		this.console_Like = console_Like;
 		try
 		{
-
-			System.out.println("Creating server for mobile");
+			console_Like.append("Creating server for mobile \n");
 			server = new ServerSocket(port);
 			running = true;
 			start();
@@ -34,16 +33,17 @@ public class Server_Class {
 
 	public void start()
 	{
-		System.out.println("Starting server for mobile");
+
+		console_Like.append("Starting server for mobile \n");
 		while (running)
 		{
 			try
 			{
 				Socket connectionToClient = server.accept();
-				System.out.println("New client");
-				Client_Handler handler = new Client_Handler(connectionToClient,matEng,URL);
+				console_Like.append("New client \n");
+				Client_Handler handler = new Client_Handler(connectionToClient,matEng,URL,console_Like);
 				Thread clientThread = new Thread(handler);
-				System.out.println("Starting client thread");
+				console_Like.append("Starting client thread \n");
 				clientThread.start();
 			}
 			catch (IOException ex)

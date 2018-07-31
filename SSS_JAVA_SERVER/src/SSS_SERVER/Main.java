@@ -1,23 +1,33 @@
 package SSS_SERVER;
 
 
-import com.mathworks.engine.MatlabEngine;
-import SSS_SERVER_CLASSES_FOR_MOBILE.Server_Class;
+import java.awt.Image;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
+import javax.swing.JFrame;
+import GUI.Jframe;
 
 public class Main {
-	private  static MatlabEngine matEng = null;
 	private static String URL = "http://192.168.43.175:8080/SSS_SERVICE.asmx";
 	public static void main(String[] args) {		
+		Jframe frame = new Jframe(URL);
+		frame.pack();
+		frame.setTitle("SmartPhone Security System");
+		frame.setSize(800,400);
+		frame.setResizable(false);
+		frame.setLocation(250,200);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//frame.pack();
+		frame.setVisible(true);
+		Image icon = null;
 		try 
 		{
-			matEng = MatlabEngine.startMatlab();
-			new Server_Class(80,matEng,URL);
-
-
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
+			icon = ImageIO.read(new File("download.jpg"));}
+		catch (IOException e)
+		{e.printStackTrace();}
+		
+		frame.setIconImage(icon);
 	}
 }
