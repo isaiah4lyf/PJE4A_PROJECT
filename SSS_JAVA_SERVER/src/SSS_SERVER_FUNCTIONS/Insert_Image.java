@@ -10,7 +10,7 @@ public class Insert_Image {
 	public Insert_Image()
 	{
 	}
-	public String do_The_Work(String URL)
+	public String do_The_Work(String URL,String user_ID,String image_Path)
 	{
 		 String address = "";
 	        try {
@@ -18,8 +18,8 @@ public class Insert_Image {
 	            final String SOAP_ACTION = "http://tempuri.org/INSERT_IMAGE";
 	            final String METHOD_NAME = "INSERT_IMAGE";
 	            SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
-	            request.addProperty("user_ID","1");
-	            request.addProperty("image_Path","hey");
+	            request.addProperty("user_ID",user_ID);
+	            request.addProperty("image_Path",image_Path);
 	            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
 	            envelope.dotNet = true;
 	            envelope.setOutputSoapObject(request);

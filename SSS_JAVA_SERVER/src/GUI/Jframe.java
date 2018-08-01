@@ -13,6 +13,8 @@ import javax.swing.JPanel;
 
 import com.mathworks.engine.MatlabEngine;
 import SSS_SERVER_CLASSES_FOR_MOBILE.Server_Class;
+import SSS_SERVER_FUNCTIONS.Return_Train_Models;
+import SSS_SERVER_FUNCTIONS.Return_Users_In_Model;
 import SSS_SERVER_FUNCTIONS.Train_Images_Model;
 
 public class Jframe extends JFrame{
@@ -48,57 +50,69 @@ public class Jframe extends JFrame{
                     		{
                             	try
                             	{
+                            		Return_Train_Models models_class = new Return_Train_Models();
+                            		String[] models = models_class.Do_The_Work(URL);
                             		StringWriter console = new StringWriter();
-                            		matEng.eval("class_1 = "+Integer.parseInt("3"),console,null);
-                    				String user_ID = "103";
-                    				Train_Images_Model train_model = new Train_Images_Model();
-                    				String[] response_Tokens = train_model.do_The_Work(URL, user_ID).split(",");
-                    				System.out.println(response_Tokens[0]);
-                    				if (response_Tokens.length-1  == 4)
-                    				{
-                    					matEng.eval("class_1 = "+Integer.parseInt(response_Tokens[1]),console,null);
-                    					matEng.eval("class_2 = "+Integer.parseInt(response_Tokens[2]),console,null);
-                    					matEng.eval("class_3 = "+Integer.parseInt(response_Tokens[3]),console,null);
-                    					matEng.eval("class_4 = "+Integer.parseInt(response_Tokens[4]),console,null);
+                            		console_Like.append("\n");
+                            		console_Like.append("Training All Models......... \n");
+                            		console_Like.append("\n");
+                            		
+                            		for(int i = 0; i < models.length; i++)
+                            		{
+                            			console_Like.append("Training Model " + i+1 + "........ \n");
+                                   		String[] model_tokens = models[i].split(",");
+                                		Return_Users_In_Model users_class = new Return_Users_In_Model();
+                                		String[] users = users_class.Do_The_Work(URL, model_tokens[0]);
 
-                    				}
-                    				else if (response_Tokens.length-1 == 3)
-                    				{
-                    					matEng.eval("class_1 = "+Integer.parseInt(response_Tokens[1]),console,null);
-                    					matEng.eval("class_2 = "+Integer.parseInt(response_Tokens[2]),console,null);
-                    					matEng.eval("class_3 = "+Integer.parseInt(response_Tokens[3]),null,null);
-                    					matEng.eval("class_4 = "+Integer.parseInt(response_Tokens[3]+1),null,null);
+                                	
+                        				if (Integer.parseInt(model_tokens[2])  == 4)
+                        				{
+                        					matEng.eval("class_1 = "+Integer.parseInt(users[0].split(",")[0]),console,null);
+                        					matEng.eval("class_2 = "+Integer.parseInt(users[1].split(",")[0]),console,null);
+                        					matEng.eval("class_3 = "+Integer.parseInt(users[2].split(",")[0]),console,null);
+                        					matEng.eval("class_4 = "+Integer.parseInt(users[3].split(",")[0]),console,null);
 
-                    				}
-                    				else if (response_Tokens.length-1 == 2)
-                    				{
-                    					matEng.eval("class_1 = "+Integer.parseInt(response_Tokens[1]),console,null);
-                    					matEng.eval("class_2 = "+Integer.parseInt(response_Tokens[2]),console,null);
-                    					matEng.eval("class_3 = "+Integer.parseInt(response_Tokens[2]+1),console,null);
-                    					matEng.eval("class_4 = "+Integer.parseInt(response_Tokens[2]+2),console,null);
+                        				}
+                        				else if (Integer.parseInt(model_tokens[2]) == 3)
+                        				{
+                        					matEng.eval("class_1 = "+Integer.parseInt(users[0].split(",")[0]),console,null);
+                        					matEng.eval("class_2 = "+Integer.parseInt(users[1].split(",")[0]),console,null);
+                        					matEng.eval("class_3 = "+Integer.parseInt(users[2].split(",")[0]),null,null);
+                        					matEng.eval("class_4 = "+Integer.parseInt(users[2].split(",")[0]+1),null,null);
 
-                    				}
-                    				else
-                    				{
-                    					matEng.eval("class_1 = "+Integer.parseInt(response_Tokens[1]),console,null);
-                    					matEng.eval("class_2 = "+Integer.parseInt(response_Tokens[1]+2),console,null);
-                    					matEng.eval("class_3 = "+Integer.parseInt(response_Tokens[1]+3),console,null);
-                    					matEng.eval("class_4 = "+Integer.parseInt(response_Tokens[1]+4),console,null);
+                        				}
+                        				else if (Integer.parseInt(model_tokens[2]) == 2)
+                        				{
+                        					matEng.eval("class_1 = "+Integer.parseInt(users[0].split(",")[0]),console,null);
+                        					matEng.eval("class_2 = "+Integer.parseInt(users[1].split(",")[0]),console,null);
+                        					matEng.eval("class_3 = "+Integer.parseInt(users[1].split(",")[0]+1),console,null);
+                        					matEng.eval("class_4 = "+Integer.parseInt(users[1].split(",")[0]+2),console,null);
 
-                    				}
+                        				}
+                        				else
+                        				{
+                        					matEng.eval("class_1 = "+Integer.parseInt(users[0].split(",")[0]),console,null);
+                        					matEng.eval("class_2 = "+Integer.parseInt(users[0].split(",")[0]+2),console,null);
+                        					matEng.eval("class_3 = "+Integer.parseInt(users[0].split(",")[0]+3),console,null);
+                        					matEng.eval("class_4 = "+Integer.parseInt(users[0].split(",")[0]+4),console,null);
 
+                        				}
+
+                        				
+                        				String ML_features_Database_train = Matlab_Path_train + "/MATLAB_TRAIN_DATA/" + model_tokens[1] +  "_" + model_tokens[3] + ".mat";
+                        				
+                        				matEng.eval("path = '"+ML_features_Database_train+"'",console,null);
+                        				
+                        				
+                        				String Trained_Model_File = Matlab_Path_train + "/MATLAB_TRAINED_MODELS/" + model_tokens[1] +  "_" + model_tokens[3]  + ".mat";
+
+                        				matEng.eval("path2 = '"+Trained_Model_File+"'",console,null);
+                        				
+                        				matEng.eval("run('" + Matlab_Path_train + "/MATLAB_SCRIPTS/RUN_ESS5.m')",console,null);
+                        				console_Like.append(console.toString());
+                            		}
+                     
                     				
-                    				String ML_features_Database_train = Matlab_Path_train + "/MATLAB_TRAIN_DATA/" + response_Tokens[0] + ".mat";
-                    				
-                    				matEng.eval("path = '"+ML_features_Database_train+"'",console,null);
-                    				
-                    				
-                    				String Trained_Model_File = Matlab_Path_train + "/MATLAB_TRAINED_MODELS/" + response_Tokens[0] + ".mat";
-
-                    				matEng.eval("path2 = '"+Trained_Model_File+"'",console,null);
-                    				console_Like.append("Training All Models......... \n");
-                    				matEng.eval("run('" + Matlab_Path_train + "/MATLAB_SCRIPTS/RUN_ESS5.m')",console,null);
-                    				console_Like.append(console.toString());
                             	}
                             	catch(Exception ex)
                             	{

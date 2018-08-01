@@ -5,7 +5,9 @@ import java.net.Socket;
 import com.mathworks.engine.MatlabEngine;
 
 import SSS_SERVER_FUNCTIONS.Decrement_Images_Model_Version;
+import SSS_SERVER_FUNCTIONS.Insert_Image;
 import SSS_SERVER_FUNCTIONS.Insert_User;
+import SSS_SERVER_FUNCTIONS.Return_Images_For_Mobile;
 import SSS_SERVER_FUNCTIONS.Return_Train_Models;
 import SSS_SERVER_FUNCTIONS.Return_User_With_ID;
 import SSS_SERVER_FUNCTIONS.Return_Users_In_Model;
@@ -75,7 +77,20 @@ public class Client_Handler implements Runnable{
 							processing = false;
 						
 							break;
-						case "LOGIN":
+						case "COUNT_IMAGES":
+							String user_ID_count = in.readUTF();
+							Return_Images_For_Mobile images_class = new Return_Images_For_Mobile();
+							String[] images = images_class.Do_The_Work(URL);
+							int count = 0;
+							for(int i = 0; i < images.length; i++)
+							{
+								if(user_ID_count.equals(images[i].split(",")[2]))
+								{
+									count++;
+								}
+							}
+							sendMessage(String.valueOf(count));
+							processing = false;
 
 							break;
 						case "INSERT_IMAGE":
@@ -135,6 +150,8 @@ public class Client_Handler implements Runnable{
 
 							
 							File image = new File("data/MATLAB_TRAIN_DATA/"+user_name+"/"+title);
+
+							
 							matEng.eval("image_Path = '"+ image.getAbsolutePath().toString()+"'",null,null);
 							matEng.eval("user_ID = "+user_ID_,null,null);
 							matEng.eval("image1 = imread(image_Path);",null,null);
@@ -172,6 +189,9 @@ public class Client_Handler implements Runnable{
 							else
 							{
 								sendMessage("Upload Successful");
+								Insert_Image insert_class = new Insert_Image();
+								console_Like.append(insert_class.do_The_Work(URL,user_ID_,image.getName())+"\n");
+								
 							}
 							
 							processing = false;
@@ -456,6 +476,4 @@ public class Client_Handler implements Runnable{
             e.printStackTrace();
         }
 	}
-
-
 }

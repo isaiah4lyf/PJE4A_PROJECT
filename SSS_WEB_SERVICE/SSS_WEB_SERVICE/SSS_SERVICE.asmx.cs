@@ -229,6 +229,19 @@ namespace SSS_WEB_SERVICE
 			return images;
 		}
 
+		[WebMethod]
+		public string[] RETURN_IMAGES_FOR_MOBILE()
+		{
+			List<Image> images = (from Image in linq.Images
+								  select Image).ToList();
+			string[] images_arr = new string[images.Count];
+			for(int i = 0; i < images.Count; i++)
+			{
+				images_arr[i] = images.ElementAt(i).Id + "," + images.ElementAt(i).Image_Path + "," + images.ElementAt(i).User_ID;
+			}
+			return images_arr;
+		}
+
 
 
 

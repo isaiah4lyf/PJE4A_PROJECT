@@ -62,6 +62,7 @@ import java.util.Locale;
 import android.util.Log;
 
 import com.example.isaia.sss_mobile_app.Database.DBHelper;
+import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Count_Images;
 import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Insert_Image;
 import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Insert_Image_;
 import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Insert_User;
@@ -119,6 +120,7 @@ public class Main_Activity  extends AppCompatActivity{
         }
 
         final Button Insert_Image = (Button) findViewById(R.id.Insert_Image);
+        final Button from_Gall = (Button) findViewById(R.id.Upload_From);
         Insert_Image.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -127,6 +129,8 @@ public class Main_Activity  extends AppCompatActivity{
                         try{
                             function = "Insert_Image";
                             mCamera.takePicture(null, null,mPicture);
+                            Insert_Image.setEnabled(false);
+                            from_Gall.setEnabled(false);
 
                         }
                         catch (Exception ex)
@@ -138,7 +142,7 @@ public class Main_Activity  extends AppCompatActivity{
                 }
         );
 
-        final Button from_Gall = (Button) findViewById(R.id.Upload_From);
+
         from_Gall.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -146,6 +150,8 @@ public class Main_Activity  extends AppCompatActivity{
                         Intent intent = null;
                         try {
 
+                            Insert_Image.setEnabled(false);
+                            from_Gall.setEnabled(false);
                             intent = new Intent(getApplicationContext(), Class.forName("com.example.isaia.sss_mobile_app.Upload_Image_From_Gall"));
                             intent.putExtra("User_Name",User_Name);
                             intent.putExtra("Password",Password);
@@ -382,16 +388,52 @@ public class Main_Activity  extends AppCompatActivity{
         protected void onPostExecute(String result) {
             //if you started progress dialog dismiss it here
             Toast.makeText(getApplicationContext(),result,Toast.LENGTH_LONG).show();
+            count_Images_asy tast = new count_Images_asy();
+            tast.execute();
 
-            if(mCamera != null){
-                mCamera.stopPreview();
-                mCamera.setPreviewCallback(null);
-                mCamera.release();
-                mCamera = null;
-                Intent intent = getIntent();
-                finish();
-                startActivity(intent);
+
+        }
+    }
+
+    private class count_Images_asy extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected void onPreExecute() {
+            //if you want, start progress dialog here
+        }
+        @Override
+        protected String doInBackground(String... urls) {
+
+            String response = "";
+            Count_Images count_class = new Count_Images();
+            response = count_class.Do_The_work(Password);
+            return  response;
+        }
+        @Override
+        protected void onPostExecute(String result) {
+            //if you started progress dialog dismiss it here
+
+
+            if(Integer.parseInt(result) > 10 || Integer.parseInt(result) == 10)
+            {
+                Toast.makeText(getApplicationContext(),"Images greater than 10",Toast.LENGTH_LONG).show();
+                //Start Prediction and Insert Image Here services here...
             }
+            else
+            {
+                int images_left = 10 - Integer.parseInt(result);
+                Toast.makeText(getApplicationContext(),images_left + " Images Left...",Toast.LENGTH_LONG).show();
+                if(mCamera != null){
+                    mCamera.stopPreview();
+                    mCamera.setPreviewCallback(null);
+                    mCamera.release();
+                    mCamera = null;
+                    Intent intent = getIntent();
+                    finish();
+                    startActivity(intent);
+                }
+            }
+
         }
     }
 }
