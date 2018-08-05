@@ -306,7 +306,8 @@ public class Client_Handler implements Runnable{
 							int[] results = new int[models_string.length];
 							int[] fet_Match = new int[models_string.length];
 							
-							File image2 = null;					
+							File image2 = null;
+							
 							for (int i = 0; i < models_string.length; i++)
 							{
 								String model_ID = models_string[i].split(",")[0];
@@ -351,7 +352,19 @@ public class Client_Handler implements Runnable{
 								image2 = new File("data/MATLAB_TRAIN_DATA/"+user_name2+"/MATLAB_PRED_DATA/"+title2+".jpg");
 								matEng.eval("Image_Name_of = '"+ image2.getAbsolutePath().toString()+"'",null,null);
 								
-								String Trained_Model2 = Matlab_Path_train + "/MATLAB_TRAINED_MODELS/" + models_string[i].split(",")[1] + "_" + models_string[i].split(",")[3] + ".mat";
+								int model_version = Integer.parseInt(models_string[i].split(",")[3] );
+								String Trained_Model2 = Matlab_Path_train + "/MATLAB_TRAINED_MODELS/" + models_string[i].split(",")[1] + "_" +model_version+ ".mat";
+								File matFile = new File(Trained_Model2);
+								
+								while(!matFile.exists() && model_version > 0)
+								{
+									System.out.println(Trained_Model2);
+									model_version--;
+									Trained_Model2 = Matlab_Path_train + "/MATLAB_TRAINED_MODELS/" + models_string[i].split(",")[1] + "_" +model_version+ ".mat";						
+									matFile = new File(Trained_Model2);
+								}
+								
+								
 								matEng.eval("path = '"+Trained_Model2+"'",null,null);
 								matEng.eval("run('" + Matlab_Path_train + "/MATLAB_SCRIPTS/Predict_User10.m')",null,null);
 								

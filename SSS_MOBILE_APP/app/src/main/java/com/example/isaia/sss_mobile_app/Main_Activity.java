@@ -1,6 +1,7 @@
 package com.example.isaia.sss_mobile_app;
 
 import android.Manifest;
+import android.app.admin.DevicePolicyManager;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
@@ -273,6 +274,7 @@ public class Main_Activity  extends AppCompatActivity{
                         try {
                             insert_image_asy tast = new insert_image_asy();
                             tast.execute();
+
                         }
                         catch (Exception ex)
                         {
@@ -412,8 +414,6 @@ public class Main_Activity  extends AppCompatActivity{
         @Override
         protected void onPostExecute(String result) {
             //if you started progress dialog dismiss it here
-
-
             if(Integer.parseInt(result) > 10 || Integer.parseInt(result) == 10)
             {
                 Toast.makeText(getApplicationContext(),"Images greater than 10",Toast.LENGTH_LONG).show();

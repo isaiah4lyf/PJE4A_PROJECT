@@ -54,7 +54,7 @@ public class Login extends AppCompatActivity {
                         try {
                             DBHelper mydb = new DBHelper(getApplicationContext());
                             String insert = String.valueOf(mydb.insert_Login_State(User_Name.getText().toString().replaceAll(" ",""),Password.getText().toString()));
-                            intent = new Intent(getApplicationContext(), Class.forName("com.example.isaia.sss_mobile_app.Predict_User"));
+                            intent = new Intent(getApplicationContext(), Class.forName("com.example.isaia.sss_mobile_app.MainActivity_Voice_Notes"));
                             startActivity(intent);
                         } catch (Exception e) {
                             Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_LONG).show();
