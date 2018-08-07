@@ -88,7 +88,6 @@
         </receiver>
 
         <activity android:name=".MainActivity_Voice_Notes" />
-
         <activity android:name=".Capture_Images_Auto">
             <intent-filter>
                 <action android:name="com.example.isaia.sss_mobile_app.Capture_Images_Auto" />
@@ -96,13 +95,33 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+
         <service android:name=".Lock_Service" />
         <service android:name=".Predict_User_Service" />
+
         <receiver android:name=".BootCompletedIntentReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
+
+        <activity android:name=".Main_Menu">
+            <intent-filter>
+                <action android:name="com.example.isaia.sss_mobile_app.Main_Menu" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".Settings_With_Drawer"
+            android:label="@string/title_activity_settings__with__drawer"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            <intent-filter>
+                <action android:name="com.example.isaia.sss_mobile_app.Settings_With_Drawer" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
