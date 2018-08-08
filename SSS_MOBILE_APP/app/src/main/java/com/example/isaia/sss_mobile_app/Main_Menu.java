@@ -1,5 +1,6 @@
 package com.example.isaia.sss_mobile_app;
 
+import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -34,14 +35,6 @@ public class Main_Menu extends AppCompatActivity  implements NavigationView.OnNa
             Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
             setSupportActionBar(toolbar);
 
-            FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-            fab.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
-                }
-            });
 
             DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
             ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -52,50 +45,67 @@ public class Main_Menu extends AppCompatActivity  implements NavigationView.OnNa
             NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
             navigationView.setNavigationItemSelectedListener(this);
 
+            // get our list view
+            ListView theListView = findViewById(R.id.mainListView);
+
+            // prepare elements to display
+            final ArrayList<Item> items = Item.getTestingList();
+
+            // add custom btn handler to first list item
+            items.get(0).setRequestBtnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(getApplicationContext(), "CUSTOM HANDLER FOR FIRST BUTTON", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            items.get(1).setRequestBtnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(getApplicationContext(), "CUSTOM HANDLER FOR FIRST BUTTON", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            items.get(2).setRequestBtnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(getApplicationContext(), "CUSTOM HANDLER FOR FIRST BUTTON", Toast.LENGTH_SHORT).show();
+                }
+            });
+            items.get(3).setRequestBtnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(getApplicationContext(), "CUSTOM HANDLER FOR FIRST BUTTON", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+
+            // create custom adapter that holds elements and their state (we need hold a id's of unfolded elements for reusable elements)
+            final FoldingCellListAdapter adapter = new FoldingCellListAdapter(this, items);
+
+
+
+            // set elements to adapter
+            theListView.setAdapter(adapter);
+
+            // set on click event listener to list view
+            theListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int pos, long l) {
+                    // toggle clicked cell state
+                    ((FoldingCell) view).toggle(false);
+                    // register in adapter that state for selected cell is toggled
+                    adapter.registerToggle(pos);
+                }
+            });
+
         }
         catch(Exception e)
         {
             Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_LONG).show();
         }
 
-        // get our list view
-        ListView theListView = findViewById(R.id.mainListView);
 
-        // prepare elements to display
-        final ArrayList<Item> items = Item.getTestingList();
-
-        // add custom btn handler to first list item
-        items.get(0).setRequestBtnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "CUSTOM HANDLER FOR FIRST BUTTON", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        // create custom adapter that holds elements and their state (we need hold a id's of unfolded elements for reusable elements)
-        final FoldingCellListAdapter adapter = new FoldingCellListAdapter(this, items);
-
-        // add default btn handler for each request btn on each item if custom handler not found
-        adapter.setDefaultRequestBtnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "DEFAULT HANDLER FOR ALL BUTTONS", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        // set elements to adapter
-        theListView.setAdapter(adapter);
-
-        // set on click event listener to list view
-        theListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int pos, long l) {
-                // toggle clicked cell state
-                ((FoldingCell) view).toggle(false);
-                // register in adapter that state for selected cell is toggled
-                adapter.registerToggle(pos);
-            }
-        });
     }
 
     @Override
@@ -136,13 +146,21 @@ public class Main_Menu extends AppCompatActivity  implements NavigationView.OnNa
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.account_man) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.upload_Images) {
+            Intent intent = null;
+            try {
+                intent = new Intent(getApplicationContext(), Class.forName("com.example.isaia.sss_mobile_app.Capture_Images_Auto"));
+                startActivity(intent);
 
-        } else if (id == R.id.nav_slideshow) {
+            } catch (ClassNotFoundException e) {
+                Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_LONG).show();
+            }
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.Upload_VN) {
+
+        } else if (id == R.id.settings) {
 
         } else if (id == R.id.nav_share) {
 

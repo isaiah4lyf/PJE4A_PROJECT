@@ -1,6 +1,5 @@
 package com.example.isaia.sss_mobile_app;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -13,19 +12,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.CompoundButton;
-import android.widget.Toast;
 
-import com.fenjuly.mylibrary.ToggleExpandLayout;
-//import com.kyleduo.switchbutton.SwitchButton;
-
-public class Settings_With_Drawer extends AppCompatActivity
+public class View_Images extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_settings__with__drawer);
+        setContentView(R.layout.activity_view__images);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -46,9 +40,6 @@ public class Settings_With_Drawer extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
-
-
     }
 
     @Override
@@ -64,7 +55,7 @@ public class Settings_With_Drawer extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.settings__with__drawer, menu);
+        getMenuInflater().inflate(R.menu.view__images, menu);
         return true;
     }
 
@@ -89,21 +80,13 @@ public class Settings_With_Drawer extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.account_man) {
+        if (id == R.id.nav_camera) {
             // Handle the camera action
-        } else if (id == R.id.upload_Images) {
-            Intent intent = null;
-            try {
-                intent = new Intent(getApplicationContext(), Class.forName("com.example.isaia.sss_mobile_app.Main_Activity"));
-                startActivity(intent);
+        } else if (id == R.id.nav_gallery) {
 
-            } catch (ClassNotFoundException e) {
-                Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_LONG).show();
-            }
+        } else if (id == R.id.nav_slideshow) {
 
-        } else if (id == R.id.Upload_VN) {
-
-        } else if (id == R.id.settings) {
+        } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_share) {
 
@@ -114,9 +97,5 @@ public class Settings_With_Drawer extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }
-    public float dp2px(float dp) {
-        final float scale = getResources().getDisplayMetrics().density;
-        return dp * scale + 0.5f;
     }
 }
