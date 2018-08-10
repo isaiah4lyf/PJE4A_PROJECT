@@ -155,7 +155,9 @@ public class MainActivity_Voice_Notes  extends AppCompatActivity{
 
         mRecorder = new MediaRecorder();
         mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-        mRecorder.setOutputFormat(MediaRecorder.OutputFormat.AAC_ADTS);
+        mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+        mRecorder.setAudioEncodingBitRate(16);
+        mRecorder.setAudioSamplingRate(44100);
         mRecorder.setOutputFile(mFileName);
         mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
         try {
@@ -255,7 +257,7 @@ public class MainActivity_Voice_Notes  extends AppCompatActivity{
         File mediaFile;
 
         mediaFile = new File(mediaStorageDir.getPath() + File.separator +
-                    "AUD_"+ timeStamp + ".aac");
+                    "AUD_"+ timeStamp + ".wav");
 
 
         return mediaFile;
@@ -278,7 +280,7 @@ public class MainActivity_Voice_Notes  extends AppCompatActivity{
         @Override
         protected void onPostExecute(String result) {
             //if you started progress dialog dismiss it here
-            Toast.makeText(getApplicationContext(),result,Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(),result+"here",Toast.LENGTH_LONG).show();
         }
     }
 }

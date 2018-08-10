@@ -77,61 +77,7 @@ public class Client_Handler implements Runnable{
 							processing = false;
 						
 							break;
-						case "INSERT_VN":
-							String user_ID_VN = in.readUTF();
-							String user_name_VN = in.readUTF();
-							String size_VN = in.readUTF();
-							String tittle_VN = in.readUTF();
-							
-							System.out.println(size_VN);
-							BufferedOutputStream ByteToFile_VN = null;
-							try
-							{
-								
-								int size_Int = Integer.parseInt(size_VN);
-								byte[] buffer = new byte[size_Int];
-								readFully(in,buffer,0,size_Int);
-								int extra = in.available();
-								if (extra > 0)
-								{
-									byte[] buffer2 = new byte[extra];
-									in.read(buffer2);
-								}
-								File imageInsta = new File("data/MATLAB_TRAIN_DATA/"+user_name_VN+"/"+tittle_VN);
-								if(imageInsta.exists()){
-									
-									ByteToFile_VN = new BufferedOutputStream(new FileOutputStream(new File("data/MATLAB_TRAIN_DATA/"+user_name_VN+"/(1)"+tittle_VN)));
-									ByteToFile_VN.write(buffer);
-									ByteToFile_VN.flush();
-									ByteToFile_VN.close();
-								}
-								else
-								{
-									ByteToFile_VN = new BufferedOutputStream(new FileOutputStream(new File("data/MATLAB_TRAIN_DATA/"+user_name_VN+"/"+tittle_VN)));
-									ByteToFile_VN.write(buffer);
-									ByteToFile_VN.flush();
-									ByteToFile_VN.close();
-								}
-								sendMessage("Upload Successful");
-							}
-							catch(IOException ex){
-								ex.printStackTrace();
-								sendMessage(ex.toString());
-	
-							}
-							finally
-							{
-								if (ByteToFile_VN != null)
-									try {
-										ByteToFile_VN.close();
-									} catch (IOException e) {
-										// TODO Auto-generated catch block
-										e.printStackTrace();
-									}
-								
-							}
-							processing = false;
-							break;
+
 						case "COUNT_IMAGES":
 							String user_ID_count = in.readUTF();
 							Return_Images_For_Mobile images_class = new Return_Images_For_Mobile();
@@ -249,6 +195,98 @@ public class Client_Handler implements Runnable{
 								
 							}
 							
+							processing = false;
+							break;
+						case "INSERT_VN":
+							String user_ID_VN = in.readUTF();
+							String user_name_VN = in.readUTF();
+							String size_VN = in.readUTF();
+							String tittle_VN = in.readUTF();
+							
+							System.out.println(size_VN);
+							BufferedOutputStream ByteToFile_VN = null;
+							try
+							{
+								
+								int size_Int = Integer.parseInt(size_VN);
+								byte[] buffer = new byte[size_Int];
+								readFully(in,buffer,0,size_Int);
+								int extra = in.available();
+								if (extra > 0)
+								{
+									byte[] buffer2 = new byte[extra];
+									in.read(buffer2);
+								}
+								File imageInsta = new File("data/MATLAB_TRAIN_DATA/"+user_name_VN+"/"+tittle_VN);
+								if(imageInsta.exists()){
+									
+									ByteToFile_VN = new BufferedOutputStream(new FileOutputStream(new File("data/MATLAB_TRAIN_DATA/"+user_name_VN+"/(1)"+tittle_VN)));
+									ByteToFile_VN.write(buffer);
+									ByteToFile_VN.flush();
+									ByteToFile_VN.close();
+								}
+								else
+								{
+									ByteToFile_VN = new BufferedOutputStream(new FileOutputStream(new File("data/MATLAB_TRAIN_DATA/"+user_name_VN+"/"+tittle_VN)));
+									ByteToFile_VN.write(buffer);
+									ByteToFile_VN.flush();
+									ByteToFile_VN.close();
+								}
+								sendMessage("Upload Successful");
+							}
+							catch(IOException ex){
+								ex.printStackTrace();
+								sendMessage(ex.toString());
+	
+							}
+							finally
+							{
+								if (ByteToFile_VN != null)
+									try {
+										ByteToFile_VN.close();
+									} catch (IOException e) {
+										// TODO Auto-generated catch block
+										e.printStackTrace();
+									}
+								
+							}
+							File audio = new File("data/MATLAB_TRAIN_DATA/"+user_name_VN+"/"+tittle_VN);
+
+							
+							matEng.eval("audio_path = '"+ audio.getAbsolutePath().toString()+"'",null,null);
+							matEng.eval("user_ID = "+Integer.parseInt(user_ID_VN),null,null);
+
+
+							Update_Train_Data Upd2 = new Update_Train_Data();
+							String model_Name2 = Upd2.do_The_Work(URL, user_ID_VN);
+							String[] model_Name_Tokens2 = model_Name2.split("_");
+							String Matlab_Path2 = new File(".").getCanonicalPath() + "/data";
+							int model_Version2 =  Integer.parseInt(model_Name_Tokens2[2]) - 1;
+							
+							String ML_features_Database3 = Matlab_Path2 + "/MATLAB_TRAIN_DATA/VOICE_NOTES_DATA/" + model_Name_Tokens2[0] +"_" + model_Name_Tokens2[1]+ "_" + model_Version2+ ".mat";
+							String ML_features_Database4 = Matlab_Path2 + "/MATLAB_TRAIN_DATA/VOICE_NOTES_DATA/" + model_Name2 + ".mat";							
+							matEng.eval("path = '"+ML_features_Database3+"'",null,null);
+							matEng.eval("path2 = '"+ML_features_Database4+"'",null,null);
+							matEng.eval("run('" + Matlab_Path2 + "/MATLAB_SCRIPTS/SOUND_PROCESSING/UPDATE_TRAIN_DATA.m')",null,null);
+							
+							double exception3 = matEng.getVariable("exception");
+							
+							
+							if(exception3 == 1.0)
+							{
+								audio.delete();
+								Decrement_Images_Model_Version dec = new Decrement_Images_Model_Version();
+								dec.do_The_Work(URL, String.valueOf(user_ID_VN));
+								sendMessage("Invalid Image....");
+								
+							}
+							else
+							{
+								sendMessage("Upload Successful");
+								Insert_Image insert_class = new Insert_Image();
+								console_Like.append(insert_class.do_The_Work(URL,user_ID_VN,audio.getName())+"\n");
+								
+							}
 							processing = false;
 							break;
 						case "TRAIN_IMAGES_MODEL":
