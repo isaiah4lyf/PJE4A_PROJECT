@@ -17,17 +17,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity
-            android:name=".Main_Activity"
+            android:name=".Main_Activity_Images"
             android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="com.example.isaia.sss_mobile_app.Main_Activity" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".Insert_Image">
-            <intent-filter>
-                <action android:name="com.example.isaia.sss_mobile_app.Insert_Image" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
@@ -44,13 +37,6 @@
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".Upload_Image_From_Gall">
-            <intent-filter>
-                <action android:name="com.example.isaia.sss_mobile_app.Upload_Image_From_Gall" />
-
-                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 
@@ -71,7 +57,7 @@
         <service android:name=".Services.Take_Pictures_Service" />
         <service android:name=".Services.Predict_User_Service" />
 
-        <receiver android:name=".BootCompletedIntentReceiver">
+        <receiver android:name=".Services.BootCompletedIntentReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>

@@ -146,7 +146,7 @@ public class Settings_With_Drawer extends AppCompatActivity
         } else if (id == R.id.upload_Images) {
             Intent intent = null;
             try {
-                intent = new Intent(getApplicationContext(), Class.forName("com.example.isaia.sss_mobile_app.Main_Activity"));
+                intent = new Intent(getApplicationContext(), Class.forName("com.example.isaia.sss_mobile_app.Main_Activity_Images"));
                 startActivity(intent);
 
             } catch (ClassNotFoundException e) {
