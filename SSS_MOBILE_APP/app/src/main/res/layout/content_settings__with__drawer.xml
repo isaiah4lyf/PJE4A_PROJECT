@@ -88,46 +88,46 @@
         android:layout_toEndOf="@+id/title_from_to_dots"
         android:layout_toRightOf="@+id/title_from_to_dots"
         android:src="@color/contentDividerLine" />
-
     <LinearLayout
         android:id="@+id/id9"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="141dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="82dp"
         android:background="#ffffff"
         android:elevation="4dp"
-        android:outlineProvider="bounds">
+        android:outlineProvider="bounds"
+        >
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            >
 
             <TextView
                 android:id="@+id/menu3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
                 android:layout_marginTop="8dp"
-                android:text="Quicklu set name and sex" />
-
+                android:layout_marginLeft="8dp"
+                android:text="Quicklu set name and sex"
+                />
             <TextView
+                android:layout_below="@+id/menu3"
+                android:layout_marginTop="4dp"
+                android:layout_marginLeft="8dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/menu3"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="4dp"
                 android:text="Use the default"
-                android:textColor="#cccccc" />
-
+                android:textColor="#cccccc"/>
             <Switch
                 android:id="@+id/switch_button3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="10dp"
-                android:padding="16dp" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                />
         </RelativeLayout>
     </LinearLayout>
 </RelativeLayout>

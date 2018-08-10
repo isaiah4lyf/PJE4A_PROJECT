@@ -1,4 +1,4 @@
-package com.example.isaia.sss_mobile_app;
+package com.example.isaia.sss_mobile_app.Other;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

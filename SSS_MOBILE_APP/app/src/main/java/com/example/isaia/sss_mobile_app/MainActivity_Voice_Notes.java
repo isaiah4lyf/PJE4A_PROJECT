@@ -59,7 +59,7 @@ public class MainActivity_Voice_Notes  extends AppCompatActivity{
                         File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
                                 Environment.DIRECTORY_PICTURES), "MyCameraApp");
                         String mFileName2 = mediaStorageDir.getAbsolutePath();
-                        mFileName2 += "/VID_"+ timeStamp + ".mp4";
+                        mFileName2 += "/AUD_"+ timeStamp + ".mp4";
                         File audioFile = new File(mFileName2);
                         FileOutputStream fos = new FileOutputStream(audioFile);
                         fos.write(buffer);
