@@ -1,5 +1,6 @@
 package com.example.isaia.sss_mobile_app;
 
+import android.annotation.TargetApi;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -14,15 +15,18 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.CompoundButton;
+import android.widget.Switch;
 import android.widget.Toast;
 
-import com.fenjuly.mylibrary.ToggleExpandLayout;
+import com.example.isaia.sss_mobile_app.Services.Predict_User_Service;
+import com.example.isaia.sss_mobile_app.Services.Take_Pictures_Service;
 //import com.kyleduo.switchbutton.SwitchButton;
 
 public class Settings_With_Drawer extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     @Override
+    @TargetApi(21)
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings__with__drawer);
@@ -46,6 +50,54 @@ public class Settings_With_Drawer extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        try
+        {
+
+
+
+            Switch switchButton = (Switch) findViewById(R.id.switch_button2);
+
+            switchButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked) {
+                        //starting service
+                        Intent serviceIntent = new Intent(getApplicationContext(),Take_Pictures_Service.class);
+                        startService(serviceIntent);
+                    } else if (!isChecked) {
+                        //stopping service
+                        stopService(new Intent(getApplicationContext(), Take_Pictures_Service.class));
+                    }
+                }
+            });
+
+            Switch switchButton2 = (Switch) findViewById(R.id.switch_button3);
+
+            switchButton2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked) {
+                        //starting service
+                        Intent serviceIntent = new Intent(getApplicationContext(),Predict_User_Service.class);
+                        startService(serviceIntent);
+                    } else if (!isChecked) {
+                        //stopping service
+                        stopService(new Intent(getApplicationContext(), Predict_User_Service.class));
+                    }
+                }
+            });
+
+
+        }
+        catch (Exception e)
+        {
+            Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_LONG).show();
+        }
+
+
+
+
 
 
 

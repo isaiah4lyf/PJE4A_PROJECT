@@ -1,4 +1,4 @@
-package com.example.isaia.sss_mobile_app;
+package com.example.isaia.sss_mobile_app.Services;
 
 import android.app.ActivityManager;
 import android.app.Service;
@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 
 import com.example.isaia.sss_mobile_app.Database.DBHelper;
+import com.example.isaia.sss_mobile_app.MyAdmin;
 import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Pred_User;
 
 import java.io.File;

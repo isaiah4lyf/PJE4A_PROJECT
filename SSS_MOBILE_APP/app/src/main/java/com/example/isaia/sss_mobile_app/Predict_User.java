@@ -1,17 +1,12 @@
 package com.example.isaia.sss_mobile_app;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.AsyncTask;
-import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Pred_User;
+import com.example.isaia.sss_mobile_app.Services.Predict_User_Service;
 
 public class Predict_User extends AppCompatActivity implements View.OnClickListener{
     private Button buttonStart;

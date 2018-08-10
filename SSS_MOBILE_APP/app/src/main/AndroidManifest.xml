@@ -96,8 +96,8 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".Lock_Service" />
-        <service android:name=".Predict_User_Service" />
+        <service android:name=".Services.Take_Pictures_Service" />
+        <service android:name=".Services.Predict_User_Service" />
 
         <receiver android:name=".BootCompletedIntentReceiver">
             <intent-filter>
@@ -125,7 +125,13 @@
         <activity
             android:name=".View_Images"
             android:label="@string/title_activity_view__images"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            <intent-filter>
+                <action android:name="com.example.isaia.sss_mobile_app.View_Images" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

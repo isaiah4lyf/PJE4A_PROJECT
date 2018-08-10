@@ -1,4 +1,4 @@
-package com.example.isaia.sss_mobile_app;
+package com.example.isaia.sss_mobile_app.Services;
 
 import android.app.Service;
 import android.content.Intent;
@@ -22,7 +22,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Lock_Service  extends Service{
+public class Take_Pictures_Service extends Service{
     private Camera mCamera;
     private boolean capture;
     private String User_Name;

@@ -7,6 +7,7 @@
 
     <!-- content header line -->
     <RelativeLayout
+        android:id="@+id/content_header"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/bgContentTop"
@@ -37,6 +38,7 @@
 
     <!-- content header image -->
     <RelativeLayout
+        android:id="@+id/content_header_image"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -45,11 +47,11 @@
             android:layout_width="match_parent"
             android:layout_height="70dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/head_image" />
+            android:src="@drawable/folding_cell_back" />
 
         <TextView
             android:id="@+id/head_image_left_text"
-            style="@style/ContentImageBadgeText"
+            style="@style/ContentImageBadgeTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@id/head_image"
@@ -58,7 +60,7 @@
             android:paddingBottom="10dp"
             android:paddingLeft="20dp"
             android:paddingStart="20dp"
-            android:text="@string/requests_count_mock" />
+            android:text="58" />
 
         <TextView
             style="@style/ContentImageBadgeTitle"
@@ -73,7 +75,7 @@
 
         <TextView
             android:id="@+id/head_image_right_text"
-            style="@style/ContentImageBadgeText"
+            style="@style/ContentImageBadgeTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@id/head_image"
@@ -82,7 +84,7 @@
             android:paddingBottom="10dp"
             android:paddingEnd="20dp"
             android:paddingRight="20dp"
-            android:text="@string/weight_mock" />
+            android:text="10" />
 
         <TextView
             style="@style/ContentImageBadgeTitle"
@@ -95,13 +97,13 @@
 
         <TextView
             android:id="@+id/head_image_center_text"
-            style="@style/ContentImageBadgeText"
+            style="@style/ContentImageBadgeTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@id/head_image"
             android:layout_centerHorizontal="true"
             android:paddingBottom="10dp"
-            android:text="@string/pledge_mock" />
+            android:text="50" />
 
         <TextView
             style="@style/ContentImageBadgeTitle"
@@ -186,24 +188,18 @@
 
 
 
-
-        </LinearLayout>
-
         <!-- request button -->
         <TextView
             android:id="@+id/content_request_btn"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="60dp"
             android:layout_marginTop="16dp"
             android:background="@color/btnRequest"
             android:padding="10dp"
             android:text="VIEW ALL"
             android:textAlignment="center"
             android:textColor="@color/mainTextColor"
-            android:textSize="20sp" />
-
-
-
-
+            android:textSize="16sp" />
+        </LinearLayout>
 
 </LinearLayout>

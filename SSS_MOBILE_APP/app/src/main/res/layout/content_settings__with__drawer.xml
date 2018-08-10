@@ -4,16 +4,130 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingTop="50dp"
     tools:context=".Settings_With_Drawer"
-    tools:showIn="@layout/app_bar_settings__with__drawer">
+    tools:showIn="@layout/app_bar_settings__with__drawer"
+    android:orientation="horizontal">
 
-
-    <Switch
-        android:id="@+id/switch1"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/header_layout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="Switch"
-        tools:layout_editor_absoluteX="119dp"
-        tools:layout_editor_absoluteY="245dp" />
+        android:layout_centerHorizontal="true"
+        android:background="#f5f5dc"
+        android:elevation="4dp"
+        android:paddingBottom="5dp"
+        android:outlineProvider="bounds"
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+
+            <TextView
+                android:id="@+id/header_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="8dp"
+                android:text="Quicklu set name and sex"
+                />
+
+        </RelativeLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/id8"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:background="#ffffff"
+        android:elevation="4dp"
+        android:outlineProvider="bounds"
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+
+            <TextView
+                android:id="@+id/menu2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="8dp"
+                android:text="Quicklu set name and sex"
+                />
+            <TextView
+                android:layout_below="@+id/menu2"
+                android:layout_marginTop="4dp"
+                android:layout_marginLeft="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Use the default"
+                android:textColor="#cccccc"/>
+            <Switch
+                android:id="@+id/switch_button2"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                />
+        </RelativeLayout>
+    </LinearLayout>
+    <ImageView
+        android:id="@+id/title_from_to_dots_divider"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_below="@id/title_from_address"
+        android:layout_marginBottom="4dp"
+        android:layout_marginTop="4dp"
+        android:layout_toEndOf="@+id/title_from_to_dots"
+        android:layout_toRightOf="@+id/title_from_to_dots"
+        android:src="@color/contentDividerLine" />
+
+    <LinearLayout
+        android:id="@+id/id9"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="141dp"
+        android:background="#ffffff"
+        android:elevation="4dp"
+        android:outlineProvider="bounds">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/menu3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:text="Quicklu set name and sex" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/menu3"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="4dp"
+                android:text="Use the default"
+                android:textColor="#cccccc" />
+
+            <Switch
+                android:id="@+id/switch_button3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
+                android:padding="16dp" />
+        </RelativeLayout>
+    </LinearLayout>
 </RelativeLayout>

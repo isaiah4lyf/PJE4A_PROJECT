@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.isaia.sss_mobile_app.Services.Take_Pictures_Service;
+
 public class Capture_Images_Auto extends AppCompatActivity implements View.OnClickListener{
 
     private Button buttonStart;
@@ -28,11 +30,11 @@ public class Capture_Images_Auto extends AppCompatActivity implements View.OnCli
     public void onClick(View v) {
         if (v == buttonStart) {
             //starting service
-            Intent serviceIntent = new Intent(this,Lock_Service.class);
+            Intent serviceIntent = new Intent(this,Take_Pictures_Service.class);
             this.startService(serviceIntent);
         } else if (v == buttonStop) {
             //stopping service
-            stopService(new Intent(this, Lock_Service.class));
+            stopService(new Intent(this, Take_Pictures_Service.class));
         }
     }
 }
