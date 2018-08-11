@@ -5,14 +5,17 @@ import java.net.Socket;
 import com.mathworks.engine.MatlabEngine;
 
 import SSS_SERVER_FUNCTIONS.Decrement_Images_Model_Version;
+import SSS_SERVER_FUNCTIONS.Decrement_Model_Version_VN;
 import SSS_SERVER_FUNCTIONS.Insert_Image;
 import SSS_SERVER_FUNCTIONS.Insert_User;
+import SSS_SERVER_FUNCTIONS.Insert_Voice_Note;
 import SSS_SERVER_FUNCTIONS.Return_Images_For_Mobile;
 import SSS_SERVER_FUNCTIONS.Return_Train_Models;
 import SSS_SERVER_FUNCTIONS.Return_User_With_ID;
 import SSS_SERVER_FUNCTIONS.Return_Users_In_Model;
 import SSS_SERVER_FUNCTIONS.Train_Images_Model;
 import SSS_SERVER_FUNCTIONS.Update_Train_Data;
+import SSS_SERVER_FUNCTIONS.Update_Train_Data_VN;
 
 
 
@@ -74,6 +77,7 @@ public class Client_Handler implements Runnable{
 							dir.mkdir();
 							File dir2 = new File("data/MATLAB_TRAIN_DATA/" + User_Name+"/MATLAB_PRED_DATA");
 							dir2.mkdir();
+							
 							processing = false;
 						
 							break;
@@ -257,7 +261,7 @@ public class Client_Handler implements Runnable{
 							matEng.eval("user_ID = "+Integer.parseInt(user_ID_VN),null,null);
 
 
-							Update_Train_Data Upd2 = new Update_Train_Data();
+							Update_Train_Data_VN Upd2 = new Update_Train_Data_VN();
 							String model_Name2 = Upd2.do_The_Work(URL, user_ID_VN);
 							String[] model_Name_Tokens2 = model_Name2.split("_");
 							String Matlab_Path2 = new File(".").getCanonicalPath() + "/data";
@@ -275,15 +279,15 @@ public class Client_Handler implements Runnable{
 							if(exception3 == 1.0)
 							{
 								audio.delete();
-								Decrement_Images_Model_Version dec = new Decrement_Images_Model_Version();
+								Decrement_Model_Version_VN dec = new Decrement_Model_Version_VN();
 								dec.do_The_Work(URL, String.valueOf(user_ID_VN));
-								sendMessage("Invalid Image....");
+								sendMessage("Invalid Voice Note....");
 								
 							}
 							else
 							{
 								sendMessage("Upload Successful");
-								Insert_Image insert_class = new Insert_Image();
+								Insert_Voice_Note insert_class = new Insert_Voice_Note();
 								console_Like.append(insert_class.do_The_Work(URL,user_ID_VN,audio.getName())+"\n");
 								
 							}

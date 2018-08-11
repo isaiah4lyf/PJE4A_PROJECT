@@ -72,7 +72,7 @@ public class Main_Menu extends AppCompatActivity  implements NavigationView.OnNa
                 public void onClick(View v) {
                     Intent intent = null;
                     try {
-                        intent = new Intent(getApplicationContext(), Class.forName("com.example.isaia.sss_mobile_app.Settings_With_Drawer"));
+                        intent = new Intent(getApplicationContext(), Class.forName("com.example.isaia.sss_mobile_app.View_Images"));
                         startActivity(intent);
 
                     } catch (ClassNotFoundException e) {

@@ -1,11 +1,8 @@
 try
     
     exception = 0;
-    path = "C:\Users\isaia\Desktop\DLL FILES\Model_01_1.mat";
-    path2 = "C:\Users\isaia\Desktop\DLL FILES\Model_01_2.mat";
-    user_ID = 2;
-    wavFileName = 'C:\Users\isaia\PJE4A_PROJECT\SSS_JAVA_SERVER\data\MATLAB_TRAIN_DATA\Isaiah\AUD_20180810_193533.wav';
-    ads = audioexample.Datastore(wavFileName, 'IncludeSubfolders', true,...
+
+    ads = audioexample.Datastore(audio_path, 'IncludeSubfolders', true,...
         'FileExtensions', '.wav', 'ReadMethod','File',...
         'LabelSource','foldernames');
     [trainDatastore, testDatastore]  = splitEachLabel(ads,0.80);

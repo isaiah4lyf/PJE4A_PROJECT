@@ -14,7 +14,9 @@ import javax.swing.JPanel;
 import com.mathworks.engine.MatlabEngine;
 import SSS_SERVER_CLASSES_FOR_MOBILE.Server_Class;
 import SSS_SERVER_FUNCTIONS.Return_Train_Models;
+import SSS_SERVER_FUNCTIONS.Return_Train_Models_VN;
 import SSS_SERVER_FUNCTIONS.Return_Users_In_Model;
+import SSS_SERVER_FUNCTIONS.Return_Users_In_Model_VN;
 import SSS_SERVER_FUNCTIONS.Train_Images_Model;
 
 public class Jframe extends JFrame{
@@ -38,7 +40,7 @@ public class Jframe extends JFrame{
 		setLayout(new GridLayout(2,1));
 		console_Like = new TextArea();
 		console_Like.setEditable(false);
-		JButton train_all_models = new JButton("Train All Models");
+		JButton train_all_models = new JButton("Train All Images Models");
 		train_all_models.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -133,6 +135,99 @@ public class Jframe extends JFrame{
 
             }
         });
+		JButton train_all_models_VN = new JButton("Train All Voice Notes Models");
+		train_all_models_VN.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	Thread thread = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                    		try 
+                    		{
+                            	try
+                            	{
+                            		Return_Train_Models_VN models_class = new Return_Train_Models_VN();
+                            		String[] models = models_class.Do_The_Work(URL);
+                            		StringWriter console = new StringWriter();
+                            		console_Like.append("\n");
+                            		console_Like.append("Training All Models......... \n");
+                            		console_Like.append("\n");
+                            		
+                            		for(int i = 0; i < models.length; i++)
+                            		{
+                            			console_Like.append("Training Model " + i+1 + "........ \n");
+                                   		String[] model_tokens = models[i].split(",");
+                                   		Return_Users_In_Model_VN users_class = new Return_Users_In_Model_VN();
+                                		String[] users = users_class.Do_The_Work(URL, model_tokens[0]);
+
+                                	
+                        				if (Integer.parseInt(model_tokens[2])  == 4)
+                        				{
+                        					matEng.eval("class_1 = "+Integer.parseInt(users[0].split(",")[0]),console,null);
+                        					matEng.eval("class_2 = "+Integer.parseInt(users[1].split(",")[0]),console,null);
+                        					matEng.eval("class_3 = "+Integer.parseInt(users[2].split(",")[0]),console,null);
+                        					matEng.eval("class_4 = "+Integer.parseInt(users[3].split(",")[0]),console,null);
+
+                        				}
+                        				else if (Integer.parseInt(model_tokens[2]) == 3)
+                        				{
+                        					matEng.eval("class_1 = "+Integer.parseInt(users[0].split(",")[0]),console,null);
+                        					matEng.eval("class_2 = "+Integer.parseInt(users[1].split(",")[0]),console,null);
+                        					matEng.eval("class_3 = "+Integer.parseInt(users[2].split(",")[0]),null,null);
+                        					matEng.eval("class_4 = "+Integer.parseInt(users[2].split(",")[0]+1),null,null);
+
+                        				}
+                        				else if (Integer.parseInt(model_tokens[2]) == 2)
+                        				{
+                        					matEng.eval("class_1 = "+Integer.parseInt(users[0].split(",")[0]),console,null);
+                        					matEng.eval("class_2 = "+Integer.parseInt(users[1].split(",")[0]),console,null);
+                        					matEng.eval("class_3 = "+Integer.parseInt(users[1].split(",")[0]+1),console,null);
+                        					matEng.eval("class_4 = "+Integer.parseInt(users[1].split(",")[0]+2),console,null);
+
+                        				}
+                        				else
+                        				{
+                        					matEng.eval("class_1 = "+Integer.parseInt(users[0].split(",")[0]),console,null);
+                        					matEng.eval("class_2 = "+Integer.parseInt(users[0].split(",")[0]+2),console,null);
+                        					matEng.eval("class_3 = "+Integer.parseInt(users[0].split(",")[0]+3),console,null);
+                        					matEng.eval("class_4 = "+Integer.parseInt(users[0].split(",")[0]+4),console,null);
+
+                        				}
+
+                        				
+                        				String ML_features_Database_train = Matlab_Path_train + "/MATLAB_TRAIN_DATA/VOICE_NOTES_DATA/" + model_tokens[1] +  "_" + model_tokens[3] + ".mat";
+                        				
+                        				matEng.eval("path = '"+ML_features_Database_train+"'",console,null);
+                        				
+                        				
+                        				String Trained_Model_File = Matlab_Path_train + "/MATLAB_TRAINED_MODELS/SOUND_PROCESSING/" + model_tokens[1] +  "_" + model_tokens[3]  + ".mat";
+
+                        				matEng.eval("path2 = '"+Trained_Model_File+"'",console,null);
+                        				
+                        				matEng.eval("run('" + Matlab_Path_train + "/MATLAB_SCRIPTS/SOUND_PROCESSING/RUN_QD.m')",console,null);
+                        				console_Like.append(console.toString());
+                            		}
+                     
+                    				
+                            	}
+                            	catch(Exception ex)
+                            	{
+                            		console_Like.append(ex.toString());
+                            	}
+                    		} catch (Exception e) {
+                    			// TODO Auto-generated catch block
+                    			e.printStackTrace();
+                    		}
+                        }
+                        catch (Exception ex)
+                        {
+                        }
+                    }
+                });
+                thread.start();
+            }
+        });
 		JButton train_specific_model = new JButton("Train Specific Model");
 		train_specific_model.addActionListener(new ActionListener() {
             @Override
@@ -142,8 +237,9 @@ public class Jframe extends JFrame{
         });
 		JComboBox models = new JComboBox();
 		JPanel menu_Panel = new JPanel();
-		menu_Panel.setLayout(new GridLayout(3,1));
+		menu_Panel.setLayout(new GridLayout(4,1));
 		menu_Panel.add(train_all_models);
+		menu_Panel.add(train_all_models_VN);
 		menu_Panel.add(models);
 		menu_Panel.add(train_specific_model);
 

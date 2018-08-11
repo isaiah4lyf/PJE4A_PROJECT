@@ -33,7 +33,7 @@ public class Login extends AppCompatActivity {
                         try {
                             DBHelper mydb = new DBHelper(getApplicationContext());
                             String insert = String.valueOf(mydb.insert_Login_State(User_Name.getText().toString().replaceAll(" ",""),Password.getText().toString()));
-                            intent = new Intent(getApplicationContext(), Class.forName("com.example.isaia.sss_mobile_app.Settings_With_Drawer"));
+                            intent = new Intent(getApplicationContext(), Class.forName("com.example.isaia.sss_mobile_app.Reg_User"));
                             startActivity(intent);
 
                         } catch (ClassNotFoundException e) {

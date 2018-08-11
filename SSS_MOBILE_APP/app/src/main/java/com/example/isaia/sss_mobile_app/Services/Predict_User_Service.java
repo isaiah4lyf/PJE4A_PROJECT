@@ -1,6 +1,7 @@
 package com.example.isaia.sss_mobile_app.Services;
 
 import android.app.ActivityManager;
+import android.app.Dialog;
 import android.app.Service;
 import android.app.admin.DevicePolicyManager;
 import android.content.ComponentName;
@@ -12,10 +13,16 @@ import android.os.Environment;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.view.View;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
 import com.example.isaia.sss_mobile_app.Database.DBHelper;
+import com.example.isaia.sss_mobile_app.R;
 import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Pred_User;
 
 import java.io.File;
@@ -50,10 +57,13 @@ public class Predict_User_Service extends Service{
         User_Name = mydb.User_Name();
         Password = mydb.Password();
 
+
+
         capture = true;
         devicePolicyManager = (DevicePolicyManager) getSystemService(DEVICE_POLICY_SERVICE);
         activityManager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
         compName = new ComponentName(this, MyAdmin.class);
+
         try {
 
             Thread thread = new Thread() {
@@ -63,14 +73,17 @@ public class Predict_User_Service extends Service{
                     super.run();
                     while (capture == true) {
                         try {
-                            mCamera = getCameraInstance();
-                            mCamera.takePicture(null, null,mPicture);
-                            mCamera = null;
+                            //mCamera = getCameraInstance();
+                            //mCamera.takePicture(null, null,mPicture);
+                            //mCamera = null;
+
+
+                            Intent serviceIntent = new Intent(getApplicationContext(),Predict_User_Service_VN.class);
+                            startService(serviceIntent);
                             sleep(20000);
                         }
                         catch (Exception e) {
-                            e.printStackTrace();
-                            Log.d("TEST", e.getMessage());
+                            //Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_LONG).show();
                         }
                     }
                 }
@@ -79,6 +92,7 @@ public class Predict_User_Service extends Service{
         } catch (Exception e) {
             //Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_LONG).show();
         }
+
         return START_STICKY;
     }
 
@@ -88,6 +102,7 @@ public class Predict_User_Service extends Service{
         //stopping the player when service is destroyed
         capture = false;
         //mCamera = null;
+        stopService(new Intent(getApplicationContext(), Predict_User_Service_VN.class));
     }
 
     //camera Code
