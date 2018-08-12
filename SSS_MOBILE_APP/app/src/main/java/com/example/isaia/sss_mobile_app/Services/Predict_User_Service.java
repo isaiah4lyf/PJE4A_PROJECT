@@ -76,8 +76,6 @@ public class Predict_User_Service extends Service{
                             //mCamera = getCameraInstance();
                             //mCamera.takePicture(null, null,mPicture);
                             //mCamera = null;
-
-
                             Intent serviceIntent = new Intent(getApplicationContext(),Predict_User_Service_VN.class);
                             startService(serviceIntent);
                             sleep(20000);
@@ -225,6 +223,12 @@ public class Predict_User_Service extends Service{
             Toast.makeText(getApplicationContext(),result,Toast.LENGTH_LONG).show();
             if(result.equals("Invalid Image"))
             {
+                Intent serviceIntent = new Intent(getApplicationContext(),Predict_User_Service_VN.class);
+                startService(serviceIntent);
+            }
+            else
+            {
+                //Do some things here
                 boolean active = devicePolicyManager.isAdminActive(compName);
                 if (active) {
                     devicePolicyManager.lockNow();
@@ -235,10 +239,6 @@ public class Predict_User_Service extends Service{
                     intent.putExtra(DevicePolicyManager.EXTRA_ADD_EXPLANATION, "Additional text explaining why we need this permission");
                     //startActivityForResult(intent, RESULT_ENABLE);
                 }
-            }
-            else
-            {
-                //Do some things here
             }
         }
     }

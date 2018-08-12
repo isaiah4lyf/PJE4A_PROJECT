@@ -65,7 +65,8 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".Main_Menu">
+        <activity android:name=".Main_Menu"
+            android:label="Main Menu">
             <intent-filter>
                 <action android:name="com.example.isaia.sss_mobile_app.Main_Menu" />
 
@@ -74,7 +75,7 @@
         </activity>
         <activity
             android:name=".Settings_With_Drawer"
-            android:label="@string/title_activity_settings__with__drawer"
+            android:label="Settings"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="com.example.isaia.sss_mobile_app.Settings_With_Drawer" />

@@ -29,6 +29,7 @@ import com.example.isaia.sss_mobile_app.Database.DBHelper;
 import com.example.isaia.sss_mobile_app.MainActivity_Voice_Notes;
 import com.example.isaia.sss_mobile_app.R;
 import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Insert_Voice_Note;
+import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Pred_User_VN;
 
 import java.io.File;
 import java.io.IOException;
@@ -170,9 +171,8 @@ public class Predict_User_Service_VN extends Service {
             @Override
             public void run() {
                 try {
-                   // MainActivity_Voice_Notes.Insert_VN tast = new MainActivity_Voice_Notes.Insert_VN();
-                    //tast.execute();
-
+                    pred_user_vn tast = new pred_user_vn();
+                    tast.execute();
                 }
                 catch (Exception ex)
                 {
@@ -210,7 +210,7 @@ public class Predict_User_Service_VN extends Service {
         return mediaFile;
     }
 
-    private class Insert_VN extends AsyncTask<String, Void, String> {
+    private class pred_user_vn extends AsyncTask<String, Void, String> {
 
         @Override
         protected void onPreExecute() {
@@ -220,14 +220,14 @@ public class Predict_User_Service_VN extends Service {
         protected String doInBackground(String... urls) {
 
             String response = "";
-            //Insert_Voice_Note count_class = new Insert_Voice_Note();
-            //response = count_class.Do_The_work(User_Name,Password,mFileName);
+            Pred_User_VN count_class = new Pred_User_VN();
+            response = count_class.Do_The_work(User_Name,Password,mFileName);
             return  response;
         }
         @Override
         protected void onPostExecute(String result) {
             //if you started progress dialog dismiss it here
-            Toast.makeText(getApplicationContext(),result+"here",Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(),result,Toast.LENGTH_LONG).show();
         }
     }
 }

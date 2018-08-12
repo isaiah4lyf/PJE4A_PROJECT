@@ -280,7 +280,7 @@ public class MainActivity_Voice_Notes  extends AppCompatActivity{
         @Override
         protected void onPostExecute(String result) {
             //if you started progress dialog dismiss it here
-            Toast.makeText(getApplicationContext(),result+"here",Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(),result,Toast.LENGTH_LONG).show();
         }
     }
 }

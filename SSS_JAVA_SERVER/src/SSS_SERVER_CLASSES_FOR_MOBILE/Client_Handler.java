@@ -11,8 +11,10 @@ import SSS_SERVER_FUNCTIONS.Insert_User;
 import SSS_SERVER_FUNCTIONS.Insert_Voice_Note;
 import SSS_SERVER_FUNCTIONS.Return_Images_For_Mobile;
 import SSS_SERVER_FUNCTIONS.Return_Train_Models;
+import SSS_SERVER_FUNCTIONS.Return_Train_Models_VN;
 import SSS_SERVER_FUNCTIONS.Return_User_With_ID;
 import SSS_SERVER_FUNCTIONS.Return_Users_In_Model;
+import SSS_SERVER_FUNCTIONS.Return_Users_In_Model_VN;
 import SSS_SERVER_FUNCTIONS.Train_Images_Model;
 import SSS_SERVER_FUNCTIONS.Update_Train_Data;
 import SSS_SERVER_FUNCTIONS.Update_Train_Data_VN;
@@ -522,7 +524,181 @@ public class Client_Handler implements Runnable{
 
 							processing = false;
 							break;
+						case "PRED_USER_VN":
+							String user_ID4_ = in.readUTF();
+							String user_name4 = in.readUTF();
+							String size_string4 = in.readUTF();
+							System.out.println(size_string4);
+							int size4 = Integer.parseInt(size_string4);
+							String title4 = in.readUTF();
+							System.out.println(title4);
+							BufferedOutputStream ByteToFile4 = null;
+							try{
+								System.out.println(size4);
+								byte[] buffer = new byte[size4];
+								readFully(in,buffer,0,size4);
+								int extra = in.available();
+								if (extra > 0)
+								{
+									byte[] buffer2 = new byte[extra];
+									in.read(buffer2);
+								}
+								File imageInsta = new File("data/MATLAB_TRAIN_DATA/"+user_name4+"/MATLAB_PRED_DATA/"+title4);
+								if(imageInsta.exists()){
+									
+									ByteToFile4 = new BufferedOutputStream(new FileOutputStream(new File("data/MATLAB_TRAIN_DATA/"+user_name4+"/MATLAB_PRED_DATA/(1)"+title4)));
+									ByteToFile4.write(buffer);
+									ByteToFile4.flush();
+									ByteToFile4.close();
+								}
+								else
+								{
+									ByteToFile4 = new BufferedOutputStream(new FileOutputStream(new File("data/MATLAB_TRAIN_DATA/"+user_name4+"/MATLAB_PRED_DATA/"+title4)));
+									ByteToFile4.write(buffer);
+									ByteToFile4.flush();
+									ByteToFile4.close();
+								}
+							}
+							catch(IOException ex){
+								ex.printStackTrace();
+
+							}
+							finally
+							{
+								if (ByteToFile4 != null)
+									try {
+										ByteToFile4.close();
+									} catch (IOException e) {
+										// TODO Auto-generated catch block
+										e.printStackTrace();
+									}
+								
+							}
+							Return_Train_Models_VN models2 = new Return_Train_Models_VN();
+							String[] models_string2 = models2.Do_The_Work(URL);
+
+							int[] results2 = new int[models_string2.length];
+							int[] fet_Match2 = new int[models_string2.length];
+							
+							File audio2 = null;
+							
+							for (int i = 0; i < models_string2.length; i++)
+							{
+								String model_ID = models_string2[i].split(",")[0];
+								Return_Users_In_Model_VN users = new Return_Users_In_Model_VN();
+								String[] users_string = users.Do_The_Work(URL,model_ID);
+								System.out.println(users_string[0]);
+								
+								matEng.eval("clear all",null,null);
+								
+								if (users_string.length  == 4)
+								{
+									matEng.eval("class_1 = "+Integer.parseInt(users_string[0].split(",")[0]),null,null);
+									matEng.eval("class_2 = "+Integer.parseInt(users_string[1].split(",")[0]),null,null);
+									matEng.eval("class_3 = "+Integer.parseInt(users_string[2].split(",")[0]),null,null);
+									matEng.eval("class_4 = "+Integer.parseInt(users_string[3].split(",")[0]),null,null);
+
+								}
+								else if (users_string.length == 3)
+								{
+									matEng.eval("class_1 = "+Integer.parseInt(users_string[0].split(",")[0]),null,null);
+									matEng.eval("class_2 = "+Integer.parseInt(users_string[1].split(",")[0]),null,null);
+									matEng.eval("class_3 = "+Integer.parseInt(users_string[2].split(",")[0]),null,null);
+									matEng.eval("class_4 = "+Integer.parseInt(users_string[2].split(",")[0]+1),null,null);
+		
+								}
+								else if (users_string.length == 2)
+								{
+									matEng.eval("class_1 = "+Integer.parseInt(users_string[0].split(",")[0]),null,null);
+									matEng.eval("class_2 = "+Integer.parseInt(users_string[1].split(",")[0]),null,null);
+									matEng.eval("class_3 = "+Integer.parseInt(users_string[1].split(",")[0]+1),null,null);
+									matEng.eval("class_4 = "+Integer.parseInt(users_string[1].split(",")[0]+2),null,null);
+
+								}
+								else
+								{
+									matEng.eval("class_1 = "+Integer.parseInt(users_string[0].split(",")[0]),null,null);
+									matEng.eval("class_2 = "+Integer.parseInt(users_string[0].split(",")[0]+2),null,null);
+									matEng.eval("class_3 = "+Integer.parseInt(users_string[0].split(",")[0]+3),null,null);
+									matEng.eval("class_4 = "+Integer.parseInt(users_string[0].split(",")[0]+4),null,null);
+
+								}
+								audio2 = new File("data/MATLAB_TRAIN_DATA/"+user_name4+"/MATLAB_PRED_DATA/"+title4);
+								matEng.eval("audio_path = '"+ audio2.getAbsolutePath().toString()+"'",null,null);
+								
+								int model_version = Integer.parseInt(models_string2[i].split(",")[3] );
+								String Trained_Model2 = Matlab_Path_train + "/MATLAB_TRAINED_MODELS/SOUND_PROCESSING/" + models_string2[i].split(",")[1] + "_" +model_version+ ".mat";
+								File matFile = new File(Trained_Model2);
+								
+								while(!matFile.exists() && model_version > 0)
+								{
+									System.out.println(Trained_Model2);
+									model_version--;
+									Trained_Model2 = Matlab_Path_train + "/MATLAB_TRAINED_MODELS/SOUND_PROCESSING/" + models_string2[i].split(",")[1] + "_" +model_version+ ".mat";						
+									matFile = new File(Trained_Model2);
+								}
+								
+								
+								matEng.eval("path = '"+Trained_Model2+"'",null,null);
+								matEng.eval("run('" + Matlab_Path_train + "/MATLAB_SCRIPTS/SOUND_PROCESSING/PRED_USER.m')",null,null);
+								
 						
+								double exception4 = matEng.getVariable("exception");
+								
+								
+								if(exception4 == 1.0)
+								{
+									audio2.delete();
+									System.out.println("here");
+									break;									
+								}
+								else
+								{
+
+									StringWriter output_class = new StringWriter();
+									matEng.eval("max_Class",output_class,null);
+									String max_class_String = output_class.toString().replaceAll("\n","");
+									int max_class = Integer.parseInt(max_class_String.split("=")[1].replaceAll(" ",""));							
+									StringWriter output_num = new StringWriter();
+									matEng.eval("max_Num",output_num,null);
+									String max_num_String = output_num.toString().replaceAll("\n","");
+									int max_num = Integer.parseInt(max_num_String.split("=")[1].replaceAll(" ",""));
+									results2[i] = max_class;
+									fet_Match2[i] = max_num;
+								}																							
+							}									
+							
+							double exception4 = matEng.getVariable("exception");												
+							if(exception4 == 1.0)
+							{
+								audio2.delete();
+								sendMessage("Invalid Image");
+							}
+							else
+							{
+								int max = fet_Match2[0];
+								for(int i = 0; i < fet_Match2.length; i++)
+								{
+									if(fet_Match2[i] > max)
+									{
+										max = fet_Match2[i];
+									}
+								}
+								String result_With_Max = "";
+								for (int i = 0; i < models_string2.length; i++)
+								{
+									if (fet_Match2[i] == max)
+									{						
+										Return_User_With_ID user = new Return_User_With_ID();										
+										result_With_Max = user.do_The_Work(URL, String.valueOf(results2[i]));
+									}
+								}
+								System.out.println(result_With_Max);	
+								String[] results_tokens = result_With_Max.split(",");
+								sendMessage(results_tokens[1]);
+							}
+							processing = false;
+							break;
 					}
 				
 				} catch (Exception e) {

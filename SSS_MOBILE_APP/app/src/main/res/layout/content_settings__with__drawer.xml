@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:background="#f5f5dc"
+        android:background="#fffafa"
         android:elevation="4dp"
         android:paddingBottom="5dp"
         android:outlineProvider="bounds"
@@ -31,7 +31,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_marginLeft="8dp"
-                android:text="Quicklu set name and sex"
+                android:textSize="15dp"
+                android:textStyle="bold"
+                android:text="Face Recognition Settings"
                 />
 
         </RelativeLayout>
@@ -41,7 +43,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
+        android:layout_below="@+id/header_layout"
         android:background="#ffffff"
         android:elevation="4dp"
         android:outlineProvider="bounds"
@@ -58,7 +60,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_marginLeft="8dp"
-                android:text="Quicklu set name and sex"
+                android:text="Image Prediction"
                 />
             <TextView
                 android:layout_below="@+id/menu2"
@@ -66,7 +68,7 @@
                 android:layout_marginLeft="8dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Use the default"
+                android:text="Start/Stop Prediction Service"
                 android:textColor="#cccccc"/>
             <Switch
                 android:id="@+id/switch_button2"
@@ -79,21 +81,17 @@
         </RelativeLayout>
     </LinearLayout>
     <ImageView
-        android:id="@+id/title_from_to_dots_divider"
+        android:id="@+id/contentDivider_3"
         android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_below="@id/title_from_address"
-        android:layout_marginBottom="4dp"
-        android:layout_marginTop="4dp"
-        android:layout_toEndOf="@+id/title_from_to_dots"
-        android:layout_toRightOf="@+id/title_from_to_dots"
+        android:layout_height="1dp"
+        android:layout_below="@id/id8"
         android:src="@color/contentDividerLine" />
     <LinearLayout
         android:id="@+id/id9"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="82dp"
+        android:layout_below="@+id/contentDivider_3"
         android:background="#ffffff"
         android:elevation="4dp"
         android:outlineProvider="bounds"
@@ -110,7 +108,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_marginLeft="8dp"
-                android:text="Quicklu set name and sex"
+                android:text="Prediction and Image Upload Intervals"
                 />
             <TextView
                 android:layout_below="@+id/menu3"
@@ -118,16 +116,87 @@
                 android:layout_marginLeft="8dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Use the default"
+                android:text="Default Settings"
+                android:textColor="#cccccc"/>
+        </RelativeLayout>
+    </LinearLayout>
+    <ImageView
+        android:id="@+id/contentDivider_2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/id9"
+        android:src="@color/contentDividerLine" />
+    <LinearLayout
+        android:id="@+id/id10"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/contentDivider_2"
+        android:layout_marginTop="0dp"
+        android:background="#ffffff"
+        android:elevation="4dp"
+        android:outlineProvider="bounds"
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+
+            <TextView
+                android:id="@+id/menu4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="8dp"
+                android:text="Image Upload"
+                />
+            <TextView
+                android:layout_below="@+id/menu4"
+                android:layout_marginTop="4dp"
+                android:layout_marginLeft="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Start/Stop Image Capture Service"
                 android:textColor="#cccccc"/>
             <Switch
-                android:id="@+id/switch_button3"
+                android:id="@+id/switch_button4"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="16dp"
                 />
+        </RelativeLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/header_layout_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/id10"
+        android:background="#fffafa"
+        android:elevation="4dp"
+        android:paddingBottom="5dp"
+        android:outlineProvider="bounds"
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+
+            <TextView
+                android:id="@+id/header_text_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="8dp"
+                android:textSize="15dp"
+                android:textStyle="bold"
+                android:text="Voice Recognition Settings"
+                />
+
         </RelativeLayout>
     </LinearLayout>
 </RelativeLayout>

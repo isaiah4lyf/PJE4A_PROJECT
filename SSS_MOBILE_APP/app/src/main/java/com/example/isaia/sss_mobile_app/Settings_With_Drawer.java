@@ -72,7 +72,7 @@ public class Settings_With_Drawer extends AppCompatActivity
                 }
             });
 
-            Switch switchButton2 = (Switch) findViewById(R.id.switch_button3);
+            Switch switchButton2 = (Switch) findViewById(R.id.switch_button4);
 
             switchButton2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
