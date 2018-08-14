@@ -14,6 +14,7 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import java.io.File;
@@ -38,10 +39,7 @@ public class Main_Activity_Images extends AppCompatActivity{
 
     private Camera mCamera;
     private CameraPreview mPreview;
-    //static final String TAG = "CamTest";
     private FrameLayout preview;
-
-
     private TextView mText;
     private SpeechRecognizer sr;
     private static final String TAG = "MyActivity";
@@ -56,34 +54,22 @@ public class Main_Activity_Images extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_images);
-
-        txvResult = (TextView) findViewById(R.id.textView);
         function = "Insert_Image";
         DBHelper mydb = new DBHelper(getApplicationContext());
         User_Name = mydb.User_Name();
         Password = mydb.Password();
 
-
-        //Camera code
         mCamera = getCameraInstance();
-
-
         preview = findViewById(R.id.camera_preview);
         try {
-            // Create our Preview view and set it as the content of our activity.
-            //mCamera.startFaceDetection();
             mPreview = new CameraPreview(this, mCamera);
             preview.addView(mPreview);
-
-
         }
         catch (Exception e){
-            // Camera is not available (in use or does not exist)
             Toast.makeText(this,e.toString(),Toast.LENGTH_LONG).show();
         }
 
-        final Button Insert_Image = (Button) findViewById(R.id.Insert_Image);
-        final Button from_Gall = (Button) findViewById(R.id.Upload_From);
+        final ImageButton Insert_Image = (ImageButton) findViewById(R.id.Insert_Image);
         Insert_Image.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -93,8 +79,6 @@ public class Main_Activity_Images extends AppCompatActivity{
                             function = "Insert_Image";
                             mCamera.takePicture(null, null,mPicture);
                             Insert_Image.setEnabled(false);
-                            from_Gall.setEnabled(false);
-
                         }
                         catch (Exception ex)
                         {
@@ -105,27 +89,13 @@ public class Main_Activity_Images extends AppCompatActivity{
                 }
         );
 
-
-        from_Gall.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = null;
-                        try {
-
-                            Insert_Image.setEnabled(false);
-                            from_Gall.setEnabled(false);
-                            intent = new Intent(getApplicationContext(), Class.forName("com.example.isaia.sss_mobile_app.Upload_Image_From_Gall"));
-                            intent.putExtra("User_Name",User_Name);
-                            intent.putExtra("Password",Password);
-                            startActivity(intent);
-
-                        } catch (ClassNotFoundException e) {
-                            Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_LONG).show();
-                        }
-                    }
-                }
-        );
+    }
+    @Override
+    public void onBackPressed() {
+        mCamera.stopPreview();
+        mCamera.setPreviewCallback(null);
+        mCamera.release();
+        mCamera = null;
     }
 
     //camera Code
@@ -244,39 +214,6 @@ public class Main_Activity_Images extends AppCompatActivity{
                     }
                 });
                 thread.start();
-
-                /*
-                if(function.equals("Predict_User"))
-                {
-                    Intent intent = null;
-                    try {
-
-                        intent = new Intent(getApplicationContext(), Class.forName("com.example.isaia.sss_mobile_app.Predict_User"));
-                        intent.putExtra("Image_Name",pictureFile.getName());
-                        intent.putExtra("User_Name",User_Name);
-                        intent.putExtra("Password",Password);
-                        startActivity(intent);
-
-                    } catch (ClassNotFoundException e) {
-                        Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_LONG).show();
-                    }
-                }
-                else
-                {
-                    Intent intent = null;
-                    try {
-
-                        intent = new Intent(getApplicationContext(), Class.forName("com.example.isaia.sss_mobile_app.Insert_Image"));
-                        intent.putExtra("Image_Name",pictureFile.getName());
-                        intent.putExtra("User_Name",User_Name);
-                        intent.putExtra("Password",Password);
-                        startActivity(intent);
-
-                    } catch (ClassNotFoundException e) {
-                        Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_LONG).show();
-                    }
-                }
-                */
 
 
             } catch (FileNotFoundException e) {

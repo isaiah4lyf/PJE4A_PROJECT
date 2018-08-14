@@ -761,6 +761,10 @@ namespace SSS_WEB_SERVICE
 		
 		private string _User_Name;
 		
+		private string _Password;
+		
+		private string _Email;
+		
 		private System.Nullable<int> _Model_ID;
 		
 		private System.Nullable<int> _Model_ID_VN;
@@ -773,6 +777,10 @@ namespace SSS_WEB_SERVICE
     partial void OnIdChanged();
     partial void OnUser_NameChanging(string value);
     partial void OnUser_NameChanged();
+    partial void OnPasswordChanging(string value);
+    partial void OnPasswordChanged();
+    partial void OnEmailChanging(string value);
+    partial void OnEmailChanged();
     partial void OnModel_IDChanging(System.Nullable<int> value);
     partial void OnModel_IDChanged();
     partial void OnModel_ID_VNChanging(System.Nullable<int> value);
@@ -820,6 +828,46 @@ namespace SSS_WEB_SERVICE
 					this._User_Name = value;
 					this.SendPropertyChanged("User_Name");
 					this.OnUser_NameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Password", DbType="NVarChar(MAX)")]
+		public string Password
+		{
+			get
+			{
+				return this._Password;
+			}
+			set
+			{
+				if ((this._Password != value))
+				{
+					this.OnPasswordChanging(value);
+					this.SendPropertyChanging();
+					this._Password = value;
+					this.SendPropertyChanged("Password");
+					this.OnPasswordChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Email", DbType="NVarChar(MAX)")]
+		public string Email
+		{
+			get
+			{
+				return this._Email;
+			}
+			set
+			{
+				if ((this._Email != value))
+				{
+					this.OnEmailChanging(value);
+					this.SendPropertyChanging();
+					this._Email = value;
+					this.SendPropertyChanged("Email");
+					this.OnEmailChanged();
 				}
 			}
 		}

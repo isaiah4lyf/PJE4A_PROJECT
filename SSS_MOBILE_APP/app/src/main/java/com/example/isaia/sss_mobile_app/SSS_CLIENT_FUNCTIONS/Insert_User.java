@@ -30,10 +30,12 @@ public class Insert_User {
            // txvResult.setText(ex.toString());
         }
     }
-    public String Do_The_work(String User_Name)
+    public String Do_The_work(String User_Name,String Email,String Password)
     {
         sendCommand("REG");
         sendCommand(User_Name);
+        sendCommand(Email);
+        sendCommand(Password);
         return readResponse();
     }
 

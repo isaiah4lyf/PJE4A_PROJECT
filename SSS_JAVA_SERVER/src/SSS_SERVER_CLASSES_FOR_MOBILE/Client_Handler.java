@@ -71,17 +71,20 @@ public class Client_Handler implements Runnable{
 					{
 						case "REG":
 							String User_Name = in.readUTF();
+							String email = in.readUTF();
+							String password = in.readUTF();
 							Insert_User clas = new Insert_User();						
-							String response = clas.do_The_Work(URL,User_Name);
+							String response = clas.do_The_Work(URL,User_Name,email,password);
 							System.out.println(response);
-
-							File dir = new File("data/MATLAB_TRAIN_DATA/" + User_Name);
-							dir.mkdir();
-							File dir2 = new File("data/MATLAB_TRAIN_DATA/" + User_Name+"/MATLAB_PRED_DATA");
-							dir2.mkdir();
-							
-							processing = false;
-						
+							sendMessage(response);
+							if(response.equals("false"))
+							{
+								File dir = new File("data/MATLAB_TRAIN_DATA/" + User_Name);
+								dir.mkdir();
+								File dir2 = new File("data/MATLAB_TRAIN_DATA/" + User_Name+"/MATLAB_PRED_DATA");
+								dir2.mkdir();			
+							}				
+							processing = false;						
 							break;
 
 						case "COUNT_IMAGES":

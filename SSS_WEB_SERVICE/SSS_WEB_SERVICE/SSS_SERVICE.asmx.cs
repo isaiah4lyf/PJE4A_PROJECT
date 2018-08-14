@@ -29,101 +29,116 @@ namespace SSS_WEB_SERVICE
 
 		//GENERAL METHODS
 		[WebMethod]
-		public string INSERT_USER(string user_Name)
+		public string INSERT_USER(string user_Name,string password,string email)
 		{
-			List<Trained_Model> table = (from Trained_Model in linq.Trained_Models
-										 select Trained_Model).ToList();
-			List<Trained_Models_Voice_Note> table_VN = (from Trained_Models_Voice_Note in linq.Trained_Models_Voice_Notes
-														select Trained_Models_Voice_Note).ToList();
 			string status = "false";
-			if (table.Count == 0)
+			List<User> userTable = (from User in linq.Users
+									where User.User_Name == user_Name
+									select User).ToList();
+
+			if(userTable.Count == 0)
 			{
-				Trained_Model model = new Trained_Model();
-				/// Model_'model number'_'Model version'
-				model.Model_Name = "Model_01";
-				model.Number_OF_Users = 1;
-				model.Model_Version = 1;
-				linq.Trained_Models.InsertOnSubmit(model);
-				linq.SubmitChanges();
+				List<Trained_Model> table = (from Trained_Model in linq.Trained_Models
+											 select Trained_Model).ToList();
+				List<Trained_Models_Voice_Note> table_VN = (from Trained_Models_Voice_Note in linq.Trained_Models_Voice_Notes
+															select Trained_Models_Voice_Note).ToList();
 
-				Trained_Models_Voice_Note VN_model = new Trained_Models_Voice_Note();
-				VN_model.Model_Name = "Model_01";
-				VN_model.Number_OF_Users = 1;
-				VN_model.Model_Version = 1;
-				linq.Trained_Models_Voice_Notes.InsertOnSubmit(VN_model);
-				linq.SubmitChanges();
-
-				List<Trained_Model> updated_Models = (from Trained_Model in linq.Trained_Models
-													  select Trained_Model).ToList();
-
-				List<Trained_Models_Voice_Note> updated_Models_vn = (from Trained_Models_Voice_Note in linq.Trained_Models_Voice_Notes
-																	 select Trained_Models_Voice_Note).ToList();
-				User user = new User();
-				user.User_Name = user_Name;
-				user.Model_ID = updated_Models.ElementAt(0).Id;
-				user.Model_ID_VN = updated_Models_vn.ElementAt(0).Id;
-				linq.Users.InsertOnSubmit(user);
-				linq.SubmitChanges();
-
-
-				status = "true";
-			}
-			else
-			{
-				if (table.ElementAt(table.Count - 1).Number_OF_Users < 4)
-				{
-					Trained_Model row_To_Update = (from Trained_Model in linq.Trained_Models
-												   where Trained_Model.Id == table.ElementAt(table.Count - 1).Id
-												   select Trained_Model).First();
-					row_To_Update.Number_OF_Users = row_To_Update.Number_OF_Users + 1;
-					linq.SubmitChanges();
-
-					Trained_Models_Voice_Note model_to_Update_VN = (from Trained_Models_Voice_Note in linq.Trained_Models_Voice_Notes
-															   where Trained_Models_Voice_Note.Id == table_VN.ElementAt(table_VN.Count - 1).Id
-												   select Trained_Models_Voice_Note).First();
-					model_to_Update_VN.Number_OF_Users = model_to_Update_VN.Number_OF_Users + 1;
-					linq.SubmitChanges();
-
-					User user = new User();
-					user.User_Name = user_Name;
-					user.Model_ID = table.ElementAt(table.Count - 1).Id;
-					user.Model_ID_VN = table_VN.ElementAt(table_VN.Count - 1).Id;
-					linq.Users.InsertOnSubmit(user);
-					linq.SubmitChanges();
-					status = "true";
-				}
-				else
+				if (table.Count == 0)
 				{
 					Trained_Model model = new Trained_Model();
-					int model_num = table.Count + 1;
-					model.Model_Name = "Model_0" + model_num;
+					/// Model_'model number'_'Model version'
+					model.Model_Name = "Model_01";
 					model.Number_OF_Users = 1;
 					model.Model_Version = 1;
 					linq.Trained_Models.InsertOnSubmit(model);
 					linq.SubmitChanges();
 
-					Trained_Models_Voice_Note model_vn = new Trained_Models_Voice_Note();
-
-					model_vn.Model_Name = "Model_0" + model_num;
-					model_vn.Number_OF_Users = 1;
-					model_vn.Model_Version = 1;
-					linq.Trained_Models_Voice_Notes.InsertOnSubmit(model_vn);
+					Trained_Models_Voice_Note VN_model = new Trained_Models_Voice_Note();
+					VN_model.Model_Name = "Model_01";
+					VN_model.Number_OF_Users = 1;
+					VN_model.Model_Version = 1;
+					linq.Trained_Models_Voice_Notes.InsertOnSubmit(VN_model);
 					linq.SubmitChanges();
-
 
 					List<Trained_Model> updated_Models = (from Trained_Model in linq.Trained_Models
 														  select Trained_Model).ToList();
+
 					List<Trained_Models_Voice_Note> updated_Models_vn = (from Trained_Models_Voice_Note in linq.Trained_Models_Voice_Notes
 																		 select Trained_Models_Voice_Note).ToList();
 					User user = new User();
 					user.User_Name = user_Name;
-					user.Model_ID = updated_Models.ElementAt(updated_Models.Count - 1).Id;
-					user.Model_ID_VN = updated_Models_vn.ElementAt(updated_Models_vn.Count - 1).Id;
+					user.Password = password;
+					user.Email = email;
+					user.Model_ID = updated_Models.ElementAt(0).Id;
+					user.Model_ID_VN = updated_Models_vn.ElementAt(0).Id;
 					linq.Users.InsertOnSubmit(user);
 					linq.SubmitChanges();
+
+
 					status = "true";
 				}
+				else
+				{
+					if (table.ElementAt(table.Count - 1).Number_OF_Users < 4)
+					{
+						Trained_Model row_To_Update = (from Trained_Model in linq.Trained_Models
+													   where Trained_Model.Id == table.ElementAt(table.Count - 1).Id
+													   select Trained_Model).First();
+						row_To_Update.Number_OF_Users = row_To_Update.Number_OF_Users + 1;
+						linq.SubmitChanges();
+
+						Trained_Models_Voice_Note model_to_Update_VN = (from Trained_Models_Voice_Note in linq.Trained_Models_Voice_Notes
+																		where Trained_Models_Voice_Note.Id == table_VN.ElementAt(table_VN.Count - 1).Id
+																		select Trained_Models_Voice_Note).First();
+						model_to_Update_VN.Number_OF_Users = model_to_Update_VN.Number_OF_Users + 1;
+						linq.SubmitChanges();
+
+						User user = new User();
+						user.User_Name = user_Name;
+						user.Password = password;
+						user.Email = email;
+						user.Model_ID = table.ElementAt(table.Count - 1).Id;
+						user.Model_ID_VN = table_VN.ElementAt(table_VN.Count - 1).Id;
+						linq.Users.InsertOnSubmit(user);
+						linq.SubmitChanges();
+						status = "true";
+					}
+					else
+					{
+						Trained_Model model = new Trained_Model();
+						int model_num = table.Count + 1;
+						model.Model_Name = "Model_0" + model_num;
+						model.Number_OF_Users = 1;
+						model.Model_Version = 1;
+						linq.Trained_Models.InsertOnSubmit(model);
+						linq.SubmitChanges();
+
+						Trained_Models_Voice_Note model_vn = new Trained_Models_Voice_Note();
+
+						model_vn.Model_Name = "Model_0" + model_num;
+						model_vn.Number_OF_Users = 1;
+						model_vn.Model_Version = 1;
+						linq.Trained_Models_Voice_Notes.InsertOnSubmit(model_vn);
+						linq.SubmitChanges();
+
+
+						List<Trained_Model> updated_Models = (from Trained_Model in linq.Trained_Models
+															  select Trained_Model).ToList();
+						List<Trained_Models_Voice_Note> updated_Models_vn = (from Trained_Models_Voice_Note in linq.Trained_Models_Voice_Notes
+																			 select Trained_Models_Voice_Note).ToList();
+						User user = new User();
+						user.User_Name = user_Name;
+						user.Password = password;
+						user.Email = email;
+						user.Model_ID = updated_Models.ElementAt(updated_Models.Count - 1).Id;
+						user.Model_ID_VN = updated_Models_vn.ElementAt(updated_Models_vn.Count - 1).Id;
+						linq.Users.InsertOnSubmit(user);
+						linq.SubmitChanges();
+						status = "true";
+					}
+				}
 			}
+
 			return status;
 		}
 

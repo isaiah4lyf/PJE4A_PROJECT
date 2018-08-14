@@ -10,7 +10,7 @@ public class Insert_User {
 	public Insert_User()
 	{
 	}
-	public String do_The_Work(String URL,String User_Name)
+	public String do_The_Work(String URL,String User_Name,String email,String password)
 	{
 		 String address = "";
 	        try {
@@ -20,6 +20,8 @@ public class Insert_User {
 	            final String METHOD_NAME = "INSERT_USER";
 	            SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
 	            request.addProperty("user_Name",User_Name);
+	            request.addProperty("email",email);
+	            request.addProperty("password",password);
 
 	            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
 	            envelope.dotNet = true;

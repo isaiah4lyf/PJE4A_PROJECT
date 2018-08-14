@@ -53,8 +53,6 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".MainActivity_Voice_Notes" />
-
         <service android:name=".Services.Take_Pictures_Service" />
         <service android:name=".Services.Predict_User_Service" />
         <service android:name=".Services.Predict_User_Service_VN" />
@@ -65,7 +63,8 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".Main_Menu"
+        <activity
+            android:name=".Main_Menu"
             android:label="Main Menu">
             <intent-filter>
                 <action android:name="com.example.isaia.sss_mobile_app.Main_Menu" />
@@ -89,6 +88,16 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="com.example.isaia.sss_mobile_app.View_Images" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".Main_Activity_Voice_Notes"
+            android:label="Voice Notes Recording"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            <intent-filter>
+                <action android:name="com.example.isaia.sss_mobile_app.Main_Activity_Voice_Notes" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>

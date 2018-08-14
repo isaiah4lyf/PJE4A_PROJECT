@@ -42,6 +42,8 @@
     <Type Name="User">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="User_Name" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Password" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Email" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
       <Column Name="Model_ID" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="Model_ID_VN" Type="System.Int32" DbType="Int" CanBeNull="true" />
     </Type>

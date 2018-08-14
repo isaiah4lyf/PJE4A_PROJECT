@@ -1,34 +1,24 @@
 package com.example.isaia.sss_mobile_app.Services;
 
-import android.app.ActivityManager;
 import android.app.Dialog;
 import android.app.Service;
-import android.app.admin.DevicePolicyManager;
-import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.os.IBinder;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.isaia.sss_mobile_app.Database.DBHelper;
-import com.example.isaia.sss_mobile_app.MainActivity_Voice_Notes;
 import com.example.isaia.sss_mobile_app.R;
-import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Insert_Voice_Note;
 import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Pred_User_VN;
 
 import java.io.File;

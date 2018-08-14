@@ -145,7 +145,7 @@ public class Main_Menu extends AppCompatActivity  implements NavigationView.OnNa
         } else if (id == R.id.Upload_VN) {
             Intent intent = null;
             try {
-                intent = new Intent(getApplicationContext(), Class.forName("com.example.isaia.sss_mobile_app.MainActivity_Voice_Notes"));
+                intent = new Intent(getApplicationContext(), Class.forName("com.example.isaia.sss_mobile_app.Main_Activity_Voice_Notes"));
                 startActivity(intent);
 
             } catch (ClassNotFoundException e) {
