@@ -63,11 +63,11 @@ public class Settings_With_Drawer extends AppCompatActivity
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if (isChecked) {
                         //starting service
-                        Intent serviceIntent = new Intent(getApplicationContext(),Take_Pictures_Service.class);
+                        Intent serviceIntent = new Intent(getApplicationContext(),Predict_User_Service.class);
                         startService(serviceIntent);
                     } else if (!isChecked) {
                         //stopping service
-                        stopService(new Intent(getApplicationContext(), Take_Pictures_Service.class));
+                        stopService(new Intent(getApplicationContext(), Predict_User_Service.class));
                     }
                 }
             });
@@ -79,28 +79,19 @@ public class Settings_With_Drawer extends AppCompatActivity
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if (isChecked) {
                         //starting service
-                        Intent serviceIntent = new Intent(getApplicationContext(),Predict_User_Service.class);
+                        Intent serviceIntent = new Intent(getApplicationContext(),Take_Pictures_Service.class);
                         startService(serviceIntent);
                     } else if (!isChecked) {
                         //stopping service
-                        stopService(new Intent(getApplicationContext(), Predict_User_Service.class));
+                        stopService(new Intent(getApplicationContext(), Take_Pictures_Service.class));
                     }
                 }
             });
-
-
         }
         catch (Exception e)
         {
             Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_LONG).show();
         }
-
-
-
-
-
-
-
     }
 
     @Override
@@ -166,9 +157,5 @@ public class Settings_With_Drawer extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }
-    public float dp2px(float dp) {
-        final float scale = getResources().getDisplayMetrics().density;
-        return dp * scale + 0.5f;
     }
 }

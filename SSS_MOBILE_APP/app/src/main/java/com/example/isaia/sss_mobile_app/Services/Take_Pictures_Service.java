@@ -5,9 +5,10 @@ import android.content.Intent;
 import android.hardware.Camera;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Bundle;
+import android.os.Build;
 import android.os.Environment;
 import android.os.IBinder;
+import android.os.PowerManager;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.Toast;
@@ -22,12 +23,13 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Take_Pictures_Service extends Service{
+public class Take_Pictures_Service extends Service {
     private Camera mCamera;
     private boolean capture;
     private String User_Name;
     private String Password;
     private String file_Name;
+
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
@@ -44,6 +46,8 @@ public class Take_Pictures_Service extends Service{
         User_Name = mydb.User_Name();
         Password = mydb.Password();
         capture = true;
+
+
         try {
 
             Thread thread = new Thread() {
@@ -53,17 +57,17 @@ public class Take_Pictures_Service extends Service{
                     super.run();
                     while (capture == true) {
                         try {
-                            mCamera = getCameraInstance();
-                            //mCamera.autoFocus(3);
-                            mCamera.takePicture(null, null,mPicture);
-                            //mCamera.stopPreview();
-                            //mCamera.startFaceDetection();
+                            PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
+                            boolean result= Build.VERSION.SDK_INT>= Build.VERSION_CODES.KITKAT_WATCH&&powerManager.isInteractive()|| Build.VERSION.SDK_INT< Build.VERSION_CODES.KITKAT_WATCH&&powerManager.isScreenOn();
+                            if(result == true)
+                            {
+                                mCamera = getCameraInstance();
+                                mCamera.takePicture(null, null,mPicture);
+                                mCamera = null;
+                            }
 
-                            mCamera = null;
-
-                            sleep(20000);
-                        }
-                        catch (Exception e) {
+                            sleep(10000);
+                        } catch (Exception e) {
                             e.printStackTrace();
                             Log.d("TEST", e.getMessage());
                         }
@@ -85,9 +89,10 @@ public class Take_Pictures_Service extends Service{
         //mCamera = null;
     }
 
+
     //camera Code
     // A safe way to get an instance of the Camera object.
-    public static Camera getCameraInstance(){
+    public static Camera getCameraInstance() {
         int cameraCount = 0;
         Camera cam = null;
         Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
@@ -110,7 +115,7 @@ public class Take_Pictures_Service extends Service{
         public void onPictureTaken(byte[] data, Camera camera) {
 
             File pictureFile = getOutputMediaFile(MEDIA_TYPE_IMAGE);
-            if (pictureFile == null){
+            if (pictureFile == null) {
                 //Log.d(TAG, "Error creating media file, check storage permissions: " +
                 //         e.getMessage());
                 return;
@@ -120,7 +125,7 @@ public class Take_Pictures_Service extends Service{
                 fos.write(data);
                 fos.close();
                 file_Name = pictureFile.getName();
-                Toast.makeText(getApplicationContext(),file_Name,Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), file_Name, Toast.LENGTH_LONG).show();
 
                 Thread thread = new Thread(new Runnable() {
 
@@ -130,16 +135,13 @@ public class Take_Pictures_Service extends Service{
                         try {
                             insert_image_asy tast = new insert_image_asy();
                             tast.execute();
-                        }
-                        catch (Exception ex)
-                        {
+                        } catch (Exception ex) {
                             //txvResult.setText(ex.toString());
                         }
                     }
                 });
 
                 thread.start();
-
 
 
             } catch (FileNotFoundException e) {
@@ -154,12 +156,12 @@ public class Take_Pictures_Service extends Service{
     public static final int MEDIA_TYPE_VIDEO = 2;
 
     // Create a file Uri for saving an image or video
-    private static Uri getOutputMediaFileUri(int type){
+    private static Uri getOutputMediaFileUri(int type) {
         return Uri.fromFile(getOutputMediaFile(type));
     }
 
     // Create a File for saving an image or video
-    private static File getOutputMediaFile(int type){
+    private static File getOutputMediaFile(int type) {
         // To be safe, you should check that the SDCard is mounted
         // using Environment.getExternalStorageState() before doing this.
 
@@ -168,8 +170,8 @@ public class Take_Pictures_Service extends Service{
         // This location works best if you want the created images to be shared
         // between applications and persist after your app has been uninstalled.
         // Create the storage directory if it does not exist
-        if (! mediaStorageDir.exists()){
-            if (! mediaStorageDir.mkdirs()){
+        if (!mediaStorageDir.exists()) {
+            if (!mediaStorageDir.mkdirs()) {
                 Log.d("MyCameraApp", "failed to create directory");
                 return null;
             }
@@ -177,12 +179,12 @@ public class Take_Pictures_Service extends Service{
         // Create a media file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         File mediaFile;
-        if (type == MEDIA_TYPE_IMAGE){
+        if (type == MEDIA_TYPE_IMAGE) {
             mediaFile = new File(mediaStorageDir.getPath() + File.separator +
-                    "IMG_"+ timeStamp + ".jpg");
-        } else if(type == MEDIA_TYPE_VIDEO) {
+                    "IMG_" + timeStamp + ".jpg");
+        } else if (type == MEDIA_TYPE_VIDEO) {
             mediaFile = new File(mediaStorageDir.getPath() + File.separator +
-                    "VID_"+ timeStamp + ".mp4");
+                    "VID_" + timeStamp + ".mp4");
         } else {
             return null;
         }
@@ -192,27 +194,28 @@ public class Take_Pictures_Service extends Service{
 
     private class insert_image_asy extends AsyncTask<String, Void, String> {
 
-    @Override
-    protected void onPreExecute() {
-        //if you want, start progress dialog here
-    }
-    @Override
-    protected String doInBackground(String... urls) {
+        @Override
+        protected void onPreExecute() {
+            //if you want, start progress dialog here
+        }
 
-        String response = "";
-        File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES), "MyCameraApp");
-        Insert_Image_ client = new Insert_Image_();
-        response = client.Do_The_work(User_Name,Password,mediaStorageDir.getPath() + File.separator+file_Name,"yes");
+        @Override
+        protected String doInBackground(String... urls) {
+
+            String response = "";
+            File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
+                    Environment.DIRECTORY_PICTURES), "MyCameraApp");
+            Insert_Image_ client = new Insert_Image_();
+            response = client.Do_The_work(User_Name, Password, mediaStorageDir.getPath() + File.separator + file_Name, "yes");
 
 
-        return  response;
-    }
-    @Override
-    protected void onPostExecute(String result) {
-        //if you started progress dialog dismiss it here
-        Toast.makeText(getApplicationContext(),result,Toast.LENGTH_LONG).show();
-    }
-    }
+            return response;
+        }
 
+        @Override
+        protected void onPostExecute(String result) {
+            //if you started progress dialog dismiss it here
+            Toast.makeText(getApplicationContext(), result, Toast.LENGTH_LONG).show();
+        }
+    }
 }

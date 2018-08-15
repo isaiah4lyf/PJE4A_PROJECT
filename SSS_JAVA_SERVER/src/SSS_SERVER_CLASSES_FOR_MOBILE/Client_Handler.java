@@ -9,12 +9,14 @@ import SSS_SERVER_FUNCTIONS.Decrement_Model_Version_VN;
 import SSS_SERVER_FUNCTIONS.Insert_Image;
 import SSS_SERVER_FUNCTIONS.Insert_User;
 import SSS_SERVER_FUNCTIONS.Insert_Voice_Note;
+import SSS_SERVER_FUNCTIONS.Login;
 import SSS_SERVER_FUNCTIONS.Return_Images_For_Mobile;
 import SSS_SERVER_FUNCTIONS.Return_Train_Models;
 import SSS_SERVER_FUNCTIONS.Return_Train_Models_VN;
 import SSS_SERVER_FUNCTIONS.Return_User_With_ID;
 import SSS_SERVER_FUNCTIONS.Return_Users_In_Model;
 import SSS_SERVER_FUNCTIONS.Return_Users_In_Model_VN;
+import SSS_SERVER_FUNCTIONS.Return_VNs_For_Mobile;
 import SSS_SERVER_FUNCTIONS.Train_Images_Model;
 import SSS_SERVER_FUNCTIONS.Update_Train_Data;
 import SSS_SERVER_FUNCTIONS.Update_Train_Data_VN;
@@ -77,7 +79,7 @@ public class Client_Handler implements Runnable{
 							String response = clas.do_The_Work(URL,User_Name,email,password);
 							System.out.println(response);
 							sendMessage(response);
-							if(response.equals("false"))
+							if(response.equals("true"))
 							{
 								File dir = new File("data/MATLAB_TRAIN_DATA/" + User_Name);
 								dir.mkdir();
@@ -86,20 +88,51 @@ public class Client_Handler implements Runnable{
 							}				
 							processing = false;						
 							break;
+						case "LOGIN":
+							String User_Name_login = in.readUTF();
+							String password_login = in.readUTF();
+							Login login = new Login();
+							sendMessage(login.do_The_Work(URL,User_Name_login,password_login));
+							processing = false;	
+							break;
 
 						case "COUNT_IMAGES":
 							String user_ID_count = in.readUTF();
 							Return_Images_For_Mobile images_class = new Return_Images_For_Mobile();
 							String[] images = images_class.Do_The_Work(URL);
 							int count = 0;
-							for(int i = 0; i < images.length; i++)
+							if(images != null)
 							{
-								if(user_ID_count.equals(images[i].split(",")[2]))
+								for(int i = 0; i < images.length; i++)
 								{
-									count++;
+									if(user_ID_count.equals(images[i].split(",")[2]))
+									{
+										count++;
+									}
 								}
 							}
+
 							sendMessage(String.valueOf(count));
+							processing = false;
+
+							break;
+						case "COUNT_VN":
+							String user_ID_count_VN = in.readUTF();
+							Return_VNs_For_Mobile VNS_class = new Return_VNs_For_Mobile();
+							String[] VNS = VNS_class.Do_The_Work(URL);
+							int count_VN = 0;
+							if(VNS != null)
+							{
+								for(int i = 0; i < VNS.length; i++)
+								{
+									if(user_ID_count_VN.equals(VNS[i].split(",")[2]))
+									{
+										count_VN++;
+									}
+								}
+							}
+
+							sendMessage(String.valueOf(count_VN));
 							processing = false;
 
 							break;

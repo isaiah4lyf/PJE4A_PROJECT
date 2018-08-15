@@ -9,8 +9,10 @@ import android.content.Intent;
 import android.hardware.Camera;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Environment;
 import android.os.IBinder;
+import android.os.PowerManager;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
@@ -42,6 +44,7 @@ public class Predict_User_Service extends Service{
     private DevicePolicyManager devicePolicyManager;
     private ActivityManager activityManager;
     private ComponentName compName;
+    private int invalidPrediction;
 
 
     @Nullable
@@ -56,9 +59,7 @@ public class Predict_User_Service extends Service{
         DBHelper mydb = new DBHelper(getApplicationContext());
         User_Name = mydb.User_Name();
         Password = mydb.Password();
-
-
-
+        invalidPrediction = 0;
         capture = true;
         devicePolicyManager = (DevicePolicyManager) getSystemService(DEVICE_POLICY_SERVICE);
         activityManager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
@@ -73,12 +74,19 @@ public class Predict_User_Service extends Service{
                     super.run();
                     while (capture == true) {
                         try {
-                            //mCamera = getCameraInstance();
-                            //mCamera.takePicture(null, null,mPicture);
-                            //mCamera = null;
-                            Intent serviceIntent = new Intent(getApplicationContext(),Predict_User_Service_VN.class);
-                            startService(serviceIntent);
-                            sleep(20000);
+                            PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
+                            boolean result= Build.VERSION.SDK_INT>= Build.VERSION_CODES.KITKAT_WATCH&&powerManager.isInteractive()|| Build.VERSION.SDK_INT< Build.VERSION_CODES.KITKAT_WATCH&&powerManager.isScreenOn();
+                            if(result == true)
+                            {
+                                mCamera = getCameraInstance();
+                                mCamera.takePicture(null, null,mPicture);
+                                mCamera = null;
+                            }
+                            else
+                            {
+                                invalidPrediction = 0;
+                            }
+                            sleep(10000);
                         }
                         catch (Exception e) {
                             //Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_LONG).show();
@@ -99,7 +107,6 @@ public class Predict_User_Service extends Service{
         super.onDestroy();
         //stopping the player when service is destroyed
         capture = false;
-        //mCamera = null;
         stopService(new Intent(getApplicationContext(), Predict_User_Service_VN.class));
     }
 
@@ -223,21 +230,35 @@ public class Predict_User_Service extends Service{
             Toast.makeText(getApplicationContext(),result,Toast.LENGTH_LONG).show();
             if(result.equals("Invalid Image"))
             {
-                Intent serviceIntent = new Intent(getApplicationContext(),Predict_User_Service_VN.class);
-                startService(serviceIntent);
+                if(invalidPrediction == 5)
+                {
+                    Intent serviceIntent = new Intent(getApplicationContext(),Predict_User_Service_VN.class);
+                    //startService(serviceIntent);
+                }
+                else
+                {
+                    invalidPrediction++;
+                }
             }
             else
             {
-                //Do some things here
-                boolean active = devicePolicyManager.isAdminActive(compName);
-                if (active) {
-                    devicePolicyManager.lockNow();
-                } else {
-                    Toast.makeText(getApplicationContext(), "You need to enable the Admin Device Features", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
-                    intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, compName);
-                    intent.putExtra(DevicePolicyManager.EXTRA_ADD_EXPLANATION, "Additional text explaining why we need this permission");
-                    //startActivityForResult(intent, RESULT_ENABLE);
+                if(result.equals(User_Name))
+                {
+                    invalidPrediction = 0;
+                }
+                else
+                {
+                    boolean active = devicePolicyManager.isAdminActive(compName);
+                    if (active) {
+                        devicePolicyManager.lockNow();
+                        invalidPrediction = 0;
+                    } else {
+                        Toast.makeText(getApplicationContext(), "You need to enable the Admin Device Features", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
+                        intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, compName);
+                        intent.putExtra(DevicePolicyManager.EXTRA_ADD_EXPLANATION, "Additional text explaining why we need this permission");
+                        startActivity(intent);
+                    }
                 }
             }
         }

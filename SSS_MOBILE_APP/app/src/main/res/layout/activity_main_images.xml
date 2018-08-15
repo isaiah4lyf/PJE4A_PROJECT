@@ -13,18 +13,57 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"/>
     <ImageButton
-        android:id="@+id/Insert_Image"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+    android:id="@+id/Insert_Image"
+    android:layout_width="80dp"
+    android:layout_height="80dp"
+    android:layout_gravity="center"
+    android:layout_alignParentStart="true"
+    android:layout_alignParentTop="true"
+    android:layout_marginStart="470dp"
+    android:layout_marginTop="130dp"
+    android:background="@xml/round_button"
+    android:rotation="-90"
+    android:src="@drawable/ic_menu_camera"
+    />
+
+    <ImageButton
+        android:id="@+id/recordAudio"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_gravity="center"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="480dp"
-        android:layout_marginTop="130dp"
+        android:layout_marginStart="560dp"
+        android:layout_marginTop="230dp"
         android:background="@xml/round_button"
         android:rotation="-90"
-        android:src="@drawable/ic_menu_camera"
-        android:text="Capture Image"
+        android:src="@drawable/ic_record_voice_over_black_24dp"
+        />
+    <ImageButton
+        android:id="@+id/home"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="560dp"
+        android:layout_marginTop="142dp"
+        android:background="@xml/round_button"
+        android:rotation="-90"
+        android:src="@drawable/ic_home_black_24dp"
+        />
+    <ImageButton
+        android:id="@+id/settings"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="560dp"
+        android:layout_marginTop="55dp"
+        android:background="@xml/round_button"
+        android:rotation="-90"
+        android:src="@drawable/ic_settings_black_24dp"
         />
 
 </RelativeLayout>

@@ -141,6 +141,21 @@ namespace SSS_WEB_SERVICE
 
 			return status;
 		}
+		[WebMethod]
+		public string LOGIN(string userName,string password)
+		{
+			List<User> userTable = (from User in linq.Users
+									where User.User_Name == userName && User.Password == password
+									select User).ToList();
+			if(userTable.Count == 1)
+			{
+				return userTable.ElementAt(0).Id + "," + userTable.ElementAt(0).User_Name + "," + userTable.ElementAt(0).Password + "," + userTable.ElementAt(0).Email + "," + userTable.ElementAt(0).Model_ID + "," + userTable.ElementAt(0).Model_ID_VN;
+			}
+			else
+			{
+				return "false";
+			}
+		}
 
 		//IMAGE PROCESSING METHODS
 		[WebMethod]
@@ -364,6 +379,19 @@ namespace SSS_WEB_SERVICE
 				users_string[i] = users.ElementAt(i).Id + "," + users.ElementAt(i).User_Name + "," + users.ElementAt(i).Model_ID_VN;
 			}
 			return users_string;
+		}
+
+		[WebMethod]
+		public string[] RETURN_VNS_FOR_MOBILE()
+		{
+			List<Voice_Note> vns = (from Voice_Note in linq.Voice_Notes
+									   select Voice_Note).ToList();
+			string[] vns_arr = new string[vns.Count];
+			for (int i = 0; i < vns.Count; i++)
+			{
+				vns_arr[i] = vns.ElementAt(i).Id + "," + vns.ElementAt(i).Voice_Note_Path + "," + vns.ElementAt(i).User_ID;
+			}
+			return vns_arr;
 		}
 
 

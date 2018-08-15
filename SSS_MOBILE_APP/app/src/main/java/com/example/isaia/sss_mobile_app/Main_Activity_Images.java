@@ -31,6 +31,7 @@ import android.widget.TextView;
 
 import com.example.isaia.sss_mobile_app.Database.DBHelper;
 import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Count_Images;
+import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Count_VNs;
 import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Insert_Image_;
 
 
@@ -49,6 +50,9 @@ public class Main_Activity_Images extends AppCompatActivity{
     private String User_Name;
     private String Password;
     private String Image_Name;
+    private ImageButton recordButton;
+    private ImageButton homeButton;
+    private ImageButton settingButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +62,74 @@ public class Main_Activity_Images extends AppCompatActivity{
         DBHelper mydb = new DBHelper(getApplicationContext());
         User_Name = mydb.User_Name();
         Password = mydb.Password();
+        recordButton = (ImageButton)findViewById(R.id.recordAudio);
+        homeButton = (ImageButton)findViewById(R.id.home);
+        settingButton = (ImageButton)findViewById(R.id.settings);
+        homeButton.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // get an image from the camera
+                        Thread thread = new Thread(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                try {
+                                    count_Images_for_home_asy tast = new count_Images_for_home_asy();
+                                    tast.execute();
+                                }
+                                catch (Exception ex)
+                                {
+                                }
+                            }
+                        });
+                        thread.start();
+                    }
+                }
+        );
+        settingButton.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // get an image from the camera
+                        Thread thread = new Thread(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                try {
+                                    count_Images_for_settings_asy tast = new count_Images_for_settings_asy();
+                                    tast.execute();
+                                }
+                                catch (Exception ex)
+                                {
+                                }
+                            }
+                        });
+                        thread.start();
+                    }
+                }
+        );
+        recordButton.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Thread thread = new Thread(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                try {
+                                    count_Images_for_VN_asy tast = new count_Images_for_VN_asy();
+                                    tast.execute();
+                                }
+                                catch (Exception ex)
+                                {
+                                }
+                            }
+                        });
+                        thread.start();
+                    }
+                }
+        );
 
         mCamera = getCameraInstance();
         preview = findViewById(R.id.camera_preview);
@@ -68,7 +140,6 @@ public class Main_Activity_Images extends AppCompatActivity{
         catch (Exception e){
             Toast.makeText(this,e.toString(),Toast.LENGTH_LONG).show();
         }
-
         final ImageButton Insert_Image = (ImageButton) findViewById(R.id.Insert_Image);
         Insert_Image.setOnClickListener(
                 new View.OnClickListener() {
@@ -97,7 +168,6 @@ public class Main_Activity_Images extends AppCompatActivity{
         mCamera.release();
         mCamera = null;
     }
-
     //camera Code
     // A safe way to get an instance of the Camera object.
     public static Camera getCameraInstance(){
@@ -117,7 +187,6 @@ public class Main_Activity_Images extends AppCompatActivity{
         }
         return cam; // returns null if camera is unavailable
     }
-
     // A basic Camera preview class
     public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback {
         private SurfaceHolder mHolder;
@@ -126,12 +195,8 @@ public class Main_Activity_Images extends AppCompatActivity{
         public CameraPreview(Context context, Camera camera) {
             super(context);
             mCamera = camera;
-
-            // Install a SurfaceHolder.Callback so we get notified when the
-            // underlying surface is created and destroyed.
             mHolder = getHolder();
             mHolder.addCallback(this);
-
         }
 
         public void surfaceCreated(SurfaceHolder holder) {
@@ -206,7 +271,6 @@ public class Main_Activity_Images extends AppCompatActivity{
                         try {
                             insert_image_asy tast = new insert_image_asy();
                             tast.execute();
-
                         }
                         catch (Exception ex)
                         {
@@ -333,6 +397,172 @@ public class Main_Activity_Images extends AppCompatActivity{
                 }
             }
 
+        }
+    }
+    private class count_Images_for_settings_asy extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected void onPreExecute() {
+            //if you want, start progress dialog here
+        }
+        @Override
+        protected String doInBackground(String... urls) {
+
+            String response = "";
+            Count_Images count_class = new Count_Images();
+            response = count_class.Do_The_work(Password);
+            return  response;
+        }
+        @Override
+        protected void onPostExecute(String result) {
+            //if you started progress dialog dismiss it here
+            if(!result.equals(""))
+            {
+                if(Integer.parseInt(result) > 10 || Integer.parseInt(result) == 10)
+                {
+                    count_VNS_FOR_SETTINGS_asy task = new count_VNS_FOR_SETTINGS_asy();
+                    task.execute();
+                }
+                else
+                {
+                    int images_left = 10 - Integer.parseInt(result);
+                    Toast.makeText(getApplicationContext(),images_left + " Images Left...",Toast.LENGTH_LONG).show();
+                }
+            }
+        }
+    }
+    private class count_Images_for_home_asy extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected void onPreExecute() {
+            //if you want, start progress dialog here
+        }
+        @Override
+        protected String doInBackground(String... urls) {
+
+            String response = "";
+            Count_Images count_class = new Count_Images();
+            response = count_class.Do_The_work(Password);
+            return  response;
+        }
+        @Override
+        protected void onPostExecute(String result) {
+            //if you started progress dialog dismiss it here
+            if(!result.equals(""))
+            {
+                if(Integer.parseInt(result) > 10 || Integer.parseInt(result) == 10)
+                {
+                    count_VNS_FOR_HOME_asy tast = new count_VNS_FOR_HOME_asy();
+                    tast.execute();
+                }
+                else
+                {
+                    int images_left = 10 - Integer.parseInt(result);
+                    Toast.makeText(getApplicationContext(),images_left + " Images Left...",Toast.LENGTH_LONG).show();
+                }
+            }
+        }
+    }
+    private class count_Images_for_VN_asy extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected void onPreExecute() {
+            //if you want, start progress dialog here
+        }
+        @Override
+        protected String doInBackground(String... urls) {
+
+            String response = "";
+            Count_Images count_class = new Count_Images();
+            response = count_class.Do_The_work(Password);
+            return  response;
+        }
+        @Override
+        protected void onPostExecute(String result) {
+            //if you started progress dialog dismiss it here
+            if(!result.equals(""))
+            {
+                if(Integer.parseInt(result) > 10 || Integer.parseInt(result) == 10)
+                {
+                    Intent intent = new Intent(getApplicationContext(),Main_Activity_Voice_Notes.class);
+                    startActivity(intent);
+                }
+                else
+                {
+                    int images_left = 10 - Integer.parseInt(result);
+                    Toast.makeText(getApplicationContext(),images_left + " Images Left...",Toast.LENGTH_LONG).show();
+                }
+            }
+        }
+    }
+
+    private class count_VNS_FOR_HOME_asy extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected void onPreExecute() {
+            //if you want, start progress dialog here
+        }
+        @Override
+        protected String doInBackground(String... urls) {
+
+            String response = "";
+            Count_VNs count_class = new Count_VNs();
+            response = count_class.Do_The_work(Password);
+            return  response;
+        }
+        @Override
+        protected void onPostExecute(String result) {
+            //if you started progress dialog dismiss it here
+            if(!result.equals(""))
+            {
+                if(Integer.parseInt(result) > 10 || Integer.parseInt(result) == 10)
+                {
+                    Intent intent = new Intent(getApplicationContext(),Main_Menu.class);
+                    startActivity(intent);
+                }
+                else
+                {
+                    Intent intent = new Intent(getApplicationContext(),Main_Activity_Voice_Notes.class);
+                    startActivity(intent);
+                    int images_left = 10 - Integer.parseInt(result);
+                    Toast.makeText(getApplicationContext(),images_left + " Voice Notes...",Toast.LENGTH_LONG).show();
+                }
+            }
+        }
+    }
+
+    private class count_VNS_FOR_SETTINGS_asy extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected void onPreExecute() {
+            //if you want, start progress dialog here
+        }
+        @Override
+        protected String doInBackground(String... urls) {
+
+            String response = "";
+            Count_VNs count_class = new Count_VNs();
+            response = count_class.Do_The_work(Password);
+            return  response;
+        }
+        @Override
+        protected void onPostExecute(String result) {
+            //if you started progress dialog dismiss it here
+            if(!result.equals(""))
+            {
+                if(Integer.parseInt(result) > 10 || Integer.parseInt(result) == 10)
+                {
+                    Intent intent = new Intent(getApplicationContext(),Settings_With_Drawer.class);
+                    startActivity(intent);
+                }
+                else
+                {
+                    Intent intent = new Intent(getApplicationContext(),Main_Activity_Voice_Notes.class);
+                    startActivity(intent);
+                    int images_left = 10 - Integer.parseInt(result);
+                    Toast.makeText(getApplicationContext(),images_left + " Voice Notes...",Toast.LENGTH_LONG).show();
+                }
+            }
         }
     }
 }
