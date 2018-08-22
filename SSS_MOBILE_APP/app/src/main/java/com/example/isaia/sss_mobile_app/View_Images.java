@@ -1,6 +1,7 @@
 package com.example.isaia.sss_mobile_app;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -90,13 +91,37 @@ public class View_Images extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.account_man) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.upload_Images) {
+            Intent intent = null;
+            try {
+                intent = new Intent(getApplicationContext(), Class.forName("com.example.isaia.sss_mobile_app.Main_Activity_Images"));
+                startActivity(intent);
 
-        } else if (id == R.id.nav_slideshow) {
+            } catch (ClassNotFoundException e) {
+                Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_LONG).show();
+            }
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.Upload_VN) {
+            Intent intent = null;
+            try {
+                intent = new Intent(getApplicationContext(), Class.forName("com.example.isaia.sss_mobile_app.Main_Activity_Voice_Notes"));
+                startActivity(intent);
+
+            } catch (ClassNotFoundException e) {
+                Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_LONG).show();
+            }
+
+        } else if (id == R.id.settings) {
+            Intent intent = null;
+            try {
+                intent = new Intent(getApplicationContext(), Class.forName("com.example.isaia.sss_mobile_app.Settings_With_Drawer"));
+                startActivity(intent);
+
+            } catch (ClassNotFoundException e) {
+                Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_LONG).show();
+            }
 
         } else if (id == R.id.nav_share) {
 

@@ -91,8 +91,11 @@ public class Client_Handler implements Runnable{
 						case "LOGIN":
 							String User_Name_login = in.readUTF();
 							String password_login = in.readUTF();
+						
 							Login login = new Login();
-							sendMessage(login.do_The_Work(URL,User_Name_login,password_login));
+							String loginString = login.do_The_Work(URL,User_Name_login,password_login);
+							System.out.println(loginString);
+							sendMessage(loginString);
 							processing = false;	
 							break;
 
@@ -140,7 +143,9 @@ public class Client_Handler implements Runnable{
 			
 							processing = false;
 							String user_ID_ = in.readUTF();
+							System.out.println(user_ID_);
 							String user_name = in.readUTF();
+							System.out.println(user_name);
 							String size_string = in.readUTF();
 							System.out.println(size_string);
 							int size = Integer.parseInt(size_string);

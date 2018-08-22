@@ -1,48 +1,49 @@
 package com.example.isaia.sss_mobile_app;
 
-import android.Manifest;
-import android.annotation.SuppressLint;
-import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.media.MediaPlayer;
-import android.media.MediaRecorder;
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.os.Environment;
-import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.util.Log;
-import android.view.MotionEvent;
-import android.view.View;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
-import android.widget.Toast;
+        import android.Manifest;
+        import android.annotation.SuppressLint;
+        import android.content.Context;
+        import android.content.Intent;
+        import android.content.pm.PackageManager;
+        import android.media.MediaPlayer;
+        import android.media.MediaRecorder;
+        import android.os.AsyncTask;
+        import android.os.Bundle;
+        import android.os.Environment;
+        import android.support.annotation.NonNull;
+        import android.support.design.widget.FloatingActionButton;
+        import android.support.design.widget.Snackbar;
+        import android.util.Log;
+        import android.view.MotionEvent;
+        import android.view.View;
+        import android.support.design.widget.NavigationView;
+        import android.support.v4.view.GravityCompat;
+        import android.support.v4.widget.DrawerLayout;
+        import android.support.v7.app.ActionBarDrawerToggle;
+        import android.support.v7.app.AppCompatActivity;
+        import android.support.v7.widget.Toolbar;
+        import android.view.Menu;
+        import android.view.MenuItem;
+        import android.view.ViewGroup;
+        import android.view.animation.Animation;
+        import android.view.animation.AnimationUtils;
+        import android.widget.Button;
+        import android.widget.ImageButton;
+        import android.widget.LinearLayout;
+        import android.widget.TextView;
+        import android.widget.Toast;
 
 
-import com.example.isaia.sss_mobile_app.Database.DBHelper;
-import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Insert_Voice_Note;
+        import com.example.isaia.sss_mobile_app.Database.DBHelper;
+        import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Insert_Voice_Note;
 
-import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+        import java.io.File;
+        import java.io.IOException;
+        import java.text.SimpleDateFormat;
+        import java.util.Date;
 
 public class Main_Activity_Voice_Notes extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, View.OnTouchListener {
+        implements NavigationView.OnNavigationItemSelectedListener /*, View.OnTouchListener */{
 
     private static final String LOG_TAG = "AudioRecordTest";
     private static final int REQUEST_RECORD_AUDIO_PERMISSION = 200;
@@ -57,7 +58,10 @@ public class Main_Activity_Voice_Notes extends AppCompatActivity
     private boolean permissionToRecordAccepted = false;
     private View binView;
     private View dragView;
+    private View recordButton;
+    private  ImageButton recordButton2;
     private boolean fileDelete;
+    private TextView timeText;
     private float InitialRecordY;
     private ImageButton bin_shake;
     private String [] permissions = {Manifest.permission.RECORD_AUDIO};
@@ -81,6 +85,69 @@ public class Main_Activity_Voice_Notes extends AppCompatActivity
         User_Name = mydb.User_Name();
         Password = mydb.Password();
 
+        timeText = (TextView)findViewById(R.id.textView3);
+        fileDelete = false;
+        recordButton = (View) findViewById(R.id.start);
+        /*
+        recordButton2 = (ImageButton)findViewById(R.id.start);
+        recordButton2.setOnClickListener(
+
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // get an image from the camera
+
+                        try
+                        {
+                            Thread thread = new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    int count = 1;
+                                    while (true)
+                                    {
+                                        timeText.setText(String.valueOf(count));
+                                        try {
+                                            Thread.sleep(1000);
+                                        } catch (InterruptedException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                }
+                            });
+                            thread.start();
+                        }
+                        catch(Exception e)
+                        {
+                            Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_LONG).show();
+                        }
+                    }
+                }
+
+        );
+        */
+        recordButton.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    // start your timer
+
+
+                    onRecord(true);
+
+
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                    // stop your timer.
+                    onRecord(false);
+                    //thread.interrupt();
+                }
+                return false;
+            }
+        });
+
+        binView = findViewById(R.id.bin);
+        binView.setVisibility(View.GONE);
+        /*
         binView = findViewById(R.id.bin);
         binView.setVisibility(View.GONE);
         dragView = findViewById(R.id.start);
@@ -90,13 +157,17 @@ public class Main_Activity_Voice_Notes extends AppCompatActivity
         final Animation animShake = AnimationUtils.loadAnimation(this, R.xml.shake_button);
         bin_shake = (ImageButton) findViewById(R.id.bin);
         bin_shake.startAnimation(animShake);
-
+        */
     }
+    /*
     @Override
     public boolean onTouch(View view, MotionEvent event) {
+
+
         switch (event.getActionMasked()) {
             case MotionEvent.ACTION_DOWN:
                 //Start Recording here
+
                 onRecord(true);
                 dX = view.getX() - event.getRawX();
                 dY = view.getY() - event.getRawY();
@@ -130,9 +201,10 @@ public class Main_Activity_Voice_Notes extends AppCompatActivity
             default:
                 return false;
         }
+
         return true;
     }
-
+    */
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -164,15 +236,40 @@ public class Main_Activity_Voice_Notes extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.account_man) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.upload_Images) {
+            Intent intent = null;
+            try {
+                intent = new Intent(getApplicationContext(), Class.forName("com.example.isaia.sss_mobile_app.Main_Activity_Images"));
+                startActivity(intent);
 
-        } else if (id == R.id.nav_slideshow) {
+            } catch (ClassNotFoundException e) {
+                Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_LONG).show();
+            }
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.Upload_VN) {
+            Intent intent = null;
+            try {
+                intent = new Intent(getApplicationContext(), Class.forName("com.example.isaia.sss_mobile_app.Main_Activity_Voice_Notes"));
+                startActivity(intent);
 
-        } else if (id == R.id.nav_share) {
+            } catch (ClassNotFoundException e) {
+                Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_LONG).show();
+            }
+
+        } else if (id == R.id.settings) {
+            Intent intent = null;
+            try {
+                intent = new Intent(getApplicationContext(), Class.forName("com.example.isaia.sss_mobile_app.Settings_With_Drawer"));
+                startActivity(intent);
+
+            } catch (ClassNotFoundException e) {
+                Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_LONG).show();
+            }
+
+
+        }  else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
 
@@ -268,7 +365,7 @@ public class Main_Activity_Voice_Notes extends AppCompatActivity
         mRecorder.reset();
         mRecorder.release();
         mRecorder = null;
-        if(fileDelete)
+        if(fileDelete == false)
         {
             Thread thread = new Thread(new Runnable() {
                 @Override
@@ -346,3 +443,4 @@ public class Main_Activity_Voice_Notes extends AppCompatActivity
         }
     }
 }
+

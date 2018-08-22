@@ -17,10 +17,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String CONTACTS_COLUMN_ID = "id";
     public static final String CONTACTS_COLUMN_NAME = "User_Name";
     public static final String CONTACTS_COLUMN_PASSWORD = "Password";
-    public static final String CONTACTS_COLUMN_STREET = "street";
-    public static final String CONTACTS_COLUMN_CITY = "place";
-    public static final String CONTACTS_COLUMN_PHONE = "phone";
-    private HashMap hp;
+
 
     public DBHelper(Context context) {
         super(context, DATABASE_NAME , null, 1);
@@ -38,14 +35,22 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // TODO Auto-generated method stub
-        db.execSQL("DROP TABLE IF EXISTS contacts");
+        db.execSQL("DROP TABLE IF EXISTS Login_State");
         onCreate(db);
     }
 
     public boolean insert_Login_State (String User_Name, String Password) {
         try
         {
+
+
             SQLiteDatabase db = this.getWritableDatabase();
+            db.execSQL("DROP TABLE IF EXISTS Login_State");
+            db.execSQL(
+                    "create table Login_State" +
+                            "(id integer primary key, User_Name text,Password text)"
+            );
+
             ContentValues contentValues = new ContentValues();
             contentValues.put("User_Name", User_Name);
             contentValues.put("Password", Password);

@@ -131,8 +131,10 @@ public class Login extends AppCompatActivity {
                     String[] userDetails = loginString.split(",");
                     Intent intent = null;
                     try {
+                        Toast.makeText(getApplicationContext(),userDetails[1]+userDetails[0],Toast.LENGTH_LONG).show();
                         DBHelper mydb = new DBHelper(getApplicationContext());
                         String insert = String.valueOf(mydb.insert_Login_State(userDetails[1],userDetails[0]));
+                        Toast.makeText(getApplicationContext(),insert,Toast.LENGTH_LONG).show();
                         intent = new Intent(getApplicationContext(), Class.forName("com.example.isaia.sss_mobile_app.Main_Menu"));
                         startActivity(intent);
                     } catch (Exception e) {
@@ -141,6 +143,9 @@ public class Login extends AppCompatActivity {
                 }
                 else
                 {
+                    String[] userDetails = loginString.split(",");
+                    DBHelper mydb = new DBHelper(getApplicationContext());
+                    String insert = String.valueOf(mydb.insert_Login_State(userDetails[1],userDetails[0]));
                     Intent intent = new Intent(getApplicationContext(),Main_Activity_Images.class);
                     startActivity(intent);
                     int images_left = 10 - Integer.parseInt(result);

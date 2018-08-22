@@ -145,10 +145,27 @@ public class Settings_With_Drawer extends AppCompatActivity
             }
 
         } else if (id == R.id.Upload_VN) {
+            Intent intent = null;
+            try {
+                intent = new Intent(getApplicationContext(), Class.forName("com.example.isaia.sss_mobile_app.Main_Activity_Voice_Notes"));
+                startActivity(intent);
+
+            } catch (ClassNotFoundException e) {
+                Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_LONG).show();
+            }
 
         } else if (id == R.id.settings) {
+            Intent intent = null;
+            try {
+                intent = new Intent(getApplicationContext(), Class.forName("com.example.isaia.sss_mobile_app.Settings_With_Drawer"));
+                startActivity(intent);
 
-        } else if (id == R.id.nav_share) {
+            } catch (ClassNotFoundException e) {
+                Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_LONG).show();
+            }
+
+
+        }  else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
 
