@@ -1,5 +1,6 @@
 package com.example.isaia.sss_mobile_app.Audio_Recorder;
 
+
 import android.content.Context;
 import android.media.AudioFormat;
 import android.media.AudioRecord;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 
 import com.example.isaia.sss_mobile_app.Database.DBHelper;
 import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Insert_Voice_Note;
+import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Pred_User_VN;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -35,7 +37,7 @@ import java.util.TimerTask;
  *
  * Created by tyorikan on 2015/06/09.
  */
-public class RecordingSampler {
+public class RecordingSampler_For_Prediction {
 
     private static final int RECORDING_SAMPLE_RATE = 44100;
 
@@ -52,7 +54,8 @@ public class RecordingSampler {
     private String Password;
     private List<VisualizerView> mVisualizerViews = new ArrayList<>();
     private Context context;
-    public RecordingSampler(Context context) {
+
+    public RecordingSampler_For_Prediction(Context context) {
         initAudioRecord();
         this.context = context;
         DBHelper mydb = new DBHelper(context);
@@ -153,7 +156,7 @@ public class RecordingSampler {
             @Override
             public void run() {
                 try {
-                    Insert_VN tast = new Insert_VN();
+                    pred_user_vn tast = new pred_user_vn();
                     tast.execute();
 
                 }
@@ -356,7 +359,7 @@ public class RecordingSampler {
         }
     }
 
-    private class Insert_VN extends AsyncTask<String, Void, String> {
+    private class pred_user_vn extends AsyncTask<String, Void, String> {
 
         @Override
         protected void onPreExecute() {
@@ -364,20 +367,23 @@ public class RecordingSampler {
         }
         @Override
         protected String doInBackground(String... urls) {
+
             String response = "";
             try
             {
-                Insert_Voice_Note count_class = new Insert_Voice_Note();
+                Pred_User_VN count_class = new Pred_User_VN();
                 response = count_class.Do_The_work(User_Name,Password,f2.getAbsolutePath());
             }
             catch(Exception ex)
             {
                 response = ex.getMessage();
             }
+
             return  response;
         }
         @Override
         protected void onPostExecute(String result) {
+            //if you started progress dialog dismiss it here
             Toast.makeText(context,result,Toast.LENGTH_LONG).show();
             if(file.exists())
             {
