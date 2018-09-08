@@ -15,10 +15,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.CompoundButton;
+import android.widget.SeekBar;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.isaia.sss_mobile_app.Database.DBHelper;
 import com.example.isaia.sss_mobile_app.Services.Predict_User_Service;
+import com.example.isaia.sss_mobile_app.Services.Predict_User_Service_VN;
 import com.example.isaia.sss_mobile_app.Services.Take_Pictures_Service;
 //import com.kyleduo.switchbutton.SwitchButton;
 
@@ -33,14 +37,7 @@ public class Settings_With_Drawer extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -53,40 +50,120 @@ public class Settings_With_Drawer extends AppCompatActivity
 
         try
         {
-
-
-
+            final DBHelper mydb = new DBHelper(getApplicationContext());
             Switch switchButton = (Switch) findViewById(R.id.switch_button2);
-
+            if(Integer.parseInt(mydb.Get_Image_Prediction_Service_Status()) == 1)
+            {
+                switchButton.setChecked(true);
+            }
             switchButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if (isChecked) {
+                        mydb.Update_Face_Recog_Settings("1",mydb.Get_Image_Upload_Interval(),mydb.Get_Image_Upload_Service_Status());
                         //starting service
-                        Intent serviceIntent = new Intent(getApplicationContext(),Predict_User_Service.class);
-                        startService(serviceIntent);
+                        //Intent serviceIntent = new Intent(getApplicationContext(),Predict_User_Service.class);
+                       // startService(serviceIntent);
                     } else if (!isChecked) {
+                        mydb.Update_Face_Recog_Settings("0",mydb.Get_Image_Upload_Interval(),mydb.Get_Image_Upload_Service_Status());
                         //stopping service
-                        stopService(new Intent(getApplicationContext(), Predict_User_Service.class));
+                       // stopService(new Intent(getApplicationContext(), Predict_User_Service.class));
                     }
                 }
             });
 
             Switch switchButton2 = (Switch) findViewById(R.id.switch_button4);
-
+            if(Integer.parseInt(mydb.Get_Image_Upload_Service_Status()) == 1)
+            {
+                switchButton2.setChecked(true);
+            }
             switchButton2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if (isChecked) {
+                        mydb.Update_Face_Recog_Settings(mydb.Get_Image_Prediction_Service_Status(),mydb.Get_Image_Upload_Interval(),"1");
                         //starting service
-                        Intent serviceIntent = new Intent(getApplicationContext(),Take_Pictures_Service.class);
-                        startService(serviceIntent);
+                        //Intent serviceIntent = new Intent(getApplicationContext(),Take_Pictures_Service.class);
+                        //startService(serviceIntent);
                     } else if (!isChecked) {
+                        mydb.Update_Face_Recog_Settings(mydb.Get_Image_Prediction_Service_Status(),mydb.Get_Image_Upload_Interval(),"0");
                         //stopping service
-                        stopService(new Intent(getApplicationContext(), Take_Pictures_Service.class));
+                        //stopService(new Intent(getApplicationContext(), Take_Pictures_Service.class));
                     }
                 }
             });
+            SeekBar interval = (SeekBar)findViewById(R.id.seekBar); // make seekbar object
+            interval.setProgress(Integer.parseInt(mydb.Get_Image_Upload_Interval()));
+            TextView intText = (TextView)findViewById(R.id.menu3);
+            intText.setText("Image Upload Interval: "+ mydb.Get_Image_Upload_Interval() +" Minutes");
+            interval.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+                @Override
+                public void onStopTrackingTouch(SeekBar seekBar) {
+                    // TODO Auto-generated method stub
+                }
+
+                @Override
+                public void onStartTrackingTouch(SeekBar seekBar) {
+                    // TODO Auto-generated method stub
+                }
+
+                @Override
+                public void onProgressChanged(SeekBar seekBar, int progress,
+                                              boolean fromUser) {
+                    // TODO Auto-generated method stub
+                    TextView intText = (TextView)findViewById(R.id.menu3);
+                    intText.setText("Image Upload Interval: "+ progress +" Minutes");
+                    mydb.Update_Face_Recog_Settings(mydb.Get_Image_Prediction_Service_Status(),String.valueOf(progress),mydb.Get_Image_Upload_Service_Status());
+
+                }
+            });
+
+            int voicePredServStatus = Integer.parseInt(mydb.Get_Voice_Prediction_Service_Status());
+            int voiceUploadServiceSatus = Integer.parseInt(mydb.Get_Voice_Upload_Service_Status());
+            Switch switchButton3 = (Switch) findViewById(R.id.SwitchVoicePrediction);
+            if(voicePredServStatus == 1)
+            {
+                switchButton3.setChecked(true);
+            }
+            switchButton3.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked) {
+                        mydb.Update_Voice_Settings("1",mydb.Get_Voice_Upload_Service_Status());
+                        //starting service
+                        Intent serviceIntent = new Intent(getApplicationContext(),Predict_User_Service_VN.class);
+                        startService(serviceIntent);
+                    } else if (!isChecked) {
+                        mydb.Update_Voice_Settings("0",mydb.Get_Voice_Upload_Service_Status());
+                        //stopping service
+                        stopService(new Intent(getApplicationContext(), Predict_User_Service_VN.class));
+                    }
+                }
+            });
+            Switch switchButton4 = (Switch) findViewById(R.id.SwitchVoiceRecordService);
+            if(voiceUploadServiceSatus == 1)
+            {
+                switchButton4.setChecked(true);
+            }
+            switchButton4.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked) {
+                        mydb.Update_Voice_Settings(mydb.Get_Voice_Prediction_Service_Status(),"1");
+                        //starting service
+                       // Intent serviceIntent = new Intent(getApplicationContext(),Predict_User_Service.class);
+                        //startService(serviceIntent);
+                    } else if (!isChecked) {
+                        mydb.Update_Voice_Settings(mydb.Get_Voice_Prediction_Service_Status(),"0");
+                        //stopping service
+                       // stopService(new Intent(getApplicationContext(), Predict_User_Service.class));
+                    }
+                }
+            });
+
+
+
         }
         catch (Exception e)
         {

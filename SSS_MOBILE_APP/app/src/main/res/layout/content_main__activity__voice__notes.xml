@@ -36,6 +36,18 @@
         android:layout_marginRight="5dp"
         android:layout_marginStart="53dp"
         android:text="" />
+
+    <com.example.isaia.sss_mobile_app.Audio_Recorder.VisualizerView
+        android:id="@+id/visualizer3"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_gravity="center_horizontal|bottom"
+        android:layout_marginTop="@dimen/spacing_large"
+        android:background="@android:color/darker_gray"
+        app:numColumns="100"
+        app:renderColor="@color/btnRequest"
+        app:renderRange="both"
+        app:renderType="pixel" />
     <ImageButton
         android:id="@+id/bin"
         android:layout_width="80dp"

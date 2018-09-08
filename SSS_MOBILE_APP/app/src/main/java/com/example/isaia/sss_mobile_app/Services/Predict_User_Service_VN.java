@@ -10,9 +10,11 @@ import android.os.Environment;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,11 +34,8 @@ public class Predict_User_Service_VN extends Service {
     private static final String LOG_TAG = "AudioRecordTest";
     private static final int REQUEST_RECORD_AUDIO_PERMISSION = 200;
     private static String mFileName = null;
-
     private MediaRecorder mRecorder = null;
-
     private MediaPlayer mPlayer = null;
-
 
     @Nullable
     @Override
@@ -51,37 +50,28 @@ public class Predict_User_Service_VN extends Service {
         User_Name = mydb.User_Name();
         Password = mydb.Password();
 
-
-
         final Dialog dialog = new Dialog(getApplicationContext());
 
-        dialog.setContentView(R.layout.custom);
+        dialog.setContentView(R.layout.voice_note_prediction_pop_up);
         dialog.setTitle("Title...");
-
         // set the custom dialog components - text, image and button
         TextView text = (TextView) dialog.findViewById(R.id.text);
         text.setText("Android custom dialog example!");
         ImageView image = (ImageView) dialog.findViewById(R.id.image);
         image.setImageResource(R.drawable.arrow);
 
-        final Button start = (Button) dialog.findViewById(R.id.start);
-        // if button is clicked, close the custom dialog
-        start.setOnClickListener(new View.OnClickListener() {
+        final ImageButton recordButton = (ImageButton) dialog.findViewById(R.id.start);
+
+        recordButton.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View v) {
-                //dialog.dismiss();
-                onRecord(true);
-                start.setEnabled(false);
-            }
-        });
-        final Button stop = (Button) dialog.findViewById(R.id.stop);
-        // if button is clicked, close the custom dialog
-        stop.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //dialog.dismiss();
-                onRecord(false);
-                stop.setEnabled(false);
+            public boolean onTouch(View v, MotionEvent event) {
+
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    onRecord(true);
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                    onRecord(false);
+                }
+                return false;
             }
         });
         dialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
@@ -95,8 +85,6 @@ public class Predict_User_Service_VN extends Service {
         //stopping the player when service is destroyed
 
     }
-
-
 
     private void onRecord(boolean start) {
         if (start) {
@@ -176,27 +164,19 @@ public class Predict_User_Service_VN extends Service {
 
 
     private static File getOutputMediaFile(){
-        // To be safe, you should check that the SDCard is mounted
-        // using Environment.getExternalStorageState() before doing this.
         File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_DCIM), "Smartphone Security System");
-        // This location works best if you want the created images to be shared
-        // between applications and persist after your app has been uninstalled.
-        // Create the storage directory if it does not exist
         if (! mediaStorageDir.exists()){
             if (! mediaStorageDir.mkdirs()){
                 Log.d("MyCameraApp", "failed to create directory");
                 return null;
             }
         }
-        // Create a media file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         File mediaFile;
 
         mediaFile = new File(mediaStorageDir.getPath() + File.separator +
                 "AUD_"+ timeStamp + ".wav");
-
-
         return mediaFile;
     }
 
@@ -210,8 +190,16 @@ public class Predict_User_Service_VN extends Service {
         protected String doInBackground(String... urls) {
 
             String response = "";
-            Pred_User_VN count_class = new Pred_User_VN();
-            response = count_class.Do_The_work(User_Name,Password,mFileName);
+            try
+            {
+                Pred_User_VN count_class = new Pred_User_VN();
+                response = count_class.Do_The_work(User_Name,Password,mFileName);
+            }
+            catch(Exception ex)
+            {
+                response = ex.getMessage();
+            }
+
             return  response;
         }
         @Override

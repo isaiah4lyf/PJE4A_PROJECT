@@ -54,21 +54,29 @@ public class Login extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         // get an image from the camera
-                        if(!User_Name.getText().toString().equals(""))
+                        try
                         {
-                            if(!Password.getText().toString().equals(""))
+                            if(!User_Name.getText().toString().equals(""))
                             {
-                                login_Asy login = new login_Asy();
-                                login.execute();
+                                if(!Password.getText().toString().equals(""))
+                                {
+                                    login_Asy login = new login_Asy();
+                                    login.execute();
+                                }
+                                else
+                                {
+                                    Toast.makeText(getApplicationContext(),"Password Text Field Empty!",Toast.LENGTH_LONG).show();
+                                }
                             }
                             else
                             {
-                                Toast.makeText(getApplicationContext(),"Password Text Field Empty!",Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(),"User Name Text Field Empty!",Toast.LENGTH_LONG).show();
                             }
+
                         }
-                        else
+                        catch(Exception ex)
                         {
-                            Toast.makeText(getApplicationContext(),"User Name Text Field Empty!",Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(),ex.getLocalizedMessage(),Toast.LENGTH_LONG).show();
                         }
 
                     }
@@ -87,21 +95,53 @@ public class Login extends AppCompatActivity {
         protected String doInBackground(String... urls) {
 
             String response = "";
-            Login_Class login = new Login_Class();
-            response = login.Do_The_work(User_Name.getText().toString().replaceAll(" ",""),Password.getText().toString().replaceAll(" ",""));
+            try
+            {
+                Login_Class login = new Login_Class();
+                response = login.Do_The_work(User_Name.getText().toString().replaceAll(" ",""),Password.getText().toString().replaceAll(" ",""));
+            }
+            catch(Exception ex)
+            {
+                response = "Error: "+ex.getLocalizedMessage();
+            }
             return  response;
         }
         @Override
         protected void onPostExecute(String result) {
             //if you started progress dialog dismiss it here
-            progressDialog.dismiss();
+            if(result.startsWith("Error:"))
+            {
+                Toast.makeText(getApplicationContext(),result,Toast.LENGTH_LONG).show();
+            }
+
             if(!result.equals("false"))
             {
+                DBHelper mydb = new DBHelper(getApplicationContext());
+                try
+                {
+                    int settingsRowsVoice = mydb.Number_Of_Rows_Settings_Voice();
+                    if(settingsRowsVoice == 0)
+                    {
+                        mydb.Insert_Settings_Voice("1","1");
+                    }
+
+                    int settingsRowsImage = mydb.Number_Of_Rows_Settings_Image();
+                    if(settingsRowsImage == 0)
+                    {
+                        mydb.Insert_Settings_Image("1","100","1");
+                    }
+                }
+                catch(Exception ex)
+                {
+                    Toast.makeText(getApplicationContext(),ex.getLocalizedMessage(),Toast.LENGTH_LONG).show();
+                }
+
                 count_Images_for_Login_asy task = new count_Images_for_Login_asy();
                 task.execute(new String[]{result});
             }
             else
             {
+                progressDialog.dismiss();
                 Toast.makeText(getApplicationContext(),"Incorrect User Name or Password!",Toast.LENGTH_LONG).show();
             }
         }
@@ -114,16 +154,27 @@ public class Login extends AppCompatActivity {
         }
         @Override
         protected String doInBackground(String... urls) {
-
             String response = "";
-            Count_Images count_class = new Count_Images();
-            loginString = urls[0];
-            response = count_class.Do_The_work(loginString.split(",")[0]);
+            try
+            {
+                Count_Images count_class = new Count_Images();
+                loginString = urls[0];
+                response = count_class.Do_The_work(loginString.split(",")[0]);
+            }
+            catch (Exception ex)
+            {
+                response =  "Error: "+ex.getMessage();
+            }
             return  response;
         }
         @Override
         protected void onPostExecute(String result) {
             //if you started progress dialog dismiss it here
+            if(result.startsWith("Error:"))
+            {
+                progressDialog.dismiss();
+                Toast.makeText(getApplicationContext(),result,Toast.LENGTH_LONG).show();
+            }
             if(!result.equals(""))
             {
                 if(Integer.parseInt(result) > 10 || Integer.parseInt(result) == 10)
@@ -131,12 +182,11 @@ public class Login extends AppCompatActivity {
                     String[] userDetails = loginString.split(",");
                     Intent intent = null;
                     try {
-                        Toast.makeText(getApplicationContext(),userDetails[1]+userDetails[0],Toast.LENGTH_LONG).show();
                         DBHelper mydb = new DBHelper(getApplicationContext());
                         String insert = String.valueOf(mydb.insert_Login_State(userDetails[1],userDetails[0]));
-                        Toast.makeText(getApplicationContext(),insert,Toast.LENGTH_LONG).show();
                         intent = new Intent(getApplicationContext(), Class.forName("com.example.isaia.sss_mobile_app.Main_Menu"));
                         startActivity(intent);
+                        progressDialog.dismiss();
                     } catch (Exception e) {
                         Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_LONG).show();
                     }
@@ -148,6 +198,7 @@ public class Login extends AppCompatActivity {
                     String insert = String.valueOf(mydb.insert_Login_State(userDetails[1],userDetails[0]));
                     Intent intent = new Intent(getApplicationContext(),Main_Activity_Images.class);
                     startActivity(intent);
+                    progressDialog.dismiss();
                     int images_left = 10 - Integer.parseInt(result);
                     Toast.makeText(getApplicationContext(),images_left + " Images Left...",Toast.LENGTH_LONG).show();
                 }

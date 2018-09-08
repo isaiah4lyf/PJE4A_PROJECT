@@ -108,16 +108,23 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_marginLeft="8dp"
-                android:text="Prediction and Image Upload Intervals"
+                android:text="Image Upload Interval: 100 Minutes"
                 />
-            <TextView
+            <SeekBar
                 android:layout_below="@+id/menu3"
-                android:layout_marginTop="4dp"
-                android:layout_marginLeft="8dp"
-                android:layout_width="wrap_content"
+                android:id="@+id/seekBar"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Default Settings"
-                android:textColor="#cccccc"/>
+                android:layout_marginTop="4dp"
+                android:layout_marginLeft="-8dp"
+                android:max="180"
+                android:progress="100" />
+            <Space
+                android:layout_below="@+id/seekBar"
+                android:layout_width="wrap_content"
+                android:layout_height="15dp"
+                android:layout_alignParentTop="true"
+                 />
         </RelativeLayout>
     </LinearLayout>
     <ImageView
@@ -167,6 +174,8 @@
                 android:layout_height="wrap_content"
                 android:padding="16dp"
                 />
+
+
         </RelativeLayout>
     </LinearLayout>
     <LinearLayout
@@ -197,6 +206,95 @@
                 android:text="Voice Recognition Settings"
                 />
 
+        </RelativeLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/VoiceSetttingsLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/header_layout_2"
+        android:background="#ffffff"
+        android:elevation="4dp"
+        android:outlineProvider="bounds"
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+            <TextView
+                android:id="@+id/PredMenu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="8dp"
+                android:text="Voice Prediction"
+                />
+            <TextView
+                android:layout_below="@+id/PredMenu"
+                android:layout_marginTop="4dp"
+                android:layout_marginLeft="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Start/Stop Prediction Service"
+                android:textColor="#cccccc"/>
+            <Switch
+                android:id="@+id/SwitchVoicePrediction"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                />
+
+        </RelativeLayout>
+    </LinearLayout>
+    <ImageView
+        android:id="@+id/contentDivider_6"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/VoiceSetttingsLayout"
+        android:src="@color/contentDividerLine" />
+    <LinearLayout
+        android:id="@+id/VoiceUploadSettings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/contentDivider_6"
+        android:layout_marginTop="0dp"
+        android:background="#ffffff"
+        android:elevation="4dp"
+        android:outlineProvider="bounds"
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/UploadSetting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="8dp"
+                android:text="Voice Note Upload"
+                />
+            <TextView
+                android:layout_below="@+id/UploadSetting"
+                android:layout_marginTop="4dp"
+                android:layout_marginLeft="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Start/Stop Voice Recording Service"
+                android:textColor="#cccccc"/>
+            <Switch
+                android:id="@+id/SwitchVoiceRecordService"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                />
         </RelativeLayout>
     </LinearLayout>
 </RelativeLayout>

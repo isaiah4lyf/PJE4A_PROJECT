@@ -8,6 +8,7 @@ package com.example.isaia.sss_mobile_app;
         import android.media.MediaPlayer;
         import android.media.MediaRecorder;
         import android.os.AsyncTask;
+        import android.os.Build;
         import android.os.Bundle;
         import android.os.Environment;
         import android.support.annotation.NonNull;
@@ -25,9 +26,11 @@ package com.example.isaia.sss_mobile_app;
         import android.view.Menu;
         import android.view.MenuItem;
         import android.view.ViewGroup;
+        import android.view.ViewTreeObserver;
         import android.view.animation.Animation;
         import android.view.animation.AnimationUtils;
         import android.widget.Button;
+        import android.widget.FrameLayout;
         import android.widget.ImageButton;
         import android.widget.LinearLayout;
         import android.widget.TextView;
@@ -36,14 +39,18 @@ package com.example.isaia.sss_mobile_app;
 
         import com.example.isaia.sss_mobile_app.Database.DBHelper;
         import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Insert_Voice_Note;
+       // import com.tyorikan.voicerecordingvisualizer.RecordingSampler;
+        //import com.tyorikan.voicerecordingvisualizer.VisualizerView;
+        import  com.example.isaia.sss_mobile_app.Audio_Recorder.*;
 
         import java.io.File;
         import java.io.IOException;
         import java.text.SimpleDateFormat;
         import java.util.Date;
 
+
 public class Main_Activity_Voice_Notes extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener /*, View.OnTouchListener */{
+        implements NavigationView.OnNavigationItemSelectedListener , RecordingSampler.CalculateVolumeListener{
 
     private static final String LOG_TAG = "AudioRecordTest";
     private static final int REQUEST_RECORD_AUDIO_PERMISSION = 200;
@@ -65,12 +72,38 @@ public class Main_Activity_Voice_Notes extends AppCompatActivity
     private float InitialRecordY;
     private ImageButton bin_shake;
     private String [] permissions = {Manifest.permission.RECORD_AUDIO};
+    // Recording Info
+    private RecordingSampler mRecordingSampler;
+
+    // View
+    private VisualizerView mVisualizerView3;
+    private FloatingActionButton mFloatingActionButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main___voice__notes);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+
+        try
+        {
+            mVisualizerView3 = (VisualizerView) findViewById(R.id.visualizer3);
+
+            // create AudioRecord
+            mRecordingSampler = new RecordingSampler();
+            mRecordingSampler.setVolumeListener(this);
+            mRecordingSampler.setSamplingInterval(100);
+            mRecordingSampler.link(mVisualizerView3);
+            mRecordingSampler.startRecording();
+
+
+        }
+        catch (Exception ex)
+        {
+            Toast.makeText(getApplicationContext(),ex.getLocalizedMessage(),Toast.LENGTH_LONG).show();
+        }
+
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -415,6 +448,18 @@ public class Main_Activity_Voice_Notes extends AppCompatActivity
 
 
         return mediaFile;
+    }
+
+    @Override
+    protected void onDestroy() {
+        mRecordingSampler.release();
+        super.onDestroy();
+    }
+
+    @Override
+    public void onCalculateVolume(int volume) {
+        // for custom implement
+        //Log.d(TAG, String.valueOf(volume));
     }
 
     private class Insert_VN extends AsyncTask<String, Void, String> {
