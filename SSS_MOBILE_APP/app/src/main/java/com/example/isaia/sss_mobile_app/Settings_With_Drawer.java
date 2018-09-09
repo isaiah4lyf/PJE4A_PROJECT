@@ -62,12 +62,12 @@ public class Settings_With_Drawer extends AppCompatActivity
                     if (isChecked) {
                         mydb.Update_Face_Recog_Settings("1",mydb.Get_Image_Upload_Interval(),mydb.Get_Image_Upload_Service_Status());
                         //starting service
-                        //Intent serviceIntent = new Intent(getApplicationContext(),Predict_User_Service.class);
-                       // startService(serviceIntent);
+                        Intent serviceIntent = new Intent(getApplicationContext(),Predict_User_Service.class);
+                        startService(serviceIntent);
                     } else if (!isChecked) {
                         mydb.Update_Face_Recog_Settings("0",mydb.Get_Image_Upload_Interval(),mydb.Get_Image_Upload_Service_Status());
                         //stopping service
-                       // stopService(new Intent(getApplicationContext(), Predict_User_Service.class));
+                        stopService(new Intent(getApplicationContext(), Predict_User_Service.class));
                     }
                 }
             });

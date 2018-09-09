@@ -157,6 +157,51 @@ namespace SSS_WEB_SERVICE
 			}
 		}
 
+		[WebMethod]
+		public string INSERT_ACCURACY_USERS(string User_ID, string Prediction_Accuracy_Images, string Validation_Accuracy_Images, string Prediction_Accuracy_VN, string Validation_Accuracy_VN)
+		{
+			Accuracy_User acc_Table = new Accuracy_User();
+			acc_Table.User_ID = Convert.ToUInt16(User_ID);
+			acc_Table.Prediction_Accuracy_Images = Convert.ToDecimal(Prediction_Accuracy_Images);
+			acc_Table.Validation_Accuracy_Images = Convert.ToDecimal(Validation_Accuracy_Images);
+			acc_Table.Prediction_Accuracy_VN = Convert.ToDecimal(Prediction_Accuracy_VN);
+			acc_Table.Validation_Accuracy_VN = Convert.ToDecimal(Validation_Accuracy_VN);
+			linq.Accuracy_Users.InsertOnSubmit(acc_Table);
+			linq.SubmitChanges();
+			return "true";
+		}
+		[WebMethod]
+		public string RETURN_ACCURACY_USERS(string User_ID)
+		{
+			List<Accuracy_User> accur_Table = (from Accuracy_User in linq.Accuracy_Users
+											 where Accuracy_User.User_ID == Convert.ToInt16(User_ID)
+											select Accuracy_User).ToList();
+			if (accur_Table.Count == 1)
+			{
+				return accur_Table.ElementAt(0).Id + "," + accur_Table.ElementAt(0).User_ID + "," + accur_Table.ElementAt(0).Prediction_Accuracy_Images + "," + accur_Table.ElementAt(0).Validation_Accuracy_Images + "," + accur_Table.ElementAt(0).Prediction_Accuracy_VN + "," + accur_Table.ElementAt(0).Validation_Accuracy_VN;
+			}
+			else
+			{
+				return "false";
+			}
+		}
+
+		[WebMethod]
+		public string UPDATE_ACCURACY_USERS(string User_ID, string Prediction_Accuracy_Images, string Validation_Accuracy_Images, string Prediction_Accuracy_VN, string Validation_Accuracy_VN)
+		{
+
+			Accuracy_User acc_Table = (from Accuracy_User in linq.Accuracy_Users
+									   where Accuracy_User.User_ID == Convert.ToInt16(User_ID)
+										select Accuracy_User).First();
+			acc_Table.Prediction_Accuracy_Images = Convert.ToDecimal(Prediction_Accuracy_Images);
+			acc_Table.Validation_Accuracy_Images = Convert.ToDecimal(Validation_Accuracy_Images);
+			acc_Table.Prediction_Accuracy_VN = Convert.ToDecimal(Prediction_Accuracy_VN);
+			acc_Table.Validation_Accuracy_VN = Convert.ToDecimal(Validation_Accuracy_VN);
+			linq.SubmitChanges();
+			return "true";
+		}
+
+
 		//IMAGE PROCESSING METHODS
 		[WebMethod]
 		public string INSERT_IMAGE(string user_ID, string image_Path)

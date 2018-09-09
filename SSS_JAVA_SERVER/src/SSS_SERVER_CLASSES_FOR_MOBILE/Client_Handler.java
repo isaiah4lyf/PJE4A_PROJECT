@@ -6,10 +6,12 @@ import com.mathworks.engine.MatlabEngine;
 
 import SSS_SERVER_FUNCTIONS.Decrement_Images_Model_Version;
 import SSS_SERVER_FUNCTIONS.Decrement_Model_Version_VN;
+import SSS_SERVER_FUNCTIONS.Insert_Accuracy_Users;
 import SSS_SERVER_FUNCTIONS.Insert_Image;
 import SSS_SERVER_FUNCTIONS.Insert_User;
 import SSS_SERVER_FUNCTIONS.Insert_Voice_Note;
 import SSS_SERVER_FUNCTIONS.Login;
+import SSS_SERVER_FUNCTIONS.Return_Accuracy_Users;
 import SSS_SERVER_FUNCTIONS.Return_Images_For_Mobile;
 import SSS_SERVER_FUNCTIONS.Return_Train_Models;
 import SSS_SERVER_FUNCTIONS.Return_Train_Models_VN;
@@ -18,6 +20,7 @@ import SSS_SERVER_FUNCTIONS.Return_Users_In_Model;
 import SSS_SERVER_FUNCTIONS.Return_Users_In_Model_VN;
 import SSS_SERVER_FUNCTIONS.Return_VNs_For_Mobile;
 import SSS_SERVER_FUNCTIONS.Train_Images_Model;
+import SSS_SERVER_FUNCTIONS.Update_Accuracy_Users;
 import SSS_SERVER_FUNCTIONS.Update_Train_Data;
 import SSS_SERVER_FUNCTIONS.Update_Train_Data_VN;
 
@@ -72,20 +75,7 @@ public class Client_Handler implements Runnable{
 					switch (command)
 					{
 						case "REG":
-							String User_Name = in.readUTF();
-							String email = in.readUTF();
-							String password = in.readUTF();
-							Insert_User clas = new Insert_User();						
-							String response = clas.do_The_Work(URL,User_Name,email,password);
-							System.out.println(response);
-							sendMessage(response);
-							if(response.equals("true"))
-							{
-								File dir = new File("data/MATLAB_TRAIN_DATA/" + User_Name);
-								dir.mkdir();
-								File dir2 = new File("data/MATLAB_TRAIN_DATA/" + User_Name+"/MATLAB_PRED_DATA");
-								dir2.mkdir();			
-							}				
+							Register_User();
 							processing = false;						
 							break;
 						case "LOGIN":
@@ -547,7 +537,9 @@ public class Client_Handler implements Runnable{
 									if(fet_Match[i] > max)
 									{
 										max = fet_Match[i];
+										
 									}
+									
 								}
 								String result_With_Max = "";
 								for (int i = 0; i < models_string.length; i++)
@@ -559,10 +551,46 @@ public class Client_Handler implements Runnable{
 									}
 								}
 								System.out.println(result_With_Max);	
-								String[] results_tokens = result_With_Max.split(",");
-								sendMessage(results_tokens[1]);
+								
+								double prediction_Accuracy = matEng.getVariable("predAccuracy");
+								Return_Accuracy_Users accu_Class = new Return_Accuracy_Users();
+								String[] accuString = accu_Class.do_The_Work(URL, user_ID2_).split(",");
+								
+								double currentAccuracy = Double.parseDouble(accuString[2]);
+								if(currentAccuracy > prediction_Accuracy)
+								{
+									double error = currentAccuracy - prediction_Accuracy;
+									if(error < 15)
+									{
+										String[] results_tokens = result_With_Max.split(",");
+										sendMessage(results_tokens[1]);				
+									}
+									else
+									{
+										sendMessage("Incorrect User");	
+									}
+								}
+								else
+								{
+									double error = prediction_Accuracy - currentAccuracy;
+									if(error < 15)
+									{
+										String[] results_tokens = result_With_Max.split(",");
+										sendMessage(results_tokens[1]);				
+									}
+									else
+									{
+										sendMessage("Incorrect User");	
+									}
+								}
+								
+
 							}
 
+							processing = false;
+							break;
+						case "TEST_IMAGE_PRED_ACCU":
+							Test_Prediction_Accuracy(); 
 							processing = false;
 							break;
 						case "PRED_USER_VN":
@@ -802,5 +830,228 @@ public class Client_Handler implements Runnable{
         } catch (IOException e) {
             e.printStackTrace();
         }
+	}
+	
+	private void Register_User() throws Exception
+	{
+		String User_Name = in.readUTF();
+		String email = in.readUTF();
+		String password = in.readUTF();
+		Insert_User clas = new Insert_User();						
+		String response = clas.do_The_Work(URL,User_Name,email,password);
+		System.out.println(response);
+		sendMessage(response);
+		if(response.equals("true"))
+		{
+			File dir = new File("data/MATLAB_TRAIN_DATA/" + User_Name);
+			dir.mkdir();
+			File dir2 = new File("data/MATLAB_TRAIN_DATA/" + User_Name+"/MATLAB_PRED_DATA");
+			dir2.mkdir();			
+		}	
+		Login login_Class = new Login();
+		String[] user_Details = login_Class.do_The_Work(URL, User_Name, password).split(",");
+		Insert_Accuracy_Users accu_Class = new Insert_Accuracy_Users();
+		
+		System.out.println(accu_Class.do_The_Work(URL, user_Details[0], "0", "0", "0", "0"));
+	}
+	
+	private void Test_Prediction_Accuracy() throws Exception
+	{
+
+		String[] Variables_Array = new String[5];
+		Variables_Array[0] = in.readUTF();         	// User ID
+		Variables_Array[1] = in.readUTF();			// User Name
+		Variables_Array[2] = in.readUTF();			// Size of Image
+		Variables_Array[3] = in.readUTF();			// Image Title
+		
+		
+		System.out.println(Variables_Array[2]);
+		System.out.println(Variables_Array[3]);
+		BufferedOutputStream ByteToFile = null;
+		
+		try
+		{
+			System.out.println(Integer.parseInt(Variables_Array[2]));
+			
+			byte[] buffer = new byte[Integer.parseInt(Variables_Array[2])];
+			readFully(in,buffer,0,Integer.parseInt(Variables_Array[2]));
+			
+			// Clearing extra bytes
+			int extra = in.available();
+			if (extra > 0)
+			{
+				byte[] buffer2 = new byte[extra];
+				in.read(buffer2);
+			}
+			File imageInsta = new File("data/MATLAB_TRAIN_DATA/"+Variables_Array[1]+"/MATLAB_PRED_DATA/"+Variables_Array[3]+".jpg");
+			if(imageInsta.exists()){
+				
+				ByteToFile = new BufferedOutputStream(new FileOutputStream(new File("data/MATLAB_TRAIN_DATA/"+Variables_Array[1]+"/MATLAB_PRED_DATA/"+Variables_Array[3]+"(1).jpg")));
+				ByteToFile.write(buffer);
+				ByteToFile.flush();
+				ByteToFile.close();
+			}
+			else
+			{
+				ByteToFile = new BufferedOutputStream(new FileOutputStream(new File("data/MATLAB_TRAIN_DATA/"+Variables_Array[1]+"/MATLAB_PRED_DATA/"+Variables_Array[3]+".jpg")));
+				ByteToFile.write(buffer);
+				ByteToFile.flush();
+				ByteToFile.close();
+			}
+		}
+		catch(IOException ex){
+			ex.printStackTrace();
+
+		}
+		finally
+		{
+			if (ByteToFile != null)
+				try {
+					ByteToFile.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			
+		}
+		
+		Return_Train_Models models = new Return_Train_Models();
+		String[] models_string = models.Do_The_Work(URL);
+
+		int[] results = new int[models_string.length];
+		int[] fet_Match = new int[models_string.length];
+		
+		File image2 = null;
+		
+		for (int i = 0; i < models_string.length; i++)
+		{
+			String model_ID = models_string[i].split(",")[0];
+			Return_Users_In_Model users = new Return_Users_In_Model();
+			String[] users_string = users.Do_The_Work(URL,model_ID);
+			System.out.println(users_string[0]);
+			
+			matEng.eval("clear all",null,null);
+			
+			if (users_string.length  == 4)
+			{
+				matEng.eval("class_1 = "+Integer.parseInt(users_string[0].split(",")[0]),null,null);
+				matEng.eval("class_2 = "+Integer.parseInt(users_string[1].split(",")[0]),null,null);
+				matEng.eval("class_3 = "+Integer.parseInt(users_string[2].split(",")[0]),null,null);
+				matEng.eval("class_4 = "+Integer.parseInt(users_string[3].split(",")[0]),null,null);
+
+			}
+			else if (users_string.length == 3)
+			{
+				matEng.eval("class_1 = "+Integer.parseInt(users_string[0].split(",")[0]),null,null);
+				matEng.eval("class_2 = "+Integer.parseInt(users_string[1].split(",")[0]),null,null);
+				matEng.eval("class_3 = "+Integer.parseInt(users_string[2].split(",")[0]),null,null);
+				matEng.eval("class_4 = "+Integer.parseInt(users_string[2].split(",")[0]+1),null,null);
+
+			}
+			else if (users_string.length == 2)
+			{
+				matEng.eval("class_1 = "+Integer.parseInt(users_string[0].split(",")[0]),null,null);
+				matEng.eval("class_2 = "+Integer.parseInt(users_string[1].split(",")[0]),null,null);
+				matEng.eval("class_3 = "+Integer.parseInt(users_string[1].split(",")[0]+1),null,null);
+				matEng.eval("class_4 = "+Integer.parseInt(users_string[1].split(",")[0]+2),null,null);
+
+			}
+			else
+			{
+				matEng.eval("class_1 = "+Integer.parseInt(users_string[0].split(",")[0]),null,null);
+				matEng.eval("class_2 = "+Integer.parseInt(users_string[0].split(",")[0]+2),null,null);
+				matEng.eval("class_3 = "+Integer.parseInt(users_string[0].split(",")[0]+3),null,null);
+				matEng.eval("class_4 = "+Integer.parseInt(users_string[0].split(",")[0]+4),null,null);
+
+			}
+			image2 = new File("data/MATLAB_TRAIN_DATA/"+Variables_Array[1]+"/MATLAB_PRED_DATA/"+Variables_Array[3]+".jpg");
+			matEng.eval("Image_Name_of = '"+ image2.getAbsolutePath().toString()+"'",null,null);
+			
+			int model_version = Integer.parseInt(models_string[i].split(",")[3] );
+			String Trained_Model2 = Matlab_Path_train + "/MATLAB_TRAINED_MODELS/" + models_string[i].split(",")[1] + "_" +model_version+ ".mat";
+			File matFile = new File(Trained_Model2);
+			
+			while(!matFile.exists() && model_version > 0)
+			{
+				System.out.println(Trained_Model2);
+				model_version--;
+				Trained_Model2 = Matlab_Path_train + "/MATLAB_TRAINED_MODELS/" + models_string[i].split(",")[1] + "_" +model_version+ ".mat";						
+				matFile = new File(Trained_Model2);
+			}
+			
+			
+			matEng.eval("path = '"+Trained_Model2+"'",null,null);
+			matEng.eval("run('" + Matlab_Path_train + "/MATLAB_SCRIPTS/Predict_User10.m')",null,null);
+			
+			double status2 = matEng.getVariable("status");
+			double exception2 = matEng.getVariable("exception");
+			
+			
+			if(status2 == 1.0 || exception2 == 1.0)
+			{
+				image2.delete();
+				System.out.println("here");
+				break;									
+			}
+			else
+			{
+				StringWriter output_class = new StringWriter();
+				matEng.eval("max_Class",output_class,null);
+				String max_class_String = output_class.toString().replaceAll("\n","");
+				int max_class = Integer.parseInt(max_class_String.split("=")[1].replaceAll(" ",""));							
+				StringWriter output_num = new StringWriter();
+				matEng.eval("max_Num",output_num,null);
+				String max_num_String = output_num.toString().replaceAll("\n","");
+				int max_num = Integer.parseInt(max_num_String.split("=")[1].replaceAll(" ",""));
+				results[i] = max_class;
+				fet_Match[i] = max_num;
+			}																							
+		}									
+		double status2 = matEng.getVariable("status");
+		double exception2 = matEng.getVariable("exception");												
+		if(status2 == 1.0 || exception2 == 1.0)
+		{
+			image2.delete();
+			sendMessage("Invalid Image");
+		}
+		else
+		{
+			int max = fet_Match[0];
+			for(int i = 0; i < fet_Match.length; i++)
+			{
+				if(fet_Match[i] > max)
+				{
+					max = fet_Match[i];
+				}
+			}
+			String result_With_Max = "";
+			for (int i = 0; i < models_string.length; i++)
+			{
+				if (fet_Match[i] == max)
+				{						
+					Return_User_With_ID user = new Return_User_With_ID();										
+					result_With_Max = user.do_The_Work(URL, String.valueOf(results[i]));
+				}
+			}
+			System.out.println(result_With_Max);	
+			String[] results_tokens = result_With_Max.split(",");
+			
+			double prediction_Accuracy = matEng.getVariable("predAccuracy");
+			sendMessage(results_tokens[1]);
+			sendMessage(String.valueOf(prediction_Accuracy));
+			if(Variables_Array[1].equals(results_tokens[1]))
+			{
+				
+				
+				Return_Accuracy_Users accu_Class = new Return_Accuracy_Users();
+				String[] accuString = accu_Class.do_The_Work(URL, Variables_Array[0]).split(",");
+				
+				Update_Accuracy_Users update_Class = new Update_Accuracy_Users();
+				String update_String = update_Class.do_The_Work(URL, accuString[1], String.valueOf(prediction_Accuracy), accuString[3], accuString[4], accuString[5]);
+				
+				System.out.println(update_String);
+			}
+
+		}
 	}
 }

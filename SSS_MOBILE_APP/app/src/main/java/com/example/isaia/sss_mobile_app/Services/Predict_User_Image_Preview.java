@@ -28,6 +28,7 @@ import android.widget.Toast;
 import com.example.isaia.sss_mobile_app.Database.DBHelper;
 import com.example.isaia.sss_mobile_app.R;
 import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Pred_User;
+import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Pred_User_Image_Preview_Test_Accu;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -301,7 +302,7 @@ public class Predict_User_Image_Preview extends Service{
         @Override
         protected String doInBackground(String... urls) {
             String response = "";
-            Pred_User pred = new Pred_User();
+            Pred_User_Image_Preview_Test_Accu pred = new Pred_User_Image_Preview_Test_Accu();
             response = pred.Do_The_work(User_Name, Password, file_Name);
             return response;
         }

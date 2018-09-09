@@ -228,7 +228,7 @@ public class Predict_User_Service extends Service{
         protected void onPostExecute(String result) {
             //if you started progress dialog dismiss it here
             Toast.makeText(getApplicationContext(),result,Toast.LENGTH_LONG).show();
-            if(result.equals("Invalid Image"))
+            if(result.equals("Invalid Image") )
             {
                 if(invalidPrediction == 5)
                 {
@@ -248,6 +248,7 @@ public class Predict_User_Service extends Service{
                 }
                 else
                 {
+                    /*
                     boolean active = devicePolicyManager.isAdminActive(compName);
                     if (active) {
                         devicePolicyManager.lockNow();
@@ -259,6 +260,7 @@ public class Predict_User_Service extends Service{
                         intent.putExtra(DevicePolicyManager.EXTRA_ADD_EXPLANATION, "Additional text explaining why we need this permission");
                         startActivity(intent);
                     }
+                    */
                 }
             }
         }

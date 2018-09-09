@@ -53,6 +53,7 @@ public class Main_Activity_Images extends AppCompatActivity{
     private ImageButton recordButton;
     private ImageButton homeButton;
     private ImageButton settingButton;
+    private ImageButton Insert_Image;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,12 +85,6 @@ public class Main_Activity_Images extends AppCompatActivity{
                             }
                         });
                         thread.start();
-                        if(mCamera != null){
-                            mCamera.stopPreview();
-                            mCamera.setPreviewCallback(null);
-                            mCamera.release();
-                            mCamera = null;
-                        }
                     }
                 }
         );
@@ -112,12 +107,6 @@ public class Main_Activity_Images extends AppCompatActivity{
                             }
                         });
                         thread.start();
-                        if(mCamera != null){
-                            mCamera.stopPreview();
-                            mCamera.setPreviewCallback(null);
-                            mCamera.release();
-                            mCamera = null;
-                        }
                     }
                 }
         );
@@ -139,12 +128,6 @@ public class Main_Activity_Images extends AppCompatActivity{
                             }
                         });
                         thread.start();
-                        if(mCamera != null){
-                            mCamera.stopPreview();
-                            mCamera.setPreviewCallback(null);
-                            mCamera.release();
-                            mCamera = null;
-                        }
                     }
                 }
         );
@@ -161,7 +144,7 @@ public class Main_Activity_Images extends AppCompatActivity{
         catch (Exception e){
             Toast.makeText(this,e.toString(),Toast.LENGTH_LONG).show();
         }
-        final ImageButton Insert_Image = (ImageButton) findViewById(R.id.Insert_Image);
+        Insert_Image = (ImageButton) findViewById(R.id.Insert_Image);
         Insert_Image.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -411,6 +394,7 @@ public class Main_Activity_Images extends AppCompatActivity{
                 int images_left = 10 - Integer.parseInt(result);
                 Toast.makeText(getApplicationContext(),images_left + " Images Left...",Toast.LENGTH_LONG).show();
                 mCamera.startPreview();
+                Insert_Image.setEnabled(true);
             }
 
         }
@@ -500,6 +484,12 @@ public class Main_Activity_Images extends AppCompatActivity{
             {
                 if(Integer.parseInt(result) > 10 || Integer.parseInt(result) == 10)
                 {
+                    if(mCamera != null){
+                        mCamera.stopPreview();
+                        mCamera.setPreviewCallback(null);
+                        mCamera.release();
+                        mCamera = null;
+                    }
                     Intent intent = new Intent(getApplicationContext(),Main_Activity_Voice_Notes.class);
                     startActivity(intent);
                 }
@@ -533,6 +523,12 @@ public class Main_Activity_Images extends AppCompatActivity{
             {
                 if(Integer.parseInt(result) > 10 || Integer.parseInt(result) == 10)
                 {
+                    if(mCamera != null){
+                        mCamera.stopPreview();
+                        mCamera.setPreviewCallback(null);
+                        mCamera.release();
+                        mCamera = null;
+                    }
                     Intent intent = new Intent(getApplicationContext(),Main_Menu.class);
                     startActivity(intent);
                 }
@@ -568,6 +564,12 @@ public class Main_Activity_Images extends AppCompatActivity{
             {
                 if(Integer.parseInt(result) > 10 || Integer.parseInt(result) == 10)
                 {
+                    if(mCamera != null){
+                        mCamera.stopPreview();
+                        mCamera.setPreviewCallback(null);
+                        mCamera.release();
+                        mCamera = null;
+                    }
                     Intent intent = new Intent(getApplicationContext(),Settings_With_Drawer.class);
                     startActivity(intent);
                 }

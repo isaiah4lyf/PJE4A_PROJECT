@@ -127,11 +127,52 @@
                  />
         </RelativeLayout>
     </LinearLayout>
+    <LinearLayout
+        android:id="@+id/verification_Layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/id9"
+        android:background="#ffffff"
+        android:elevation="4dp"
+        android:outlineProvider="bounds"
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+
+            <TextView
+                android:id="@+id/veriText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="8dp"
+                android:text="Verification Interval: 100 Minutes"
+                />
+            <SeekBar
+                android:layout_below="@+id/veriText"
+                android:id="@+id/Verification_Interval"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginLeft="-8dp"
+                android:max="180"
+                android:progress="100" />
+            <Space
+                android:layout_below="@+id/Verification_Interval"
+                android:layout_width="wrap_content"
+                android:layout_height="15dp"
+                android:layout_alignParentTop="true"
+                />
+        </RelativeLayout>
+    </LinearLayout>
     <ImageView
         android:id="@+id/contentDivider_2"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_below="@id/id9"
+        android:layout_below="@id/verification_Layout"
         android:src="@color/contentDividerLine" />
     <LinearLayout
         android:id="@+id/id10"
@@ -178,12 +219,113 @@
 
         </RelativeLayout>
     </LinearLayout>
+    <ImageView
+        android:id="@+id/contentDivider_8"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/id10"
+        android:src="@color/contentDividerLine" />
+    <LinearLayout
+        android:id="@+id/use_camera_preview_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/contentDivider_8"
+        android:layout_marginTop="0dp"
+        android:background="#ffffff"
+        android:elevation="4dp"
+        android:outlineProvider="bounds"
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+
+            <TextView
+                android:id="@+id/preview_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="8dp"
+                android:text="Camera Preview"
+                />
+            <TextView
+                android:layout_below="@+id/preview_text"
+                android:layout_marginTop="4dp"
+                android:layout_marginLeft="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Enable/Disable Camera preview for verification"
+                android:textColor="#cccccc"/>
+            <Switch
+                android:id="@+id/switch_use_camera_preview"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="16dp" />
+
+
+        </RelativeLayout>
+    </LinearLayout>
+    <ImageView
+        android:id="@+id/contentDivider_7"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/use_camera_preview_layout"
+        android:src="@color/contentDividerLine" />
+    <LinearLayout
+        android:id="@+id/lock_Screen_Layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/contentDivider_7"
+        android:layout_marginTop="0dp"
+        android:background="#ffffff"
+        android:elevation="4dp"
+        android:outlineProvider="bounds"
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+
+            <TextView
+                android:id="@+id/lockText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="8dp"
+                android:text="Unlock Screen"
+                />
+            <TextView
+                android:layout_below="@+id/lockText"
+                android:layout_marginTop="4dp"
+                android:layout_marginLeft="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Use Face ID to unlock phone"
+                android:textColor="#cccccc"/>
+            <Switch
+                android:id="@+id/switch_Lock_Screen"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                />
+
+
+        </RelativeLayout>
+    </LinearLayout>
     <LinearLayout
         android:id="@+id/header_layout_2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/id10"
+        android:layout_below="@+id/lock_Screen_Layout"
         android:background="#fffafa"
         android:elevation="4dp"
         android:paddingBottom="5dp"

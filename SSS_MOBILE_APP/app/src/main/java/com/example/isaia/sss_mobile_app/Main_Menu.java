@@ -47,12 +47,46 @@ public class Main_Menu extends AppCompatActivity  implements NavigationView.OnNa
                     new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            // get an image from the camera
                             Intent serviceIntent = new Intent(getApplicationContext(),Predict_User_Image_Preview.class);
                             startService(serviceIntent);
                         }
                     }
 
+            );
+            RelativeLayout previewLayout2 = (RelativeLayout) findViewById(R.id.uploadVnsLayout);
+            previewLayout2.setOnClickListener(
+
+                    new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent serviceIntent = new Intent(getApplicationContext(),Main_Activity_Voice_Notes.class);
+                            startActivity(serviceIntent);
+                        }
+                    }
+
+            );
+            RelativeLayout previewLayout3 = (RelativeLayout) findViewById(R.id.uploadImagesLayout);
+            previewLayout3.setOnClickListener(
+
+                    new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent serviceIntent = new Intent(getApplicationContext(),Main_Activity_Images.class);
+                            startActivity(serviceIntent);
+                        }
+                    }
+
+            );
+            RelativeLayout previewLayout4 = (RelativeLayout) findViewById(R.id.settingsLayout);
+            previewLayout4.setOnClickListener(
+
+                    new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent serviceIntent = new Intent(getApplicationContext(),Settings_With_Drawer.class);
+                            startActivity(serviceIntent);
+                        }
+                    }
             );
 
 

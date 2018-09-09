@@ -24,6 +24,7 @@ try
 					extractFeatures(J,ptsOriginal);
 		trained = trainedClassifier.predictFcn(featuresOriginal);
 		[m,n] = size(trained);
+		
 		A = [];
 		for i=1:m
 			if trained(i) == class_1
@@ -54,19 +55,24 @@ try
 		[ROWS_D,COLUMS_D] = size(D);
 		max_Class = class_1;
 		max_Num = ROWS_A;
+		max_Is = 'A';
 		if ROWS_B > ROWS_A
 			max_Class = class_2;
 			max_Num = ROWS_B;
+			max_Is = 'B';
 		end
 		if ROWS_C > ROWS_B
 			max_Class = class_3;
 			max_Num = ROWS_C;
+			max_Is = 'C';
 		end
 		if ROWS_D > ROWS_C
 			max_Class = class_2;
 			max_Num = ROWS_D;
+			max_Is = 'D';
 		end
 
+		predAccuracy = max_Num/m *100
 		max_Num
 		max_Class
 	else
