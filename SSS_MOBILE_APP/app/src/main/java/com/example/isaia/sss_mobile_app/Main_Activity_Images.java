@@ -84,6 +84,12 @@ public class Main_Activity_Images extends AppCompatActivity{
                             }
                         });
                         thread.start();
+                        if(mCamera != null){
+                            mCamera.stopPreview();
+                            mCamera.setPreviewCallback(null);
+                            mCamera.release();
+                            mCamera = null;
+                        }
                     }
                 }
         );
@@ -106,6 +112,12 @@ public class Main_Activity_Images extends AppCompatActivity{
                             }
                         });
                         thread.start();
+                        if(mCamera != null){
+                            mCamera.stopPreview();
+                            mCamera.setPreviewCallback(null);
+                            mCamera.release();
+                            mCamera = null;
+                        }
                     }
                 }
         );
@@ -127,13 +139,22 @@ public class Main_Activity_Images extends AppCompatActivity{
                             }
                         });
                         thread.start();
+                        if(mCamera != null){
+                            mCamera.stopPreview();
+                            mCamera.setPreviewCallback(null);
+                            mCamera.release();
+                            mCamera = null;
+                        }
                     }
                 }
         );
 
-        mCamera = getCameraInstance();
-        preview = findViewById(R.id.camera_preview);
-        try {
+
+        try
+        {
+            mCamera = getCameraInstance();
+            mCamera.setDisplayOrientation(90);
+            preview = findViewById(R.id.camera_preview);
             mPreview = new CameraPreview(this, mCamera);
             preview.addView(mPreview);
         }
@@ -156,6 +177,7 @@ public class Main_Activity_Images extends AppCompatActivity{
                             Toast.makeText(getApplicationContext(),ex.toString(),Toast.LENGTH_LONG);
                         }
 
+
                     }
                 }
         );
@@ -163,10 +185,12 @@ public class Main_Activity_Images extends AppCompatActivity{
     }
     @Override
     public void onBackPressed() {
-        mCamera.stopPreview();
-        mCamera.setPreviewCallback(null);
-        mCamera.release();
-        mCamera = null;
+        if(mCamera != null){
+            mCamera.stopPreview();
+            mCamera.setPreviewCallback(null);
+            mCamera.release();
+            mCamera = null;
+        }
     }
     //camera Code
     // A safe way to get an instance of the Camera object.
@@ -386,15 +410,7 @@ public class Main_Activity_Images extends AppCompatActivity{
             {
                 int images_left = 10 - Integer.parseInt(result);
                 Toast.makeText(getApplicationContext(),images_left + " Images Left...",Toast.LENGTH_LONG).show();
-                if(mCamera != null){
-                    mCamera.stopPreview();
-                    mCamera.setPreviewCallback(null);
-                    mCamera.release();
-                    mCamera = null;
-                    Intent intent = getIntent();
-                    finish();
-                    startActivity(intent);
-                }
+                mCamera.startPreview();
             }
 
         }

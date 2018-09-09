@@ -5,69 +5,61 @@
     android:clipChildren="false"
     android:clipToPadding="false"
     android:orientation="vertical"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@drawable/background"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".Main_Menu"
-    tools:showIn="@layout/app_bar_main_menu">
-
+    tools:showIn="@layout/app_bar_main_menu"
+    android:layout_marginTop="60dp">
 
     <ScrollView android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="20dp"
         android:scrollbars="none">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/activity_vertical_margin"
-            android:orientation="vertical">
+            android:orientation="horizontal">
+            <RelativeLayout
+            android:id="@+id/preview"
+            android:layout_width="100dp"
+            android:layout_height="120dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/main_menu_grids"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp">
+                <ImageView
+                    android:id="@+id/sssvision"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginBottom="15dp"
+                    android:src="@drawable/ic_menu_camera" />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@+id/sssvision"
+                    android:background="@drawable/main_menu_contents">
+                    <TextView
+                        android:id="@+id/textView3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:textStyle="bold"
+                        android:textAlignment="center"
+                        android:text="SSS VISION" />
+                </RelativeLayout>
 
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="200dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/main_menu_grids">
 
-        <com.ramotion.foldingcell.FoldingCell
-            android:id="@+id/folding_cell"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp">
-            <!-- CONTENT (UNFOLDED) LAYOUT (MUST BE AT LEAST 2x times BIGGER than content layout bellow)-->
-            <include layout="@layout/cell_content_layout" />
-
-            <!-- TITLE (FOLDED) LAYOUT (MUST BE AT LEAST 2x times SMALLER than content layout above) -->
-            <include layout="@layout/cell_title_layout" />
-        </com.ramotion.foldingcell.FoldingCell>
-        <com.ramotion.foldingcell.FoldingCell
-            android:id="@+id/folding_cell_View_VN"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="10dp">
-            <!-- CONTENT (UNFOLDED) LAYOUT (MUST BE AT LEAST 2x times BIGGER than content layout bellow)-->
-            <include layout="@layout/cell_content_layout" />
-
-            <!-- TITLE (FOLDED) LAYOUT (MUST BE AT LEAST 2x times SMALLER than content layout above) -->
-            <include layout="@layout/cell_title_layout" />
-        </com.ramotion.foldingcell.FoldingCell>
-        <com.ramotion.foldingcell.FoldingCell
-            android:id="@+id/folding_cell_View_Members"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="10dp">
-            <!-- CONTENT (UNFOLDED) LAYOUT (MUST BE AT LEAST 2x times BIGGER than content layout bellow)-->
-            <include layout="@layout/cell_content_layout" />
-
-            <!-- TITLE (FOLDED) LAYOUT (MUST BE AT LEAST 2x times SMALLER than content layout above) -->
-            <include layout="@layout/cell_title_layout" />
-        </com.ramotion.foldingcell.FoldingCell>
-        <com.ramotion.foldingcell.FoldingCell
-            android:id="@+id/folding_cell_Add_Members"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <!-- CONTENT (UNFOLDED) LAYOUT (MUST BE AT LEAST 2x times BIGGER than content layout bellow)-->
-            <include layout="@layout/cell_content_layout" />
-
-            <!-- TITLE (FOLDED) LAYOUT (MUST BE AT LEAST 2x times SMALLER than content layout above) -->
-            <include layout="@layout/cell_title_layout" />
-        </com.ramotion.foldingcell.FoldingCell>
+            </RelativeLayout>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

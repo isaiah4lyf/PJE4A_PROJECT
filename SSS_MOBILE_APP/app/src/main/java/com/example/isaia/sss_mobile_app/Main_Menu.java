@@ -16,6 +16,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.isaia.sss_mobile_app.Services.Predict_User_Image_Preview;
 import com.ramotion.foldingcell.FoldingCell;
 
 public class Main_Menu extends AppCompatActivity  implements NavigationView.OnNavigationItemSelectedListener{
@@ -40,48 +41,20 @@ public class Main_Menu extends AppCompatActivity  implements NavigationView.OnNa
             NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
             navigationView.setNavigationItemSelectedListener(this);
 
-            // get our folding cell
-            final FoldingCell fc = (FoldingCell) findViewById(R.id.folding_cell);
+            RelativeLayout previewLayout = (RelativeLayout) findViewById(R.id.preview);
+            previewLayout.setOnClickListener(
 
-            final LinearLayout title_layout = (LinearLayout)findViewById(R.id.cell_title_layout);
-            title_layout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    fc.toggle(false);
-                }
-            });
-
-            final RelativeLayout content_header = (RelativeLayout) findViewById(R.id.content_header);
-            content_header.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    fc.toggle(false);
-                }
-            });
-            final RelativeLayout content_header_image = (RelativeLayout) findViewById(R.id.content_header_image);
-            content_header.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    fc.toggle(false);
-                }
-            });
-
-            final TextView view_all_images = (TextView) findViewById(R.id.content_request_btn);
-            view_all_images.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = null;
-                    try {
-                        intent = new Intent(getApplicationContext(), Class.forName("com.example.isaia.sss_mobile_app.View_Images"));
-                        startActivity(intent);
-
-                    } catch (ClassNotFoundException e) {
-                        Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_LONG).show();
+                    new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            // get an image from the camera
+                            Intent serviceIntent = new Intent(getApplicationContext(),Predict_User_Image_Preview.class);
+                            startService(serviceIntent);
+                        }
                     }
-                }
-            });
 
-            //final FoldingCell fc_VN = (FoldingCell) findViewById(R.id.folding_cell);
+            );
+
 
         }
         catch(Exception e)
