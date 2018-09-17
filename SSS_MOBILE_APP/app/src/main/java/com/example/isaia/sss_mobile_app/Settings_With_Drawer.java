@@ -177,7 +177,8 @@ public class Settings_With_Drawer extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            //super.onBackPressed();
+            //Do nothing
         }
     }
 
@@ -185,6 +186,8 @@ public class Settings_With_Drawer extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.settings__with__drawer, menu);
+        MenuItem item = menu.findItem(R.id.action_settings);
+        item.setTitle("Logout");
         return true;
     }
 
@@ -197,6 +200,17 @@ public class Settings_With_Drawer extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            try
+            {
+                Intent intent = new Intent(getApplicationContext(),Login.class);
+                intent.putExtra("From_Logout","true");
+                startActivity(intent);
+            }
+            catch (Exception ex)
+            {
+                Toast.makeText(getApplicationContext(),ex.toString(),Toast.LENGTH_LONG).show();
+            }
+
             return true;
         }
 

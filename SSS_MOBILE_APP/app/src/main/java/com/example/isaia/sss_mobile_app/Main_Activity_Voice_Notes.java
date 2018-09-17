@@ -1,6 +1,7 @@
 package com.example.isaia.sss_mobile_app;
 
         import android.content.Intent;
+        import android.os.AsyncTask;
         import android.os.Bundle;
         import android.view.MotionEvent;
         import android.view.View;
@@ -14,6 +15,8 @@ package com.example.isaia.sss_mobile_app;
         import android.view.MenuItem;
         import android.widget.Toast;
         import  com.example.isaia.sss_mobile_app.Audio_Recorder.*;
+        import com.example.isaia.sss_mobile_app.Database.DBHelper;
+        import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Count_VNs;
 
 
 public class Main_Activity_Voice_Notes extends AppCompatActivity
@@ -66,20 +69,33 @@ public class Main_Activity_Voice_Notes extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            //super.onBackPressed();
+            //Do nothing
         }
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main__activity__voice__notes, menu);
+        MenuItem item = menu.findItem(R.id.action_settings);
+        item.setTitle("Logout");
         return true;
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_settings) {
-            return true;
+            try
+            {
+                Intent intent = new Intent(getApplicationContext(),Login.class);
+                intent.putExtra("From_Logout","true");
+                startActivity(intent);
+            }
+            catch (Exception ex)
+            {
+                Toast.makeText(getApplicationContext(),ex.toString(),Toast.LENGTH_LONG).show();
+            }
+
         }
         return super.onOptionsItemSelected(item);
     }
@@ -107,13 +123,8 @@ public class Main_Activity_Voice_Notes extends AppCompatActivity
                 Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_LONG).show();
             }
         } else if (id == R.id.settings) {
-            Intent intent = null;
-            try {
-                intent = new Intent(getApplicationContext(), Class.forName("com.example.isaia.sss_mobile_app.Settings_With_Drawer"));
-                startActivity(intent);
-            } catch (ClassNotFoundException e) {
-                Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_LONG).show();
-            }
+            count_VNS_FOR_SETTINGS_asy task = new count_VNS_FOR_SETTINGS_asy();
+            task.execute();
         }  else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
@@ -132,6 +143,49 @@ public class Main_Activity_Voice_Notes extends AppCompatActivity
     }
     @Override
     public void onCalculateVolume(int volume) {
+    }
+    private class count_VNS_FOR_SETTINGS_asy extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected void onPreExecute() {
+            //if you want, start progress dialog here
+        }
+
+        @Override
+        protected String doInBackground(String... urls) {
+
+            String response = "";
+            try
+            {
+                DBHelper mydb = new DBHelper(getApplicationContext());
+                String Password = mydb.Password();
+                Count_VNs count_class = new Count_VNs();
+                response = count_class.Do_The_work(Password);
+            }
+            catch (Exception ex)
+            {
+                response =  "Error: "+ex.getMessage();
+            }
+            return  response;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            //if you started progress dialog dismiss it here
+            if(!result.equals(""))
+            {
+                if(Integer.parseInt(result) > 10 || Integer.parseInt(result) == 10)
+                {
+                    Intent intent = new Intent(getApplicationContext(),Settings_With_Drawer.class);
+                    startActivity(intent);
+
+                }
+                else
+                {
+                    //Do nothing
+                }
+            }
+        }
     }
 }
 

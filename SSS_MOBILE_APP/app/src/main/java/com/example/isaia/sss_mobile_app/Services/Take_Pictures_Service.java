@@ -62,6 +62,7 @@ public class Take_Pictures_Service extends Service {
                             if(result == true)
                             {
                                 mCamera = getCameraInstance();
+                                sleep(3000);
                                 mCamera.takePicture(null, null,mPicture);
                                 mCamera = null;
                             }

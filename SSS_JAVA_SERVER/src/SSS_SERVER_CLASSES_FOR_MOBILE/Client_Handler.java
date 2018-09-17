@@ -2,6 +2,9 @@ package SSS_SERVER_CLASSES_FOR_MOBILE;
 import java.awt.TextArea;
 import java.io.*;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.mathworks.engine.MatlabEngine;
 
 import SSS_SERVER_FUNCTIONS.Decrement_Images_Model_Version;
@@ -434,7 +437,8 @@ public class Client_Handler implements Runnable{
 							String[] models_string = models.Do_The_Work(URL);
 
 							int[] results = new int[models_string.length];
-							int[] fet_Match = new int[models_string.length];
+							List<Integer> fet_Match = new ArrayList<Integer>(models_string.length);
+							List<Double> model_Match_Accuracy = new ArrayList<Double>(models_string.length);
 							
 							File image2 = null;
 							
@@ -519,7 +523,11 @@ public class Client_Handler implements Runnable{
 									String max_num_String = output_num.toString().replaceAll("\n","");
 									int max_num = Integer.parseInt(max_num_String.split("=")[1].replaceAll(" ",""));
 									results[i] = max_class;
-									fet_Match[i] = max_num;
+									//fet_Match[i] = max_num;
+									fet_Match.add(i, max_num);
+									double prediction_Accuracy = matEng.getVariable("predAccuracy");
+									//model_Match_Accuracy[i] = prediction_Accuracy;
+									model_Match_Accuracy.add(i, prediction_Accuracy);
 								}																							
 							}									
 							double status2 = matEng.getVariable("status");
@@ -531,20 +539,19 @@ public class Client_Handler implements Runnable{
 							}
 							else
 							{
-								int max = fet_Match[0];
-								for(int i = 0; i < fet_Match.length; i++)
-								{
-									if(fet_Match[i] > max)
-									{
-										max = fet_Match[i];
-										
-									}
-									
-								}
+
+
+								
+								Return_Accuracy_Users accu_Class = new Return_Accuracy_Users();
+								String[] accuString = accu_Class.do_The_Work(URL, user_ID2_).split(",");
+							
+								int max = cal_Max_With_Acc(fet_Match,model_Match_Accuracy,accuString);
+								
+								
 								String result_With_Max = "";
 								for (int i = 0; i < models_string.length; i++)
 								{
-									if (fet_Match[i] == max)
+									if (fet_Match.get(i) == max)
 									{						
 										Return_User_With_ID user = new Return_User_With_ID();										
 										result_With_Max = user.do_The_Work(URL, String.valueOf(results[i]));
@@ -552,45 +559,15 @@ public class Client_Handler implements Runnable{
 								}
 								System.out.println(result_With_Max);	
 								
-								double prediction_Accuracy = matEng.getVariable("predAccuracy");
-								Return_Accuracy_Users accu_Class = new Return_Accuracy_Users();
-								String[] accuString = accu_Class.do_The_Work(URL, user_ID2_).split(",");
+								String[] results_tokens = result_With_Max.split(",");
+								sendMessage(results_tokens[1]);	
 								
-								double currentAccuracy = Double.parseDouble(accuString[2]);
-								if(currentAccuracy > prediction_Accuracy)
-								{
-									double error = currentAccuracy - prediction_Accuracy;
-									if(error < 15)
-									{
-										String[] results_tokens = result_With_Max.split(",");
-										sendMessage(results_tokens[1]);				
-									}
-									else
-									{
-										sendMessage("Incorrect User");	
-									}
-								}
-								else
-								{
-									double error = prediction_Accuracy - currentAccuracy;
-									if(error < 15)
-									{
-										String[] results_tokens = result_With_Max.split(",");
-										sendMessage(results_tokens[1]);				
-									}
-									else
-									{
-										sendMessage("Incorrect User");	
-									}
-								}
-								
-
 							}
 
 							processing = false;
 							break;
 						case "TEST_IMAGE_PRED_ACCU":
-							Test_Prediction_Accuracy(); 
+							Test_Prediction_Accuracy_Images(); 
 							processing = false;
 							break;
 						case "PRED_USER_VN":
@@ -832,6 +809,69 @@ public class Client_Handler implements Runnable{
         }
 	}
 	
+	public int cal_Max_With_Acc(List<Integer> fetch_Match,List<Double> Model_Accuracy,String[] accuString)
+	{
+		if(fetch_Match.size() == 0)
+		{
+			return 0;
+		}
+		else if(fetch_Match.size() == 1)
+		{
+			return fetch_Match.get(0);
+		}
+		
+		int max = fetch_Match.get(0);
+		for(int i = 0; i < fetch_Match.size(); i++)
+		{
+			if(fetch_Match.get(i) > max)
+			{
+				max = fetch_Match.get(i);
+			}
+		}
+		for(int i = 0; i < fetch_Match.size(); i++)
+		{
+			if(fetch_Match.get(i) == max)
+			{
+				double prediction_Accuracy = Model_Accuracy.get(i);
+				double currentAccuracy = Double.parseDouble(accuString[2]);
+				if(currentAccuracy > prediction_Accuracy)
+				{
+					double error = currentAccuracy - prediction_Accuracy;
+					if(error < 15)
+					{
+						System.out.println(prediction_Accuracy);
+						return fetch_Match.get(i);
+					}
+					else
+					{
+						fetch_Match.remove(i);
+						Model_Accuracy.remove(i);
+						return cal_Max_With_Acc(fetch_Match,Model_Accuracy,accuString);
+					}
+				}
+				else
+				{
+					double error = prediction_Accuracy - currentAccuracy;
+					System.out.println(prediction_Accuracy);
+					if(error < 15)
+					{
+						return fetch_Match.get(i);
+					}
+					else
+					{
+						fetch_Match.remove(i);
+						Model_Accuracy.remove(i);
+						return cal_Max_With_Acc(fetch_Match,Model_Accuracy,accuString);
+					}
+				}
+			}
+
+		}
+		
+		return 0;
+		
+	}
+	
 	private void Register_User() throws Exception
 	{
 		String User_Name = in.readUTF();
@@ -855,7 +895,9 @@ public class Client_Handler implements Runnable{
 		System.out.println(accu_Class.do_The_Work(URL, user_Details[0], "0", "0", "0", "0"));
 	}
 	
-	private void Test_Prediction_Accuracy() throws Exception
+	
+	
+	private void Test_Prediction_Accuracy_Images() throws Exception
 	{
 
 		String[] Variables_Array = new String[5];

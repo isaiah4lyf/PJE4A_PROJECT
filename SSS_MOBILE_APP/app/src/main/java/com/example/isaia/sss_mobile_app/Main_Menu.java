@@ -105,7 +105,8 @@ public class Main_Menu extends AppCompatActivity  implements NavigationView.OnNa
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            //super.onBackPressed();
+            //Do nothing
         }
     }
 
@@ -113,6 +114,9 @@ public class Main_Menu extends AppCompatActivity  implements NavigationView.OnNa
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.settings__with__drawer, menu);
+        MenuItem item = menu.findItem(R.id.action_settings);
+        item.setTitle("Logout");
+
         return true;
     }
 
@@ -125,6 +129,9 @@ public class Main_Menu extends AppCompatActivity  implements NavigationView.OnNa
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Intent intent = new Intent(getApplicationContext(),Login.class);
+            intent.putExtra("From_Logout","true");
+            startActivity(intent);
             return true;
         }
 

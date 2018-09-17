@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.example.isaia.sss_mobile_app.Database.DBHelper;
 import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Count_Images;
+import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Count_VNs;
 import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Login_Class;
 
 import java.util.ArrayList;
@@ -21,11 +22,12 @@ public class Login extends AppCompatActivity {
     private EditText Password;
     private ProgressDialog progressDialog;
     private String loginString;
+    private String FromLogout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+        FromLogout = "false";
         User_Name = (EditText)findViewById(R.id.User_Name);
         Password = (EditText)findViewById(R.id.Password);
         final Button Reg_User = (Button) findViewById(R.id.Reg_User);
@@ -83,6 +85,26 @@ public class Login extends AppCompatActivity {
                 }
 
         );
+    }
+    @Override
+    public void onBackPressed() {
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            if(extras.getString("From_Logout") != null)
+            {
+                FromLogout = extras.getString("From_Logout");
+            }
+        }
+        if(!FromLogout.equals("false"))
+        {
+            //super.onBackPressed();
+            //Do nothing
+        }
+        else
+        {
+            finish();
+        }
+
     }
     private class login_Asy extends AsyncTask<String, Void, String> {
 
@@ -146,6 +168,7 @@ public class Login extends AppCompatActivity {
             }
         }
     }
+
     private class count_Images_for_Login_asy extends AsyncTask<String, Void, String> {
 
         @Override
@@ -180,12 +203,11 @@ public class Login extends AppCompatActivity {
                 if(Integer.parseInt(result) > 10 || Integer.parseInt(result) == 10)
                 {
                     String[] userDetails = loginString.split(",");
-                    Intent intent = null;
                     try {
                         DBHelper mydb = new DBHelper(getApplicationContext());
                         String insert = String.valueOf(mydb.insert_Login_State(userDetails[1],userDetails[0]));
-                        intent = new Intent(getApplicationContext(), Class.forName("com.example.isaia.sss_mobile_app.Main_Menu"));
-                        startActivity(intent);
+                        count_VNS_FOR_SETTINGS_asy task = new count_VNS_FOR_SETTINGS_asy();
+                        task.execute();
                         progressDialog.dismiss();
                     } catch (Exception e) {
                         Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_LONG).show();
@@ -201,6 +223,51 @@ public class Login extends AppCompatActivity {
                     progressDialog.dismiss();
                     int images_left = 10 - Integer.parseInt(result);
                     Toast.makeText(getApplicationContext(),images_left + " Images Left...",Toast.LENGTH_LONG).show();
+                }
+            }
+        }
+    }
+
+    private class count_VNS_FOR_SETTINGS_asy extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected void onPreExecute() {
+            //if you want, start progress dialog here
+        }
+
+        @Override
+        protected String doInBackground(String... urls) {
+
+            String response = "";
+            try
+            {
+                Count_VNs count_class = new Count_VNs();
+                response = count_class.Do_The_work(loginString.split(",")[0]);
+            }
+            catch (Exception ex)
+            {
+                response =  "Error: "+ex.getMessage();
+            }
+            return  response;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            //if you started progress dialog dismiss it here
+            if(!result.equals(""))
+            {
+                if(Integer.parseInt(result) > 10 || Integer.parseInt(result) == 10)
+                {
+                    Intent intent = new Intent(getApplicationContext(), Main_Menu.class);
+                    startActivity(intent);
+                }
+                else
+                {
+
+                    Intent intent = new Intent(getApplicationContext(),Main_Activity_Voice_Notes.class);
+                    startActivity(intent);
+                    int images_left = 10 - Integer.parseInt(result);
+                    Toast.makeText(getApplicationContext(),images_left + " Voice Notes...",Toast.LENGTH_LONG).show();
                 }
             }
         }

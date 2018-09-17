@@ -110,6 +110,9 @@ public class Predict_User_Image_Preview extends Service{
             }
         });
         dialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
+        WindowManager.LayoutParams lp = dialog.getWindow().getAttributes();
+        lp.dimAmount=0.0f; // Dim level. 0.0 - no dim, 1.0 - completely opaque
+        dialog.getWindow().setAttributes(lp);
         dialog.show();
 
         return START_STICKY;

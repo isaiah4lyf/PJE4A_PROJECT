@@ -79,6 +79,7 @@ public class Predict_User_Service extends Service{
                             if(result == true)
                             {
                                 mCamera = getCameraInstance();
+                                sleep(3000);
                                 mCamera.takePicture(null, null,mPicture);
                                 mCamera = null;
                             }

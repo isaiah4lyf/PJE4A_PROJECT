@@ -168,12 +168,8 @@ public class Main_Activity_Images extends AppCompatActivity{
     }
     @Override
     public void onBackPressed() {
-        if(mCamera != null){
-            mCamera.stopPreview();
-            mCamera.setPreviewCallback(null);
-            mCamera.release();
-            mCamera = null;
-        }
+        //super.onBackPressed();
+        //Do nothing
     }
     //camera Code
     // A safe way to get an instance of the Camera object.
@@ -388,6 +384,8 @@ public class Main_Activity_Images extends AppCompatActivity{
             {
                 Toast.makeText(getApplicationContext(),"Images greater than 10",Toast.LENGTH_LONG).show();
                 //Start Prediction and Insert Image Here services here...
+                mCamera.startPreview();
+                Insert_Image.setEnabled(true);
             }
             else
             {
@@ -480,16 +478,16 @@ public class Main_Activity_Images extends AppCompatActivity{
         @Override
         protected void onPostExecute(String result) {
             //if you started progress dialog dismiss it here
+            if(mCamera != null){
+                mCamera.stopPreview();
+                mCamera.setPreviewCallback(null);
+                mCamera.release();
+                mCamera = null;
+            }
             if(!result.equals(""))
             {
                 if(Integer.parseInt(result) > 10 || Integer.parseInt(result) == 10)
                 {
-                    if(mCamera != null){
-                        mCamera.stopPreview();
-                        mCamera.setPreviewCallback(null);
-                        mCamera.release();
-                        mCamera = null;
-                    }
                     Intent intent = new Intent(getApplicationContext(),Main_Activity_Voice_Notes.class);
                     startActivity(intent);
                 }
@@ -519,16 +517,16 @@ public class Main_Activity_Images extends AppCompatActivity{
         @Override
         protected void onPostExecute(String result) {
             //if you started progress dialog dismiss it here
+            if(mCamera != null){
+                mCamera.stopPreview();
+                mCamera.setPreviewCallback(null);
+                mCamera.release();
+                mCamera = null;
+            }
             if(!result.equals(""))
             {
                 if(Integer.parseInt(result) > 10 || Integer.parseInt(result) == 10)
                 {
-                    if(mCamera != null){
-                        mCamera.stopPreview();
-                        mCamera.setPreviewCallback(null);
-                        mCamera.release();
-                        mCamera = null;
-                    }
                     Intent intent = new Intent(getApplicationContext(),Main_Menu.class);
                     startActivity(intent);
                 }
@@ -560,21 +558,22 @@ public class Main_Activity_Images extends AppCompatActivity{
         @Override
         protected void onPostExecute(String result) {
             //if you started progress dialog dismiss it here
+            if(mCamera != null){
+                mCamera.stopPreview();
+                mCamera.setPreviewCallback(null);
+                mCamera.release();
+                mCamera = null;
+            }
             if(!result.equals(""))
             {
                 if(Integer.parseInt(result) > 10 || Integer.parseInt(result) == 10)
                 {
-                    if(mCamera != null){
-                        mCamera.stopPreview();
-                        mCamera.setPreviewCallback(null);
-                        mCamera.release();
-                        mCamera = null;
-                    }
                     Intent intent = new Intent(getApplicationContext(),Settings_With_Drawer.class);
                     startActivity(intent);
                 }
                 else
                 {
+
                     Intent intent = new Intent(getApplicationContext(),Main_Activity_Voice_Notes.class);
                     startActivity(intent);
                     int images_left = 10 - Integer.parseInt(result);

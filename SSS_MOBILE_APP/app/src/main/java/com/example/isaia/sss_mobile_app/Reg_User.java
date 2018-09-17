@@ -132,7 +132,10 @@ public class Reg_User extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
             //if you started progress dialog dismiss it here
-            try {
+            progressDialog.dismiss();
+            try
+            {
+                /*
                 progressDialog.dismiss();
                 LayoutInflater layoutInflater
                         = (LayoutInflater)getBaseContext()
@@ -176,6 +179,17 @@ public class Reg_User extends AppCompatActivity {
                 popupWindow.showAsDropDown(user_Name, -20, -50);
                 popupWindow.setFocusable(true);
                 popupWindow.update();
+                */
+                if(result.equals("false"))
+                {
+                    Toast.makeText(getApplicationContext(),"User name already taken!",Toast.LENGTH_LONG).show();
+                }
+                else
+                {
+                    Toast.makeText(getApplicationContext(),"Registration Successful!",Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(getApplicationContext(), Login.class);
+                    startActivity(intent);
+                }
 
             } catch (Exception e) {
                 Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_LONG).show();
