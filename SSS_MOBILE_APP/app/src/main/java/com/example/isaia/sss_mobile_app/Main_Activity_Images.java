@@ -33,6 +33,9 @@ import com.example.isaia.sss_mobile_app.Database.DBHelper;
 import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Count_Images;
 import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Count_VNs;
 import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Insert_Image_;
+import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Train_Images_Model;
+import com.example.isaia.sss_mobile_app.Services.Predict_User_Image_Preview;
+import com.example.isaia.sss_mobile_app.Services.Train_Images_Model_Service;
 
 
 public class Main_Activity_Images extends AppCompatActivity{
@@ -380,13 +383,28 @@ public class Main_Activity_Images extends AppCompatActivity{
         @Override
         protected void onPostExecute(String result) {
             //if you started progress dialog dismiss it here
-            if(Integer.parseInt(result) > 10 || Integer.parseInt(result) == 10)
+            if(Integer.parseInt(result) == 10)
+            {
+                mCamera.stopPreview();
+                mCamera.setPreviewCallback(null);
+                mCamera.release();
+                mCamera = null;
+
+
+                Intent serviceIntent = new Intent(getApplicationContext(),Train_Images_Model_Service.class);
+                startService(serviceIntent);
+                Intent intent = new Intent(getApplicationContext(),Main_Activity_Voice_Notes.class);
+                startActivity(intent);
+
+            }
+            else if(Integer.parseInt(result) > 10)
             {
                 Toast.makeText(getApplicationContext(),"Images greater than 10",Toast.LENGTH_LONG).show();
                 //Start Prediction and Insert Image Here services here...
                 mCamera.startPreview();
                 Insert_Image.setEnabled(true);
             }
+
             else
             {
                 int images_left = 10 - Integer.parseInt(result);
@@ -397,15 +415,14 @@ public class Main_Activity_Images extends AppCompatActivity{
 
         }
     }
-    private class count_Images_for_settings_asy extends AsyncTask<String, Void, String> {
 
+    private class count_Images_for_settings_asy extends AsyncTask<String, Void, String> {
         @Override
         protected void onPreExecute() {
             //if you want, start progress dialog here
         }
         @Override
         protected String doInBackground(String... urls) {
-
             String response = "";
             Count_Images count_class = new Count_Images();
             response = count_class.Do_The_work(Password);

@@ -31,8 +31,7 @@ public class Train_Images_Model {
     {
         sendCommand("TRAIN_IMAGES_MODEL");
         sendCommand(User_ID);
-        //return readResponse();
-        return "Ok";
+        return readResponse();
     }
 
     protected void sendCommand(String message)

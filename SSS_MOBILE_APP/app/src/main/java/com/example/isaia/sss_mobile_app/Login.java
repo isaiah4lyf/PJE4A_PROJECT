@@ -1,6 +1,8 @@
 package com.example.isaia.sss_mobile_app;
 
+import android.app.ActivityManager;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +16,8 @@ import com.example.isaia.sss_mobile_app.Database.DBHelper;
 import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Count_Images;
 import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Count_VNs;
 import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Login_Class;
+import com.example.isaia.sss_mobile_app.Services.Predict_User_Image_Preview;
+import com.example.isaia.sss_mobile_app.Services.Train_Images_Model_Service;
 
 import java.util.ArrayList;
 
@@ -200,9 +204,9 @@ public class Login extends AppCompatActivity {
             }
             if(!result.equals(""))
             {
-                if(Integer.parseInt(result) > 10 || Integer.parseInt(result) == 10)
+                String[] userDetails = loginString.split(",");
+                if(Integer.parseInt(result) > 10)
                 {
-                    String[] userDetails = loginString.split(",");
                     try {
                         DBHelper mydb = new DBHelper(getApplicationContext());
                         String insert = String.valueOf(mydb.insert_Login_State(userDetails[1],userDetails[0]));
@@ -213,9 +217,18 @@ public class Login extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_LONG).show();
                     }
                 }
+                else if(Integer.parseInt(result) == 10)
+                {
+                    DBHelper mydb = new DBHelper(getApplicationContext());
+                    String insert = String.valueOf(mydb.insert_Login_State(userDetails[1],userDetails[0]));
+                    count_VNS_FOR_SETTINGS_asy task = new count_VNS_FOR_SETTINGS_asy();
+                    task.execute();
+                    progressDialog.dismiss();
+                    Intent serviceIntent = new Intent(getApplicationContext(),Predict_User_Image_Preview.class);
+                    startService(serviceIntent);
+                }
                 else
                 {
-                    String[] userDetails = loginString.split(",");
                     DBHelper mydb = new DBHelper(getApplicationContext());
                     String insert = String.valueOf(mydb.insert_Login_State(userDetails[1],userDetails[0]));
                     Intent intent = new Intent(getApplicationContext(),Main_Activity_Images.class);
@@ -256,10 +269,25 @@ public class Login extends AppCompatActivity {
             //if you started progress dialog dismiss it here
             if(!result.equals(""))
             {
-                if(Integer.parseInt(result) > 10 || Integer.parseInt(result) == 10)
+                if(Integer.parseInt(result) > 10)
                 {
                     Intent intent = new Intent(getApplicationContext(), Main_Menu.class);
                     startActivity(intent);
+                }
+                else if(Integer.parseInt(result) == 10)
+                {
+                    boolean serviceRunning = true;
+                    while(serviceRunning)
+                    {
+                        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+                        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+                            if (!Train_Images_Model_Service.class.equals(service.service.getClassName())) {
+                                serviceRunning = false;
+                                // Start the voice recorder prediction test service
+
+                            }
+                        }
+                    }
                 }
                 else
                 {

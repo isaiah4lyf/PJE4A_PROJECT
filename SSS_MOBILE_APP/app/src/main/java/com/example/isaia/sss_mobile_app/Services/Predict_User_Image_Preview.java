@@ -26,6 +26,7 @@ import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 import com.example.isaia.sss_mobile_app.Database.DBHelper;
+import com.example.isaia.sss_mobile_app.Login;
 import com.example.isaia.sss_mobile_app.R;
 import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Pred_User;
 import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Pred_User_Image_Preview_Test_Accu;
@@ -117,7 +118,6 @@ public class Predict_User_Image_Preview extends Service{
 
         return START_STICKY;
     }
-
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -127,7 +127,19 @@ public class Predict_User_Image_Preview extends Service{
             mCamera.setPreviewCallback(null);
             mCamera.release();
             mCamera = null;
+
             Toast.makeText(getApplicationContext(),"Service Destroyed.",Toast.LENGTH_LONG).show();
+            try
+            {
+                Intent intent = new Intent(getApplicationContext(),Login.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("From_Logout","true");
+                startActivity(intent);
+            }
+            catch (Exception ex)
+            {
+                Toast.makeText(getApplicationContext(),ex.toString(),Toast.LENGTH_LONG).show();
+            }
         }
     }
     //camera Code
