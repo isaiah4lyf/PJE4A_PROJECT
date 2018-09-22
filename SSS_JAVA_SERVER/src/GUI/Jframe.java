@@ -13,11 +13,13 @@ import javax.swing.JPanel;
 
 import com.mathworks.engine.MatlabEngine;
 import SSS_SERVER_CLASSES_FOR_MOBILE.Server_Class;
+import SSS_SERVER_FUNCTIONS.Return_Accuracy_Users;
 import SSS_SERVER_FUNCTIONS.Return_Train_Models;
 import SSS_SERVER_FUNCTIONS.Return_Train_Models_VN;
 import SSS_SERVER_FUNCTIONS.Return_Users_In_Model;
 import SSS_SERVER_FUNCTIONS.Return_Users_In_Model_VN;
 import SSS_SERVER_FUNCTIONS.Train_Images_Model;
+import SSS_SERVER_FUNCTIONS.Update_Accuracy_Users;
 
 public class Jframe extends JFrame{
 	/**
@@ -111,6 +113,18 @@ public class Jframe extends JFrame{
                         				matEng.eval("path2 = '"+Trained_Model_File+"'",console,null);
                         				
                         				matEng.eval("run('" + Matlab_Path_train + "/MATLAB_SCRIPTS/RUN_ESS5.m')",console,null);
+                        				
+                        				for(int j = 0; j < users.length; j++)
+                        				{
+                        					Return_Accuracy_Users accu_Class = new Return_Accuracy_Users();
+                            				String[] accuString = accu_Class.do_The_Work(URL, users[j].split(",")[0]).split(",");				
+                            				Update_Accuracy_Users update_Class = new Update_Accuracy_Users();
+                            				double validation_accu = matEng.getVariable("accuracy");
+                            				update_Class.do_The_Work(URL, accuString[1],accuString[2] , String.valueOf(validation_accu), accuString[4], accuString[5]);
+
+                        				}
+                        				
+                        			
                         				console_Like.append(console.toString());
                             		}
                      

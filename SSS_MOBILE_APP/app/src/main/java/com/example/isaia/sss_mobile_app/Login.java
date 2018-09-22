@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.isaia.sss_mobile_app.Database.DBHelper;
+import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Check_Accuracy;
 import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Count_Images;
 import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Count_VNs;
 import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Login_Class;
@@ -174,7 +175,6 @@ public class Login extends AppCompatActivity {
     }
 
     private class count_Images_for_Login_asy extends AsyncTask<String, Void, String> {
-
         @Override
         protected void onPreExecute() {
             //if you want, start progress dialog here
@@ -212,7 +212,7 @@ public class Login extends AppCompatActivity {
                         String insert = String.valueOf(mydb.insert_Login_State(userDetails[1],userDetails[0]));
                         count_VNS_FOR_SETTINGS_asy task = new count_VNS_FOR_SETTINGS_asy();
                         task.execute();
-                        progressDialog.dismiss();
+
                     } catch (Exception e) {
                         Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_LONG).show();
                     }
@@ -223,9 +223,17 @@ public class Login extends AppCompatActivity {
                     String insert = String.valueOf(mydb.insert_Login_State(userDetails[1],userDetails[0]));
                     count_VNS_FOR_SETTINGS_asy task = new count_VNS_FOR_SETTINGS_asy();
                     task.execute();
-                    progressDialog.dismiss();
-                    Intent serviceIntent = new Intent(getApplicationContext(),Predict_User_Image_Preview.class);
-                    startService(serviceIntent);
+
+                    Thread thread = new Thread() {
+                        @Override
+                        public void run() {
+                            // TODO Auto-generated method stub
+                            super.run();
+                            check_accuracy_Images task_acc = new check_accuracy_Images();
+                            task_acc.execute();
+                        }
+                    };
+                    thread.start();
                 }
                 else
                 {
@@ -241,13 +249,49 @@ public class Login extends AppCompatActivity {
         }
     }
 
+    private class check_accuracy_Images extends AsyncTask<String, Void, String> {
+        @Override
+        protected void onPreExecute() {
+            //if you want, start progress dialog here
+        }
+        @Override
+        protected String doInBackground(String... urls) {
+            String response = "";
+            try
+            {
+                Check_Accuracy count_class = new Check_Accuracy();
+                DBHelper mydb = new DBHelper(getApplicationContext());
+                String User_ID = mydb.Password();
+                response = count_class.Do_The_work(User_ID);
+            }
+            catch (Exception ex)
+            {
+                response =  "Error: "+ex.getMessage();
+            }
+            return  response;
+        }
+        @Override
+        protected void onPostExecute(String result) {
+            //if you started progress dialog dismiss it here
+            if(!result.startsWith("Error:"))
+            {
+                String[] accu_Tokens = result.split(",");
+                if(Integer.parseInt(accu_Tokens[2]) == 0)
+                {
+                    Intent serviceIntent = new Intent(getApplicationContext(),Predict_User_Image_Preview.class);
+                    startService(serviceIntent);
+                    progressDialog.dismiss();
+                }
+            }
+        }
+    }
+
     private class count_VNS_FOR_SETTINGS_asy extends AsyncTask<String, Void, String> {
 
         @Override
         protected void onPreExecute() {
             //if you want, start progress dialog here
         }
-
         @Override
         protected String doInBackground(String... urls) {
 
@@ -284,7 +328,9 @@ public class Login extends AppCompatActivity {
                             if (!Train_Images_Model_Service.class.equals(service.service.getClassName())) {
                                 serviceRunning = false;
                                 // Start the voice recorder prediction test service
-
+                                Intent intent = new Intent(getApplicationContext(),Main_Activity_Voice_Notes.class);
+                                startActivity(intent);
+                                progressDialog.dismiss();
                             }
                         }
                     }
@@ -294,6 +340,7 @@ public class Login extends AppCompatActivity {
 
                     Intent intent = new Intent(getApplicationContext(),Main_Activity_Voice_Notes.class);
                     startActivity(intent);
+                    progressDialog.dismiss();
                     int images_left = 10 - Integer.parseInt(result);
                     Toast.makeText(getApplicationContext(),images_left + " Voice Notes...",Toast.LENGTH_LONG).show();
                 }

@@ -48,7 +48,7 @@ public class Pred_User_Image_Preview_Test_Accu {
             out.write(buffer);
             out.flush();
             response = readResponse();
-            response += " - " + readResponse()+ "%";
+
         } catch (Exception e) {
             e.printStackTrace();
         }

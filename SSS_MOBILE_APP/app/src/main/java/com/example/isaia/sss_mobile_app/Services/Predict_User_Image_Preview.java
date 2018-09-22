@@ -17,13 +17,19 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.example.isaia.sss_mobile_app.Database.DBHelper;
 import com.example.isaia.sss_mobile_app.Login;
@@ -37,6 +43,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
+
+import android.view.ViewGroup.LayoutParams;
 
 
 public class Predict_User_Image_Preview extends Service{
@@ -52,6 +61,8 @@ public class Predict_User_Image_Preview extends Service{
     private ActivityManager activityManager;
     private ComponentName compName;
     private int invalidPrediction;
+    private Dialog dialog;
+
 
     @Nullable
     @Override
@@ -65,9 +76,10 @@ public class Predict_User_Image_Preview extends Service{
         DBHelper mydb = new DBHelper(getApplicationContext());
         User_Name = mydb.User_Name();
         Password = mydb.Password();
-        final Dialog dialog = new Dialog(getApplicationContext());
+        dialog = new Dialog(getApplicationContext(),R.style.test_pred_images_dialog);
         dialog.setContentView(R.layout.image_prediction_pop_up);
-        dialog.setTitle("S.S.S: Image Prediction");
+        dialog.setTitle("S.S.S: Prediction Accuracy Testing");
+
         try {
 
             mCamera = getCameraInstance();
@@ -325,34 +337,69 @@ public class Predict_User_Image_Preview extends Service{
         @Override
         protected void onPostExecute(String result) {
             //if you started progress dialog dismiss it here
-            Toast.makeText(getApplicationContext(), result, Toast.LENGTH_LONG).show();
-            mCamera.startPreview();
-            /*
-            if (result.equals("Invalid Image")) {
-                if (invalidPrediction == 5) {
-                    Intent serviceIntent = new Intent(getApplicationContext(), Predict_User_Service_VN.class);
-                    //startService(serviceIntent);
-                } else {
-                    invalidPrediction++;
-                }
-            } else {
-                if (result.equals(User_Name)) {
-                    invalidPrediction = 0;
-                } else {
-                    boolean active = devicePolicyManager.isAdminActive(compName);
-                    if (active) {
-                        devicePolicyManager.lockNow();
-                        invalidPrediction = 0;
-                    } else {
-                        Toast.makeText(getApplicationContext(), "You need to enable the Admin Device Features", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
-                        intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, compName);
-                        intent.putExtra(DevicePolicyManager.EXTRA_ADD_EXPLANATION, "Additional text explaining why we need this permission");
-                        startActivity(intent);
-                    }
-                }
+
+            if(result.equals("Invalid Image"))
+            {
+                mCamera.startPreview();
+                Toast.makeText(getApplicationContext(),"Invalid Image, Test again.",Toast.LENGTH_LONG).show();
             }
-            */
+            else if(result.equals("Incorrect User"))
+            {
+                mCamera.startPreview();
+                Toast.makeText(getApplicationContext(),"Incorrect User, Test again.",Toast.LENGTH_LONG).show();
+            }
+            else
+            {
+                final Dialog dialog2 = new Dialog(getApplicationContext(),R.style.test_pred_images_dialog);
+                dialog2.setContentView(R.layout.confirm_accuracy_dialog);
+                dialog2.setTitle("S.S.S: Confirm Accuracy");
+                final TextView data = dialog2.findViewById(R.id.data);
+                data.setText(result);
+                final TextView test_again = dialog2.findViewById(R.id.test_again);
+                test_again.setOnClickListener(
+                        new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                // get an image from the camera
+                                mCamera.startPreview();
+                                dialog2.dismiss();
+                            }
+                        }
+                );
+                final TextView close = dialog2.findViewById(R.id.close);
+                close.setOnClickListener(
+                        new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                // get an image from the camera
+                                dialog2.dismiss();
+                                dialog.dismiss();
+                                stopService(new Intent(getApplicationContext(), Predict_User_Image_Preview.class));
+                            }
+                        }
+                );
+                dialog2.setOnKeyListener(new Dialog.OnKeyListener() {
+
+                    @Override
+                    public boolean onKey(DialogInterface arg0, int keyCode,
+                                         KeyEvent event) {
+                        // TODO Auto-generated method stub
+                        if (keyCode == KeyEvent.KEYCODE_BACK) {
+                            dialog2.dismiss();
+                            dialog.dismiss();
+                            stopService(new Intent(getApplicationContext(), Predict_User_Image_Preview.class));
+                        }
+                        return true;
+                    }
+                });
+                dialog2.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
+                WindowManager.LayoutParams lp = dialog2.getWindow().getAttributes();
+                lp.dimAmount=0.0f; // Dim level. 0.0 - no dim, 1.0 - completely opaque
+                dialog2.getWindow().setAttributes(lp);
+                dialog2.setCanceledOnTouchOutside(false);
+                dialog2.show();
+            }
+
         }
     }
 }

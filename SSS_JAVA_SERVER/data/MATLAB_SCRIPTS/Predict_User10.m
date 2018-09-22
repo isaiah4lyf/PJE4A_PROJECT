@@ -2,24 +2,30 @@ try
 	status = 0;
 	exception = 0;
     file = load(path);
+	
 	trainedClassifier  = file.trainedClassifier;
 	image_un = imread(Image_Name_of);
-	image1 = imrotate(image_un,90);
 	load('webcamsSceneReconstruction.mat');
+	
+	image1 = imrotate(image_un,90);
 	if(size(image1,3)==4) % resize image
 		image1(:,:,1)=[]; % convert to I = [MxNx3]
 	end
+	
 	image = undistortImage(image1,stereoParams.CameraParameters1);
 	faceDetector = vision.CascadeObjectDetector;
 	face1 = step(faceDetector,image);
 	TF = isempty(face1);
 	
 	if TF == 0
+
 		I = imcrop(image1,face1);
 		im=rgb2gray(I);
 		J = imresize(im, 5);
+	
+
 		ptsOriginal = detectSURFFeatures(J);
-		imwrite(J,Image_Name_of)
+		%imwrite(J,Image_Name_of)
 		[featuresOriginal,validPtsOriginal] = ...
 					extractFeatures(J,ptsOriginal);
 		trained = trainedClassifier.predictFcn(featuresOriginal);
@@ -83,5 +89,6 @@ catch ME
         case 'MATLAB:UndefinedFunction'
         otherwise
             exception = 1;
+			ME
     end
 end

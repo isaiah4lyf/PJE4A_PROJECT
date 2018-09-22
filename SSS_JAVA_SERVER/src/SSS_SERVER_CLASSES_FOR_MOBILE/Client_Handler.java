@@ -493,6 +493,13 @@ public class Client_Handler implements Runnable{
 			String Trained_Model_File = Matlab_Path_train + "/MATLAB_TRAINED_MODELS/" + response_Tokens[0] + ".mat";
 			matEng.eval("path2 = '"+Trained_Model_File+"'",null,null);
 			matEng.eval("run('" + Matlab_Path_train + "/MATLAB_SCRIPTS/RUN_ESS5.m')",null,null);
+			
+			Return_Accuracy_Users accu_Class = new Return_Accuracy_Users();
+			String[] accuString = accu_Class.do_The_Work(URL, user_ID).split(",");				
+			Update_Accuracy_Users update_Class = new Update_Accuracy_Users();
+			double validation_accu = matEng.getVariable("accuracy");
+			String update_String = update_Class.do_The_Work(URL, accuString[1], String.valueOf(validation_accu), accuString[3], accuString[4], accuString[5]);
+			
 			sendMessage("Training Model..");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -564,6 +571,7 @@ public class Client_Handler implements Runnable{
 			
 			for (int i = 0; i < models_string.length; i++)
 			{
+
 				String model_ID = models_string[i].split(",")[0];
 				Return_Users_In_Model users = new Return_Users_In_Model();
 				String[] users_string = users.Do_The_Work(URL,model_ID);
@@ -604,6 +612,7 @@ public class Client_Handler implements Runnable{
 
 				}
 				image2 = new File("data/MATLAB_TRAIN_DATA/"+user_name2+"/MATLAB_PRED_DATA/"+title2+".jpg");
+				System.out.println(image2.getAbsolutePath());
 				matEng.eval("Image_Name_of = '"+ image2.getAbsolutePath().toString()+"'",null,null);
 				
 				int model_version = Integer.parseInt(models_string[i].split(",")[3] );
@@ -625,6 +634,8 @@ public class Client_Handler implements Runnable{
 				if(status2 == 1.0 || exception2 == 1.0)
 				{
 					image2.delete();
+					System.out.println("Ex" + status2);
+					System.out.println("Ex" + exception2);
 					System.out.println("here");
 					break;									
 				}
@@ -656,19 +667,28 @@ public class Client_Handler implements Runnable{
 				Return_Accuracy_Users accu_Class = new Return_Accuracy_Users();
 				String[] accuString = accu_Class.do_The_Work(URL, user_ID2_).split(",");
 				int max = cal_Max_With_Acc(fet_Match,model_Match_Accuracy,accuString);
-				String result_With_Max = "";
-				for (int i = 0; i < models_string.length; i++)
-				{
-					if (fet_Match.get(i) == max)
-					{						
-						Return_User_With_ID user = new Return_User_With_ID();										
-						result_With_Max = user.do_The_Work(URL, String.valueOf(results[i]));
-					}
-				}
-				System.out.println(result_With_Max);	
 				
-				String[] results_tokens = result_With_Max.split(",");
-				sendMessage(results_tokens[1]);	
+				if(max != 0)
+				{
+					String result_With_Max = "";
+					for (int i = 0; i < models_string.length; i++)
+					{
+						if (fet_Match.get(i) == max)
+						{						
+							Return_User_With_ID user = new Return_User_With_ID();										
+							result_With_Max = user.do_The_Work(URL, String.valueOf(results[i]));
+						}
+					}
+					System.out.println(result_With_Max);	
+					
+					String[] results_tokens = result_With_Max.split(",");
+					sendMessage(results_tokens[1]);	
+				}
+				else
+				{
+					sendMessage("Incorrect User");	
+				}
+
 				
 			}
 		} catch (Exception e1) {
@@ -859,20 +879,22 @@ public class Client_Handler implements Runnable{
 			System.out.println(result_With_Max);	
 			String[] results_tokens = result_With_Max.split(",");
 			
-			double prediction_Accuracy = matEng.getVariable("predAccuracy");
-			sendMessage(results_tokens[1]);
-			sendMessage(String.valueOf(prediction_Accuracy));
-			if(Variables_Array[1].equals(results_tokens[1]))
+
+			if(Variables_Array[0].equals(results_tokens[0]))
 			{
-				
-				
+				double prediction_Accuracy = matEng.getVariable("predAccuracy");
+				sendMessage(results_tokens[1] + " - " + String.valueOf(prediction_Accuracy) + "%");
+			
 				Return_Accuracy_Users accu_Class = new Return_Accuracy_Users();
-				String[] accuString = accu_Class.do_The_Work(URL, Variables_Array[0]).split(",");
-				
+				String[] accuString = accu_Class.do_The_Work(URL, Variables_Array[0]).split(",");				
 				Update_Accuracy_Users update_Class = new Update_Accuracy_Users();
 				String update_String = update_Class.do_The_Work(URL, accuString[1], String.valueOf(prediction_Accuracy), accuString[3], accuString[4], accuString[5]);
 				
 				System.out.println(update_String);
+			}
+			else
+			{
+				sendMessage("Incorrect User");
 			}
 
 		}
@@ -1103,63 +1125,88 @@ public class Client_Handler implements Runnable{
 	
 	private int cal_Max_With_Acc(List<Integer> fetch_Match,List<Double> Model_Accuracy,String[] accuString)
 	{
-		if(fetch_Match.size() == 0)
+
+		if(fetch_Match.size() == 1)
 		{
-			return 0;
-		}
-		else if(fetch_Match.size() == 1)
-		{
-			return fetch_Match.get(0);
-		}
-		
-		int max = fetch_Match.get(0);
-		for(int i = 0; i < fetch_Match.size(); i++)
-		{
-			if(fetch_Match.get(i) > max)
+			double prediction_Accuracy = Model_Accuracy.get(0);
+			double currentAccuracy = Double.parseDouble(accuString[2]);
+			if(currentAccuracy > prediction_Accuracy)
 			{
-				max = fetch_Match.get(i);
-			}
-		}
-		for(int i = 0; i < fetch_Match.size(); i++)
-		{
-			if(fetch_Match.get(i) == max)
-			{
-				double prediction_Accuracy = Model_Accuracy.get(i);
-				double currentAccuracy = Double.parseDouble(accuString[2]);
-				if(currentAccuracy > prediction_Accuracy)
+				double error = currentAccuracy - prediction_Accuracy;
+				if(error < 8)
 				{
-					double error = currentAccuracy - prediction_Accuracy;
-					if(error < 15)
-					{
-						System.out.println(prediction_Accuracy);
-						return fetch_Match.get(i);
-					}
-					else
-					{
-						fetch_Match.remove(i);
-						Model_Accuracy.remove(i);
-						return cal_Max_With_Acc(fetch_Match,Model_Accuracy,accuString);
-					}
+					return fetch_Match.get(0);
 				}
 				else
 				{
-					double error = prediction_Accuracy - currentAccuracy;
-					System.out.println(prediction_Accuracy);
-					if(error < 15)
+					return 0;
+				}
+			}
+			else
+			{
+				double error = prediction_Accuracy - currentAccuracy;
+				System.out.println(prediction_Accuracy);
+				if(error < 8)
+				{
+					return fetch_Match.get(0);
+				}
+				else
+				{
+					return 0;
+				}
+			}
+			
+		}
+		
+		if(fetch_Match.size() > 1)
+		{
+			int max = fetch_Match.get(0);
+			for(int i = 0; i < fetch_Match.size(); i++)
+			{
+				if(fetch_Match.get(i) > max)
+				{
+					max = fetch_Match.get(i);
+				}
+			}
+			for(int i = 0; i < fetch_Match.size(); i++)
+			{
+				if(fetch_Match.get(i) == max)
+				{
+					double prediction_Accuracy = Model_Accuracy.get(i);
+					double currentAccuracy = Double.parseDouble(accuString[2]);
+					if(currentAccuracy > prediction_Accuracy)
 					{
-						return fetch_Match.get(i);
+						double error = currentAccuracy - prediction_Accuracy;
+						if(error < 8)
+						{
+							return fetch_Match.get(i);
+						}
+						else
+						{
+							fetch_Match.remove(i);
+							Model_Accuracy.remove(i);
+							return cal_Max_With_Acc(fetch_Match,Model_Accuracy,accuString);
+						}
 					}
 					else
 					{
-						fetch_Match.remove(i);
-						Model_Accuracy.remove(i);
-						return cal_Max_With_Acc(fetch_Match,Model_Accuracy,accuString);
+						double error = prediction_Accuracy - currentAccuracy;
+						System.out.println(prediction_Accuracy);
+						if(error < 8)
+						{
+							return fetch_Match.get(i);
+						}
+						else
+						{
+							fetch_Match.remove(i);
+							Model_Accuracy.remove(i);
+							return cal_Max_With_Acc(fetch_Match,Model_Accuracy,accuString);
+						}
 					}
 				}
-			}
 
+			}
 		}
-		
 		return 0;
 		
 	}
