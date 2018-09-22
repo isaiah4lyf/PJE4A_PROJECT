@@ -133,6 +133,7 @@ public class Jframe extends JFrame{
                             	catch(Exception ex)
                             	{
                             		console_Like.append(ex.toString());
+                            		System.out.println(ex.toString());
                             	}
                     		} catch (Exception e) {
                     			// TODO Auto-generated catch block

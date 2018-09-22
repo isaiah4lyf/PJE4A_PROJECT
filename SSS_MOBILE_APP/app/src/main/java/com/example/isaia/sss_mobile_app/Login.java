@@ -152,11 +152,6 @@ public class Login extends AppCompatActivity {
                         mydb.Insert_Settings_Voice("1","1");
                     }
 
-                    int settingsRowsImage = mydb.Number_Of_Rows_Settings_Image();
-                    if(settingsRowsImage == 0)
-                    {
-                        mydb.Insert_Settings_Image("1","100","1");
-                    }
                 }
                 catch(Exception ex)
                 {

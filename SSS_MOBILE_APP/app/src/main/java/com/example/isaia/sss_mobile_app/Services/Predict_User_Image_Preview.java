@@ -398,8 +398,21 @@ public class Predict_User_Image_Preview extends Service{
                 dialog2.getWindow().setAttributes(lp);
                 dialog2.setCanceledOnTouchOutside(false);
                 dialog2.show();
-            }
 
+                DBHelper mydb = new DBHelper(getApplicationContext());
+                try
+                {
+                    int settingsRowsImage = mydb.Number_Of_Rows_Settings_Image();
+                    if(settingsRowsImage == 0)
+                    {
+                        mydb.Insert_Settings_Image("1","1","1");
+                    }
+                }
+                catch(Exception ex)
+                {
+                    Toast.makeText(getApplicationContext(),ex.getLocalizedMessage(),Toast.LENGTH_LONG).show();
+                }
+            }
         }
     }
 }

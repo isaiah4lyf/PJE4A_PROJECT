@@ -83,6 +83,7 @@ public class Client_Handler implements Runnable{
 							break;
 						case "CHECK_ACCURACY":
 							Check_Accuracy_For_Login();
+							processing = false;
 							break;
 						case "COUNT_IMAGES":
 							Count_Images();
@@ -498,7 +499,7 @@ public class Client_Handler implements Runnable{
 			String[] accuString = accu_Class.do_The_Work(URL, user_ID).split(",");				
 			Update_Accuracy_Users update_Class = new Update_Accuracy_Users();
 			double validation_accu = matEng.getVariable("accuracy");
-			String update_String = update_Class.do_The_Work(URL, accuString[1], String.valueOf(validation_accu), accuString[3], accuString[4], accuString[5]);
+			update_Class.do_The_Work(URL, accuString[1],accuString[2], String.valueOf(validation_accu), accuString[4], accuString[5]);
 			
 			sendMessage("Training Model..");
 		} catch (Exception e) {
@@ -664,23 +665,25 @@ public class Client_Handler implements Runnable{
 			}
 			else
 			{
+				matEng.eval("imwrite(J,Image_Name_of)",null,null);
 				Return_Accuracy_Users accu_Class = new Return_Accuracy_Users();
 				String[] accuString = accu_Class.do_The_Work(URL, user_ID2_).split(",");
+				List<Integer> new_Fetch_Match = fet_Match;
 				int max = cal_Max_With_Acc(fet_Match,model_Match_Accuracy,accuString);
 				
 				if(max != 0)
 				{
 					String result_With_Max = "";
-					for (int i = 0; i < models_string.length; i++)
+					for (int i = 0; i < new_Fetch_Match.size(); i++)
 					{
-						if (fet_Match.get(i) == max)
+						if (new_Fetch_Match.get(i) == max)
 						{						
 							Return_User_With_ID user = new Return_User_With_ID();										
 							result_With_Max = user.do_The_Work(URL, String.valueOf(results[i]));
 						}
 					}
-					System.out.println(result_With_Max);	
-					
+	
+					System.out.println(result_With_Max);
 					String[] results_tokens = result_With_Max.split(",");
 					sendMessage(results_tokens[1]);	
 				}
@@ -762,7 +765,8 @@ public class Client_Handler implements Runnable{
 		String[] models_string = models.Do_The_Work(URL);
 
 		int[] results = new int[models_string.length];
-		int[] fet_Match = new int[models_string.length];
+		List<Integer> fet_Match = new ArrayList<Integer>(models_string.length);
+		List<Double> model_Match_Accuracy = new ArrayList<Double>(models_string.length);
 		
 		File image2 = null;
 		
@@ -847,7 +851,9 @@ public class Client_Handler implements Runnable{
 				String max_num_String = output_num.toString().replaceAll("\n","");
 				int max_num = Integer.parseInt(max_num_String.split("=")[1].replaceAll(" ",""));
 				results[i] = max_class;
-				fet_Match[i] = max_num;
+				fet_Match.add(i, max_num);
+				double prediction_Accuracy = matEng.getVariable("predAccuracy");
+				model_Match_Accuracy.add(i, prediction_Accuracy);
 			}																							
 		}									
 		double status2 = matEng.getVariable("status");
@@ -859,6 +865,49 @@ public class Client_Handler implements Runnable{
 		}
 		else
 		{
+			
+			matEng.eval("imwrite(J,Image_Name_of)",null,null);
+			Return_Accuracy_Users accu_Class = new Return_Accuracy_Users();
+			String[] accuString = accu_Class.do_The_Work(URL, Variables_Array[0]).split(",");
+			List<Integer> new_Fetch_Match = fet_Match;
+			List<Double> new_model_Match_Accuracy = model_Match_Accuracy;
+			int max = cal_Max_With_Acc_Testing(fet_Match,model_Match_Accuracy,accuString);
+			System.out.println(max + "  Max here");
+			if(max != 0)
+			{
+				String result_With_Max = "";
+				for (int i = 0; i < new_Fetch_Match.size(); i++)
+				{
+					if (new_Fetch_Match.get(i) == max)
+					{						
+						Return_User_With_ID user = new Return_User_With_ID();										
+						result_With_Max = user.do_The_Work(URL, String.valueOf(results[i]));
+					}
+				}
+				System.out.println(result_With_Max);	
+				
+				String[] results_tokens = result_With_Max.split(",");
+				if(Variables_Array[0].equals(results_tokens[0]))
+				{
+							
+					Update_Accuracy_Users update_Class = new Update_Accuracy_Users();
+					String update_String = update_Class.do_The_Work(URL, accuString[1], String.valueOf(new_model_Match_Accuracy.get(0)), accuString[3], accuString[4], accuString[5]);
+					
+					System.out.println(update_String);
+					sendMessage(results_tokens[1] + " - " + String.valueOf(new_model_Match_Accuracy.get(0)) + "%");
+
+				}
+				else
+				{
+					sendMessage("Incorrect User");
+				}	
+			}
+			else
+			{
+				sendMessage("Incorrect User");	
+			}
+			
+			/*
 			int max = fet_Match[0];
 			for(int i = 0; i < fet_Match.length; i++)
 			{
@@ -896,14 +945,14 @@ public class Client_Handler implements Runnable{
 			{
 				sendMessage("Incorrect User");
 			}
-
+			*/
 		}
 	}
 	
 	private void Pred_User_VN()
 	{
 		try {
-			String user_ID4_ = in.readUTF();
+			in.readUTF();								//User ID
 			String user_name4 = in.readUTF();
 			String size_string4 = in.readUTF();
 			System.out.println(size_string4);
@@ -1210,4 +1259,95 @@ public class Client_Handler implements Runnable{
 		return 0;
 		
 	}
+	private int cal_Max_With_Acc_Testing(List<Integer> fetch_Match,List<Double> Model_Accuracy,String[] accuString)
+	{
+
+		if(fetch_Match.size() == 1)
+		{
+			double prediction_Accuracy = Model_Accuracy.get(0);
+			double currentAccuracy = Double.parseDouble(accuString[3]);
+
+			if(currentAccuracy > prediction_Accuracy)
+			{
+				double error = currentAccuracy - prediction_Accuracy;
+				if(error < 15)
+				{
+					return fetch_Match.get(0);
+				}
+				else
+				{
+					return 0;
+				}
+			}
+			else
+			{
+				double error = prediction_Accuracy - currentAccuracy;
+				System.out.println(prediction_Accuracy);
+				if(error < 15)
+				{
+					return fetch_Match.get(0);
+				}
+				else
+				{
+					return 0;
+				}
+			}
+			
+		}
+		
+		if(fetch_Match.size() > 1)
+		{
+			int max = fetch_Match.get(0);
+			for(int i = 0; i < fetch_Match.size(); i++)
+			{
+				if(fetch_Match.get(i) > max)
+				{
+					max = fetch_Match.get(i);
+				}
+			}
+			for(int i = 0; i < fetch_Match.size(); i++)
+			{
+				if(fetch_Match.get(i) == max)
+				{
+					double prediction_Accuracy = Model_Accuracy.get(i);
+					double currentAccuracy = Double.parseDouble(accuString[3]);
+					if(currentAccuracy > prediction_Accuracy)
+					{
+						double error = currentAccuracy - prediction_Accuracy;
+						if(error < 3)
+						{
+							return fetch_Match.get(i);
+						}
+						else
+						{
+							fetch_Match.remove(i);
+							Model_Accuracy.remove(i);
+							System.out.println(currentAccuracy + "This one");
+							return cal_Max_With_Acc(fetch_Match,Model_Accuracy,accuString);
+						}
+					}
+					else
+					{
+						double error = prediction_Accuracy - currentAccuracy;
+						System.out.println(prediction_Accuracy);
+						if(error < 3)
+						{
+							return fetch_Match.get(i);
+						}
+						else
+						{
+							fetch_Match.remove(i);
+							Model_Accuracy.remove(i);
+							System.out.println(currentAccuracy + "This one1");
+							return cal_Max_With_Acc(fetch_Match,Model_Accuracy,accuString);
+						}
+					}
+				}
+
+			}
+		}
+		return 0;
+		
+	}
+	
 }

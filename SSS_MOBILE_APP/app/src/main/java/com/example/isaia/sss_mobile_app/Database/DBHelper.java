@@ -182,6 +182,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
 
 
+
     ////Voice Prediction
     public String Get_Voice_Prediction_Service_Status()
     {
@@ -256,6 +257,4 @@ public class DBHelper extends SQLiteOpenHelper {
         }
         return array_list;
     }
-
-
 }
