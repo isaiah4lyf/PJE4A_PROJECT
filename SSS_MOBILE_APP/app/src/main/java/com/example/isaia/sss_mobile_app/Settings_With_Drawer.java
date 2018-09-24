@@ -2,6 +2,8 @@ package com.example.isaia.sss_mobile_app;
 
 import android.annotation.TargetApi;
 import android.app.ActivityManager;
+import android.app.admin.DevicePolicyManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.isaia.sss_mobile_app.Database.DBHelper;
+import com.example.isaia.sss_mobile_app.Services.MyAdmin;
 import com.example.isaia.sss_mobile_app.Services.Predict_User_Service;
 import com.example.isaia.sss_mobile_app.Services.Predict_User_Service_VN;
 import com.example.isaia.sss_mobile_app.Services.Take_Pictures_Service;
@@ -31,7 +34,9 @@ import com.example.isaia.sss_mobile_app.Services.Train_Images_Model_Service;
 
 public class Settings_With_Drawer extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-
+    private DevicePolicyManager devicePolicyManager;
+    private ActivityManager activityManager;
+    private ComponentName compName;
     @Override
     @TargetApi(21)
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +58,18 @@ public class Settings_With_Drawer extends AppCompatActivity
 
         try
         {
+            devicePolicyManager = (DevicePolicyManager) getSystemService(DEVICE_POLICY_SERVICE);
+            activityManager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
+            boolean active = devicePolicyManager.isAdminActive(compName);
+            compName = new ComponentName(this, MyAdmin.class);
+            if (!active) {
+                Intent intent = new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
+                intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, compName);
+                intent.putExtra(DevicePolicyManager.EXTRA_ADD_EXPLANATION, "This Application requires administrative permission to lock the device when an incorrect user is detected.");
+                startActivity(intent);
+            }
+
+
             final DBHelper mydb = new DBHelper(getApplicationContext());
             Switch switchButton = (Switch) findViewById(R.id.switch_button2);
             if(Integer.parseInt(mydb.Get_Image_Prediction_Service_Status()) == 1)

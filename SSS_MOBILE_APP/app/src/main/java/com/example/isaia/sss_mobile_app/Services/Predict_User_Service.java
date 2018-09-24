@@ -264,22 +264,21 @@ public class Predict_User_Service extends Service{
                 }
                 else
                 {
-                    /*
-                    boolean active = devicePolicyManager.isAdminActive(compName);
-                    if (active) {
-                        devicePolicyManager.lockNow();
-                        invalidPrediction = 0;
-                    } else {
-                        Toast.makeText(getApplicationContext(), "You need to enable the Admin Device Features", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
-                        intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, compName);
-                        intent.putExtra(DevicePolicyManager.EXTRA_ADD_EXPLANATION, "Additional text explaining why we need this permission");
-                        startActivity(intent);
+                    try
+                    {
+                        boolean active = devicePolicyManager.isAdminActive(compName);
+                        if (active) {
+                            devicePolicyManager.lockNow();
+                            invalidPrediction = 0;
+                        }
                     }
-                    */
+                    catch (Exception ex)
+                    {
+                        Toast.makeText(getApplicationContext(),ex.toString(),Toast.LENGTH_LONG).show();
+                    }
+
                 }
             }
         }
     }
-
 }
