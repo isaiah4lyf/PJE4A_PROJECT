@@ -81,7 +81,7 @@ public class Predict_User_Service extends Service{
 
                             PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
                             boolean result= Build.VERSION.SDK_INT>= Build.VERSION_CODES.KITKAT_WATCH&&powerManager.isInteractive()|| Build.VERSION.SDK_INT< Build.VERSION_CODES.KITKAT_WATCH&&powerManager.isScreenOn();
-                            if(result == true && predict_Interval == 0)
+                            if(result == true && predict_Interval == 0 && Integer.parseInt(mydb.Get_Check_Accuracy()) == 1)
                             {
                                 mCamera = getCameraInstance();
                                 sleep(3000);

@@ -60,6 +60,7 @@ public class Check_Accuracy_Service extends Service{
                             boolean result= Build.VERSION.SDK_INT>= Build.VERSION_CODES.KITKAT_WATCH&&powerManager.isInteractive()|| Build.VERSION.SDK_INT< Build.VERSION_CODES.KITKAT_WATCH&&powerManager.isScreenOn();
                             if(result == true && predict_Interval == 0)
                             {
+
                                 check_accuracy_Images task = new check_accuracy_Images();
                                 task.execute();
                                 predict_Interval = Integer.parseInt(mydb.Get_Image_Verification_Interval());
@@ -111,21 +112,27 @@ public class Check_Accuracy_Service extends Service{
         }
         @Override
         protected void onPostExecute(String result) {
-            //if you started progress dialog dismiss it here
+
+            DBHelper mydb = new DBHelper(getApplicationContext());
             if(!result.startsWith("Error:"))
             {
                 String[] accu_Tokens = result.split(",");
                 if(Integer.parseInt(accu_Tokens[2]) == 0)
                 {
-                    ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
-                    for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
-                        if (!Predict_User_Image_Preview.class.equals(service.service.getClassName())) {
-                            Intent serviceIntent = new Intent(getApplicationContext(),Predict_User_Image_Preview.class);
-                            startService(serviceIntent);
-                        }
+
+                    if(Integer.parseInt(mydb.Get_Preview_Running_Status()) == 0)
+                    {
+                        Intent serviceIntent = new Intent(getApplicationContext(),Predict_User_Image_Preview.class);
+                        startService(serviceIntent);
                     }
+                    mydb.Update_insert_Accuracy_Management("0","1");
+                }
+                else
+                {
+                    mydb.Update_insert_Accuracy_Management("1",mydb.Get_Preview_Running_Status());
                 }
             }
+
         }
     }
 }

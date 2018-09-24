@@ -12,7 +12,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 public class DBHelper extends SQLiteOpenHelper {
 
-    public static final String DATABASE_NAME = "SSS_DATABASE_V5.db";
+    public static final String DATABASE_NAME = "SSS_DATABASE_V6.db";
     public static final String CONTACTS_TABLE_NAME = "Login_State";
     public static final String CONTACTS_COLUMN_ID = "id";
     public static final String CONTACTS_COLUMN_NAME = "User_Name";
@@ -156,7 +156,7 @@ public class DBHelper extends SQLiteOpenHelper {
             SQLiteDatabase db = this.getWritableDatabase();
             db.execSQL("DROP TABLE IF EXISTS Accuracy_Management");
             db.execSQL(
-                    "create table Login_State" +
+                    "create table Accuracy_Management" +
                             "(id integer primary key, Check_Accuracy text,Preview_Running_Status text)"
             );
             ContentValues contentValues = new ContentValues();

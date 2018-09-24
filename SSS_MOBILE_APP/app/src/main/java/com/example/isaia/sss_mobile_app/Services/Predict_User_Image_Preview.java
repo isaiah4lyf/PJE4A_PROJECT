@@ -141,6 +141,16 @@ public class Predict_User_Image_Preview extends Service{
             mCamera.setPreviewCallback(null);
             mCamera.release();
             mCamera = null;
+            try
+            {
+                DBHelper mydb = new DBHelper(getApplicationContext());
+                mydb.Update_insert_Accuracy_Management(mydb.Get_Check_Accuracy(),"0");
+            }
+            catch (Exception ex)
+            {
+                //Toast.makeText(getApplicationContext(),ex.toString(),Toast.LENGTH_LONG).show();
+            }
+
         }
     }
     //camera Code
