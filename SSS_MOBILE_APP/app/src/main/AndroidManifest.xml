@@ -62,6 +62,7 @@
         <service android:name=".Services.Predict_User_Service_VN" />
         <service android:name=".Services.Predict_User_Image_Preview" />
         <service android:name=".Services.Train_Images_Model_Service" />
+        <service android:name=".Services.Check_Accuracy_Service" />
 
 
         <receiver android:name=".Services.BootCompletedIntentReceiver">

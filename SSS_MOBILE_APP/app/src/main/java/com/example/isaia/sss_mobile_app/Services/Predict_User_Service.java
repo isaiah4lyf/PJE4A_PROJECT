@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.example.isaia.sss_mobile_app.Database.DBHelper;
 import com.example.isaia.sss_mobile_app.R;
+import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Check_Accuracy;
 import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Pred_User;
 
 import java.io.File;
@@ -76,6 +77,8 @@ public class Predict_User_Service extends Service{
                     int predict_Interval = Integer.parseInt(mydb.Get_Image_Verification_Interval());    //Already in seconds
                     while (capture == true) {
                         try {
+
+
                             PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
                             boolean result= Build.VERSION.SDK_INT>= Build.VERSION_CODES.KITKAT_WATCH&&powerManager.isInteractive()|| Build.VERSION.SDK_INT< Build.VERSION_CODES.KITKAT_WATCH&&powerManager.isScreenOn();
                             if(result == true && predict_Interval == 0)

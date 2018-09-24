@@ -12,7 +12,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 public class DBHelper extends SQLiteOpenHelper {
 
-    public static final String DATABASE_NAME = "SSS_DATABASE_V4.db";
+    public static final String DATABASE_NAME = "SSS_DATABASE_V5.db";
     public static final String CONTACTS_TABLE_NAME = "Login_State";
     public static final String CONTACTS_COLUMN_ID = "id";
     public static final String CONTACTS_COLUMN_NAME = "User_Name";
@@ -24,6 +24,10 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         // TODO Auto-generated method stub
+        db.execSQL(
+                "create table Accuracy_Management " +
+                        "(id integer primary key, Check_Accuracy text,Preview_Running_Status text)"
+        );
         db.execSQL(
                 "create table Login_State " +
                         "(id integer primary key, User_Name text,Password text)"
@@ -144,6 +148,56 @@ public class DBHelper extends SQLiteOpenHelper {
         return true;
     }
 
+
+    ///Accuracy Management
+    public boolean insert_Accuracy_Management(String Check_Accuracy, String Preview_Running_Status) {
+        try
+        {
+            SQLiteDatabase db = this.getWritableDatabase();
+            db.execSQL("DROP TABLE IF EXISTS Accuracy_Management");
+            db.execSQL(
+                    "create table Login_State" +
+                            "(id integer primary key, Check_Accuracy text,Preview_Running_Status text)"
+            );
+            ContentValues contentValues = new ContentValues();
+            contentValues.put("Check_Accuracy", Check_Accuracy);
+            contentValues.put("Preview_Running_Status", Preview_Running_Status);
+            db.insert("Accuracy_Management", null, contentValues);
+        }
+        catch(Exception e)
+        {
+            return false;
+        }
+        return true;
+    }
+    public int Number_Of_Rows_insert_Accuracy_Management(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        int numRows = (int) DatabaseUtils.queryNumEntries(db, "Accuracy_Management");
+        return numRows;
+    }
+
+    public String Get_Check_Accuracy()
+    {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res =  db.rawQuery( "select * from Accuracy_Management", null );
+        res.moveToLast();
+        return res.getString(res.getColumnIndex("Check_Accuracy"));
+    }
+    public String Get_Preview_Running_Status()
+    {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res =  db.rawQuery( "select * from Accuracy_Management", null );
+        res.moveToLast();
+        return res.getString(res.getColumnIndex("Preview_Running_Status"));
+    }
+    public boolean Update_insert_Accuracy_Management(String Check_Accuracy, String Preview_Running_Status) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("Check_Accuracy", Check_Accuracy);
+        contentValues.put("Preview_Running_Status", Preview_Running_Status);
+        db.update("Accuracy_Management", contentValues, "id = ? ", new String[] { Integer.toString(1) } );
+        return true;
+    }
 
 
 

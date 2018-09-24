@@ -25,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.isaia.sss_mobile_app.Database.DBHelper;
+import com.example.isaia.sss_mobile_app.Services.Check_Accuracy_Service;
 import com.example.isaia.sss_mobile_app.Services.MyAdmin;
 import com.example.isaia.sss_mobile_app.Services.Predict_User_Service;
 import com.example.isaia.sss_mobile_app.Services.Predict_User_Service_VN;
@@ -56,12 +57,30 @@ public class Settings_With_Drawer extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+
+
         try
         {
+
+            final DBHelper mydb = new DBHelper(getApplicationContext());
+
             devicePolicyManager = (DevicePolicyManager) getSystemService(DEVICE_POLICY_SERVICE);
             activityManager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
             boolean active = devicePolicyManager.isAdminActive(compName);
             compName = new ComponentName(this, MyAdmin.class);
+
+            ActivityManager manager2 = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+            for (ActivityManager.RunningServiceInfo service : manager2.getRunningServices(Integer.MAX_VALUE)) {
+                if (!Check_Accuracy_Service.class.equals(service.service.getClassName())) {
+                    Intent serviceIntent2 = new Intent(getApplicationContext(),Check_Accuracy_Service.class);
+                    startService(serviceIntent2);
+                }
+            }
+
+            if(mydb.Number_Of_Rows_insert_Accuracy_Management() == 0)
+            {
+                mydb.insert_Accuracy_Management("0","0");
+            }
             if (!active) {
                 Intent intent = new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
                 intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, compName);
@@ -70,7 +89,6 @@ public class Settings_With_Drawer extends AppCompatActivity
             }
 
 
-            final DBHelper mydb = new DBHelper(getApplicationContext());
             Switch switchButton = (Switch) findViewById(R.id.switch_button2);
             if(Integer.parseInt(mydb.Get_Image_Prediction_Service_Status()) == 1)
             {
