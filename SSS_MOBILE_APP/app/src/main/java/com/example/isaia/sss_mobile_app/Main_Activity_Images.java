@@ -390,6 +390,8 @@ public class Main_Activity_Images extends AppCompatActivity{
                 mCamera.release();
                 mCamera = null;
 
+                final DBHelper mydb = new DBHelper(getApplicationContext());
+                mydb.Update_Face_Recog_Settings("1","30","1","6");
 
                 Intent serviceIntent = new Intent(getApplicationContext(),Train_Images_Model_Service.class);
                 startService(serviceIntent);

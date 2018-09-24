@@ -1,6 +1,7 @@
 package com.example.isaia.sss_mobile_app.Audio_Recorder;
 
 import android.content.Context;
+import android.content.Intent;
 import android.media.AudioFormat;
 import android.media.AudioRecord;
 import android.media.MediaRecorder;
@@ -11,7 +12,11 @@ import android.widget.Toast;
 
 
 import com.example.isaia.sss_mobile_app.Database.DBHelper;
+import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Check_Accuracy;
+import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Count_VNs;
 import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Insert_Voice_Note;
+import com.example.isaia.sss_mobile_app.Services.Predict_User_Image_Preview;
+import com.example.isaia.sss_mobile_app.Settings_With_Drawer;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -386,6 +391,90 @@ public class RecordingSampler {
             if(f2.exists())
             {
                 f2.delete();
+            }
+            count_VNS_FOR_SETTINGS_asy task = new count_VNS_FOR_SETTINGS_asy();
+            task.execute();
+        }
+    }
+    private class count_VNS_FOR_SETTINGS_asy extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected void onPreExecute() {
+            //if you want, start progress dialog here
+        }
+
+        @Override
+        protected String doInBackground(String... urls) {
+
+            String response = "";
+            try
+            {
+                DBHelper mydb = new DBHelper(context);
+                String Password = mydb.Password();
+                Count_VNs count_class = new Count_VNs();
+                response = count_class.Do_The_work(Password);
+            }
+            catch (Exception ex)
+            {
+                response =  "Error: "+ex.getMessage();
+            }
+            return  response;
+        }
+        @Override
+        protected void onPostExecute(String result) {
+            //if you started progress dialog dismiss it here
+            if(!result.equals(""))
+            {
+                if(Integer.parseInt(result) == 10)
+                {
+                    check_accuracy_Images task = new check_accuracy_Images();
+                    task.execute();
+                }
+            }
+        }
+    }
+    private class check_accuracy_Images extends AsyncTask<String, Void, String> {
+        @Override
+        protected void onPreExecute() {
+            //if you want, start progress dialog here
+        }
+        @Override
+        protected String doInBackground(String... urls) {
+            String response = "";
+            try
+            {
+                Check_Accuracy count_class = new Check_Accuracy();
+                DBHelper mydb = new DBHelper(context);
+                String User_ID = mydb.Password();
+                response = count_class.Do_The_work(User_ID);
+            }
+            catch (Exception ex)
+            {
+                response =  "Error: "+ex.getMessage();
+            }
+            return  response;
+        }
+        @Override
+        protected void onPostExecute(String result) {
+            //if you started progress dialog dismiss it here
+            if(!result.startsWith("Error:"))
+            {
+                String[] accu_Tokens = result.split(",");
+                if(Integer.parseInt(accu_Tokens[2]) != 0)
+                {
+
+                    // To open the recording prediction testing
+                    try
+                    {
+                        Intent intent = new Intent(context,Settings_With_Drawer.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        context.startActivity(intent);
+                    }
+                    catch (Exception ex)
+                    {
+                        Toast.makeText(context,ex.toString(),Toast.LENGTH_LONG).show();
+                    }
+                }
             }
         }
     }

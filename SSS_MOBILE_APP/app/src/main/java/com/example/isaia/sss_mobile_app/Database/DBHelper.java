@@ -12,7 +12,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 public class DBHelper extends SQLiteOpenHelper {
 
-    public static final String DATABASE_NAME = "SSS_DATABASE_V3.db";
+    public static final String DATABASE_NAME = "SSS_DATABASE_V4.db";
     public static final String CONTACTS_TABLE_NAME = "Login_State";
     public static final String CONTACTS_COLUMN_ID = "id";
     public static final String CONTACTS_COLUMN_NAME = "User_Name";
@@ -31,7 +31,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
         db.execSQL(
                 "create table Face_Recognition_Settings " +
-                        "(id integer primary key, Image_Prediction_Service_Status text,Image_Prediction_Interval text, Image_Upload_Service_Status text)"
+                        "(id integer primary key, Image_Prediction_Service_Status text,Image_Prediction_Interval text, Image_Upload_Service_Status text, Verification_Interval text)"
         );
 
         db.execSQL(
@@ -121,19 +121,20 @@ public class DBHelper extends SQLiteOpenHelper {
         int numRows = (int) DatabaseUtils.queryNumEntries(db, "Face_Recognition_Settings");
         return numRows;
     }
-    public boolean Insert_Settings_Image(String Image_Prediction_Service_Status, String Image_Upload_Interval, String Image_Upload_Service_Status) {
+    public boolean Insert_Settings_Image(String Image_Prediction_Service_Status, String Image_Upload_Interval, String Image_Upload_Service_Status,String Verification_Interval) {
         try
         {
             SQLiteDatabase db = this.getWritableDatabase();
             db.execSQL("DROP TABLE IF EXISTS Face_Recognition_Settings");
             db.execSQL(
                     "create table Face_Recognition_Settings" +
-                            "(id integer primary key, Image_Prediction_Service_Status text,Image_Upload_Interval text,Image_Upload_Service_Status text)"
+                            "(id integer primary key, Image_Prediction_Service_Status text,Image_Upload_Interval text,Image_Upload_Service_Status text, Verification_Interval text)"
             );
             ContentValues contentValues = new ContentValues();
             contentValues.put("Image_Prediction_Service_Status", Image_Prediction_Service_Status);
             contentValues.put("Image_Upload_Interval", Image_Upload_Interval);
             contentValues.put("Image_Upload_Service_Status", Image_Upload_Service_Status);
+            contentValues.put("Verification_Interval", Verification_Interval);
             db.insert("Face_Recognition_Settings", null, contentValues);
         }
         catch(Exception e)
@@ -170,12 +171,20 @@ public class DBHelper extends SQLiteOpenHelper {
         res.moveToLast();
         return res.getString(res.getColumnIndex("Image_Upload_Service_Status"));
     }
-    public boolean Update_Face_Recog_Settings(String Image_Prediction_Service_Status, String Image_Upload_Interval, String Image_Upload_Service_Status) {
+    public String Get_Image_Verification_Interval()
+    {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res =  db.rawQuery( "select * from Face_Recognition_Settings", null );
+        res.moveToLast();
+        return res.getString(res.getColumnIndex("Verification_Interval"));
+    }
+    public boolean Update_Face_Recog_Settings(String Image_Prediction_Service_Status, String Image_Upload_Interval, String Image_Upload_Service_Status,String Verification_Interval) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("Image_Prediction_Service_Status", Image_Prediction_Service_Status);
         contentValues.put("Image_Upload_Interval", Image_Upload_Interval);
         contentValues.put("Image_Upload_Service_Status", Image_Upload_Service_Status);
+        contentValues.put("Verification_Interval", Verification_Interval);
         db.update("Face_Recognition_Settings", contentValues, "id = ? ", new String[] { Integer.toString(1) } );
         return true;
     }

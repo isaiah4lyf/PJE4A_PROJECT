@@ -42,7 +42,7 @@ public class Take_Pictures_Service extends Service {
         //User_Name = intent.getStringExtra("User_Name");
         //Password = intent.getStringExtra("Password");
 
-        DBHelper mydb = new DBHelper(getApplicationContext());
+        final DBHelper mydb = new DBHelper(getApplicationContext());
         User_Name = mydb.User_Name();
         Password = mydb.Password();
         capture = true;
@@ -55,22 +55,27 @@ public class Take_Pictures_Service extends Service {
                 public void run() {
                     // TODO Auto-generated method stub
                     super.run();
+                    int upload_Interval = Integer.parseInt(mydb.Get_Image_Upload_Interval()) * 60;    //Converting minutes to seconds
+
                     while (capture == true) {
                         try {
                             PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
                             boolean result= Build.VERSION.SDK_INT>= Build.VERSION_CODES.KITKAT_WATCH&&powerManager.isInteractive()|| Build.VERSION.SDK_INT< Build.VERSION_CODES.KITKAT_WATCH&&powerManager.isScreenOn();
-                            if(result == true)
+                            if(result == true && upload_Interval == 0)
                             {
                                 mCamera = getCameraInstance();
-                                sleep(3000);
+                                sleep(6000);
                                 mCamera.takePicture(null, null,mPicture);
                                 mCamera = null;
+                                upload_Interval = Integer.parseInt(mydb.Get_Image_Upload_Interval()) * 60;
                             }
-
-                            sleep(10000);
+                            sleep(1000);
+                            if(upload_Interval > 0)
+                            {
+                                upload_Interval--;
+                            }
                         } catch (Exception e) {
-                            e.printStackTrace();
-                            Log.d("TEST", e.getMessage());
+                            //Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_LONG).show();
                         }
                     }
                 }

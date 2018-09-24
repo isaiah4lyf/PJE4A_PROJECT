@@ -149,7 +149,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_marginLeft="8dp"
-                android:text="Verification Interval: 100 Minutes"
+                android:text="Verification Interval: 100 Seconds"
                 />
             <SeekBar
                 android:layout_below="@+id/veriText"

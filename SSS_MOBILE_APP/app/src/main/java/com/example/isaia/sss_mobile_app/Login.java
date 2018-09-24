@@ -18,6 +18,8 @@ import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Count_Images;
 import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Count_VNs;
 import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Login_Class;
 import com.example.isaia.sss_mobile_app.Services.Predict_User_Image_Preview;
+import com.example.isaia.sss_mobile_app.Services.Predict_User_Service;
+import com.example.isaia.sss_mobile_app.Services.Take_Pictures_Service;
 import com.example.isaia.sss_mobile_app.Services.Train_Images_Model_Service;
 
 import java.util.ArrayList;
@@ -36,6 +38,7 @@ public class Login extends AppCompatActivity {
         User_Name = (EditText)findViewById(R.id.User_Name);
         Password = (EditText)findViewById(R.id.Password);
         final Button Reg_User = (Button) findViewById(R.id.Reg_User);
+
 
         Reg_User.setOnClickListener(
                 new View.OnClickListener() {
@@ -151,6 +154,12 @@ public class Login extends AppCompatActivity {
                     {
                         mydb.Insert_Settings_Voice("1","1");
                     }
+                    int settingsImagesVoice = mydb.Number_Of_Rows_Settings_Image();
+                    if(settingsImagesVoice == 0)
+                    {
+                        mydb.Insert_Settings_Image("1","30","1","6");
+                    }
+
 
                 }
                 catch(Exception ex)

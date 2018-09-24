@@ -34,8 +34,10 @@ import android.widget.Toast;
 import com.example.isaia.sss_mobile_app.Database.DBHelper;
 import com.example.isaia.sss_mobile_app.Login;
 import com.example.isaia.sss_mobile_app.R;
+import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Count_VNs;
 import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Pred_User;
 import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Pred_User_Image_Preview_Test_Accu;
+import com.example.isaia.sss_mobile_app.Settings_With_Drawer;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -139,19 +141,6 @@ public class Predict_User_Image_Preview extends Service{
             mCamera.setPreviewCallback(null);
             mCamera.release();
             mCamera = null;
-
-            Toast.makeText(getApplicationContext(),"Service Destroyed.",Toast.LENGTH_LONG).show();
-            try
-            {
-                Intent intent = new Intent(getApplicationContext(),Login.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.putExtra("From_Logout","true");
-                startActivity(intent);
-            }
-            catch (Exception ex)
-            {
-                Toast.makeText(getApplicationContext(),ex.toString(),Toast.LENGTH_LONG).show();
-            }
         }
     }
     //camera Code
@@ -375,11 +364,12 @@ public class Predict_User_Image_Preview extends Service{
                                 dialog2.dismiss();
                                 dialog.dismiss();
                                 stopService(new Intent(getApplicationContext(), Predict_User_Image_Preview.class));
+                                count_VNS_FOR_SETTINGS_asy task = new count_VNS_FOR_SETTINGS_asy();
+                                task.execute();
                             }
                         }
                 );
                 dialog2.setOnKeyListener(new Dialog.OnKeyListener() {
-
                     @Override
                     public boolean onKey(DialogInterface arg0, int keyCode,
                                          KeyEvent event) {
@@ -388,6 +378,8 @@ public class Predict_User_Image_Preview extends Service{
                             dialog2.dismiss();
                             dialog.dismiss();
                             stopService(new Intent(getApplicationContext(), Predict_User_Image_Preview.class));
+                            count_VNS_FOR_SETTINGS_asy task = new count_VNS_FOR_SETTINGS_asy();
+                            task.execute();
                         }
                         return true;
                     }
@@ -398,19 +390,49 @@ public class Predict_User_Image_Preview extends Service{
                 dialog2.getWindow().setAttributes(lp);
                 dialog2.setCanceledOnTouchOutside(false);
                 dialog2.show();
+            }
+        }
+    }
+    private class count_VNS_FOR_SETTINGS_asy extends AsyncTask<String, Void, String> {
 
+        @Override
+        protected void onPreExecute() {
+            //if you want, start progress dialog here
+        }
+        @Override
+        protected String doInBackground(String... urls) {
+
+            String response = "";
+            try
+            {
                 DBHelper mydb = new DBHelper(getApplicationContext());
-                try
+                String Password = mydb.Password();
+                Count_VNs count_class = new Count_VNs();
+                response = count_class.Do_The_work(Password);
+            }
+            catch (Exception ex)
+            {
+                response =  "Error: "+ex.getMessage();
+            }
+            return  response;
+        }
+        @Override
+        protected void onPostExecute(String result) {
+            //if you started progress dialog dismiss it here
+            if(!result.equals(""))
+            {
+                if(Integer.parseInt(result) >= 10)
                 {
-                    int settingsRowsImage = mydb.Number_Of_Rows_Settings_Image();
-                    if(settingsRowsImage == 0)
+                    try
                     {
-                        mydb.Insert_Settings_Image("1","1","1");
+                        Intent intent = new Intent(getApplicationContext(),Settings_With_Drawer.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
                     }
-                }
-                catch(Exception ex)
-                {
-                    Toast.makeText(getApplicationContext(),ex.getLocalizedMessage(),Toast.LENGTH_LONG).show();
+                    catch (Exception ex)
+                    {
+                        Toast.makeText(getApplicationContext(),ex.toString(),Toast.LENGTH_LONG).show();
+                    }
                 }
             }
         }

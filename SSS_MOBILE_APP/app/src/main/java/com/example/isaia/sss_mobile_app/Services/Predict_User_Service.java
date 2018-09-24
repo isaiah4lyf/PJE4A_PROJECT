@@ -56,41 +56,48 @@ public class Predict_User_Service extends Service{
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        DBHelper mydb = new DBHelper(getApplicationContext());
-        User_Name = mydb.User_Name();
-        Password = mydb.Password();
-        invalidPrediction = 0;
-        capture = true;
-        devicePolicyManager = (DevicePolicyManager) getSystemService(DEVICE_POLICY_SERVICE);
-        activityManager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
-        compName = new ComponentName(this, MyAdmin.class);
 
         try {
+
+            final DBHelper mydb = new DBHelper(getApplicationContext());
+            User_Name = mydb.User_Name();
+            Password = mydb.Password();
+            invalidPrediction = 0;
+            capture = true;
+            devicePolicyManager = (DevicePolicyManager) getSystemService(DEVICE_POLICY_SERVICE);
+            activityManager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
+            compName = new ComponentName(this, MyAdmin.class);
 
             Thread thread = new Thread() {
                 @Override
                 public void run() {
                     // TODO Auto-generated method stub
                     super.run();
+                    int predict_Interval = Integer.parseInt(mydb.Get_Image_Verification_Interval());    //Already in seconds
                     while (capture == true) {
                         try {
                             PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
                             boolean result= Build.VERSION.SDK_INT>= Build.VERSION_CODES.KITKAT_WATCH&&powerManager.isInteractive()|| Build.VERSION.SDK_INT< Build.VERSION_CODES.KITKAT_WATCH&&powerManager.isScreenOn();
-                            if(result == true)
+                            if(result == true && predict_Interval == 0)
                             {
                                 mCamera = getCameraInstance();
                                 sleep(3000);
                                 mCamera.takePicture(null, null,mPicture);
                                 mCamera = null;
+                                predict_Interval = Integer.parseInt(mydb.Get_Image_Verification_Interval());
                             }
                             else
                             {
                                 invalidPrediction = 0;
                             }
-                            sleep(10000);
+                            sleep(1000);
+                            if(predict_Interval > 0)
+                            {
+                                predict_Interval--;
+                            }
                         }
                         catch (Exception e) {
-                            //Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_LONG).show();
+                           // Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_LONG).show();
                         }
                     }
                 }
@@ -221,8 +228,16 @@ public class Predict_User_Service extends Service{
         @Override
         protected String doInBackground(String... urls) {
             String response = "";
-            Pred_User pred = new Pred_User();
-            response = pred.Do_The_work(User_Name,Password,file_Name);
+            try
+            {
+                Pred_User pred = new Pred_User();
+                response = pred.Do_The_work(User_Name,Password,file_Name);
+            }
+            catch (Exception ex)
+            {
+                response = ex.toString();
+            }
+
             return response;
         }
         @Override

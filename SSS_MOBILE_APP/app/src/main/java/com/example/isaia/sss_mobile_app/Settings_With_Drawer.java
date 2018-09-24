@@ -1,6 +1,8 @@
 package com.example.isaia.sss_mobile_app;
 
 import android.annotation.TargetApi;
+import android.app.ActivityManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -24,6 +26,7 @@ import com.example.isaia.sss_mobile_app.Database.DBHelper;
 import com.example.isaia.sss_mobile_app.Services.Predict_User_Service;
 import com.example.isaia.sss_mobile_app.Services.Predict_User_Service_VN;
 import com.example.isaia.sss_mobile_app.Services.Take_Pictures_Service;
+import com.example.isaia.sss_mobile_app.Services.Train_Images_Model_Service;
 //import com.kyleduo.switchbutton.SwitchButton;
 
 public class Settings_With_Drawer extends AppCompatActivity
@@ -55,18 +58,24 @@ public class Settings_With_Drawer extends AppCompatActivity
             if(Integer.parseInt(mydb.Get_Image_Prediction_Service_Status()) == 1)
             {
                 switchButton.setChecked(true);
+                ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+                for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+                    if (!Predict_User_Service.class.equals(service.service.getClassName())) {
+                        Intent serviceIntent = new Intent(getApplicationContext(),Predict_User_Service.class);
+                        startService(serviceIntent);
+                    }
+                }
+
             }
             switchButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if (isChecked) {
-                        mydb.Update_Face_Recog_Settings("1",mydb.Get_Image_Upload_Interval(),mydb.Get_Image_Upload_Service_Status());
-                        //starting service
+                        mydb.Update_Face_Recog_Settings("1",mydb.Get_Image_Upload_Interval(),mydb.Get_Image_Upload_Service_Status(),mydb.Get_Image_Verification_Interval());
                         Intent serviceIntent = new Intent(getApplicationContext(),Predict_User_Service.class);
                         startService(serviceIntent);
                     } else if (!isChecked) {
-                        mydb.Update_Face_Recog_Settings("0",mydb.Get_Image_Upload_Interval(),mydb.Get_Image_Upload_Service_Status());
-                        //stopping service
+                        mydb.Update_Face_Recog_Settings("0",mydb.Get_Image_Upload_Interval(),mydb.Get_Image_Upload_Service_Status(),mydb.Get_Image_Verification_Interval());
                         stopService(new Intent(getApplicationContext(), Predict_User_Service.class));
                     }
                 }
@@ -76,19 +85,24 @@ public class Settings_With_Drawer extends AppCompatActivity
             if(Integer.parseInt(mydb.Get_Image_Upload_Service_Status()) == 1)
             {
                 switchButton2.setChecked(true);
+                ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+                for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+                    if (!Take_Pictures_Service.class.equals(service.service.getClassName())) {
+                        Intent serviceIntent = new Intent(getApplicationContext(),Take_Pictures_Service.class);
+                        startService(serviceIntent);
+                    }
+                }
             }
             switchButton2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if (isChecked) {
-                        mydb.Update_Face_Recog_Settings(mydb.Get_Image_Prediction_Service_Status(),mydb.Get_Image_Upload_Interval(),"1");
-                        //starting service
-                        //Intent serviceIntent = new Intent(getApplicationContext(),Take_Pictures_Service.class);
-                        //startService(serviceIntent);
+                        mydb.Update_Face_Recog_Settings(mydb.Get_Image_Prediction_Service_Status(),mydb.Get_Image_Upload_Interval(),"1",mydb.Get_Image_Verification_Interval());
+                        Intent serviceIntent = new Intent(getApplicationContext(),Take_Pictures_Service.class);
+                        startService(serviceIntent);
                     } else if (!isChecked) {
-                        mydb.Update_Face_Recog_Settings(mydb.Get_Image_Prediction_Service_Status(),mydb.Get_Image_Upload_Interval(),"0");
-                        //stopping service
-                        //stopService(new Intent(getApplicationContext(), Take_Pictures_Service.class));
+                        mydb.Update_Face_Recog_Settings(mydb.Get_Image_Prediction_Service_Status(),mydb.Get_Image_Upload_Interval(),"0",mydb.Get_Image_Verification_Interval());
+                        stopService(new Intent(getApplicationContext(), Take_Pictures_Service.class));
                     }
                 }
             });
@@ -114,7 +128,33 @@ public class Settings_With_Drawer extends AppCompatActivity
                     // TODO Auto-generated method stub
                     TextView intText = (TextView)findViewById(R.id.menu3);
                     intText.setText("Image Upload Interval: "+ progress +" Minutes");
-                    mydb.Update_Face_Recog_Settings(mydb.Get_Image_Prediction_Service_Status(),String.valueOf(progress),mydb.Get_Image_Upload_Service_Status());
+                    mydb.Update_Face_Recog_Settings(mydb.Get_Image_Prediction_Service_Status(),String.valueOf(progress),mydb.Get_Image_Upload_Service_Status(),mydb.Get_Image_Verification_Interval());
+
+                }
+            });
+            SeekBar pred_Interval = (SeekBar)findViewById(R.id.Verification_Interval); // make seekbar object
+            pred_Interval.setProgress(Integer.parseInt(mydb.Get_Image_Verification_Interval()));
+            TextView pred_Inter_Text = (TextView)findViewById(R.id.veriText);
+            pred_Inter_Text.setText("Verification Interval: "+ mydb.Get_Image_Verification_Interval() +" Seconds");
+            pred_Interval.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+                @Override
+                public void onStopTrackingTouch(SeekBar seekBar) {
+                    // TODO Auto-generated method stub
+                }
+
+                @Override
+                public void onStartTrackingTouch(SeekBar seekBar) {
+                    // TODO Auto-generated method stub
+                }
+
+                @Override
+                public void onProgressChanged(SeekBar seekBar, int progress,
+                                              boolean fromUser) {
+                    // TODO Auto-generated method stub
+                    TextView intText = (TextView)findViewById(R.id.veriText);
+                    intText.setText("Verification Interval: "+ progress +" Seconds");
+                    mydb.Update_Face_Recog_Settings(mydb.Get_Image_Prediction_Service_Status(),String.valueOf(progress),mydb.Get_Image_Upload_Service_Status(),String.valueOf(progress));
 
                 }
             });
@@ -131,12 +171,10 @@ public class Settings_With_Drawer extends AppCompatActivity
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if (isChecked) {
                         mydb.Update_Voice_Settings("1",mydb.Get_Voice_Upload_Service_Status());
-                        //starting service
                         Intent serviceIntent = new Intent(getApplicationContext(),Predict_User_Service_VN.class);
                         startService(serviceIntent);
                     } else if (!isChecked) {
                         mydb.Update_Voice_Settings("0",mydb.Get_Voice_Upload_Service_Status());
-                        //stopping service
                         stopService(new Intent(getApplicationContext(), Predict_User_Service_VN.class));
                     }
                 }
