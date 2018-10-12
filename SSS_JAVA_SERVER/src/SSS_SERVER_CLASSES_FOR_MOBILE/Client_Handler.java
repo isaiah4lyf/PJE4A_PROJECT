@@ -26,6 +26,7 @@ import SSS_SERVER_FUNCTIONS.Train_Images_Model;
 import SSS_SERVER_FUNCTIONS.Update_Accuracy_Users;
 import SSS_SERVER_FUNCTIONS.Update_Train_Data;
 import SSS_SERVER_FUNCTIONS.Update_Train_Data_VN;
+import SSS_SERVER_FUNCTIONS.Update_Training_Accuracy_Users;
 
 
 public class Client_Handler implements Runnable{
@@ -496,11 +497,27 @@ public class Client_Handler implements Runnable{
 			matEng.eval("run('" + Matlab_Path_train + "/MATLAB_SCRIPTS/RUN_ESS5.m')",null,null);
 			
 			Return_Accuracy_Users accu_Class = new Return_Accuracy_Users();
-			String[] accuString = accu_Class.do_The_Work(URL, user_ID).split(",");				
-			Update_Accuracy_Users update_Class = new Update_Accuracy_Users();
-			double validation_accu = matEng.getVariable("accuracy");
-			update_Class.do_The_Work(URL, accuString[1],accuString[2], String.valueOf(validation_accu), accuString[4], accuString[5]);
+			String[] accuString = accu_Class.do_The_Work(URL, user_ID).split(",");
 			
+			Return_User_With_ID user = new Return_User_With_ID();
+			String[] user_String = user.do_The_Work(URL, user_ID).split(",");
+			
+			Update_Training_Accuracy_Users update_Class = new Update_Training_Accuracy_Users();
+			double validation_accu = matEng.getVariable("accuracy");
+			update_Class.do_The_Work(URL, user_String[2],String.valueOf(validation_accu), accuString[5]);
+			
+			Return_Users_In_Model users_in_model = new Return_Users_In_Model();
+			String[] users_String = users_in_model.Do_The_Work(URL, user_String[2]);
+			
+			for(int i = 0; i < users_String.length; i++)
+			{
+				Return_Accuracy_Users accu_Class_each = new Return_Accuracy_Users();
+				String[] accuString_each = accu_Class_each.do_The_Work(URL, user_ID).split(",");
+				Update_Accuracy_Users update_Class_pred = new Update_Accuracy_Users();
+				update_Class_pred.do_The_Work(URL, users_String[i].split(",")[0],"0", accuString_each[3], accuString_each[4], accuString_each[5]);
+
+			}
+
 			sendMessage("Training Model..");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -563,14 +580,43 @@ public class Client_Handler implements Runnable{
 			
 			Return_Train_Models models = new Return_Train_Models();
 			String[] models_string = models.Do_The_Work(URL);
+			
+			int num_Models = 1;
+			if(models_string.length > 1)
+			{
+				String model_ID = models_string[models_string.length - 1].split(",")[0];
+				Return_Users_In_Model users = new Return_Users_In_Model();
+				String[] users_string = users.Do_The_Work(URL,model_ID);
+				
+				Return_User_With_ID current_user = new Return_User_With_ID();
+				String current_user_String = current_user.do_The_Work(URL, user_ID2_);
+				
+				if(Integer.parseInt(current_user_String.split(",")[2]) == Integer.parseInt(models_string[models_string.length - 1].split(",")[0]))
+				{
+					num_Models = models_string.length;
+				}
+				else 
+				{
+					if(users_string.length > 2)
+					{
+						num_Models = models_string.length;
+					}
+					else
+					{
+						num_Models = models_string.length - 1;
+					}
+				}
 
-			int[] results = new int[models_string.length];
-			List<Integer> fet_Match = new ArrayList<Integer>(models_string.length);
-			List<Double> model_Match_Accuracy = new ArrayList<Double>(models_string.length);
+			}
+
+
+			int[] results = new int[num_Models];
+			List<Integer> fet_Match = new ArrayList<Integer>(num_Models);
+			List<Double> model_Match_Accuracy = new ArrayList<Double>(num_Models);
 			
 			File image2 = null;
 			
-			for (int i = 0; i < models_string.length; i++)
+			for (int i = 0; i < num_Models; i++)
 			{
 
 				String model_ID = models_string[i].split(",")[0];

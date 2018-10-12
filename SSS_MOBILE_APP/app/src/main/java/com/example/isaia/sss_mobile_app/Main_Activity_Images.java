@@ -444,6 +444,8 @@ public class Main_Activity_Images extends AppCompatActivity{
                 {
                     int images_left = 10 - Integer.parseInt(result);
                     Toast.makeText(getApplicationContext(),images_left + " Images Left...",Toast.LENGTH_LONG).show();
+                    mCamera.startPreview();
+                    Insert_Image.setEnabled(true);
                 }
             }
         }
@@ -476,6 +478,8 @@ public class Main_Activity_Images extends AppCompatActivity{
                 {
                     int images_left = 10 - Integer.parseInt(result);
                     Toast.makeText(getApplicationContext(),images_left + " Images Left...",Toast.LENGTH_LONG).show();
+                    mCamera.startPreview();
+                    Insert_Image.setEnabled(true);
                 }
             }
         }
@@ -497,16 +501,17 @@ public class Main_Activity_Images extends AppCompatActivity{
         @Override
         protected void onPostExecute(String result) {
             //if you started progress dialog dismiss it here
-            if(mCamera != null){
-                mCamera.stopPreview();
-                mCamera.setPreviewCallback(null);
-                mCamera.release();
-                mCamera = null;
-            }
+
             if(!result.equals(""))
             {
                 if(Integer.parseInt(result) > 10 || Integer.parseInt(result) == 10)
                 {
+                    if(mCamera != null){
+                        mCamera.stopPreview();
+                        mCamera.setPreviewCallback(null);
+                        mCamera.release();
+                        mCamera = null;
+                    }
                     Intent intent = new Intent(getApplicationContext(),Main_Activity_Voice_Notes.class);
                     startActivity(intent);
                 }
@@ -514,6 +519,8 @@ public class Main_Activity_Images extends AppCompatActivity{
                 {
                     int images_left = 10 - Integer.parseInt(result);
                     Toast.makeText(getApplicationContext(),images_left + " Images Left...",Toast.LENGTH_LONG).show();
+                    mCamera.startPreview();
+                    Insert_Image.setEnabled(true);
                 }
             }
         }
@@ -555,6 +562,7 @@ public class Main_Activity_Images extends AppCompatActivity{
                     startActivity(intent);
                     int images_left = 10 - Integer.parseInt(result);
                     Toast.makeText(getApplicationContext(),images_left + " Voice Notes...",Toast.LENGTH_LONG).show();
+
                 }
             }
         }

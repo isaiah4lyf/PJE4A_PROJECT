@@ -91,7 +91,8 @@ public class Predict_User_Image_Preview extends Service{
             preview.addView(mPreview);
         }
         catch (Exception e){
-            Toast.makeText(this,e.toString(),Toast.LENGTH_LONG).show();
+            Toast.makeText(this,"Camera in use by another service.",Toast.LENGTH_LONG).show();
+            //stopService(new Intent(getApplicationContext(), Predict_User_Image_Preview.class));
         }
 
         final ImageButton takePic = dialog.findViewById(R.id.Insert_Image);
@@ -141,16 +142,10 @@ public class Predict_User_Image_Preview extends Service{
             mCamera.setPreviewCallback(null);
             mCamera.release();
             mCamera = null;
-            try
-            {
-                DBHelper mydb = new DBHelper(getApplicationContext());
-                mydb.Update_insert_Accuracy_Management(mydb.Get_Check_Accuracy(),"0");
-            }
-            catch (Exception ex)
-            {
-                //Toast.makeText(getApplicationContext(),ex.toString(),Toast.LENGTH_LONG).show();
-            }
-
+        }
+        if(dialog != null)
+        {
+            dialog.dismiss();
         }
     }
     //camera Code

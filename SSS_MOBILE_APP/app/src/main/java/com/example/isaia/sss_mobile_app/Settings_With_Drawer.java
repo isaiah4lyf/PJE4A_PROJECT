@@ -70,12 +70,18 @@ public class Settings_With_Drawer extends AppCompatActivity
             compName = new ComponentName(this, MyAdmin.class);
 
             ActivityManager manager2 = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+            boolean Accur_service_running = false;
             for (ActivityManager.RunningServiceInfo service : manager2.getRunningServices(Integer.MAX_VALUE)) {
-                if (!Check_Accuracy_Service.class.equals(service.service.getClassName())) {
-                    Intent serviceIntent2 = new Intent(getApplicationContext(),Check_Accuracy_Service.class);
-                    startService(serviceIntent2);
+                if (Check_Accuracy_Service.class.getName().equals(service.service.getClassName())) {
+                    Accur_service_running = true;
                 }
             }
+            if(Accur_service_running == false)
+            {
+                Intent serviceIntent2 = new Intent(getApplicationContext(),Check_Accuracy_Service.class);
+                startService(serviceIntent2);
+            }
+
 
             if(mydb.Number_Of_Rows_insert_Accuracy_Management() == 0)
             {
@@ -93,12 +99,17 @@ public class Settings_With_Drawer extends AppCompatActivity
             if(Integer.parseInt(mydb.Get_Image_Prediction_Service_Status()) == 1)
             {
                 switchButton.setChecked(true);
+                boolean pred_service_running = false;
                 ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
                 for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
-                    if (!Predict_User_Service.class.equals(service.service.getClassName())) {
-                        Intent serviceIntent = new Intent(getApplicationContext(),Predict_User_Service.class);
-                        startService(serviceIntent);
+                    if (Predict_User_Service.class.getName().equals(service.service.getClassName())) {
+                        pred_service_running = true;
                     }
+                }
+                if(pred_service_running == false)
+                {
+                    Intent serviceIntent = new Intent(getApplicationContext(),Predict_User_Service.class);
+                    startService(serviceIntent);
                 }
 
             }
@@ -120,12 +131,17 @@ public class Settings_With_Drawer extends AppCompatActivity
             if(Integer.parseInt(mydb.Get_Image_Upload_Service_Status()) == 1)
             {
                 switchButton2.setChecked(true);
+                boolean take_pics_service_running = false;
                 ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
                 for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
-                    if (!Take_Pictures_Service.class.equals(service.service.getClassName())) {
-                        Intent serviceIntent = new Intent(getApplicationContext(),Take_Pictures_Service.class);
-                        startService(serviceIntent);
+                    if (!Take_Pictures_Service.class.getName().equals(service.service.getClassName())) {
+                        take_pics_service_running = true;
                     }
+                }
+                if(take_pics_service_running == false)
+                {
+                    Intent serviceIntent = new Intent(getApplicationContext(),Take_Pictures_Service.class);
+                    startService(serviceIntent);
                 }
             }
             switchButton2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

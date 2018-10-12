@@ -11,6 +11,7 @@ import android.os.Build;
 import android.os.IBinder;
 import android.os.PowerManager;
 import android.support.annotation.Nullable;
+import android.widget.Toast;
 
 import com.example.isaia.sss_mobile_app.Database.DBHelper;
 import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Check_Accuracy;
@@ -51,29 +52,33 @@ public class Check_Accuracy_Service extends Service{
                 public void run() {
                     // TODO Auto-generated method stub
                     super.run();
-                    int predict_Interval = Integer.parseInt(mydb.Get_Image_Verification_Interval());    //Already in seconds
                     while (true) {
                         try {
 
-
+                            sleep(5000);
                             PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
                             boolean result= Build.VERSION.SDK_INT>= Build.VERSION_CODES.KITKAT_WATCH&&powerManager.isInteractive()|| Build.VERSION.SDK_INT< Build.VERSION_CODES.KITKAT_WATCH&&powerManager.isScreenOn();
-                            if(result == true && predict_Interval == 0)
+                            if(result == true)
                             {
+                                ActivityManager manager2 = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+                                boolean preview_service_running = false;
+                                for (ActivityManager.RunningServiceInfo service : manager2.getRunningServices(Integer.MAX_VALUE)) {
+                                    if (Predict_User_Image_Preview.class.getName().equals(service.service.getClassName())) {
+                                        preview_service_running = true;
+                                    }
+                                }
+                                if(preview_service_running == false)
+                                {
+                                    check_accuracy_Images task = new check_accuracy_Images();
+                                    task.execute();
+                                }
 
-                                check_accuracy_Images task = new check_accuracy_Images();
-                                task.execute();
-                                predict_Interval = Integer.parseInt(mydb.Get_Image_Verification_Interval());
                             }
 
-                            sleep(5000);
-                            if(predict_Interval > 0)
-                            {
-                                predict_Interval--;
-                            }
                         }
                         catch (Exception e) {
-                            // Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_LONG).show();
+
+                            Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_LONG).show();
                         }
                     }
                 }
@@ -119,17 +124,19 @@ public class Check_Accuracy_Service extends Service{
                 String[] accu_Tokens = result.split(",");
                 if(Integer.parseInt(accu_Tokens[2]) == 0)
                 {
+                    ActivityManager manager2 = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+                    boolean preview_service_running = false;
+                    for (ActivityManager.RunningServiceInfo service : manager2.getRunningServices(Integer.MAX_VALUE)) {
+                        if (Predict_User_Image_Preview.class.getName().equals(service.service.getClassName())) {
+                            preview_service_running = true;
+                        }
 
-                    if(Integer.parseInt(mydb.Get_Preview_Running_Status()) == 0)
+                    }
+                    if(preview_service_running == false)
                     {
                         Intent serviceIntent = new Intent(getApplicationContext(),Predict_User_Image_Preview.class);
                         startService(serviceIntent);
                     }
-                    mydb.Update_insert_Accuracy_Management("0","1");
-                }
-                else
-                {
-                    mydb.Update_insert_Accuracy_Management("1",mydb.Get_Preview_Running_Status());
                 }
             }
 

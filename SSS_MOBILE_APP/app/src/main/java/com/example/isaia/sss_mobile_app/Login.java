@@ -324,19 +324,21 @@ public class Login extends AppCompatActivity {
                 }
                 else if(Integer.parseInt(result) == 10)
                 {
-                    boolean serviceRunning = true;
+                    boolean serviceRunning = false;
                     while(serviceRunning)
                     {
                         ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
                         for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
-                            if (!Train_Images_Model_Service.class.equals(service.service.getClassName())) {
-                                serviceRunning = false;
-                                // Start the voice recorder prediction test service
-                                Intent intent = new Intent(getApplicationContext(),Main_Activity_Voice_Notes.class);
-                                startActivity(intent);
-                                progressDialog.dismiss();
+                            if (Train_Images_Model_Service.class.getName().equals(service.service.getClassName())) {
+                                serviceRunning = true;
                             }
                         }
+                    }
+                    if(serviceRunning == false)
+                    {
+                        Intent intent = new Intent(getApplicationContext(),Main_Activity_Voice_Notes.class);
+                        startActivity(intent);
+                        progressDialog.dismiss();
                     }
                 }
                 else

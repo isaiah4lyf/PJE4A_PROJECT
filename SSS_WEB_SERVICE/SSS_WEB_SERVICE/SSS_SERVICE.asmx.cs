@@ -201,6 +201,25 @@ namespace SSS_WEB_SERVICE
 			return "true";
 		}
 
+		[WebMethod]
+		public string UPDATE_TRAINING_ACCURACY_USERS(string Model_ID,  string Validation_Accuracy_Images, string Validation_Accuracy_VN)
+		{
+			List<User> userTable = (from User in linq.Users
+									where User.Model_ID == Convert.ToInt32(Model_ID)
+									select User).ToList();
+			for (int i = 0; i < userTable.Count; i++)
+			{
+				Accuracy_User acc_Table = (from Accuracy_User in linq.Accuracy_Users
+										   where Accuracy_User.User_ID == userTable.ElementAt(i).Id
+										   select Accuracy_User).First();
+				acc_Table.Validation_Accuracy_Images = Convert.ToDecimal(Validation_Accuracy_Images);
+				acc_Table.Validation_Accuracy_VN = Convert.ToDecimal(Validation_Accuracy_VN);
+				linq.SubmitChanges();
+			}
+
+			return "true";
+		}
+
 
 		//IMAGE PROCESSING METHODS
 		[WebMethod]
