@@ -31,7 +31,7 @@ public class Predict_User_Service_VN extends Service implements RecordingSampler
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        final Dialog dialog = new Dialog(getApplicationContext());
+        final Dialog dialog = new Dialog(getApplicationContext(),R.style.pred_vn_dialog);
         dialog.setContentView(R.layout.voice_note_prediction_pop_up);
         dialog.setTitle("S.S.S: Voice Recognition");
         final ImageButton recordButton = (ImageButton) dialog.findViewById(R.id.start);

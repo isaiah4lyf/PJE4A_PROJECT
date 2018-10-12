@@ -70,6 +70,7 @@ try
 		max_Num = ROWS_D;
 	end
 
+	predAccuracy = max_Num/m *100
 	max_Num
 	max_Class
 catch ME
