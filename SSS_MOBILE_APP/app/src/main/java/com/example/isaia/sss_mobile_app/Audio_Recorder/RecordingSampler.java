@@ -16,6 +16,7 @@ import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Check_Accuracy;
 import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Count_VNs;
 import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Insert_Voice_Note;
 import com.example.isaia.sss_mobile_app.Services.Predict_User_Image_Preview;
+import com.example.isaia.sss_mobile_app.Services.Train_VN_Model_Service;
 import com.example.isaia.sss_mobile_app.Settings_With_Drawer;
 
 import java.io.DataInputStream;
@@ -430,6 +431,27 @@ public class RecordingSampler {
                     check_accuracy_Images task = new check_accuracy_Images();
                     task.execute();
                 }
+
+                try
+                {
+                    Intent serviceIntent = new Intent(context,Train_VN_Model_Service.class);
+                    //serviceIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startService(serviceIntent);
+                }
+                catch (Exception ex)
+                {
+                    Toast.makeText(context,ex.toString(),Toast.LENGTH_LONG).show();
+                }
+
+            }
+            else if(Integer.parseInt(result) > 10)
+            {
+                Toast.makeText(context,"Voice Notes greater than 10",Toast.LENGTH_LONG).show();
+            }
+            else
+            {
+                int voice_notes_left = 10 - Integer.parseInt(result);
+                Toast.makeText(context,voice_notes_left + " Voice Note(s) Left...",Toast.LENGTH_LONG).show();
             }
         }
     }

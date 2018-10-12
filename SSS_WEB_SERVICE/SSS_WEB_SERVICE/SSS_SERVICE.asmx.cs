@@ -314,7 +314,7 @@ namespace SSS_WEB_SERVICE
 			User user = (from User in linq.Users
 						 where User.Id == Convert.ToInt16(user_ID)
 						 select User).First();
-			string user_string = user.Id + "," + user.User_Name + "," + user.Model_ID;
+			string user_string = user.Id + "," + user.User_Name + "," + user.Model_ID + "," + user.Model_ID_VN;
 			return user_string;
 		}
 

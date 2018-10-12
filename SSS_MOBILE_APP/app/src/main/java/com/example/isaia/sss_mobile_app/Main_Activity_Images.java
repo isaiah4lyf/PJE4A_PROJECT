@@ -410,7 +410,7 @@ public class Main_Activity_Images extends AppCompatActivity{
             else
             {
                 int images_left = 10 - Integer.parseInt(result);
-                Toast.makeText(getApplicationContext(),images_left + " Images Left...",Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),images_left + " Image(s) Left...",Toast.LENGTH_LONG).show();
                 mCamera.startPreview();
                 Insert_Image.setEnabled(true);
             }

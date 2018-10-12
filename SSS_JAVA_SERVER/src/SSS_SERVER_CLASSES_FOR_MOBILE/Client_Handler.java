@@ -105,7 +105,11 @@ public class Client_Handler implements Runnable{
 						case "TRAIN_IMAGES_MODEL":						
 							Train_Images_Model();
 							processing = false;
-							break;							
+							break;			
+						case "TRAIN_VN_MODEL":						
+							Train_VN_Model();
+							processing = false;
+							break;	
 						case "PRED_USER":
 							Pred_User_Image();
 							processing = false;
@@ -512,13 +516,108 @@ public class Client_Handler implements Runnable{
 			for(int i = 0; i < users_String.length; i++)
 			{
 				Return_Accuracy_Users accu_Class_each = new Return_Accuracy_Users();
-				String[] accuString_each = accu_Class_each.do_The_Work(URL, user_ID).split(",");
+				String[] accuString_each = accu_Class_each.do_The_Work(URL,  users_String[i].split(",")[0]).split(",");
 				Update_Accuracy_Users update_Class_pred = new Update_Accuracy_Users();
 				update_Class_pred.do_The_Work(URL, users_String[i].split(",")[0],"0", accuString_each[3], accuString_each[4], accuString_each[5]);
 
 			}
 
 			sendMessage("Training Model..");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+	
+	private void Train_VN_Model()
+	{
+		try {
+			String user_ID = in.readUTF();
+			Return_User_With_ID user = new Return_User_With_ID();
+			String[] user_String = user.do_The_Work(URL, user_ID).split(",");
+			
+			Return_Train_Models_VN models_class = new Return_Train_Models_VN();
+			String[] models = models_class.Do_The_Work(URL);
+			
+			int model_Index = 0;
+			for(int i = 0; i< models.length; i++)
+			{
+				if(Integer.parseInt(models[i].split(",")[0]) == Integer.parseInt(user_String[3]))
+				{
+					model_Index = i;
+				}
+			}
+			
+			String[] model_tokens = models[model_Index].split(",");
+			
+	   		Return_Users_In_Model_VN users_class = new Return_Users_In_Model_VN();
+			String[] users = users_class.Do_The_Work(URL, model_tokens[0]);
+
+		
+			if (Integer.parseInt(model_tokens[2])  == 4)
+			{
+				matEng.eval("class_1 = "+Integer.parseInt(users[0].split(",")[0]),null,null);
+				matEng.eval("class_2 = "+Integer.parseInt(users[1].split(",")[0]),null,null);
+				matEng.eval("class_3 = "+Integer.parseInt(users[2].split(",")[0]),null,null);
+				matEng.eval("class_4 = "+Integer.parseInt(users[3].split(",")[0]),null,null);
+
+			}
+			else if (Integer.parseInt(model_tokens[2]) == 3)
+			{
+				matEng.eval("class_1 = "+Integer.parseInt(users[0].split(",")[0]),null,null);
+				matEng.eval("class_2 = "+Integer.parseInt(users[1].split(",")[0]),null,null);
+				matEng.eval("class_3 = "+Integer.parseInt(users[2].split(",")[0]),null,null);
+				matEng.eval("class_4 = "+Integer.parseInt(users[2].split(",")[0]+1),null,null);
+
+			}
+			else if (Integer.parseInt(model_tokens[2]) == 2)
+			{
+				matEng.eval("class_1 = "+Integer.parseInt(users[0].split(",")[0]),null,null);
+				matEng.eval("class_2 = "+Integer.parseInt(users[1].split(",")[0]),null,null);
+				matEng.eval("class_3 = "+Integer.parseInt(users[1].split(",")[0]+1),null,null);
+				matEng.eval("class_4 = "+Integer.parseInt(users[1].split(",")[0]+2),null,null);
+
+			}
+			else
+			{
+				matEng.eval("class_1 = "+Integer.parseInt(users[0].split(",")[0]),null,null);
+				matEng.eval("class_2 = "+Integer.parseInt(users[0].split(",")[0]+2),null,null);
+				matEng.eval("class_3 = "+Integer.parseInt(users[0].split(",")[0]+3),null,null);
+				matEng.eval("class_4 = "+Integer.parseInt(users[0].split(",")[0]+4),null,null);
+
+			}
+
+			
+			String ML_features_Database_train = Matlab_Path_train + "/MATLAB_TRAIN_DATA/VOICE_NOTES_DATA/" + model_tokens[1] +  "_" + model_tokens[3] + ".mat";
+			
+			matEng.eval("path = '"+ML_features_Database_train+"'",null,null);
+			
+			
+			String Trained_Model_File = Matlab_Path_train + "/MATLAB_TRAINED_MODELS/SOUND_PROCESSING/" + model_tokens[1] +  "_" + model_tokens[3]  + ".mat";
+
+			matEng.eval("path2 = '"+Trained_Model_File+"'",null,null);
+			
+			matEng.eval("run('" + Matlab_Path_train + "/MATLAB_SCRIPTS/SOUND_PROCESSING/RUN_QD.m')",null,null);
+			
+			Return_Accuracy_Users accu_Class = new Return_Accuracy_Users();
+			String[] accuString = accu_Class.do_The_Work(URL, user_ID).split(",");
+			
+			Update_Training_Accuracy_Users update_Class = new Update_Training_Accuracy_Users();
+			double validation_accu = matEng.getVariable("accuracy");
+			update_Class.do_The_Work(URL, user_String[3],accuString[3],String.valueOf(validation_accu));
+			
+			Return_Users_In_Model_VN users_in_model = new Return_Users_In_Model_VN();
+			String[] users_String = users_in_model.Do_The_Work(URL, user_String[3]);
+			
+			for(int i = 0; i < users_String.length; i++)
+			{
+				Return_Accuracy_Users accu_Class_each = new Return_Accuracy_Users();
+				String[] accuString_each = accu_Class_each.do_The_Work(URL, users_String[i].split(",")[0]).split(",");
+				Update_Accuracy_Users update_Class_pred = new Update_Accuracy_Users();
+				update_Class_pred.do_The_Work(URL, users_String[i].split(",")[0],accuString_each[2], accuString_each[3], "0", accuString_each[5]);
+
+			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
