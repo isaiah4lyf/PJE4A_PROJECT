@@ -1224,7 +1224,17 @@ public class Client_Handler implements Runnable{
 		if(fetch_Match.size() == 1)
 		{
 			double prediction_Accuracy = Model_Accuracy.get(0);
-			double currentAccuracy = Double.parseDouble(accuString[2]);
+			double currentAccuracy;
+			if(Integer.parseInt(accuString[2]) != 0)
+			{
+				currentAccuracy = Double.parseDouble(accuString[2]);
+				System.out.println(currentAccuracy);
+			}
+			else
+			{
+				currentAccuracy = Double.parseDouble(accuString[3]);
+				System.out.println(currentAccuracy);
+			}
 			if(currentAccuracy > prediction_Accuracy)
 			{
 				double error = currentAccuracy - prediction_Accuracy;
@@ -1268,7 +1278,17 @@ public class Client_Handler implements Runnable{
 				if(fetch_Match.get(i) == max)
 				{
 					double prediction_Accuracy = Model_Accuracy.get(i);
-					double currentAccuracy = Double.parseDouble(accuString[2]);
+					double currentAccuracy;
+					if(Integer.parseInt(accuString[2]) != 0)
+					{
+						currentAccuracy = Double.parseDouble(accuString[2]);
+						System.out.println(currentAccuracy);
+					}
+					else
+					{
+						currentAccuracy = Double.parseDouble(accuString[3]);
+						System.out.println(currentAccuracy);
+					}
 					if(currentAccuracy > prediction_Accuracy)
 					{
 						double error = currentAccuracy - prediction_Accuracy;
@@ -1360,7 +1380,7 @@ public class Client_Handler implements Runnable{
 					if(currentAccuracy > prediction_Accuracy)
 					{
 						double error = currentAccuracy - prediction_Accuracy;
-						if(error < 3)
+						if(error < 15)
 						{
 							return fetch_Match.get(i);
 						}
@@ -1376,7 +1396,7 @@ public class Client_Handler implements Runnable{
 					{
 						double error = prediction_Accuracy - currentAccuracy;
 						System.out.println(prediction_Accuracy);
-						if(error < 3)
+						if(error < 15)
 						{
 							return fetch_Match.get(i);
 						}
