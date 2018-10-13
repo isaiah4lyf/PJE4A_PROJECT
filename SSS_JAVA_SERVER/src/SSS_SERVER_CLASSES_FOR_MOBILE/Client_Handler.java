@@ -27,6 +27,7 @@ import SSS_SERVER_FUNCTIONS.Update_Accuracy_Users;
 import SSS_SERVER_FUNCTIONS.Update_Train_Data;
 import SSS_SERVER_FUNCTIONS.Update_Train_Data_VN;
 import SSS_SERVER_FUNCTIONS.Update_Training_Accuracy_Users;
+import SSS_SERVER_FUNCTIONS.Update_Training_Accuracy_Users_VN;
 
 
 public class Client_Handler implements Runnable{
@@ -603,9 +604,10 @@ public class Client_Handler implements Runnable{
 			Return_Accuracy_Users accu_Class = new Return_Accuracy_Users();
 			String[] accuString = accu_Class.do_The_Work(URL, user_ID).split(",");
 			
-			Update_Training_Accuracy_Users update_Class = new Update_Training_Accuracy_Users();
+			Update_Training_Accuracy_Users_VN update_Class = new Update_Training_Accuracy_Users_VN();
 			double validation_accu = matEng.getVariable("accuracy");
-			update_Class.do_The_Work(URL, user_String[3],accuString[3],String.valueOf(validation_accu));
+			String checking = update_Class.do_The_Work(URL, user_String[3],accuString[3],String.valueOf(validation_accu));
+			System.out.println(checking);
 			
 			Return_Users_In_Model_VN users_in_model = new Return_Users_In_Model_VN();
 			String[] users_String = users_in_model.Do_The_Work(URL, user_String[3]);
