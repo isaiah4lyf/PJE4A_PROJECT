@@ -1,6 +1,9 @@
 package com.example.isaia.sss_mobile_app.Audio_Recorder;
 
 
+import android.app.ActivityManager;
+import android.app.admin.DevicePolicyManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.media.AudioFormat;
 import android.media.AudioRecord;
@@ -14,6 +17,7 @@ import android.widget.Toast;
 import com.example.isaia.sss_mobile_app.Database.DBHelper;
 import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Insert_Voice_Note;
 import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Pred_User_VN;
+import com.example.isaia.sss_mobile_app.Services.MyAdmin;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -30,6 +34,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import static android.content.Context.ACTIVITY_SERVICE;
+import static android.content.Context.DEVICE_POLICY_SERVICE;
 
 /**
  * Sampling AudioRecord Input
@@ -54,13 +61,22 @@ public class RecordingSampler_For_Prediction {
     private String Password;
     private List<VisualizerView> mVisualizerViews = new ArrayList<>();
     private Context context;
+    private DevicePolicyManager devicePolicyManager;
+    private ActivityManager activityManager;
+    private ComponentName compName;
+    private int invalidPrediction;
+    private DBHelper mydb;
+
 
     public RecordingSampler_For_Prediction(Context context) {
         initAudioRecord();
         this.context = context;
-        DBHelper mydb = new DBHelper(context);
+        mydb = new DBHelper(context);
         User_Name = mydb.User_Name();
         Password = mydb.Password();
+        devicePolicyManager = (DevicePolicyManager) context.getSystemService(DEVICE_POLICY_SERVICE);
+        activityManager = (ActivityManager) context.getSystemService(ACTIVITY_SERVICE);
+        compName = new ComponentName(context, MyAdmin.class);
     }
 
     /**
@@ -392,6 +408,27 @@ public class RecordingSampler_For_Prediction {
             if(f2.exists())
             {
                 f2.delete();
+            }
+            if(result.equals(User_Name))
+            {
+                //invalidPrediction = 0;
+
+            }
+            else
+            {
+                try
+                {
+                    boolean active = devicePolicyManager.isAdminActive(compName);
+                    if (active) {
+                        devicePolicyManager.lockNow();
+                        //invalidPrediction = 0;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    //Toast.makeText(getApplicationContext(),ex.toString(),Toast.LENGTH_LONG).show();
+                }
+
             }
         }
     }

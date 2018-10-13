@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.app.Service;
 import android.app.admin.DevicePolicyManager;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.hardware.Camera;
 import android.net.Uri;
@@ -46,7 +47,7 @@ public class Predict_User_Service extends Service{
     private ActivityManager activityManager;
     private ComponentName compName;
     private int invalidPrediction;
-
+    private DBHelper mydb;
 
     @Nullable
     @Override
@@ -60,7 +61,7 @@ public class Predict_User_Service extends Service{
 
         try {
 
-            final DBHelper mydb = new DBHelper(getApplicationContext());
+            mydb = new DBHelper(getApplicationContext());
             User_Name = mydb.User_Name();
             Password = mydb.Password();
             invalidPrediction = 0;
@@ -78,10 +79,16 @@ public class Predict_User_Service extends Service{
                     while (capture == true) {
                         try {
 
-
+                            boolean vn_pred_serviceRunning = false;
+                            ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+                            for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+                                if (Predict_User_Service_VN.class.getName().equals(service.service.getClassName())) {
+                                    vn_pred_serviceRunning = true;
+                                }
+                            }
                             PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
                             boolean result= Build.VERSION.SDK_INT>= Build.VERSION_CODES.KITKAT_WATCH&&powerManager.isInteractive()|| Build.VERSION.SDK_INT< Build.VERSION_CODES.KITKAT_WATCH&&powerManager.isScreenOn();
-                            if(result == true && predict_Interval == 0)
+                            if(result == true && predict_Interval == 0 && vn_pred_serviceRunning == false)
                             {
                                 mCamera = getCameraInstance();
                                 sleep(3000);
@@ -89,7 +96,7 @@ public class Predict_User_Service extends Service{
                                 mCamera = null;
                                 predict_Interval = Integer.parseInt(mydb.Get_Image_Verification_Interval());
                             }
-                            else
+                            if(result == false)
                             {
                                 invalidPrediction = 0;
                             }
@@ -247,17 +254,24 @@ public class Predict_User_Service extends Service{
         protected void onPostExecute(String result) {
             //if you started progress dialog dismiss it here
             Toast.makeText(getApplicationContext(),result,Toast.LENGTH_LONG).show();
+
             if(result.equals("Invalid Image") )
             {
+                Toast.makeText(getApplicationContext(),String.valueOf(invalidPrediction),Toast.LENGTH_LONG).show();
                 if(invalidPrediction == 5)
                 {
-                    Intent serviceIntent = new Intent(getApplicationContext(),Predict_User_Service_VN.class);
-                    //startService(serviceIntent);
+                    int voicePredServStatus = Integer.parseInt(mydb.Get_Voice_Prediction_Service_Status());
+                    if(voicePredServStatus == 1)
+                    {
+                        Intent serviceIntent = new Intent(getApplicationContext(),Predict_User_Service_VN.class);
+                        startService(serviceIntent);
+                    }
                 }
                 else
                 {
                     invalidPrediction++;
                 }
+
             }
             else
             {

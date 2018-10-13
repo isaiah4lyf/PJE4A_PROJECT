@@ -393,11 +393,11 @@ public class RecordingSampler {
             {
                 f2.delete();
             }
-            count_VNS_FOR_SETTINGS_asy task = new count_VNS_FOR_SETTINGS_asy();
+            count_VNS_asy task = new count_VNS_asy();
             task.execute();
         }
     }
-    private class count_VNS_FOR_SETTINGS_asy extends AsyncTask<String, Void, String> {
+    private class count_VNS_asy extends AsyncTask<String, Void, String> {
 
         @Override
         protected void onPreExecute() {
@@ -428,76 +428,28 @@ public class RecordingSampler {
             {
                 if(Integer.parseInt(result) == 10)
                 {
-                    check_accuracy_Images task = new check_accuracy_Images();
-                    task.execute();
-                }
-
-                try
-                {
-                    Intent serviceIntent = new Intent(context,Train_VN_Model_Service.class);
-                    //serviceIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    context.startService(serviceIntent);
-                }
-                catch (Exception ex)
-                {
-                    Toast.makeText(context,ex.toString(),Toast.LENGTH_LONG).show();
-                }
-
-            }
-            else if(Integer.parseInt(result) > 10)
-            {
-                Toast.makeText(context,"Voice Notes greater than 10",Toast.LENGTH_LONG).show();
-            }
-            else
-            {
-                int voice_notes_left = 10 - Integer.parseInt(result);
-                Toast.makeText(context,voice_notes_left + " Voice Note(s) Left...",Toast.LENGTH_LONG).show();
-            }
-        }
-    }
-    private class check_accuracy_Images extends AsyncTask<String, Void, String> {
-        @Override
-        protected void onPreExecute() {
-            //if you want, start progress dialog here
-        }
-        @Override
-        protected String doInBackground(String... urls) {
-            String response = "";
-            try
-            {
-                Check_Accuracy count_class = new Check_Accuracy();
-                DBHelper mydb = new DBHelper(context);
-                String User_ID = mydb.Password();
-                response = count_class.Do_The_work(User_ID);
-            }
-            catch (Exception ex)
-            {
-                response =  "Error: "+ex.getMessage();
-            }
-            return  response;
-        }
-        @Override
-        protected void onPostExecute(String result) {
-            //if you started progress dialog dismiss it here
-            if(!result.startsWith("Error:"))
-            {
-                String[] accu_Tokens = result.split(",");
-                if(Integer.parseInt(accu_Tokens[2]) != 0)
-                {
-
-                    // To open the recording prediction testing
                     try
                     {
-                        Intent intent = new Intent(context,Settings_With_Drawer.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        context.startActivity(intent);
+                        Intent serviceIntent = new Intent(context,Train_VN_Model_Service.class);
+                        context.startService(serviceIntent);
+                        Toast.makeText(context,"Training",Toast.LENGTH_LONG).show();
                     }
                     catch (Exception ex)
                     {
                         Toast.makeText(context,ex.toString(),Toast.LENGTH_LONG).show();
                     }
                 }
+                else if(Integer.parseInt(result) > 10)
+                {
+                    Toast.makeText(context,"Voice Notes greater than 10",Toast.LENGTH_LONG).show();
+                }
+                else
+                {
+                    int voice_notes_left = 10 - Integer.parseInt(result);
+                    Toast.makeText(context,voice_notes_left + " Voice Note(s) Left...",Toast.LENGTH_LONG).show();
+                }
             }
+
         }
     }
 }

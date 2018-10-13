@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.example.isaia.sss_mobile_app.Database.DBHelper;
 import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Train_VN_Model;
+import com.example.isaia.sss_mobile_app.Settings_With_Drawer;
 
 
 public class Train_VN_Model_Service extends Service {
@@ -59,9 +60,10 @@ public class Train_VN_Model_Service extends Service {
         protected void onPostExecute(String result) {
             //if you started progress dialog dismiss it here
             Toast.makeText(getApplicationContext(),result,Toast.LENGTH_LONG).toString();
-            //Intent serviceIntent = new Intent(getApplicationContext(),Predict_User_Image_Preview.class);
-            //startService(serviceIntent);
             stopService(new Intent(getApplicationContext(), Train_VN_Model_Service.class));
+            Intent intent = new Intent(getApplicationContext(),Settings_With_Drawer.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
         }
     }
 }

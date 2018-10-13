@@ -25,7 +25,7 @@ try
     matrix = table2array(features(:,2:14));
 	
 	trained = trainedClassifier.predictFcn(matrix);
-	trained
+	
     [m,n] = size(trained);
 	A = [];
 	for i=1:m

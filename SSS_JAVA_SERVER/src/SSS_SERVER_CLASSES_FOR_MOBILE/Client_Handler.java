@@ -1005,12 +1005,11 @@ public class Client_Handler implements Runnable{
 			}
 			else
 			{
-				matEng.eval("imwrite(J,Image_Name_of)",null,null);
 				Return_Accuracy_Users accu_Class = new Return_Accuracy_Users();
 				String[] accuString = accu_Class.do_The_Work(URL, user_ID2_).split(",");
 				List<Integer> new_Fetch_Match = fet_Match2;
-				int max = cal_Max_With_Acc(fet_Match2,model_Match_Accuracy,accuString);
-				
+				int max = cal_Max_With_Acc_VN(fet_Match2,model_Match_Accuracy,accuString);
+				System.out.println(accuString[5]);
 				if(max != 0)
 				{
 					String result_With_Max = "";
@@ -1436,9 +1435,116 @@ public class Client_Handler implements Runnable{
 
 			}
 		}
-		return 0;
-		
+		return 0;		
 	}
+	
+	private int cal_Max_With_Acc_VN(List<Integer> fetch_Match,List<Double> Model_Accuracy,String[] accuString)
+	{
+
+		if(fetch_Match.size() == 1)
+		{
+			double prediction_Accuracy = Model_Accuracy.get(0);
+			double currentAccuracy;
+			if(Integer.parseInt(accuString[4]) != 0)
+			{
+				currentAccuracy = Double.parseDouble(accuString[4]);
+				System.out.println(currentAccuracy);
+			}
+			else
+			{
+				currentAccuracy = Double.parseDouble(accuString[5]);
+				System.out.println(currentAccuracy);
+			}
+			if(currentAccuracy > prediction_Accuracy)
+			{
+				double error = currentAccuracy - prediction_Accuracy;
+				if(error < 8)
+				{
+					return fetch_Match.get(0);
+				}
+				else
+				{
+					return 0;
+				}
+			}
+			else
+			{
+				double error = prediction_Accuracy - currentAccuracy;
+				System.out.println(prediction_Accuracy);
+				if(error < 8)
+				{
+					return fetch_Match.get(0);
+				}
+				else
+				{
+					return 0;
+				}
+			}
+			
+		}
+		
+		if(fetch_Match.size() > 1)
+		{
+			int max = fetch_Match.get(0);
+			for(int i = 0; i < fetch_Match.size(); i++)
+			{
+				if(fetch_Match.get(i) > max)
+				{
+					max = fetch_Match.get(i);
+				}
+			}
+			for(int i = 0; i < fetch_Match.size(); i++)
+			{
+				if(fetch_Match.get(i) == max)
+				{
+					double prediction_Accuracy = Model_Accuracy.get(i);
+					double currentAccuracy;
+					if(Integer.parseInt(accuString[4]) != 0)
+					{
+						currentAccuracy = Double.parseDouble(accuString[4]);
+						System.out.println(currentAccuracy);
+					}
+					else
+					{
+						currentAccuracy = Double.parseDouble(accuString[5]);
+						System.out.println(currentAccuracy);
+					}
+					if(currentAccuracy > prediction_Accuracy)
+					{
+						double error = currentAccuracy - prediction_Accuracy;
+						if(error < 8)
+						{
+							return fetch_Match.get(i);
+						}
+						else
+						{
+							fetch_Match.remove(i);
+							Model_Accuracy.remove(i);
+							return cal_Max_With_Acc(fetch_Match,Model_Accuracy,accuString);
+						}
+					}
+					else
+					{
+						double error = prediction_Accuracy - currentAccuracy;
+						System.out.println(prediction_Accuracy);
+						if(error < 8)
+						{
+							return fetch_Match.get(i);
+						}
+						else
+						{
+							fetch_Match.remove(i);
+							Model_Accuracy.remove(i);
+							return cal_Max_With_Acc(fetch_Match,Model_Accuracy,accuString);
+						}
+					}
+				}
+
+			}
+		}
+		return 0;		
+	}
+	
 	private int cal_Max_With_Acc_Testing(List<Integer> fetch_Match,List<Double> Model_Accuracy,String[] accuString)
 	{
 

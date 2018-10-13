@@ -54,8 +54,8 @@ public class Check_Accuracy_Service extends Service{
                     super.run();
                     while (true) {
                         try {
-
-                            sleep(60000);
+                            int sleep_Time = 24*60*60*1000;
+                            sleep(sleep_Time);
                             PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
                             boolean result= Build.VERSION.SDK_INT>= Build.VERSION_CODES.KITKAT_WATCH&&powerManager.isInteractive()|| Build.VERSION.SDK_INT< Build.VERSION_CODES.KITKAT_WATCH&&powerManager.isScreenOn();
                             if(result == true)
