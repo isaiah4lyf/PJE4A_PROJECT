@@ -5,6 +5,7 @@ import android.app.ActivityManager;
 import android.app.admin.DevicePolicyManager;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.media.AudioFormat;
 import android.media.AudioRecord;
 import android.media.MediaRecorder;
@@ -18,6 +19,7 @@ import com.example.isaia.sss_mobile_app.Database.DBHelper;
 import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Insert_Voice_Note;
 import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Pred_User_VN;
 import com.example.isaia.sss_mobile_app.Services.MyAdmin;
+import com.example.isaia.sss_mobile_app.Services.Predict_User_Service_VN;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -411,8 +413,7 @@ public class RecordingSampler_For_Prediction {
             }
             if(result.equals(User_Name))
             {
-                //invalidPrediction = 0;
-
+                context.stopService(new Intent(context, Predict_User_Service_VN.class));
             }
             else
             {

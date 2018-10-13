@@ -51,6 +51,9 @@ namespace SSS_WEB_SERVICE
     partial void InsertAccuracy_User(Accuracy_User instance);
     partial void UpdateAccuracy_User(Accuracy_User instance);
     partial void DeleteAccuracy_User(Accuracy_User instance);
+    partial void InsertDevices_Mac(Devices_Mac instance);
+    partial void UpdateDevices_Mac(Devices_Mac instance);
+    partial void DeleteDevices_Mac(Devices_Mac instance);
     #endregion
 		
 		public SSS_LINQ_DataContext() : 
@@ -136,6 +139,14 @@ namespace SSS_WEB_SERVICE
 			get
 			{
 				return this.GetTable<Accuracy_User>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Devices_Mac> Devices_Macs
+		{
+			get
+			{
+				return this.GetTable<Devices_Mac>();
 			}
 		}
 	}
@@ -1101,6 +1112,116 @@ namespace SSS_WEB_SERVICE
 					this._Validation_Accuracy_VN = value;
 					this.SendPropertyChanged("Validation_Accuracy_VN");
 					this.OnValidation_Accuracy_VNChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Devices_Mac")]
+	public partial class Devices_Mac : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private string _Mac_Address;
+		
+		private System.Nullable<int> _User_ID;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnMac_AddressChanging(string value);
+    partial void OnMac_AddressChanged();
+    partial void OnUser_IDChanging(System.Nullable<int> value);
+    partial void OnUser_IDChanged();
+    #endregion
+		
+		public Devices_Mac()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Mac_Address", DbType="NVarChar(50)")]
+		public string Mac_Address
+		{
+			get
+			{
+				return this._Mac_Address;
+			}
+			set
+			{
+				if ((this._Mac_Address != value))
+				{
+					this.OnMac_AddressChanging(value);
+					this.SendPropertyChanging();
+					this._Mac_Address = value;
+					this.SendPropertyChanged("Mac_Address");
+					this.OnMac_AddressChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_User_ID", DbType="Int")]
+		public System.Nullable<int> User_ID
+		{
+			get
+			{
+				return this._User_ID;
+			}
+			set
+			{
+				if ((this._User_ID != value))
+				{
+					this.OnUser_IDChanging(value);
+					this.SendPropertyChanging();
+					this._User_ID = value;
+					this.SendPropertyChanged("User_ID");
+					this.OnUser_IDChanged();
 				}
 			}
 		}

@@ -3,9 +3,11 @@ package com.example.isaia.sss_mobile_app.Services;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.Service;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -21,6 +23,7 @@ public class Predict_User_Service_VN extends Service implements RecordingSampler
 
     private RecordingSampler_For_Prediction mRecordingSampler;
     private VisualizerView mVisualizerView3;
+    private  Dialog dialog;
 
     @Nullable
     @Override
@@ -31,7 +34,7 @@ public class Predict_User_Service_VN extends Service implements RecordingSampler
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        final Dialog dialog = new Dialog(getApplicationContext(),R.style.pred_vn_dialog);
+        dialog = new Dialog(getApplicationContext(),R.style.pred_vn_dialog);
         dialog.setContentView(R.layout.voice_note_prediction_pop_up);
         dialog.setTitle("S.S.S: Voice Recognition");
         final ImageButton recordButton = (ImageButton) dialog.findViewById(R.id.start);
@@ -58,13 +61,27 @@ public class Predict_User_Service_VN extends Service implements RecordingSampler
                 return false;
             }
         });
+        dialog.setOnKeyListener(new Dialog.OnKeyListener() {
+            @Override
+            public boolean onKey(DialogInterface arg0, int keyCode,
+                                 KeyEvent event) {
+                // TODO Auto-generated method stub
+                if (keyCode == KeyEvent.KEYCODE_BACK) {
+                    //Do nothing
+                }
+                return true;
+            }
+        });
         dialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
+        dialog.setCanceledOnTouchOutside(false);
         dialog.show();
         return START_STICKY;
     }
     @Override
     public void onDestroy() {
+
         super.onDestroy();
+        dialog.dismiss();
     }
     @Override
     public void onCalculateVolume(int volume) {

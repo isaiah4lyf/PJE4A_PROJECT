@@ -902,16 +902,40 @@ public class Client_Handler implements Runnable{
 			Return_Train_Models_VN models2 = new Return_Train_Models_VN();
 			String[] models_string2 = models2.Do_The_Work(URL);
 
-			//int[] results2 = new int[models_string2.length];
-			//int[] fet_Match2 = new int[models_string2.length];
-			
+			int num_Models = 1;
+			if(models_string2.length > 1)
+			{
+				String model_ID = models_string2[models_string2.length - 1].split(",")[0];
+				Return_Users_In_Model users = new Return_Users_In_Model();
+				String[] users_string = users.Do_The_Work(URL,model_ID);
+				
+				Return_User_With_ID current_user = new Return_User_With_ID();
+				String current_user_String = current_user.do_The_Work(URL, user_ID2_);
+				
+				if(Integer.parseInt(current_user_String.split(",")[2]) == Integer.parseInt(models_string2[models_string2.length - 1].split(",")[0]))
+				{
+					num_Models = models_string2.length;
+				}
+				else 
+				{
+					if(users_string.length > 2)
+					{
+						num_Models = models_string2.length;
+					}
+					else
+					{
+						num_Models = models_string2.length - 1;
+					}
+				}
+
+			}
 			int[] results2 = new int[models_string2.length];
 			List<Integer> fet_Match2 = new ArrayList<Integer>(models_string2.length);
 			List<Double> model_Match_Accuracy = new ArrayList<Double>(models_string2.length);
 			
 			File audio2 = null;
 			
-			for (int i = 0; i < models_string2.length; i++)
+			for (int i = 0; i < num_Models; i++)
 			{
 				String model_ID = models_string2[i].split(",")[0];
 				Return_Users_In_Model_VN users = new Return_Users_In_Model_VN();

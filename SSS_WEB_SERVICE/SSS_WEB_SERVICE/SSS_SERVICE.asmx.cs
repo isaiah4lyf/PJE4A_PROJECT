@@ -238,7 +238,41 @@ namespace SSS_WEB_SERVICE
 
 			return "true";
 		}
-
+		[WebMethod]
+		public string INSERT_DEVICE_MAC(string User_ID, string Device_Mac)
+		{
+			List<Devices_Mac> macs = (from Devices_Mac in linq.Devices_Macs
+									  where Devices_Mac.Mac_Address == Device_Mac
+									  select Devices_Mac).ToList();
+			if(macs.Count == 0)
+			{
+				Devices_Mac mac = new Devices_Mac();
+				mac.Mac_Address = Device_Mac;
+				mac.User_ID = Convert.ToInt32(User_ID);
+				linq.Devices_Macs.InsertOnSubmit(mac);
+				linq.SubmitChanges();
+			}
+			else
+			{
+				return "false";
+			}
+			return "true";
+		}
+		[WebMethod]
+		public string RETURN_DEVICE_MAC(string Device_Mac)
+		{
+			List<Devices_Mac> macs = (from Devices_Mac in linq.Devices_Macs
+									  where Devices_Mac.Mac_Address == Device_Mac
+									  select Devices_Mac).ToList();
+			if(macs.Count == 0)
+			{
+				return "false";
+			}
+			else
+			{
+				return macs.ElementAt(0).Id + "," + macs.ElementAt(0).Mac_Address + "," + macs.ElementAt(0).User_ID;
+			}
+		}
 
 		//IMAGE PROCESSING METHODS
 		[WebMethod]

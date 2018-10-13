@@ -1,7 +1,12 @@
 package com.example.isaia.sss_mobile_app;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -72,9 +77,15 @@ public class Reg_User extends AppCompatActivity {
 
                                                 if(Email_String.equals(ConfirmEmail_String))
                                                 {
-                                                    reg_us tast = new reg_us();
-                                                    tast.execute();
-
+                                                    if(haveNetworkConnection() == true)
+                                                    {
+                                                        reg_us tast = new reg_us();
+                                                        tast.execute();
+                                                    }
+                                                    else
+                                                    {
+                                                        Toast.makeText(getApplicationContext(),"No Internet Connection!",Toast.LENGTH_LONG).show();
+                                                    }
                                                 }
                                                 else
                                                 {
@@ -114,6 +125,22 @@ public class Reg_User extends AppCompatActivity {
                 }
         );
     }
+    private boolean haveNetworkConnection() {
+        boolean haveConnectedWifi = false;
+        boolean haveConnectedMobile = false;
+
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo[] netInfo = cm.getAllNetworkInfo();
+        for (NetworkInfo ni : netInfo) {
+            if (ni.getTypeName().equalsIgnoreCase("WIFI"))
+                if (ni.isConnected())
+                    haveConnectedWifi = true;
+            if (ni.getTypeName().equalsIgnoreCase("MOBILE"))
+                if (ni.isConnected())
+                    haveConnectedMobile = true;
+        }
+        return haveConnectedWifi || haveConnectedMobile;
+    }
     private class reg_us extends AsyncTask<String, Void, String> {
 
         @Override
@@ -135,51 +162,6 @@ public class Reg_User extends AppCompatActivity {
             progressDialog.dismiss();
             try
             {
-                /*
-                progressDialog.dismiss();
-                LayoutInflater layoutInflater
-                        = (LayoutInflater)getBaseContext()
-                        .getSystemService(LAYOUT_INFLATER_SERVICE);
-                View popupView = layoutInflater.inflate(R.layout.images_vn_req_popup, null);
-                final PopupWindow popupWindow = new PopupWindow(
-                        popupView,
-                        LayoutParams.WRAP_CONTENT,
-                        LayoutParams.WRAP_CONTENT);
-                TextView startNow = (TextView)popupView.findViewById(R.id.startNow);
-                startNow.setOnClickListener(new Button.OnClickListener(){
-                    @Override
-                    public void onClick(View v) {
-                        // TODO Auto-generated method stub
-                        popupWindow.dismiss();
-                        DBHelper mydb = new DBHelper(getApplicationContext());
-                        String insert = String.valueOf(mydb.insert_Login_State(User_Name_String,Password_String));
-                        Intent intent = null;
-                        try {
-                            intent = new Intent(getApplicationContext(), Class.forName("com.example.isaia.sss_mobile_app.Main_Activity_Images"));
-                        } catch (ClassNotFoundException e) {
-                            e.printStackTrace();
-                        }
-                        startActivity(intent);
-                    }});
-                TextView startLater = (TextView)popupView.findViewById(R.id.startLater);
-                startLater.setOnClickListener(new Button.OnClickListener(){
-
-                    @Override
-                    public void onClick(View v) {
-                        // TODO Auto-generated method stub
-                        popupWindow.dismiss();
-                        Intent intent = null;
-                        try {
-                            intent = new Intent(getApplicationContext(), Login.class);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        startActivity(intent);
-                    }});
-                popupWindow.showAsDropDown(user_Name, -20, -50);
-                popupWindow.setFocusable(true);
-                popupWindow.update();
-                */
                 if(result.equals("false"))
                 {
                     Toast.makeText(getApplicationContext(),"User name already taken!",Toast.LENGTH_LONG).show();
@@ -189,6 +171,9 @@ public class Reg_User extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(),"Registration Successful!",Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(getApplicationContext(), Login.class);
                     startActivity(intent);
+                    WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+                    WifiInfo wInfo = wifiManager.getConnectionInfo();
+                    String macAddress = wInfo.getMacAddress();
                 }
 
             } catch (Exception e) {

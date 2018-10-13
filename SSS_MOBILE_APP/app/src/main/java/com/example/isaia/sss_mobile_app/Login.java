@@ -4,6 +4,10 @@ import android.app.ActivityManager;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -70,8 +74,15 @@ public class Login extends AppCompatActivity {
                             {
                                 if(!Password.getText().toString().equals(""))
                                 {
-                                    login_Asy login = new login_Asy();
-                                    login.execute();
+                                    if(haveNetworkConnection() == true)
+                                    {
+                                        login_Asy login = new login_Asy();
+                                        login.execute();
+                                    }
+                                    else
+                                    {
+                                        Toast.makeText(getApplicationContext(),"No Internet Connection!",Toast.LENGTH_LONG).show();
+                                    }
                                 }
                                 else
                                 {
@@ -112,7 +123,22 @@ public class Login extends AppCompatActivity {
         {
             finish();
         }
+    }
+    private boolean haveNetworkConnection() {
+        boolean haveConnectedWifi = false;
+        boolean haveConnectedMobile = false;
 
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo[] netInfo = cm.getAllNetworkInfo();
+        for (NetworkInfo ni : netInfo) {
+            if (ni.getTypeName().equalsIgnoreCase("WIFI"))
+                if (ni.isConnected())
+                    haveConnectedWifi = true;
+            if (ni.getTypeName().equalsIgnoreCase("MOBILE"))
+                if (ni.isConnected())
+                    haveConnectedMobile = true;
+        }
+        return haveConnectedWifi || haveConnectedMobile;
     }
     private class login_Asy extends AsyncTask<String, Void, String> {
 

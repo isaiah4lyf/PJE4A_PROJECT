@@ -265,13 +265,13 @@ public class Predict_User_Service extends Service{
                     {
                         Intent serviceIntent = new Intent(getApplicationContext(),Predict_User_Service_VN.class);
                         startService(serviceIntent);
+                        invalidPrediction = 0;
                     }
                 }
                 else
                 {
                     invalidPrediction++;
                 }
-
             }
             else
             {
