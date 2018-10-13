@@ -1,19 +1,16 @@
 package com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS;
 
-
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
-
 import java.io.IOException;
-
 import java.net.Socket;
 
-public class Insert_User {
+public class Get_Device_Mac {
     private Socket clientSocket;
     private DataOutputStream out;
     private DataInputStream in;
 
-    public Insert_User()
+    public Get_Device_Mac()
     {
         IP_Address address = new IP_Address();
         String host = address.getIP_Address();
@@ -27,16 +24,13 @@ public class Insert_User {
         }
         catch (Exception ex)
         {
-           // txvResult.setText(ex.toString());
+            // txvResult.setText(ex.toString());
         }
     }
-    public String Do_The_work(String User_Name,String Email,String Password, String Device_Mac)
+    public String Do_The_work(String User_ID)
     {
-        sendCommand("REG");
-        sendCommand(User_Name);
-        sendCommand(Email);
-        sendCommand(Password);
-        sendCommand(Device_Mac);
+        sendCommand("GET_DEVICE_MAC");
+        sendCommand(User_ID);
         return readResponse();
     }
 

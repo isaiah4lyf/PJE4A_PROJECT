@@ -20,6 +20,7 @@ import com.example.isaia.sss_mobile_app.Database.DBHelper;
 import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Check_Accuracy;
 import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Count_Images;
 import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Count_VNs;
+import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Get_Device_Mac;
 import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Login_Class;
 import com.example.isaia.sss_mobile_app.Services.Predict_User_Image_Preview;
 import com.example.isaia.sss_mobile_app.Services.Predict_User_Service;
@@ -155,6 +156,7 @@ public class Login extends AppCompatActivity {
             {
                 Login_Class login = new Login_Class();
                 response = login.Do_The_work(User_Name.getText().toString().replaceAll(" ",""),Password.getText().toString().replaceAll(" ",""));
+                loginString = response;
             }
             catch(Exception ex)
             {
@@ -169,37 +171,86 @@ public class Login extends AppCompatActivity {
             {
                 Toast.makeText(getApplicationContext(),result,Toast.LENGTH_LONG).show();
             }
-
             if(!result.equals("false"))
             {
-                DBHelper mydb = new DBHelper(getApplicationContext());
-                try
-                {
-                    int settingsRowsVoice = mydb.Number_Of_Rows_Settings_Voice();
-                    if(settingsRowsVoice == 0)
-                    {
-                        mydb.Insert_Settings_Voice("1","1");
-                    }
-                    int settingsImagesVoice = mydb.Number_Of_Rows_Settings_Image();
-                    if(settingsImagesVoice == 0)
-                    {
-                        mydb.Insert_Settings_Image("1","30","1","6");
-                    }
-
-
-                }
-                catch(Exception ex)
-                {
-                    Toast.makeText(getApplicationContext(),ex.getLocalizedMessage(),Toast.LENGTH_LONG).show();
-                }
-
-                count_Images_for_Login_asy task = new count_Images_for_Login_asy();
-                task.execute(new String[]{result});
+                check_MAC check_Asy = new check_MAC();
+                check_Asy.execute();
             }
             else
             {
                 progressDialog.dismiss();
                 Toast.makeText(getApplicationContext(),"Incorrect User Name or Password!",Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+    private class check_MAC extends AsyncTask<String, Void, String> {
+        @Override
+        protected void onPreExecute() {
+            //if you want, start progress dialog here
+        }
+        @Override
+        protected String doInBackground(String... urls) {
+            String response = "";
+            try
+            {
+                WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+                WifiInfo wInfo = wifiManager.getConnectionInfo();
+                String macAddress = wInfo.getMacAddress();
+                Get_Device_Mac mac_String = new Get_Device_Mac();
+                response = mac_String.Do_The_work(macAddress);
+            }
+            catch (Exception ex)
+            {
+                response =  "Error: "+ex.getMessage();
+            }
+            return  response;
+        }
+        @Override
+        protected void onPostExecute(String result) {
+            if(!result.equals("false"))
+            {
+                try
+                {
+                    if(result.split(",")[2].equals(loginString.split(",")[0]))
+                    {
+                        DBHelper mydb = new DBHelper(getApplicationContext());
+                        try
+                        {
+                            int settingsRowsVoice = mydb.Number_Of_Rows_Settings_Voice();
+                            if(settingsRowsVoice == 0)
+                            {
+                                mydb.Insert_Settings_Voice("1","1");
+                            }
+                            int settingsImagesVoice = mydb.Number_Of_Rows_Settings_Image();
+                            if(settingsImagesVoice == 0)
+                            {
+                                mydb.Insert_Settings_Image("1","30","1","6");
+                            }
+                        }
+                        catch(Exception ex)
+                        {
+                            progressDialog.dismiss();
+                            Toast.makeText(getApplicationContext(),ex.getLocalizedMessage(),Toast.LENGTH_LONG).show();
+                        }
+                        count_Images_for_Login_asy task = new count_Images_for_Login_asy();
+                        task.execute();
+                    }
+                    else
+                    {
+                        progressDialog.dismiss();
+                        Toast.makeText(getApplicationContext(),"This Device does not belong to you!",Toast.LENGTH_LONG).show();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    progressDialog.dismiss();
+                    Toast.makeText(getApplicationContext(),ex.getLocalizedMessage(),Toast.LENGTH_LONG).show();
+                }
+            }
+            else
+            {
+                progressDialog.dismiss();
+                Toast.makeText(getApplicationContext(),"This Device does not belong to you!",Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -215,7 +266,6 @@ public class Login extends AppCompatActivity {
             try
             {
                 Count_Images count_class = new Count_Images();
-                loginString = urls[0];
                 response = count_class.Do_The_work(loginString.split(",")[0]);
             }
             catch (Exception ex)

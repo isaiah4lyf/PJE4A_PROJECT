@@ -151,10 +151,19 @@ public class Reg_User extends AppCompatActivity {
         }
         @Override
         protected String doInBackground(String... urls) {
-
-            Insert_User insert_user = new Insert_User();
-            return insert_user.Do_The_work(User_Name_String,Email_String,Password_String);
-
+            String response = "";
+            try
+            {
+                WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+                WifiInfo wInfo = wifiManager.getConnectionInfo();
+                String macAddress = wInfo.getMacAddress();
+                Insert_User insert_user = new Insert_User();
+                response =  insert_user.Do_The_work(User_Name_String,Email_String,Password_String,macAddress);
+            }
+            catch (Exception ex){
+                response = ex.toString();
+            }
+            return  response;
         }
         @Override
         protected void onPostExecute(String result) {
@@ -166,14 +175,15 @@ public class Reg_User extends AppCompatActivity {
                 {
                     Toast.makeText(getApplicationContext(),"User name already taken!",Toast.LENGTH_LONG).show();
                 }
-                else
+                else if(result.equals("true"))
                 {
                     Toast.makeText(getApplicationContext(),"Registration Successful!",Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(getApplicationContext(), Login.class);
                     startActivity(intent);
-                    WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-                    WifiInfo wInfo = wifiManager.getConnectionInfo();
-                    String macAddress = wInfo.getMacAddress();
+                }
+                else
+                {
+                    Toast.makeText(getApplicationContext(),result,Toast.LENGTH_LONG).show();
                 }
 
             } catch (Exception e) {

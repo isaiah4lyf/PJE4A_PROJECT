@@ -9,7 +9,9 @@ import com.mathworks.engine.MatlabEngine;
 
 import SSS_SERVER_FUNCTIONS.Decrement_Images_Model_Version;
 import SSS_SERVER_FUNCTIONS.Decrement_Model_Version_VN;
+import SSS_SERVER_FUNCTIONS.Get_Device_Mac_Data_With_Mac;
 import SSS_SERVER_FUNCTIONS.Insert_Accuracy_Users;
+import SSS_SERVER_FUNCTIONS.Insert_Device_Mac;
 import SSS_SERVER_FUNCTIONS.Insert_Image;
 import SSS_SERVER_FUNCTIONS.Insert_User;
 import SSS_SERVER_FUNCTIONS.Insert_Voice_Note;
@@ -123,6 +125,10 @@ public class Client_Handler implements Runnable{
 							Pred_User_VN();
 							processing = false;
 							break;
+						case "GET_DEVICE_MAC":
+							Get_Device_Mac();
+							processing = false;
+							break;
 					}
 				
 				} catch (Exception e) {
@@ -150,6 +156,7 @@ public class Client_Handler implements Runnable{
 		String User_Name = in.readUTF();
 		String email = in.readUTF();
 		String password = in.readUTF();
+		String Device_Mac = in.readUTF();
 		Insert_User clas = new Insert_User();						
 		String response = clas.do_The_Work(URL,User_Name,email,password);
 		System.out.println(response);
@@ -159,13 +166,18 @@ public class Client_Handler implements Runnable{
 			File dir = new File("data/MATLAB_TRAIN_DATA/" + User_Name);
 			dir.mkdir();
 			File dir2 = new File("data/MATLAB_TRAIN_DATA/" + User_Name+"/MATLAB_PRED_DATA");
-			dir2.mkdir();			
+			dir2.mkdir();
+			
+			Login login_Class = new Login();
+			String[] user_Details = login_Class.do_The_Work(URL, User_Name, password).split(",");
+			Insert_Accuracy_Users accu_Class = new Insert_Accuracy_Users();		
+			System.out.println(accu_Class.do_The_Work(URL, user_Details[0], "0", "0", "0", "0"));
+			
+			Insert_Device_Mac insert_mac = new Insert_Device_Mac();
+			String insert_result = insert_mac.do_The_Work(URL, user_Details[0], Device_Mac);
+			System.out.println(insert_result);
 		}	
-		Login login_Class = new Login();
-		String[] user_Details = login_Class.do_The_Work(URL, User_Name, password).split(",");
-		Insert_Accuracy_Users accu_Class = new Insert_Accuracy_Users();
-		
-		System.out.println(accu_Class.do_The_Work(URL, user_Details[0], "0", "0", "0", "0"));
+
 	}
 	
 	private void Login()
@@ -1661,5 +1673,19 @@ public class Client_Handler implements Runnable{
 		return 0;
 		
 	}
-	
+	private void Get_Device_Mac()
+	{
+		try 
+		{
+			String Device_Mac = in.readUTF();
+			Get_Device_Mac_Data_With_Mac mac = new Get_Device_Mac_Data_With_Mac();
+			String mac_Data_String = mac.do_The_Work(URL, Device_Mac);
+			sendMessage(mac_Data_String);
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
 }
