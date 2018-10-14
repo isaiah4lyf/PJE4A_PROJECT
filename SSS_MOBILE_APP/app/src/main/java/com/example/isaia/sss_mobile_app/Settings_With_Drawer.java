@@ -134,7 +134,7 @@ public class Settings_With_Drawer extends AppCompatActivity
                 boolean take_pics_service_running = false;
                 ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
                 for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
-                    if (!Take_Pictures_Service.class.getName().equals(service.service.getClassName())) {
+                    if (Take_Pictures_Service.class.getName().equals(service.service.getClassName())) {
                         take_pics_service_running = true;
                     }
                 }

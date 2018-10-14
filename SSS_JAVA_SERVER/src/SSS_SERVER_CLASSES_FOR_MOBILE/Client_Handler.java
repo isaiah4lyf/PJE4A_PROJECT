@@ -17,6 +17,7 @@ import SSS_SERVER_FUNCTIONS.Insert_User;
 import SSS_SERVER_FUNCTIONS.Insert_Voice_Note;
 import SSS_SERVER_FUNCTIONS.Login;
 import SSS_SERVER_FUNCTIONS.Return_Accuracy_Users;
+import SSS_SERVER_FUNCTIONS.Return_Current_Num_Images;
 import SSS_SERVER_FUNCTIONS.Return_Images_For_Mobile;
 import SSS_SERVER_FUNCTIONS.Return_Train_Models;
 import SSS_SERVER_FUNCTIONS.Return_Train_Models_VN;
@@ -127,6 +128,10 @@ public class Client_Handler implements Runnable{
 							break;
 						case "GET_DEVICE_MAC":
 							Get_Device_Mac();
+							processing = false;
+							break;
+						case "GET_CURRENT_NUM_IMAGES":
+							Get_Current_Num_Images();
 							processing = false;
 							break;
 					}
@@ -1714,5 +1719,17 @@ public class Client_Handler implements Runnable{
 			e.printStackTrace();
 		}
 
+	}
+	private void Get_Current_Num_Images()
+	{
+		try
+		{
+			Return_Current_Num_Images num = new Return_Current_Num_Images();
+			sendMessage(num.do_The_Work(URL).split(",")[1]);
+		}
+		catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

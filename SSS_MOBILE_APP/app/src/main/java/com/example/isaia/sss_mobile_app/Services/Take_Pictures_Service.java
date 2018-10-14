@@ -1,9 +1,14 @@
 package com.example.isaia.sss_mobile_app.Services;
 
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.hardware.Camera;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Environment;
@@ -14,6 +19,9 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.example.isaia.sss_mobile_app.Database.DBHelper;
+import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Count_Images;
+import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Get_Current_Num_Images;
+import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Get_Device_Mac;
 import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Insert_Image_;
 
 import java.io.File;
@@ -29,6 +37,7 @@ public class Take_Pictures_Service extends Service {
     private String User_Name;
     private String Password;
     private String file_Name;
+    private boolean this_Persons_this_Device;
 
     @Nullable
     @Override
@@ -46,7 +55,7 @@ public class Take_Pictures_Service extends Service {
         User_Name = mydb.User_Name();
         Password = mydb.Password();
         capture = true;
-
+        this_Persons_this_Device = false;
 
         try {
 
@@ -55,19 +64,28 @@ public class Take_Pictures_Service extends Service {
                 public void run() {
                     // TODO Auto-generated method stub
                     super.run();
-                    int upload_Interval = Integer.parseInt(mydb.Get_Image_Upload_Interval()) * 60;    //Converting minutes to seconds
+                    int upload_Interval = Integer.parseInt(mydb.Get_Image_Upload_Interval())* 60;    //Converting minutes to seconds
 
                     while (capture == true) {
                         try {
-                            PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
-                            boolean result= Build.VERSION.SDK_INT>= Build.VERSION_CODES.KITKAT_WATCH&&powerManager.isInteractive()|| Build.VERSION.SDK_INT< Build.VERSION_CODES.KITKAT_WATCH&&powerManager.isScreenOn();
-                            if(result == true && upload_Interval == 0)
+                            if(upload_Interval == 0 && haveNetworkConnection() == true )
                             {
-                                mCamera = getCameraInstance();
-                                sleep(6000);
-                                mCamera.takePicture(null, null,mPicture);
-                                mCamera = null;
-                                upload_Interval = Integer.parseInt(mydb.Get_Image_Upload_Interval()) * 60;
+                                Get_Current_Num_Images num = new Get_Current_Num_Images();
+                                int num_Images = Integer.parseInt(num.Do_The_work());
+                                Count_Images count_Im = new Count_Images();
+                                int count = Integer.parseInt(count_Im.Do_The_work(Password));
+                                check_MAC check_Asy = new check_MAC();
+                                check_Asy.execute();
+                                PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
+                                boolean result= Build.VERSION.SDK_INT>= Build.VERSION_CODES.KITKAT_WATCH&&powerManager.isInteractive()|| Build.VERSION.SDK_INT< Build.VERSION_CODES.KITKAT_WATCH&&powerManager.isScreenOn();
+                                if(result == true  && count < num_Images && this_Persons_this_Device == true)
+                                {
+                                    mCamera = getCameraInstance();
+                                    sleep(6000);
+                                    mCamera.takePicture(null, null,mPicture);
+                                    mCamera = null;
+                                    upload_Interval = Integer.parseInt(mydb.Get_Image_Upload_Interval())* 60;
+                                }
                             }
                             sleep(1000);
                             if(upload_Interval > 0)
@@ -86,7 +104,22 @@ public class Take_Pictures_Service extends Service {
         }
         return START_STICKY;
     }
+    private boolean haveNetworkConnection() {
+        boolean haveConnectedWifi = false;
+        boolean haveConnectedMobile = false;
 
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo[] netInfo = cm.getAllNetworkInfo();
+        for (NetworkInfo ni : netInfo) {
+            if (ni.getTypeName().equalsIgnoreCase("WIFI"))
+                if (ni.isConnected())
+                    haveConnectedWifi = true;
+            if (ni.getTypeName().equalsIgnoreCase("MOBILE"))
+                if (ni.isConnected())
+                    haveConnectedMobile = true;
+        }
+        return haveConnectedWifi || haveConnectedMobile;
+    }
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -197,6 +230,48 @@ public class Take_Pictures_Service extends Service {
         return mediaFile;
     }
 
+    private class check_MAC extends AsyncTask<String, Void, String> {
+        @Override
+        protected void onPreExecute() {
+            //if you want, start progress dialog here
+        }
+        @Override
+        protected String doInBackground(String... urls) {
+            String response = "";
+            try
+            {
+                WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+                WifiInfo wInfo = wifiManager.getConnectionInfo();
+                String macAddress = wInfo.getMacAddress();
+                Get_Device_Mac mac_String = new Get_Device_Mac();
+                response = mac_String.Do_The_work(macAddress);
+            }
+            catch (Exception ex)
+            {
+                response =  "Error: "+ex.getMessage();
+            }
+            return  response;
+        }
+        @Override
+        protected void onPostExecute(String result) {
+            try
+            {
+                if(result.split(",")[2].equals(Password))
+                {
+                    this_Persons_this_Device = true;
+                }
+                else
+                {
+                    this_Persons_this_Device = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                Toast.makeText(getApplicationContext(),ex.getLocalizedMessage(),Toast.LENGTH_LONG).show();
+            }
+
+        }
+    }
 
     private class insert_image_asy extends AsyncTask<String, Void, String> {
 
