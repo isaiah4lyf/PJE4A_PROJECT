@@ -8,6 +8,8 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.hardware.Camera;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -88,14 +90,22 @@ public class Predict_User_Service extends Service{
                             }
                             PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
                             boolean result= Build.VERSION.SDK_INT>= Build.VERSION_CODES.KITKAT_WATCH&&powerManager.isInteractive()|| Build.VERSION.SDK_INT< Build.VERSION_CODES.KITKAT_WATCH&&powerManager.isScreenOn();
-                            if(result == true && predict_Interval == 0 && vn_pred_serviceRunning == false)
+                            if(haveNetworkConnection() == true)
                             {
-                                mCamera = getCameraInstance();
-                                sleep(3000);
-                                mCamera.takePicture(null, null,mPicture);
-                                mCamera = null;
-                                predict_Interval = Integer.parseInt(mydb.Get_Image_Verification_Interval());
+                                if(result == true && predict_Interval == 0 && vn_pred_serviceRunning == false)
+                                {
+                                    mCamera = getCameraInstance();
+                                    sleep(3000);
+                                    mCamera.takePicture(null, null,mPicture);
+                                    mCamera = null;
+                                    predict_Interval = Integer.parseInt(mydb.Get_Image_Verification_Interval());
+                                }
                             }
+                            else
+                            {
+                                // Take pictures for offline here and upload later when the device is online
+                            }
+
                             if(result == false)
                             {
                                 invalidPrediction = 0;
@@ -127,7 +137,22 @@ public class Predict_User_Service extends Service{
         capture = false;
         stopService(new Intent(getApplicationContext(), Predict_User_Service_VN.class));
     }
+    private boolean haveNetworkConnection() {
+        boolean haveConnectedWifi = false;
+        boolean haveConnectedMobile = false;
 
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo[] netInfo = cm.getAllNetworkInfo();
+        for (NetworkInfo ni : netInfo) {
+            if (ni.getTypeName().equalsIgnoreCase("WIFI"))
+                if (ni.isConnected())
+                    haveConnectedWifi = true;
+            if (ni.getTypeName().equalsIgnoreCase("MOBILE"))
+                if (ni.isConnected())
+                    haveConnectedMobile = true;
+        }
+        return haveConnectedWifi || haveConnectedMobile;
+    }
     //camera Code
     // A safe way to get an instance of the Camera object.
     public static Camera getCameraInstance(){

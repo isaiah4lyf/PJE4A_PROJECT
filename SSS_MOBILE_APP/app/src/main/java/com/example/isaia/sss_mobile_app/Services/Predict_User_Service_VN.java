@@ -57,6 +57,7 @@ public class Predict_User_Service_VN extends Service implements RecordingSampler
                     mRecordingSampler.startRecording();
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
                     mRecordingSampler.stopRecording();
+                    recordButton.setEnabled(false);
                 }
                 return false;
             }

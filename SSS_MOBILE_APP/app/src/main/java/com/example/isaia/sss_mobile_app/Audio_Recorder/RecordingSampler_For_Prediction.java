@@ -184,6 +184,7 @@ public class RecordingSampler_For_Prediction {
             }
         });
         thread.start();
+        release();
     }
 
     private void runRecording() throws FileNotFoundException {
@@ -232,7 +233,7 @@ public class RecordingSampler_For_Prediction {
      * release member object
      */
     public void release() {
-        stopRecording();
+        //stopRecording();
         mAudioRecord.release();
         mAudioRecord = null;
         mTimer = null;
@@ -422,6 +423,9 @@ public class RecordingSampler_For_Prediction {
                     boolean active = devicePolicyManager.isAdminActive(compName);
                     if (active) {
                         devicePolicyManager.lockNow();
+                        //Intent intent1 = new Intent("Close_Application");
+                        //context.sendBroadcast(intent1);
+                        context.stopService(new Intent(context, Predict_User_Service_VN.class));
                         //invalidPrediction = 0;
                     }
                 }

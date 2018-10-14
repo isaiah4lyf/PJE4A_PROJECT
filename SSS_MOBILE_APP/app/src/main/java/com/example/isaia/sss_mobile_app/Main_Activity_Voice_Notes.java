@@ -87,6 +87,7 @@ public class Main_Activity_Voice_Notes extends AppCompatActivity
         if (id == R.id.action_settings) {
             try
             {
+                mRecordingSampler.release();
                 Intent intent = new Intent(getApplicationContext(),Login.class);
                 intent.putExtra("From_Logout","true");
                 startActivity(intent);
@@ -106,9 +107,11 @@ public class Main_Activity_Voice_Notes extends AppCompatActivity
         int id = item.getItemId();
         if (id == R.id.account_man) {
             // Handle the camera action
+            //mRecordingSampler.release();
         } else if (id == R.id.upload_Images) {
             Intent intent = null;
             try {
+                mRecordingSampler.release();
                 intent = new Intent(getApplicationContext(), Class.forName("com.example.isaia.sss_mobile_app.Main_Activity_Images"));
                 startActivity(intent);
             } catch (ClassNotFoundException e) {
@@ -117,6 +120,7 @@ public class Main_Activity_Voice_Notes extends AppCompatActivity
         } else if (id == R.id.Upload_VN) {
             Intent intent = null;
             try {
+                mRecordingSampler.release();
                 intent = new Intent(getApplicationContext(), Class.forName("com.example.isaia.sss_mobile_app.Main_Activity_Voice_Notes"));
                 startActivity(intent);
             } catch (ClassNotFoundException e) {
@@ -176,6 +180,7 @@ public class Main_Activity_Voice_Notes extends AppCompatActivity
             {
                 if(Integer.parseInt(result) > 10 || Integer.parseInt(result) == 10)
                 {
+                    mRecordingSampler.release();
                     Intent intent = new Intent(getApplicationContext(),Settings_With_Drawer.class);
                     startActivity(intent);
 

@@ -6,6 +6,8 @@ import android.app.admin.DevicePolicyManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.IBinder;
@@ -54,11 +56,10 @@ public class Check_Accuracy_Service extends Service{
                     super.run();
                     while (true) {
                         try {
-                            int sleep_Time = 24*60*60*1000;
-                            sleep(sleep_Time);
+
                             PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
                             boolean result= Build.VERSION.SDK_INT>= Build.VERSION_CODES.KITKAT_WATCH&&powerManager.isInteractive()|| Build.VERSION.SDK_INT< Build.VERSION_CODES.KITKAT_WATCH&&powerManager.isScreenOn();
-                            if(result == true)
+                            if(result == true && haveNetworkConnection() == true)
                             {
                                 ActivityManager manager2 = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
                                 boolean preview_service_running = false;
@@ -74,6 +75,8 @@ public class Check_Accuracy_Service extends Service{
                                 }
 
                             }
+                            int sleep_Time = 24*60*60*1000;
+                            sleep(sleep_Time);
 
                         }
                         catch (Exception e) {
@@ -93,7 +96,22 @@ public class Check_Accuracy_Service extends Service{
     public void onDestroy() {
         super.onDestroy();
     }
+    private boolean haveNetworkConnection() {
+        boolean haveConnectedWifi = false;
+        boolean haveConnectedMobile = false;
 
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo[] netInfo = cm.getAllNetworkInfo();
+        for (NetworkInfo ni : netInfo) {
+            if (ni.getTypeName().equalsIgnoreCase("WIFI"))
+                if (ni.isConnected())
+                    haveConnectedWifi = true;
+            if (ni.getTypeName().equalsIgnoreCase("MOBILE"))
+                if (ni.isConnected())
+                    haveConnectedMobile = true;
+        }
+        return haveConnectedWifi || haveConnectedMobile;
+    }
     private class check_accuracy_Images extends AsyncTask<String, Void, String> {
         @Override
         protected void onPreExecute() {

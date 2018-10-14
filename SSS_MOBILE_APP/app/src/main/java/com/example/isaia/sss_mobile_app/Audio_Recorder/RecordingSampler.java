@@ -169,6 +169,7 @@ public class RecordingSampler {
             }
         });
         thread.start();
+
     }
 
     private void runRecording() throws FileNotFoundException {
@@ -217,7 +218,7 @@ public class RecordingSampler {
      * release member object
      */
     public void release() {
-        stopRecording();
+        //stopRecording();
         mAudioRecord.release();
         mAudioRecord = null;
         mTimer = null;

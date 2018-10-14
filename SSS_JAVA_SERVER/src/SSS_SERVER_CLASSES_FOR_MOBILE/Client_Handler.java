@@ -918,7 +918,7 @@ public class Client_Handler implements Runnable{
 			if(models_string2.length > 1)
 			{
 				String model_ID = models_string2[models_string2.length - 1].split(",")[0];
-				Return_Users_In_Model users = new Return_Users_In_Model();
+				Return_Users_In_Model_VN users = new Return_Users_In_Model_VN();
 				String[] users_string = users.Do_The_Work(URL,model_ID);
 				
 				Return_User_With_ID current_user = new Return_User_With_ID();
@@ -1039,7 +1039,7 @@ public class Client_Handler implements Runnable{
 			if(exception4 == 1.0)
 			{
 				audio2.delete();
-				sendMessage("Invalid Image");
+				sendMessage("Invalid Voice Note....");
 			}
 			else
 			{
@@ -1139,14 +1139,41 @@ public class Client_Handler implements Runnable{
 		
 		Return_Train_Models models = new Return_Train_Models();
 		String[] models_string = models.Do_The_Work(URL);
+		int num_Models = 1;
+		if(models_string.length > 1)
+		{
+			String model_ID = models_string[models_string.length - 1].split(",")[0];
+			Return_Users_In_Model users = new Return_Users_In_Model();
+			String[] users_string = users.Do_The_Work(URL,model_ID);
+			
+			Return_User_With_ID current_user = new Return_User_With_ID();
+			String current_user_String = current_user.do_The_Work(URL, Variables_Array[0]);
+			
+			if(Integer.parseInt(current_user_String.split(",")[2]) == Integer.parseInt(models_string[models_string.length - 1].split(",")[0]))
+			{
+				num_Models = models_string.length;
+			}
+			else 
+			{
+				if(users_string.length > 2)
+				{
+					num_Models = models_string.length;
+				}
+				else
+				{
+					num_Models = models_string.length - 1;
+				}
+			}
 
-		int[] results = new int[models_string.length];
-		List<Integer> fet_Match = new ArrayList<Integer>(models_string.length);
-		List<Double> model_Match_Accuracy = new ArrayList<Double>(models_string.length);
+		}
+		
+		int[] results = new int[num_Models];
+		List<Integer> fet_Match = new ArrayList<Integer>(num_Models);
+		List<Double> model_Match_Accuracy = new ArrayList<Double>(num_Models);
 		
 		File image2 = null;
 		
-		for (int i = 0; i < models_string.length; i++)
+		for (int i = 0; i < num_Models; i++)
 		{
 			String model_ID = models_string[i].split(",")[0];
 			Return_Users_In_Model users = new Return_Users_In_Model();

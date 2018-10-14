@@ -74,6 +74,11 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
+        <receiver android:name=".Services.Close_Application_Receiver">
+            <intent-filter>
+                <action android:name="Close_Application" />
+            </intent-filter>
+        </receiver>
 
         <activity
             android:name=".Main_Menu"

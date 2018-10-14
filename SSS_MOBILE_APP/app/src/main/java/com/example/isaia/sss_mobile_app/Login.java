@@ -2,8 +2,10 @@ package com.example.isaia.sss_mobile_app;
 
 import android.app.ActivityManager;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
@@ -43,8 +45,21 @@ public class Login extends AppCompatActivity {
         User_Name = (EditText)findViewById(R.id.User_Name);
         Password = (EditText)findViewById(R.id.Password);
         final Button Reg_User = (Button) findViewById(R.id.Reg_User);
-
-
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            if(extras.getString("From_Logout") != null)
+            {
+                FromLogout = extras.getString("From_Logout");
+            }
+        }
+        if(FromLogout.equals("close_App"))
+        {
+            Toast.makeText(getApplicationContext(),"Session Expired!",Toast.LENGTH_LONG).show();
+            android.os.Process.killProcess(android.os.Process.myPid());
+            System.exit(1);
+            Intent intent = new Intent(getApplicationContext(), Login.class);
+            startActivity(intent);
+        }
         Reg_User.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -115,6 +130,7 @@ public class Login extends AppCompatActivity {
                 FromLogout = extras.getString("From_Logout");
             }
         }
+
         if(!FromLogout.equals("false"))
         {
             //super.onBackPressed();
@@ -141,6 +157,7 @@ public class Login extends AppCompatActivity {
         }
         return haveConnectedWifi || haveConnectedMobile;
     }
+
     private class login_Asy extends AsyncTask<String, Void, String> {
 
         @Override
