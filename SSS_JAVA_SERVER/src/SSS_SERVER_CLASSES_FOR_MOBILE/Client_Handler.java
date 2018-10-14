@@ -364,11 +364,53 @@ public class Client_Handler implements Runnable{
 			}
 			else
 			{
+				Return_Images_For_Mobile images_class = new Return_Images_For_Mobile();
+				String[] images = images_class.Do_The_Work(URL);
+				int count = 0;
+				if(images != null)
+				{
+					for(int i = 0; i < images.length; i++)
+					{
+						if(user_ID_.equals(images[i].split(",")[2]))
+						{
+							count++;
+						}
+					}
+				}
+				if(count <= 10)
+				{
+					Insert_Image_To_First_Version(user_ID_,user_name,title,model_Name_Tokens[0],model_Name_Tokens[1]);
+				}
 				sendMessage("Upload Successful");
 				Insert_Image insert_class = new Insert_Image();
 				console_Like.append(insert_class.do_The_Work(URL,user_ID_,image.getName())+"\n");
 				
 			}
+			
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+	}
+	private void Insert_Image_To_First_Version(String user_ID_, String user_name,String title, String model_Name_Tokens0, String model_Name_Tokens1)
+	{
+
+		try {
+
+			File image = new File("data/MATLAB_TRAIN_DATA/"+user_name+"/"+title);
+			matEng.eval("image_Path = '"+ image.getAbsolutePath().toString()+"'",null,null);
+			matEng.eval("user_ID = "+user_ID_,null,null);
+			matEng.eval("image1 = imread(image_Path);",null,null);
+			matEng.eval("I1 = image1;",null,null);		
+			String Matlab_Path = new File(".").getCanonicalPath() + "/data";
+			int model_Version =  11;
+			String ML_features_Database = Matlab_Path + "/MATLAB_TRAIN_DATA/" + model_Name_Tokens0 +"_" + model_Name_Tokens1 + "_" + model_Version+ ".mat";
+			String ML_features_Database2 = Matlab_Path + "/MATLAB_TRAIN_DATA/" + model_Name_Tokens0 +"_" + model_Name_Tokens1 + "_" + model_Version+ ".mat";						
+			matEng.eval("path = '"+ML_features_Database+"'",null,null);
+			matEng.eval("path2 = '"+ML_features_Database2+"'",null,null);
+			matEng.eval("run('" + Matlab_Path + "/MATLAB_SCRIPTS/Update_Training_Data11.m')",null,null);
+
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
