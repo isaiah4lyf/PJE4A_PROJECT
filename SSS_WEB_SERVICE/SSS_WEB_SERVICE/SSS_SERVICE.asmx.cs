@@ -274,7 +274,42 @@ namespace SSS_WEB_SERVICE
 			}
 		}
 
-		//IMAGE PROCESSING METHODS
+
+		//IMAGE PROCESSING 
+		[WebMethod]
+		public string INSERT_NUM_IMAGES(string num_Images)
+		{
+			List<Current_Num_Image> num = (from Current_Num_Image in linq.Current_Num_Images
+										   select Current_Num_Image).ToList();
+			if(num.Count == 0)
+			{
+				Current_Num_Image num_tab = new Current_Num_Image();
+				num_tab.Number = Convert.ToInt32(num_Images);
+				linq.Current_Num_Images.InsertOnSubmit(num_tab);
+				linq.SubmitChanges();
+				return "true";
+			}
+			return "false";
+		}
+		[WebMethod]
+		public string UPDATE_NUM_IMAGES(string Incr_Num)
+		{
+			List<Current_Num_Image> num = (from Current_Num_Image in linq.Current_Num_Images
+										   select Current_Num_Image).ToList();
+			Current_Num_Image new_Num = (from Current_Num_Image in linq.Current_Num_Images
+										 where Current_Num_Image.Id == num.ElementAt(0).Id
+										 select Current_Num_Image).First();
+			new_Num.Number = num.ElementAt(0).Number + Convert.ToInt32(Incr_Num);
+			linq.SubmitChanges();
+			return "true";
+		}
+		[WebMethod]
+		public string RETURN_CURRENT_NUM_IMAGES()
+		{
+			List<Current_Num_Image> num = (from Current_Num_Image in linq.Current_Num_Images
+										   select Current_Num_Image).ToList();
+			return num.ElementAt(0).Id + "," + num.ElementAt(0).Number;
+		}
 		[WebMethod]
 		public string INSERT_IMAGE(string user_ID, string image_Path)
 		{

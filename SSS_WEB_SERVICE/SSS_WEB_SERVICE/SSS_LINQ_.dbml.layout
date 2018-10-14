@@ -50,5 +50,11 @@
         <elementListCompartment Id="fcba6051-3d61-417a-a10f-7439b456e341" absoluteBounds="2.89, 4.835, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
+    <classShape Id="8602ab52-94bf-42ce-bc23-801830d6fa8f" absoluteBounds="5.125, 4.5, 2, 1.1939925130208333">
+      <DataClassMoniker Name="/SSS_LINQ_DataContext/Current_Num_Image" />
+      <nestedChildShapes>
+        <elementListCompartment Id="c7e75ba4-7ff1-45e0-b4a4-9c43fd9aee53" absoluteBounds="5.14, 4.96, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
   </nestedChildShapes>
 </ordesignerObjectsDiagram>

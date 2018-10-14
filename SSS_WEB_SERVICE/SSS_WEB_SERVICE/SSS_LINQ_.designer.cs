@@ -54,6 +54,9 @@ namespace SSS_WEB_SERVICE
     partial void InsertDevices_Mac(Devices_Mac instance);
     partial void UpdateDevices_Mac(Devices_Mac instance);
     partial void DeleteDevices_Mac(Devices_Mac instance);
+    partial void InsertCurrent_Num_Image(Current_Num_Image instance);
+    partial void UpdateCurrent_Num_Image(Current_Num_Image instance);
+    partial void DeleteCurrent_Num_Image(Current_Num_Image instance);
     #endregion
 		
 		public SSS_LINQ_DataContext() : 
@@ -147,6 +150,14 @@ namespace SSS_WEB_SERVICE
 			get
 			{
 				return this.GetTable<Devices_Mac>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Current_Num_Image> Current_Num_Images
+		{
+			get
+			{
+				return this.GetTable<Current_Num_Image>();
 			}
 		}
 	}
@@ -1222,6 +1233,92 @@ namespace SSS_WEB_SERVICE
 					this._User_ID = value;
 					this.SendPropertyChanged("User_ID");
 					this.OnUser_IDChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Current_Num_Images")]
+	public partial class Current_Num_Image : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private System.Nullable<int> _Number;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnNumberChanging(System.Nullable<int> value);
+    partial void OnNumberChanged();
+    #endregion
+		
+		public Current_Num_Image()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Number", DbType="Int")]
+		public System.Nullable<int> Number
+		{
+			get
+			{
+				return this._Number;
+			}
+			set
+			{
+				if ((this._Number != value))
+				{
+					this.OnNumberChanging(value);
+					this.SendPropertyChanging();
+					this._Number = value;
+					this.SendPropertyChanged("Number");
+					this.OnNumberChanged();
 				}
 			}
 		}

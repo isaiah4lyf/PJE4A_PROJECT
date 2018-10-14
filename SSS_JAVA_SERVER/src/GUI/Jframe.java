@@ -13,13 +13,16 @@ import javax.swing.JPanel;
 
 import com.mathworks.engine.MatlabEngine;
 import SSS_SERVER_CLASSES_FOR_MOBILE.Server_Class;
+import SSS_SERVER_FUNCTIONS.Insert_Num_Images;
 import SSS_SERVER_FUNCTIONS.Return_Accuracy_Users;
+import SSS_SERVER_FUNCTIONS.Return_Current_Num_Images;
 import SSS_SERVER_FUNCTIONS.Return_Train_Models;
 import SSS_SERVER_FUNCTIONS.Return_Train_Models_VN;
 import SSS_SERVER_FUNCTIONS.Return_Users_In_Model;
 import SSS_SERVER_FUNCTIONS.Return_Users_In_Model_VN;
 import SSS_SERVER_FUNCTIONS.Train_Images_Model;
 import SSS_SERVER_FUNCTIONS.Update_Accuracy_Users;
+import SSS_SERVER_FUNCTIONS.Update_Num_Images;
 
 public class Jframe extends JFrame{
 	/**
@@ -285,7 +288,39 @@ public class Jframe extends JFrame{
             }
         });
         thread.start();
+        
+        Thread keep_track_num_img = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+            		try 
+            		{
+            			Insert_Num_Images insert_Num = new Insert_Num_Images();
+            			String insert_String = insert_Num.do_The_Work(URL, "10");
+            			System.out.println(insert_String);
+            			while(true)
+            			{
+            				Return_Current_Num_Images num = new Return_Current_Num_Images();
+            				System.out.println(num.do_The_Work(URL));
+            				
+                			System.out.println("Upload data");
+                			Thread.sleep(10000);
+                			Update_Num_Images update_Num = new Update_Num_Images();
+                			String update_String = update_Num.do_The_Work(URL, "3");
+                			System.out.println(update_String);
+            			}
 
+            		} catch (Exception e) {
+            			// TODO Auto-generated catch block
+            			e.printStackTrace();
+            		}
+                }
+                catch (Exception ex)
+                {
+                }
+            }
+        });
+        keep_track_num_img.start();
 	}
 
 }
