@@ -619,7 +619,97 @@ public class Client_Handler implements Runnable{
 				update_Class_pred.do_The_Work(URL, users_String[i].split(",")[0],"0", accuString_each[3], accuString_each[4], accuString_each[5]);
 
 			}
+			System.out.println("Training first model version....");
+			Train_Images_Model_First_Version(user_ID);
+			sendMessage("Training Model..");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
+	}
+	private void Train_Images_Model_First_Version(String user_ID)
+	{
+
+		try {
+
+			Train_Images_Model train_model = new Train_Images_Model();
+			String[] response_Tokens = train_model.do_The_Work(URL, user_ID).split(",");
+			System.out.println(response_Tokens[0]);
+			if (response_Tokens.length-1  == 4)
+			{
+				matEng.eval("class_1 = "+Integer.parseInt(response_Tokens[1]),null,null);
+				matEng.eval("class_2 = "+Integer.parseInt(response_Tokens[2]),null,null);
+				matEng.eval("class_3 = "+Integer.parseInt(response_Tokens[3]),null,null);
+				matEng.eval("class_4 = "+Integer.parseInt(response_Tokens[4]),null,null);
+			}
+			else if (response_Tokens.length-1 == 3)
+			{
+				matEng.eval("class_1 = "+Integer.parseInt(response_Tokens[1]),null,null);
+				matEng.eval("class_2 = "+Integer.parseInt(response_Tokens[2]),null,null);
+				matEng.eval("class_3 = "+Integer.parseInt(response_Tokens[3]),null,null);
+				matEng.eval("class_4 = "+Integer.parseInt(response_Tokens[3]+1),null,null);
+
+			}
+			else if (response_Tokens.length-1 == 2)
+			{
+				matEng.eval("class_1 = "+Integer.parseInt(response_Tokens[1]),null,null);
+				matEng.eval("class_2 = "+Integer.parseInt(response_Tokens[2]),null,null);
+				matEng.eval("class_3 = "+Integer.parseInt(response_Tokens[2]+1),null,null);
+				matEng.eval("class_4 = "+Integer.parseInt(response_Tokens[2]+2),null,null);
+			}
+			else
+			{
+				matEng.eval("class_1 = "+Integer.parseInt(response_Tokens[1]),null,null);
+				matEng.eval("class_2 = "+Integer.parseInt(response_Tokens[1]+2),null,null);
+				matEng.eval("class_3 = "+Integer.parseInt(response_Tokens[1]+3),null,null);
+				matEng.eval("class_4 = "+Integer.parseInt(response_Tokens[1]+4),null,null);
+
+			}	
+			Return_User_With_ID user = new Return_User_With_ID();
+			String[] user_Tokens = user.do_The_Work(URL, user_ID).split(",");
+			Return_Users_In_Model users = new Return_Users_In_Model();
+			String[] users_Array = users.Do_The_Work(URL, user_Tokens[2]);
+			Return_Images_For_Mobile images_class = new Return_Images_For_Mobile();
+			String[] images = images_class.Do_The_Work(URL);
+			boolean found_Match = false;
+			int model_Version = 11;
+			for(int j = 0; j < users_Array.length; j++)
+			{
+				int count = 0;
+				if(images != null)
+				{
+					int index = 0;
+					for(int i = 0; i < images.length; i++)
+					{
+						
+						if(users_Array[(users_Array.length - 1) - j].split(",")[0].equals(images[i].split(",")[2]) && !users_Array[(users_Array.length - 1) - j].split(",")[0].equals(user_ID))
+						{
+							index = i;
+							count++;
+						}
+					}
+					if(count >= 10)
+					{
+						model_Version = Integer.parseInt(images[index].split(",")[3]);
+						found_Match = true;
+					}
+				}
+				if(found_Match == true)
+				{
+					break;
+				}
+				count = 0;
+			}
+			System.out.println(model_Version);
+			String model_Name = response_Tokens[0].split("_")[0] + "_" + response_Tokens[0].split("_")[1] + "_" + model_Version;
+			String ML_features_Database_train = Matlab_Path_train + "/MATLAB_TRAIN_DATA/" + model_Name + ".mat";			
+			matEng.eval("path = '"+ML_features_Database_train+"'",null,null);
+			String Trained_Model_File = Matlab_Path_train + "/MATLAB_TRAINED_MODELS/" + model_Name + ".mat";
+			matEng.eval("path2 = '"+Trained_Model_File+"'",null,null);
+			matEng.eval("run('" + Matlab_Path_train + "/MATLAB_SCRIPTS/RUN_ESS5.m')",null,null);
+			
+			
 			sendMessage("Training Model..");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
