@@ -377,9 +377,13 @@ public class Client_Handler implements Runnable{
 						}
 					}
 				}
-				if(count <= 10)
+				Return_User_With_ID user = new Return_User_With_ID();
+				String[] user_Tokens = user.do_The_Work(URL, user_ID_).split(",");
+				Return_Users_In_Model users = new Return_Users_In_Model();
+				String[] users_Array = users.Do_The_Work(URL, user_Tokens[2]);
+				if(count <= 10 && users_Array.length > 1)
 				{
-					Insert_Image_To_First_Version(user_ID_,user_name,title,model_Name_Tokens[0],model_Name_Tokens[1]);
+					Insert_Image_To_First_Version(user_ID_,user_name,title,model_Name_Tokens[0],model_Name_Tokens[1],users_Array);
 				}
 				sendMessage("Upload Successful");
 				Insert_Image insert_class = new Insert_Image();
@@ -393,7 +397,7 @@ public class Client_Handler implements Runnable{
 		}
 		
 	}
-	private void Insert_Image_To_First_Version(String user_ID_, String user_name,String title, String model_Name_Tokens0, String model_Name_Tokens1)
+	private void Insert_Image_To_First_Version(String user_ID_, String user_name,String title, String model_Name_Tokens0, String model_Name_Tokens1,String[] users_Array)
 	{
 
 		try {
@@ -404,23 +408,40 @@ public class Client_Handler implements Runnable{
 			matEng.eval("image1 = imread(image_Path);",null,null);
 			matEng.eval("I1 = image1;",null,null);		
 			String Matlab_Path = new File(".").getCanonicalPath() + "/data";
-			int model_Version =  11;
-			Return_User_With_ID user = new Return_User_With_ID();
-			String[] user_Tokens = user.do_The_Work(URL, user_ID_).split(",");
-			Return_Users_In_Model users = new Return_Users_In_Model();
-			String[] users_Array = users.Do_The_Work(URL, user_Tokens[2]);
-			if(users_Array.length == 2)
+			int model_Version =  11;		
+
+		
+			Return_Images_For_Mobile images_class = new Return_Images_For_Mobile();
+			String[] images = images_class.Do_The_Work(URL);
+			boolean found_Match = false;
+			for(int j = 0; j < users_Array.length; j++)
 			{
-				model_Version = 22;
+				int count = 0;
+				if(images != null)
+				{
+					int index = 0;
+					for(int i = 0; i < images.length; i++)
+					{
+						
+						if(users_Array[(users_Array.length - 1) - j].split(",")[0].equals(images[i].split(",")[2]))
+						{
+							index = i;
+							count++;
+						}
+					}
+					if(count >= 10)
+					{
+						model_Version = Integer.parseInt(images[index].split(",")[3]);
+						found_Match = true;
+					}
+				}
+				if(found_Match == true)
+				{
+					break;
+				}
+				count = 0;
 			}
-			else if(users_Array.length == 3)
-			{
-				model_Version = 33;
-			}
-			else if(users_Array.length == 4)
-			{
-				//model_Version = 44;
-			}
+			System.out.println(model_Version);
 			
 			String ML_features_Database = Matlab_Path + "/MATLAB_TRAIN_DATA/" + model_Name_Tokens0 +"_" + model_Name_Tokens1 + "_" + model_Version+ ".mat";
 			String ML_features_Database2 = Matlab_Path + "/MATLAB_TRAIN_DATA/" + model_Name_Tokens0 +"_" + model_Name_Tokens1 + "_" + model_Version+ ".mat";						
