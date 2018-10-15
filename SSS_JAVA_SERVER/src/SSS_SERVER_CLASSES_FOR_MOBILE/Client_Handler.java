@@ -383,7 +383,7 @@ public class Client_Handler implements Runnable{
 				}
 				sendMessage("Upload Successful");
 				Insert_Image insert_class = new Insert_Image();
-				console_Like.append(insert_class.do_The_Work(URL,user_ID_,image.getName())+"\n");
+				console_Like.append(insert_class.do_The_Work(URL,user_ID_,image.getName(),model_Name_Tokens[2])+"\n");
 				
 			}
 			
@@ -405,11 +405,28 @@ public class Client_Handler implements Runnable{
 			matEng.eval("I1 = image1;",null,null);		
 			String Matlab_Path = new File(".").getCanonicalPath() + "/data";
 			int model_Version =  11;
+			Return_User_With_ID user = new Return_User_With_ID();
+			String[] user_Tokens = user.do_The_Work(URL, user_ID_).split(",");
+			Return_Users_In_Model users = new Return_Users_In_Model();
+			String[] users_Array = users.Do_The_Work(URL, user_Tokens[2]);
+			if(users_Array.length == 2)
+			{
+				model_Version = 22;
+			}
+			else if(users_Array.length == 3)
+			{
+				model_Version = 33;
+			}
+			else if(users_Array.length == 4)
+			{
+				//model_Version = 44;
+			}
+			
 			String ML_features_Database = Matlab_Path + "/MATLAB_TRAIN_DATA/" + model_Name_Tokens0 +"_" + model_Name_Tokens1 + "_" + model_Version+ ".mat";
 			String ML_features_Database2 = Matlab_Path + "/MATLAB_TRAIN_DATA/" + model_Name_Tokens0 +"_" + model_Name_Tokens1 + "_" + model_Version+ ".mat";						
 			matEng.eval("path = '"+ML_features_Database+"'",null,null);
 			matEng.eval("path2 = '"+ML_features_Database2+"'",null,null);
-			matEng.eval("run('" + Matlab_Path + "/MATLAB_SCRIPTS/Update_Training_Data11.m')",null,null);
+			matEng.eval("run('" + Matlab_Path + "/MATLAB_SCRIPTS/Update_Training_Data_For_First_Version.m')",null,null);
 
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block

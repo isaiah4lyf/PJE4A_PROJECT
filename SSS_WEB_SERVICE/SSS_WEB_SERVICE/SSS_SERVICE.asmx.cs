@@ -311,12 +311,13 @@ namespace SSS_WEB_SERVICE
 			return num.ElementAt(0).Id + "," + num.ElementAt(0).Number;
 		}
 		[WebMethod]
-		public string INSERT_IMAGE(string user_ID, string image_Path)
+		public string INSERT_IMAGE(string user_ID, string image_Path,string model_Version)
 		{
 
 			Image image_Table = new Image();
 			image_Table.User_ID = Convert.ToUInt16(user_ID);
 			image_Table.Image_Path = image_Path;
+			image_Table.Model_Version = model_Version;
 			linq.Images.InsertOnSubmit(image_Table);
 			linq.SubmitChanges();
 
@@ -448,7 +449,7 @@ namespace SSS_WEB_SERVICE
 			string[] images_arr = new string[images.Count];
 			for(int i = 0; i < images.Count; i++)
 			{
-				images_arr[i] = images.ElementAt(i).Id + "," + images.ElementAt(i).Image_Path + "," + images.ElementAt(i).User_ID;
+				images_arr[i] = images.ElementAt(i).Id + "," + images.ElementAt(i).Image_Path + "," + images.ElementAt(i).User_ID + "," + images.ElementAt(i).Model_Version;
 			}
 			return images_arr;
 		}

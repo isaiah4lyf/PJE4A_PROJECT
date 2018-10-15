@@ -8,9 +8,7 @@ try
 	TF = isempty(face1);
 
 	if TF == 0
-		I = imcrop(I1,face1);
-		im=rgb2gray(I);
-		J = imresize(im, 5);
+		j = I1;
 
 		ptsOriginal = detectSURFFeatures(J);
 		imwrite(J,image_Path)
@@ -42,6 +40,7 @@ catch ME
         case 'MATLAB:UndefinedFunction'
         otherwise
             exception = 1
+			ME
     end
 end
 

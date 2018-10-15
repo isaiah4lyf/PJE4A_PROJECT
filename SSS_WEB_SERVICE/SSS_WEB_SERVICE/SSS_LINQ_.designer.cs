@@ -30,9 +30,6 @@ namespace SSS_WEB_SERVICE
 		
     #region Extensibility Method Definitions
     partial void OnCreated();
-    partial void InsertImage(Image instance);
-    partial void UpdateImage(Image instance);
-    partial void DeleteImage(Image instance);
     partial void InsertTrained_Model(Trained_Model instance);
     partial void UpdateTrained_Model(Trained_Model instance);
     partial void DeleteTrained_Model(Trained_Model instance);
@@ -57,6 +54,9 @@ namespace SSS_WEB_SERVICE
     partial void InsertCurrent_Num_Image(Current_Num_Image instance);
     partial void UpdateCurrent_Num_Image(Current_Num_Image instance);
     partial void DeleteCurrent_Num_Image(Current_Num_Image instance);
+    partial void InsertImage(Image instance);
+    partial void UpdateImage(Image instance);
+    partial void DeleteImage(Image instance);
     #endregion
 		
 		public SSS_LINQ_DataContext() : 
@@ -87,14 +87,6 @@ namespace SSS_WEB_SERVICE
 				base(connection, mappingSource)
 		{
 			OnCreated();
-		}
-		
-		public System.Data.Linq.Table<Image> Images
-		{
-			get
-			{
-				return this.GetTable<Image>();
-			}
 		}
 		
 		public System.Data.Linq.Table<Trained_Model> Trained_Models
@@ -160,114 +152,12 @@ namespace SSS_WEB_SERVICE
 				return this.GetTable<Current_Num_Image>();
 			}
 		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Images")]
-	public partial class Image : INotifyPropertyChanging, INotifyPropertyChanged
-	{
 		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _Id;
-		
-		private string _Image_Path;
-		
-		private System.Nullable<int> _User_ID;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnIdChanging(int value);
-    partial void OnIdChanged();
-    partial void OnImage_PathChanging(string value);
-    partial void OnImage_PathChanged();
-    partial void OnUser_IDChanging(System.Nullable<int> value);
-    partial void OnUser_IDChanged();
-    #endregion
-		
-		public Image()
-		{
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int Id
+		public System.Data.Linq.Table<Image> Images
 		{
 			get
 			{
-				return this._Id;
-			}
-			set
-			{
-				if ((this._Id != value))
-				{
-					this.OnIdChanging(value);
-					this.SendPropertyChanging();
-					this._Id = value;
-					this.SendPropertyChanged("Id");
-					this.OnIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Image_Path", DbType="NVarChar(MAX)")]
-		public string Image_Path
-		{
-			get
-			{
-				return this._Image_Path;
-			}
-			set
-			{
-				if ((this._Image_Path != value))
-				{
-					this.OnImage_PathChanging(value);
-					this.SendPropertyChanging();
-					this._Image_Path = value;
-					this.SendPropertyChanged("Image_Path");
-					this.OnImage_PathChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_User_ID", DbType="Int")]
-		public System.Nullable<int> User_ID
-		{
-			get
-			{
-				return this._User_ID;
-			}
-			set
-			{
-				if ((this._User_ID != value))
-				{
-					this.OnUser_IDChanging(value);
-					this.SendPropertyChanging();
-					this._User_ID = value;
-					this.SendPropertyChanged("User_ID");
-					this.OnUser_IDChanged();
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+				return this.GetTable<Image>();
 			}
 		}
 	}
@@ -1319,6 +1209,140 @@ namespace SSS_WEB_SERVICE
 					this._Number = value;
 					this.SendPropertyChanged("Number");
 					this.OnNumberChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Images")]
+	public partial class Image : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private string _Image_Path;
+		
+		private System.Nullable<int> _User_ID;
+		
+		private string _Model_Version;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnImage_PathChanging(string value);
+    partial void OnImage_PathChanged();
+    partial void OnUser_IDChanging(System.Nullable<int> value);
+    partial void OnUser_IDChanged();
+    partial void OnModel_VersionChanging(string value);
+    partial void OnModel_VersionChanged();
+    #endregion
+		
+		public Image()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Image_Path", DbType="NVarChar(MAX)")]
+		public string Image_Path
+		{
+			get
+			{
+				return this._Image_Path;
+			}
+			set
+			{
+				if ((this._Image_Path != value))
+				{
+					this.OnImage_PathChanging(value);
+					this.SendPropertyChanging();
+					this._Image_Path = value;
+					this.SendPropertyChanged("Image_Path");
+					this.OnImage_PathChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_User_ID", DbType="Int")]
+		public System.Nullable<int> User_ID
+		{
+			get
+			{
+				return this._User_ID;
+			}
+			set
+			{
+				if ((this._User_ID != value))
+				{
+					this.OnUser_IDChanging(value);
+					this.SendPropertyChanging();
+					this._User_ID = value;
+					this.SendPropertyChanged("User_ID");
+					this.OnUser_IDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Model_Version", DbType="NVarChar(MAX)")]
+		public string Model_Version
+		{
+			get
+			{
+				return this._Model_Version;
+			}
+			set
+			{
+				if ((this._Model_Version != value))
+				{
+					this.OnModel_VersionChanging(value);
+					this.SendPropertyChanging();
+					this._Model_Version = value;
+					this.SendPropertyChanged("Model_Version");
+					this.OnModel_VersionChanged();
 				}
 			}
 		}
