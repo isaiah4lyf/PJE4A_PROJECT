@@ -10,7 +10,7 @@ import javax.swing.JFrame;
 import GUI.Jframe;
 
 public class Main {
-	private static String URL = "http://192.168.0.137:8080/SSS_SERVICE.asmx";
+	private static String URL = "http://smartphonesecuritysystem.dedicated.co.za:8080/SSS_SERVICE.asmx";
 	public static void main(String[] args) {		
 		Jframe frame = new Jframe(URL);
 		frame.pack();

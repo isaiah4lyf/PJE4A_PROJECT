@@ -1,15 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="SSS_DATABASE_" Class="SSS_LINQ_DataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="WebSettings" ConnectionString="Data Source=.\SQLEXPRESS;Initial Catalog=SSS_DATABASE_;Integrated Security=True;Pooling=False" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="SSS_DATABASE_ConnectionString" Provider="System.Data.SqlClient" />
+  <Connection Mode="AppSettings" ConnectionString="Data Source=.\SQLEXPRESS;Initial Catalog=SSS_DATABASE_;Integrated Security=True;Pooling=False" SettingsObjectName="SSS_WEB_SERVICE.Properties.Settings" SettingsPropertyName="SSS_DATABASE_ConnectionString" Provider="System.Data.SqlClient" />
   <Table Name="dbo.Trained_Models" Member="Trained_Models">
     <Type Name="Trained_Model">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="Model_Name" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
-      <Column Name="Number_OF_Users" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="Model_Version" Type="System.Int32" DbType="Int" CanBeNull="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.Trained_Models_Interaction_Data" Member="Trained_Models_Interaction_Datas">
-    <Type Name="Trained_Models_Interaction_Data">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="Model_Name" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
       <Column Name="Number_OF_Users" Type="System.Int32" DbType="Int" CanBeNull="true" />

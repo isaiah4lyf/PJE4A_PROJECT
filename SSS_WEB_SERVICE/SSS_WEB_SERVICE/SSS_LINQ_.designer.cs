@@ -33,9 +33,6 @@ namespace SSS_WEB_SERVICE
     partial void InsertTrained_Model(Trained_Model instance);
     partial void UpdateTrained_Model(Trained_Model instance);
     partial void DeleteTrained_Model(Trained_Model instance);
-    partial void InsertTrained_Models_Interaction_Data(Trained_Models_Interaction_Data instance);
-    partial void UpdateTrained_Models_Interaction_Data(Trained_Models_Interaction_Data instance);
-    partial void DeleteTrained_Models_Interaction_Data(Trained_Models_Interaction_Data instance);
     partial void InsertTrained_Models_Voice_Note(Trained_Models_Voice_Note instance);
     partial void UpdateTrained_Models_Voice_Note(Trained_Models_Voice_Note instance);
     partial void DeleteTrained_Models_Voice_Note(Trained_Models_Voice_Note instance);
@@ -60,7 +57,7 @@ namespace SSS_WEB_SERVICE
     #endregion
 		
 		public SSS_LINQ_DataContext() : 
-				base(global::System.Configuration.ConfigurationManager.ConnectionStrings["SSS_DATABASE_ConnectionString"].ConnectionString, mappingSource)
+				base(global::SSS_WEB_SERVICE.Properties.Settings.Default.SSS_DATABASE_ConnectionString, mappingSource)
 		{
 			OnCreated();
 		}
@@ -94,14 +91,6 @@ namespace SSS_WEB_SERVICE
 			get
 			{
 				return this.GetTable<Trained_Model>();
-			}
-		}
-		
-		public System.Data.Linq.Table<Trained_Models_Interaction_Data> Trained_Models_Interaction_Datas
-		{
-			get
-			{
-				return this.GetTable<Trained_Models_Interaction_Data>();
 			}
 		}
 		
@@ -191,140 +180,6 @@ namespace SSS_WEB_SERVICE
     #endregion
 		
 		public Trained_Model()
-		{
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int Id
-		{
-			get
-			{
-				return this._Id;
-			}
-			set
-			{
-				if ((this._Id != value))
-				{
-					this.OnIdChanging(value);
-					this.SendPropertyChanging();
-					this._Id = value;
-					this.SendPropertyChanged("Id");
-					this.OnIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Model_Name", DbType="NVarChar(MAX)")]
-		public string Model_Name
-		{
-			get
-			{
-				return this._Model_Name;
-			}
-			set
-			{
-				if ((this._Model_Name != value))
-				{
-					this.OnModel_NameChanging(value);
-					this.SendPropertyChanging();
-					this._Model_Name = value;
-					this.SendPropertyChanged("Model_Name");
-					this.OnModel_NameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Number_OF_Users", DbType="Int")]
-		public System.Nullable<int> Number_OF_Users
-		{
-			get
-			{
-				return this._Number_OF_Users;
-			}
-			set
-			{
-				if ((this._Number_OF_Users != value))
-				{
-					this.OnNumber_OF_UsersChanging(value);
-					this.SendPropertyChanging();
-					this._Number_OF_Users = value;
-					this.SendPropertyChanged("Number_OF_Users");
-					this.OnNumber_OF_UsersChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Model_Version", DbType="Int")]
-		public System.Nullable<int> Model_Version
-		{
-			get
-			{
-				return this._Model_Version;
-			}
-			set
-			{
-				if ((this._Model_Version != value))
-				{
-					this.OnModel_VersionChanging(value);
-					this.SendPropertyChanging();
-					this._Model_Version = value;
-					this.SendPropertyChanged("Model_Version");
-					this.OnModel_VersionChanged();
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Trained_Models_Interaction_Data")]
-	public partial class Trained_Models_Interaction_Data : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _Id;
-		
-		private string _Model_Name;
-		
-		private System.Nullable<int> _Number_OF_Users;
-		
-		private System.Nullable<int> _Model_Version;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnIdChanging(int value);
-    partial void OnIdChanged();
-    partial void OnModel_NameChanging(string value);
-    partial void OnModel_NameChanged();
-    partial void OnNumber_OF_UsersChanging(System.Nullable<int> value);
-    partial void OnNumber_OF_UsersChanged();
-    partial void OnModel_VersionChanging(System.Nullable<int> value);
-    partial void OnModel_VersionChanged();
-    #endregion
-		
-		public Trained_Models_Interaction_Data()
 		{
 			OnCreated();
 		}

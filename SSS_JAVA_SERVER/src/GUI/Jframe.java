@@ -276,7 +276,7 @@ public class Jframe extends JFrame{
             		try 
             		{
             			matEng = MatlabEngine.startMatlab();
-            			new Server_Class(80,matEng,URL,console_Like);
+            			new Server_Class(8060,matEng,URL,console_Like);
             		} catch (Exception e) {
             			// TODO Auto-generated catch block
             			e.printStackTrace();
