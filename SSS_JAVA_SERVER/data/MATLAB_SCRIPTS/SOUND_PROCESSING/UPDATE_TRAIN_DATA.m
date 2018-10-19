@@ -2,8 +2,8 @@ try
     
     exception = 0;
 
-    ads = audioexample.Datastore(audio_path, 'IncludeSubfolders', true,...
-        'FileExtensions', '.wav', 'ReadMethod','File',...
+	ads = audioDatastore(audio_path, 'IncludeSubfolders', true,...
+        'FileExtensions', '.wav',...
         'LabelSource','foldernames');
     [trainDatastore, testDatastore]  = splitEachLabel(ads,0.80);
     [sampleTrain, info] = read(trainDatastore);
@@ -41,7 +41,7 @@ catch ME
     switch ME.identifier
         case 'MATLAB:UndefinedFunction'
         otherwise
-            exception = 1;
+            exception = 1
             ME
     end
 end

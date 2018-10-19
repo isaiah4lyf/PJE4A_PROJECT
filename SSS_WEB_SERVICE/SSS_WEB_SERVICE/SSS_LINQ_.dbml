@@ -33,16 +33,6 @@
       <Column Name="Model_ID_VN" Type="System.Int32" DbType="Int" CanBeNull="true" />
     </Type>
   </Table>
-  <Table Name="dbo.Accuracy_Users" Member="Accuracy_Users">
-    <Type Name="Accuracy_User">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="User_ID" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="Prediction_Accuracy_Images" Type="System.Decimal" DbType="Decimal(18,0)" CanBeNull="true" />
-      <Column Name="Validation_Accuracy_Images" Type="System.Decimal" DbType="Decimal(18,0)" CanBeNull="true" />
-      <Column Name="Prediction_Accuracy_VN" Type="System.Decimal" DbType="Decimal(18,0)" CanBeNull="true" />
-      <Column Name="Validation_Accuracy_VN" Type="System.Decimal" DbType="Decimal(18,0)" CanBeNull="true" />
-    </Type>
-  </Table>
   <Table Name="dbo.Devices_Mac" Member="Devices_Macs">
     <Type Name="Devices_Mac">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -62,6 +52,16 @@
       <Column Name="Image_Path" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
       <Column Name="User_ID" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="Model_Version" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Accuracy_Users" Member="Accuracy_Users">
+    <Type Name="Accuracy_User">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="User_ID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Prediction_Accuracy_Images" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Validation_Accuracy_Images" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Prediction_Accuracy_VN" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Validation_Accuracy_VN" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
     </Type>
   </Table>
 </Database>

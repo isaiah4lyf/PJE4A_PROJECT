@@ -162,10 +162,10 @@ namespace SSS_WEB_SERVICE
 		{
 			Accuracy_User acc_Table = new Accuracy_User();
 			acc_Table.User_ID = Convert.ToUInt16(User_ID);
-			acc_Table.Prediction_Accuracy_Images = Convert.ToDecimal(Prediction_Accuracy_Images);
-			acc_Table.Validation_Accuracy_Images = Convert.ToDecimal(Validation_Accuracy_Images);
-			acc_Table.Prediction_Accuracy_VN = Convert.ToDecimal(Prediction_Accuracy_VN);
-			acc_Table.Validation_Accuracy_VN = Convert.ToDecimal(Validation_Accuracy_VN);
+			acc_Table.Prediction_Accuracy_Images = Math.Round(decimal.Parse(Prediction_Accuracy_Images.Replace(".", ",")), 0).ToString();
+			acc_Table.Validation_Accuracy_Images = Math.Round(decimal.Parse(Validation_Accuracy_Images.Replace(".", ",")), 0).ToString();
+			acc_Table.Prediction_Accuracy_VN = Math.Round(decimal.Parse(Prediction_Accuracy_VN.Replace(".", ",")), 0).ToString();
+			acc_Table.Validation_Accuracy_VN = Math.Round(decimal.Parse(Validation_Accuracy_VN.Replace(".", ",")), 0).ToString();
 			linq.Accuracy_Users.InsertOnSubmit(acc_Table);
 			linq.SubmitChanges();
 			return "true";
@@ -193,10 +193,10 @@ namespace SSS_WEB_SERVICE
 			Accuracy_User acc_Table = (from Accuracy_User in linq.Accuracy_Users
 									   where Accuracy_User.User_ID == Convert.ToInt16(User_ID)
 										select Accuracy_User).First();
-			acc_Table.Prediction_Accuracy_Images = Convert.ToDecimal(Prediction_Accuracy_Images);
-			acc_Table.Validation_Accuracy_Images = Convert.ToDecimal(Validation_Accuracy_Images);
-			acc_Table.Prediction_Accuracy_VN = Convert.ToDecimal(Prediction_Accuracy_VN);
-			acc_Table.Validation_Accuracy_VN = Convert.ToDecimal(Validation_Accuracy_VN);
+			acc_Table.Prediction_Accuracy_Images = Math.Round(decimal.Parse(Prediction_Accuracy_Images.Replace(".", ",")), 0).ToString();
+			acc_Table.Validation_Accuracy_Images = Math.Round(decimal.Parse(Validation_Accuracy_Images.Replace(".", ",")), 0).ToString();
+			acc_Table.Prediction_Accuracy_VN = Math.Round(decimal.Parse(Prediction_Accuracy_VN.Replace(".", ",")), 0).ToString();
+			acc_Table.Validation_Accuracy_VN = Math.Round(decimal.Parse(Validation_Accuracy_VN.Replace(".", ",")), 0).ToString();
 			linq.SubmitChanges();
 			return "true";
 		}
@@ -206,18 +206,27 @@ namespace SSS_WEB_SERVICE
 		{
 			List<User> userTable = (from User in linq.Users
 									where User.Model_ID == Convert.ToInt32(Model_ID)
-									select User).ToList();
-			for (int i = 0; i < userTable.Count; i++)
-			{
-				Accuracy_User acc_Table = (from Accuracy_User in linq.Accuracy_Users
-										   where Accuracy_User.User_ID == userTable.ElementAt(i).Id
-										   select Accuracy_User).First();
-				acc_Table.Validation_Accuracy_Images = Convert.ToDecimal(Validation_Accuracy_Images);
-				acc_Table.Validation_Accuracy_VN = Convert.ToDecimal(Validation_Accuracy_VN);
-				linq.SubmitChanges();
-			}
+                                    select User).ToList();
+            if (userTable.Count > 0)
+            {
+                
+                for (int i = 0; i < userTable.Count; i++)
+                {
+                    Accuracy_User acc_Table = (from Accuracy_User in linq.Accuracy_Users
+                                               where Accuracy_User.User_ID == userTable.ElementAt(i).Id
+                                               select Accuracy_User).First();
+                    acc_Table.Validation_Accuracy_Images = Math.Round(decimal.Parse(Validation_Accuracy_Images.Replace(".", ",")), 0).ToString();
+                    acc_Table.Validation_Accuracy_VN = Math.Round(decimal.Parse(Validation_Accuracy_VN.Replace(".", ",")), 0).ToString();
+                    linq.SubmitChanges();
+                }
+                return "true";
+            }
+            else
+            {
+                return "false";
+            }
 
-			return "true";
+			
 		}
 
 		[WebMethod]
@@ -226,17 +235,26 @@ namespace SSS_WEB_SERVICE
 			List<User> userTable = (from User in linq.Users
 									where User.Model_ID_VN == Convert.ToInt32(Model_ID_VN)
 									select User).ToList();
-			for (int i = 0; i < userTable.Count; i++)
-			{
-				Accuracy_User acc_Table = (from Accuracy_User in linq.Accuracy_Users
-										   where Accuracy_User.User_ID == userTable.ElementAt(i).Id
-										   select Accuracy_User).First();
-				acc_Table.Validation_Accuracy_Images = Convert.ToDecimal(Validation_Accuracy_Images);
-				acc_Table.Validation_Accuracy_VN = Convert.ToDecimal(Validation_Accuracy_VN);
-				linq.SubmitChanges();
-			}
+            if(userTable.Count > 0)
+            {
+                for (int i = 0; i < userTable.Count; i++)
+                {
+                    Accuracy_User acc_Table = (from Accuracy_User in linq.Accuracy_Users
+                                               where Accuracy_User.User_ID == userTable.ElementAt(i).Id
+                                               select Accuracy_User).First();
+                    acc_Table.Validation_Accuracy_Images = Math.Round(decimal.Parse(Validation_Accuracy_Images.Replace(".", ",")), 0).ToString();
+                    acc_Table.Validation_Accuracy_VN = Math.Round(decimal.Parse(Validation_Accuracy_VN.Replace(".", ",")), 0).ToString();
+                    linq.SubmitChanges();
+                }
+                return "true";
+            }
+            else
+            {
+                return "false";
+            }
 
-			return "true";
+
+			
 		}
 		[WebMethod]
 		public string INSERT_DEVICE_MAC(string User_ID, string Device_Mac)

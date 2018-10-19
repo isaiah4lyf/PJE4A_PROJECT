@@ -29,7 +29,7 @@ import SSS_SERVER_FUNCTIONS.Train_Images_Model;
 import SSS_SERVER_FUNCTIONS.Update_Accuracy_Users;
 import SSS_SERVER_FUNCTIONS.Update_Train_Data;
 import SSS_SERVER_FUNCTIONS.Update_Train_Data_VN;
-import SSS_SERVER_FUNCTIONS.Update_Training_Accuracy_Users;
+import SSS_SERVER_FUNCTIONS.Update_Training_Accuracy_Users_New;
 import SSS_SERVER_FUNCTIONS.Update_Training_Accuracy_Users_VN;
 
 
@@ -464,7 +464,10 @@ public class Client_Handler implements Runnable{
 			String size_VN = in.readUTF();
 			String tittle_VN = in.readUTF();
 			
+			System.out.println(user_ID_VN);
+			System.out.println(user_name_VN);
 			System.out.println(size_VN);
+			System.out.println(tittle_VN);
 			BufferedOutputStream ByteToFile_VN = null;
 			try
 			{
@@ -478,22 +481,13 @@ public class Client_Handler implements Runnable{
 					byte[] buffer2 = new byte[extra];
 					in.read(buffer2);
 				}
-				File imageInsta = new File("data/MATLAB_TRAIN_DATA/"+user_name_VN+"/"+tittle_VN);
-				if(imageInsta.exists()){
-					
-					ByteToFile_VN = new BufferedOutputStream(new FileOutputStream(new File("data/MATLAB_TRAIN_DATA/"+user_name_VN+"/(1)"+tittle_VN)));
-					ByteToFile_VN.write(buffer);
-					ByteToFile_VN.flush();
-					ByteToFile_VN.close();
-				}
-				else
-				{
-					ByteToFile_VN = new BufferedOutputStream(new FileOutputStream(new File("data/MATLAB_TRAIN_DATA/"+user_name_VN+"/"+tittle_VN)));
-					ByteToFile_VN.write(buffer);
-					ByteToFile_VN.flush();
-					ByteToFile_VN.close();
-				}
-				sendMessage("Upload Successful");
+
+				ByteToFile_VN = new BufferedOutputStream(new FileOutputStream(new File("data/MATLAB_TRAIN_DATA/"+user_name_VN+"/"+tittle_VN)));
+				ByteToFile_VN.write(buffer);
+				ByteToFile_VN.flush();
+				ByteToFile_VN.close();
+				
+
 			}
 			catch(IOException ex){
 				ex.printStackTrace();
@@ -533,7 +527,7 @@ public class Client_Handler implements Runnable{
 			double exception3 = matEng.getVariable("exception");
 			
 			
-			if(exception3 == 1.0)
+			if(exception3 == 1)
 			{
 				audio.delete();
 				Decrement_Model_Version_VN dec = new Decrement_Model_Version_VN();
@@ -598,16 +592,19 @@ public class Client_Handler implements Runnable{
 			matEng.eval("path2 = '"+Trained_Model_File+"'",null,null);
 			matEng.eval("run('" + Matlab_Path_train + "/MATLAB_SCRIPTS/RUN_ESS5.m')",null,null);
 			
-			Return_Accuracy_Users accu_Class = new Return_Accuracy_Users();
-			String[] accuString = accu_Class.do_The_Work(URL, user_ID).split(",");
-			
 			Return_User_With_ID user = new Return_User_With_ID();
 			String[] user_String = user.do_The_Work(URL, user_ID).split(",");
-			
-			Update_Training_Accuracy_Users update_Class = new Update_Training_Accuracy_Users();
+					
 			double validation_accu = matEng.getVariable("accuracy");
-			update_Class.do_The_Work(URL, user_String[2],String.valueOf(validation_accu), accuString[5]);
+			Return_Users_In_Model_VN users_In_Model = new Return_Users_In_Model_VN();
+			String[] users_In_Model_String = users_In_Model.Do_The_Work(URL, user_String[2]);
 			
+			Return_Accuracy_Users accu_Class = new Return_Accuracy_Users();
+			String[] accuString = accu_Class.do_The_Work(URL, users_In_Model_String[0].split(",")[0]).split(",");
+			
+			Update_Training_Accuracy_Users_New update_Class = new Update_Training_Accuracy_Users_New();
+			update_Class.do_The_Work(URL, user_String[2],String.valueOf(validation_accu), accuString[5]);
+
 			Return_Users_In_Model users_in_model = new Return_Users_In_Model();
 			String[] users_String = users_in_model.Do_The_Work(URL, user_String[2]);
 			
@@ -617,7 +614,7 @@ public class Client_Handler implements Runnable{
 				String[] accuString_each = accu_Class_each.do_The_Work(URL,  users_String[i].split(",")[0]).split(",");
 				Update_Accuracy_Users update_Class_pred = new Update_Accuracy_Users();
 				update_Class_pred.do_The_Work(URL, users_String[i].split(",")[0],"0", accuString_each[3], accuString_each[4], accuString_each[5]);
-
+				
 			}
 			System.out.println("Training first model version....");
 			Train_Images_Model_First_Version(user_ID);
@@ -1055,21 +1052,12 @@ public class Client_Handler implements Runnable{
 					byte[] buffer2 = new byte[extra];
 					in.read(buffer2);
 				}
-				File imageInsta = new File("data/MATLAB_TRAIN_DATA/"+user_name4+"/MATLAB_PRED_DATA/"+title4);
-				if(imageInsta.exists()){
-					
-					ByteToFile4 = new BufferedOutputStream(new FileOutputStream(new File("data/MATLAB_TRAIN_DATA/"+user_name4+"/MATLAB_PRED_DATA/(1)"+title4)));
-					ByteToFile4.write(buffer);
-					ByteToFile4.flush();
-					ByteToFile4.close();
-				}
-				else
-				{
-					ByteToFile4 = new BufferedOutputStream(new FileOutputStream(new File("data/MATLAB_TRAIN_DATA/"+user_name4+"/MATLAB_PRED_DATA/"+title4)));
-					ByteToFile4.write(buffer);
-					ByteToFile4.flush();
-					ByteToFile4.close();
-				}
+
+				ByteToFile4 = new BufferedOutputStream(new FileOutputStream(new File("data/MATLAB_TRAIN_DATA/"+user_name4+"/MATLAB_PRED_DATA/"+title4)));
+				ByteToFile4.write(buffer);
+				ByteToFile4.flush();
+				ByteToFile4.close();
+				
 			}
 			catch(IOException ex){
 				ex.printStackTrace();
@@ -1238,6 +1226,10 @@ public class Client_Handler implements Runnable{
 					System.out.println(result_With_Max);
 					String[] results_tokens = result_With_Max.split(",");
 					sendMessage(results_tokens[1]);	
+					
+					double prediction_Accuracy = matEng.getVariable("predAccuracy");
+					Update_Accuracy_Users update_Class = new Update_Accuracy_Users();
+					update_Class.do_The_Work(URL, accuString[1],  accuString[2], accuString[3],String.valueOf(prediction_Accuracy), accuString[5]);
 				}
 				else
 				{
