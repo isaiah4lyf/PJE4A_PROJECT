@@ -304,7 +304,7 @@ public class Jframe extends JFrame{
             				System.out.println(num.do_The_Work(URL));
             				
                 			System.out.println("Upload data");
-                			int update_time = 5*60*1000;
+                			int update_time = 24*60*60*1000;
                 			Thread.sleep(update_time);
                 			Update_Num_Images update_Num = new Update_Num_Images();
                 			String update_String = update_Num.do_The_Work(URL, "3");
