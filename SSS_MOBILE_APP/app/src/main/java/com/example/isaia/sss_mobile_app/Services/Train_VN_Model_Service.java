@@ -61,9 +61,7 @@ public class Train_VN_Model_Service extends Service {
             //if you started progress dialog dismiss it here
             Toast.makeText(getApplicationContext(),result,Toast.LENGTH_LONG).toString();
             stopService(new Intent(getApplicationContext(), Train_VN_Model_Service.class));
-            Intent intent = new Intent(getApplicationContext(),Settings_With_Drawer.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
+
         }
     }
 }

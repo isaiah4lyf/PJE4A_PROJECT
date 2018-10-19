@@ -425,14 +425,22 @@ public class RecordingSampler {
         @Override
         protected void onPostExecute(String result) {
             //if you started progress dialog dismiss it here
-            if(!result.equals(""))
+            if(result.contains("Error") || result.contains("Invalid"))
+            {
+                Toast.makeText(context,result,Toast.LENGTH_LONG).show();
+            }
+            else if(!result.equals(""))
             {
                 if(Integer.parseInt(result) == 10)
                 {
                     try
                     {
+                        release();
+                        Intent intent = new Intent(context,Settings_With_Drawer.class);
                         Intent serviceIntent = new Intent(context,Train_VN_Model_Service.class);
                         context.startService(serviceIntent);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        context.startActivity(intent);
                         Toast.makeText(context,"Training",Toast.LENGTH_LONG).show();
                     }
                     catch (Exception ex)
