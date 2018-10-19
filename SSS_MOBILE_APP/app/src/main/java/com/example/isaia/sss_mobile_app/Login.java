@@ -370,16 +370,24 @@ public class Login extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
             //if you started progress dialog dismiss it here
-            if(!result.startsWith("Error:"))
+            try
             {
-                String[] accu_Tokens = result.split(",");
-                if(Integer.parseInt(accu_Tokens[2]) == 0)
+                if(!result.startsWith("Error:"))
                 {
-                    Intent serviceIntent = new Intent(getApplicationContext(),Predict_User_Image_Preview.class);
-                    startService(serviceIntent);
-                    progressDialog.dismiss();
+                    String[] accu_Tokens = result.split(",");
+                    if(Integer.parseInt(accu_Tokens[2]) == 0)
+                    {
+                        Intent serviceIntent = new Intent(getApplicationContext(),Predict_User_Image_Preview.class);
+                        startService(serviceIntent);
+                        progressDialog.dismiss();
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                Toast.makeText(getApplicationContext(),ex.toString(),Toast.LENGTH_LONG).show();
+            }
+
         }
     }
 
@@ -417,22 +425,11 @@ public class Login extends AppCompatActivity {
                 }
                 else if(Integer.parseInt(result) == 10)
                 {
-                    boolean serviceRunning = false;
-                    while(serviceRunning)
-                    {
-                        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
-                        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
-                            if (Train_Images_Model_Service.class.getName().equals(service.service.getClassName())) {
-                                serviceRunning = true;
-                            }
-                        }
-                    }
-                    if(serviceRunning == false)
-                    {
-                        Intent intent = new Intent(getApplicationContext(),Main_Activity_Voice_Notes.class);
-                        startActivity(intent);
-                        progressDialog.dismiss();
-                    }
+
+                    Intent intent = new Intent(getApplicationContext(),Main_Activity_Voice_Notes.class);
+                    startActivity(intent);
+                    progressDialog.dismiss();
+
                 }
                 else
                 {
