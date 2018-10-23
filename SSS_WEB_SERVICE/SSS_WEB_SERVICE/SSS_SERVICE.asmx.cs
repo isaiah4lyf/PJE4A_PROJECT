@@ -253,10 +253,109 @@ namespace SSS_WEB_SERVICE
                 return "false";
             }
 
-
+        
 			
 		}
-		[WebMethod]
+        [WebMethod]
+        public string INSERT_ACCURACY_USERS_FIRST_VERSION(string User_ID, string Prediction_Accuracy_Images, string Validation_Accuracy_Images, string Prediction_Accuracy_VN, string Validation_Accuracy_VN)
+        {
+            Accuracy_Users_First_Version acc_Table = new Accuracy_Users_First_Version();
+            acc_Table.User_ID = Convert.ToUInt16(User_ID);
+            acc_Table.Prediction_Accuracy_Images = Math.Round(decimal.Parse(Prediction_Accuracy_Images.Replace(".", ",")), 0).ToString();
+            acc_Table.Validation_Accuracy_Images = Math.Round(decimal.Parse(Validation_Accuracy_Images.Replace(".", ",")), 0).ToString();
+            acc_Table.Prediction_Accuracy_VN = Math.Round(decimal.Parse(Prediction_Accuracy_VN.Replace(".", ",")), 0).ToString();
+            acc_Table.Validation_Accuracy_VN = Math.Round(decimal.Parse(Validation_Accuracy_VN.Replace(".", ",")), 0).ToString();
+            linq.Accuracy_Users_First_Versions.InsertOnSubmit(acc_Table);
+            linq.SubmitChanges();
+            return "true";
+        }
+        [WebMethod]
+        public string RETURN_ACCURACY_USERS_FIRST_VERSION(string User_ID)
+        {
+            List<Accuracy_Users_First_Version> accur_Table = (from Accuracy_Users_First_Version in linq.Accuracy_Users_First_Versions
+                                                              where Accuracy_Users_First_Version.User_ID == Convert.ToInt16(User_ID)
+                                               select Accuracy_Users_First_Version).ToList();
+            if (accur_Table.Count == 1)
+            {
+                return accur_Table.ElementAt(0).Id + "," + accur_Table.ElementAt(0).User_ID + "," + accur_Table.ElementAt(0).Prediction_Accuracy_Images + "," + accur_Table.ElementAt(0).Validation_Accuracy_Images + "," + accur_Table.ElementAt(0).Prediction_Accuracy_VN + "," + accur_Table.ElementAt(0).Validation_Accuracy_VN;
+            }
+            else
+            {
+                return "false";
+            }
+        }
+
+        [WebMethod]
+        public string UPDATE_ACCURACY_USERS_FIRST_VERSION(string User_ID, string Prediction_Accuracy_Images, string Validation_Accuracy_Images, string Prediction_Accuracy_VN, string Validation_Accuracy_VN)
+        {
+
+            Accuracy_Users_First_Version acc_Table = (from Accuracy_Users_First_Version in linq.Accuracy_Users_First_Versions
+                                                      where Accuracy_Users_First_Version.User_ID == Convert.ToInt16(User_ID)
+                                                       select Accuracy_Users_First_Version).First();
+            acc_Table.Prediction_Accuracy_Images = Math.Round(decimal.Parse(Prediction_Accuracy_Images.Replace(".", ",")), 0).ToString();
+            acc_Table.Validation_Accuracy_Images = Math.Round(decimal.Parse(Validation_Accuracy_Images.Replace(".", ",")), 0).ToString();
+            acc_Table.Prediction_Accuracy_VN = Math.Round(decimal.Parse(Prediction_Accuracy_VN.Replace(".", ",")), 0).ToString();
+            acc_Table.Validation_Accuracy_VN = Math.Round(decimal.Parse(Validation_Accuracy_VN.Replace(".", ",")), 0).ToString();
+            linq.SubmitChanges();
+            return "true";
+        }
+
+        [WebMethod]
+        public string UPDATE_TRAINING_ACCURACY_USERS_FIRST_VERSION(string Model_ID, string Validation_Accuracy_Images, string Validation_Accuracy_VN)
+        {
+            List<User> userTable = (from User in linq.Users
+                                    where User.Model_ID == Convert.ToInt32(Model_ID)
+                                    select User).ToList();
+            if (userTable.Count > 0)
+            {
+
+                for (int i = 0; i < userTable.Count; i++)
+                {
+                    Accuracy_Users_First_Version acc_Table = (from Accuracy_Users_First_Version in linq.Accuracy_Users_First_Versions
+                                                              where Accuracy_Users_First_Version.User_ID == userTable.ElementAt(i).Id
+                                                               select Accuracy_Users_First_Version).First();
+                    acc_Table.Validation_Accuracy_Images = Math.Round(decimal.Parse(Validation_Accuracy_Images.Replace(".", ",")), 0).ToString();
+                    acc_Table.Validation_Accuracy_VN = Math.Round(decimal.Parse(Validation_Accuracy_VN.Replace(".", ",")), 0).ToString();
+                    linq.SubmitChanges();
+                }
+                return "true";
+            }
+            else
+            {
+                return "false";
+            }
+
+
+        }
+
+        [WebMethod]
+        public string UPDATE_TRAINING_ACCURACY_USERS_VN_FIRST_VERSION(string Model_ID_VN, string Validation_Accuracy_Images, string Validation_Accuracy_VN)
+        {
+            List<User> userTable = (from User in linq.Users
+                                    where User.Model_ID_VN == Convert.ToInt32(Model_ID_VN)
+                                    select User).ToList();
+            if (userTable.Count > 0)
+            {
+                for (int i = 0; i < userTable.Count; i++)
+                {
+                    Accuracy_Users_First_Version acc_Table = (from Accuracy_Users_First_Version in linq.Accuracy_Users_First_Versions
+                                                              where Accuracy_Users_First_Version.User_ID == userTable.ElementAt(i).Id
+                                                              select Accuracy_Users_First_Version).First();
+                    acc_Table.Validation_Accuracy_Images = Math.Round(decimal.Parse(Validation_Accuracy_Images.Replace(".", ",")), 0).ToString();
+                    acc_Table.Validation_Accuracy_VN = Math.Round(decimal.Parse(Validation_Accuracy_VN.Replace(".", ",")), 0).ToString();
+                    linq.SubmitChanges();
+                }
+                return "true";
+            }
+            else
+            {
+                return "false";
+            }
+
+
+
+        }
+        [WebMethod]
 		public string INSERT_DEVICE_MAC(string User_ID, string Device_Mac)
 		{
 			List<Devices_Mac> macs = (from Devices_Mac in linq.Devices_Macs
