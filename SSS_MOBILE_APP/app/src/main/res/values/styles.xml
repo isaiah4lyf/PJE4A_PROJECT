@@ -1,13 +1,28 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textAppearance">@style/MyText</item>
+
     </style>
 
+    <style name="ToolbarColoredBackArrow" parent="AppTheme">
+        <item name="android:textColorPrimary">@android:color/white</item>
+        <item name="android:textColorSecondary">@android:color/white</item>
+        <item name="actionMenuTextColor">@android:color/white</item>
+    </style>
+    <style name="WhiteDrawerIconStyle" parent="AppTheme">
+        <item name="spinBars">true</item>
+        <item name="color">@android:color/white</item>
+    </style>
+
+    <style name="MyText" parent="AppTheme">
+        <item name="android:textColor">#ffffffff</item>
+    </style>
     <style name="ContentImageBadgeTitle" parent="AppTheme">
         <item name="android:alpha">0.5</item>
         <item name="android:textColor">@android:color/white</item>
@@ -22,12 +37,12 @@
     </style>
 
     <style name="ContentMainBadgeTitle" parent="AppTheme">
-        <item name="android:textColor">@color/contentBadgeTitle</item>
+        <item name="android:textColor">@color/textColor</item>
         <item name="android:textSize">12dp</item>
     </style>
 
     <style name="TitleBadgeText" parent="AppTheme">
-        <item name="android:textColor">@color/titleBadgeText</item>
+        <item name="android:textColor">@color/textColor</item>
         <item name="android:textSize">20dp</item>
     </style>
 

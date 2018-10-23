@@ -19,11 +19,7 @@ import android.widget.FrameLayout;
 import com.example.isaia.sss_mobile_app.R;
 
 
-/**
- * A class that draws visualizations of data received from {@link RecordingSampler}
- *
- * Created by tyorikan on 2015/06/08.
- */
+
 public class VisualizerView extends FrameLayout {
 
     private static final int DEFAULT_NUM_COLUMNS = 20;

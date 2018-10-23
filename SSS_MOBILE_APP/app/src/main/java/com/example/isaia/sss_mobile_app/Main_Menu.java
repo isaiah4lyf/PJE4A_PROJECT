@@ -144,9 +144,7 @@ public class Main_Menu extends AppCompatActivity  implements NavigationView.OnNa
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.account_man) {
-            // Handle the camera action
-        } else if (id == R.id.upload_Images) {
+         if (id == R.id.upload_Images) {
             Intent intent = null;
             try {
                 intent = new Intent(getApplicationContext(), Class.forName("com.example.isaia.sss_mobile_app.Main_Activity_Images"));
@@ -177,10 +175,29 @@ public class Main_Menu extends AppCompatActivity  implements NavigationView.OnNa
             }
 
 
-        } else if (id == R.id.nav_share) {
+        }  else if (id == R.id.account_man) {
 
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.users) {
 
+        }
+        else if (id == R.id.add_user) {
+
+        }
+        else if (id == R.id.logoff) {
+            try
+            {
+                Intent intent = new Intent(getApplicationContext(),Login.class);
+                intent.putExtra("From_Logout","true");
+                startActivity(intent);
+            }
+            catch (Exception ex)
+            {
+                Toast.makeText(getApplicationContext(),ex.toString(),Toast.LENGTH_LONG).show();
+            }
+        }
+        else if (id == R.id.main_menu) {
+             Intent intent = new Intent(getApplicationContext(),Main_Menu.class);
+             startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

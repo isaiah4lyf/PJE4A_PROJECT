@@ -275,8 +275,8 @@ public class Settings_With_Drawer extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.settings__with__drawer, menu);
-        MenuItem item = menu.findItem(R.id.action_settings);
-        item.setTitle("Logout");
+        //MenuItem item = menu.findItem(R.id.action_settings);
+        //item.setTitle("Logout");
         return true;
     }
 
@@ -288,7 +288,27 @@ public class Settings_With_Drawer extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.upload_Images) {
+            Intent intent = null;
+            try {
+                intent = new Intent(getApplicationContext(), Class.forName("com.example.isaia.sss_mobile_app.Main_Activity_Images"));
+                startActivity(intent);
+
+            } catch (ClassNotFoundException e) {
+                Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_LONG).show();
+            }
+
+        } else if (id == R.id.Upload_VN) {
+            Intent intent = null;
+            try {
+                intent = new Intent(getApplicationContext(), Class.forName("com.example.isaia.sss_mobile_app.Main_Activity_Voice_Notes"));
+                startActivity(intent);
+
+            } catch (ClassNotFoundException e) {
+                Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_LONG).show();
+            }
+
+        } else if (id == R.id.action_settings) {
             try
             {
                 Intent intent = new Intent(getApplicationContext(),Login.class);
@@ -299,8 +319,30 @@ public class Settings_With_Drawer extends AppCompatActivity
             {
                 Toast.makeText(getApplicationContext(),ex.toString(),Toast.LENGTH_LONG).show();
             }
+        }
+        else if (id == R.id.account_man) {
 
-            return true;
+        } else if (id == R.id.users) {
+
+        }
+        else if (id == R.id.add_user) {
+
+        }
+        else if (id == R.id.logoff) {
+            try
+            {
+                Intent intent = new Intent(getApplicationContext(),Login.class);
+                intent.putExtra("From_Logout","true");
+                startActivity(intent);
+            }
+            catch (Exception ex)
+            {
+                Toast.makeText(getApplicationContext(),ex.toString(),Toast.LENGTH_LONG).show();
+            }
+        }
+        else if (id == R.id.main_menu) {
+            Intent intent = new Intent(getApplicationContext(),Main_Menu.class);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);
