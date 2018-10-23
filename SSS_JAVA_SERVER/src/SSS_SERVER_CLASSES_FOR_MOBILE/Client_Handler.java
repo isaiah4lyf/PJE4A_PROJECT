@@ -832,6 +832,7 @@ public class Client_Handler implements Runnable{
 
 	}
 	
+	
 	private void Pred_User_Image()
 	{
 		try {
@@ -884,8 +885,226 @@ public class Client_Handler implements Runnable{
 					}				
 			}
 			
+			Return_Current_Num_Images num = new Return_Current_Num_Images();
+			int current_num = Integer.parseInt( num.do_The_Work(URL).split(",")[1]);
+			
+			Return_Images_For_Mobile images = new Return_Images_For_Mobile();
+			String[] images_Strings  = images.Do_The_Work(URL);
+			
+			int count_Images = 0;
+			for(int i = 0; i < images_Strings.length; i++)
+			{
+				if(user_ID2_.equals(images_Strings[i].split(",")[2]))
+				{
+					count_Images++;
+				}
+			}
+			int diff = current_num - count_Images;
+			if(diff > 15)
+			{
+				Pred_User_Image_First_Version(user_ID2_,user_name2,size_string2,title2);
+			}
+			else
+			{
+				Return_Train_Models models = new Return_Train_Models();
+				String[] models_string = models.Do_The_Work(URL);
+				
+				int num_Models = 1;
+				if(models_string.length > 1)
+				{
+					String model_ID = models_string[models_string.length - 1].split(",")[0];
+					Return_Users_In_Model users = new Return_Users_In_Model();
+					String[] users_string = users.Do_The_Work(URL,model_ID);
+					
+					Return_User_With_ID current_user = new Return_User_With_ID();
+					String current_user_String = current_user.do_The_Work(URL, user_ID2_);
+					
+					if(Integer.parseInt(current_user_String.split(",")[2]) == Integer.parseInt(models_string[models_string.length - 1].split(",")[0]))
+					{
+						num_Models = models_string.length;
+					}
+					else 
+					{
+						if(users_string.length > 2)
+						{
+							num_Models = models_string.length;
+						}
+						else
+						{
+							num_Models = models_string.length - 1;
+						}
+					}
+
+				}
+
+
+				int[] results = new int[num_Models];
+				List<Integer> fet_Match = new ArrayList<Integer>(num_Models);
+				List<Double> model_Match_Accuracy = new ArrayList<Double>(num_Models);
+				
+				File image2 = null;
+				
+				for (int i = 0; i < num_Models; i++)
+				{
+
+					String model_ID = models_string[i].split(",")[0];
+					Return_Users_In_Model users = new Return_Users_In_Model();
+					String[] users_string = users.Do_The_Work(URL,model_ID);
+					System.out.println(users_string[0]);
+					
+					matEng.eval("clear all",null,null);
+					
+					if (users_string.length  == 4)
+					{
+						matEng.eval("class_1 = "+Integer.parseInt(users_string[0].split(",")[0]),null,null);
+						matEng.eval("class_2 = "+Integer.parseInt(users_string[1].split(",")[0]),null,null);
+						matEng.eval("class_3 = "+Integer.parseInt(users_string[2].split(",")[0]),null,null);
+						matEng.eval("class_4 = "+Integer.parseInt(users_string[3].split(",")[0]),null,null);
+
+					}
+					else if (users_string.length == 3)
+					{
+						matEng.eval("class_1 = "+Integer.parseInt(users_string[0].split(",")[0]),null,null);
+						matEng.eval("class_2 = "+Integer.parseInt(users_string[1].split(",")[0]),null,null);
+						matEng.eval("class_3 = "+Integer.parseInt(users_string[2].split(",")[0]),null,null);
+						matEng.eval("class_4 = "+Integer.parseInt(users_string[2].split(",")[0]+1),null,null);
+
+					}
+					else if (users_string.length == 2)
+					{
+						matEng.eval("class_1 = "+Integer.parseInt(users_string[0].split(",")[0]),null,null);
+						matEng.eval("class_2 = "+Integer.parseInt(users_string[1].split(",")[0]),null,null);
+						matEng.eval("class_3 = "+Integer.parseInt(users_string[1].split(",")[0]+1),null,null);
+						matEng.eval("class_4 = "+Integer.parseInt(users_string[1].split(",")[0]+2),null,null);
+
+					}
+					else
+					{
+						matEng.eval("class_1 = "+Integer.parseInt(users_string[0].split(",")[0]),null,null);
+						matEng.eval("class_2 = "+Integer.parseInt(users_string[0].split(",")[0]+2),null,null);
+						matEng.eval("class_3 = "+Integer.parseInt(users_string[0].split(",")[0]+3),null,null);
+						matEng.eval("class_4 = "+Integer.parseInt(users_string[0].split(",")[0]+4),null,null);
+
+					}
+					image2 = new File("data/MATLAB_TRAIN_DATA/"+user_name2+"/MATLAB_PRED_DATA/"+title2+".jpg");
+					System.out.println(image2.getAbsolutePath());
+					matEng.eval("Image_Name_of = '"+ image2.getAbsolutePath().toString()+"'",null,null);
+					
+					int model_version = Integer.parseInt(models_string[i].split(",")[3] );
+					String Trained_Model2 = Matlab_Path_train + "/MATLAB_TRAINED_MODELS/" + models_string[i].split(",")[1] + "_" +model_version+ ".mat";
+					File matFile = new File(Trained_Model2);
+					
+					while(!matFile.exists() && model_version > 0)
+					{
+						System.out.println(Trained_Model2);
+						model_version--;
+						Trained_Model2 = Matlab_Path_train + "/MATLAB_TRAINED_MODELS/" + models_string[i].split(",")[1] + "_" +model_version+ ".mat";						
+						matFile = new File(Trained_Model2);
+					}
+					matEng.eval("path = '"+Trained_Model2+"'",null,null);
+					matEng.eval("run('" + Matlab_Path_train + "/MATLAB_SCRIPTS/Predict_User10.m')",null,null);
+					double status2 = matEng.getVariable("status");
+					double exception2 = matEng.getVariable("exception");
+
+					if(status2 == 1.0 || exception2 == 1.0)
+					{
+						image2.delete();
+						System.out.println("Ex" + status2);
+						System.out.println("Ex" + exception2);
+						System.out.println("here");
+						break;									
+					}
+					else
+					{
+						StringWriter output_class = new StringWriter();
+						matEng.eval("max_Class",output_class,null);
+						String max_class_String = output_class.toString().replaceAll("\n","");
+						int max_class = Integer.parseInt(max_class_String.split("=")[1].replaceAll(" ",""));							
+						StringWriter output_num = new StringWriter();
+						matEng.eval("max_Num",output_num,null);
+						String max_num_String = output_num.toString().replaceAll("\n","");
+						int max_num = Integer.parseInt(max_num_String.split("=")[1].replaceAll(" ",""));
+						results[i] = max_class;
+						fet_Match.add(i, max_num);
+						double prediction_Accuracy = matEng.getVariable("predAccuracy");
+						model_Match_Accuracy.add(i, prediction_Accuracy);
+					}																							
+				}									
+				double status2 = matEng.getVariable("status");
+				double exception2 = matEng.getVariable("exception");												
+				if(status2 == 1.0 || exception2 == 1.0)
+				{
+					image2.delete();
+					sendMessage("Invalid Image");
+				}
+				else
+				{
+					matEng.eval("imwrite(J,Image_Name_of)",null,null);
+					Return_Accuracy_Users accu_Class = new Return_Accuracy_Users();
+					String[] accuString = accu_Class.do_The_Work(URL, user_ID2_).split(",");
+					List<Integer> new_Fetch_Match = fet_Match;
+					int max = cal_Max_With_Acc(fet_Match,model_Match_Accuracy,accuString);
+					
+					if(max != 0)
+					{
+						String result_With_Max = "";
+						for (int i = 0; i < new_Fetch_Match.size(); i++)
+						{
+							if (new_Fetch_Match.get(i) == max)
+							{						
+								Return_User_With_ID user = new Return_User_With_ID();										
+								result_With_Max = user.do_The_Work(URL, String.valueOf(results[i]));
+							}
+						}
+		
+						System.out.println(result_With_Max);
+						String[] results_tokens = result_With_Max.split(",");
+						sendMessage(results_tokens[1]);	
+					}
+					else
+					{
+						sendMessage("Incorrect User");	
+					}
+
+					
+				}
+			}
+			
+
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	}
+	
+	private void Pred_User_Image_First_Version(String user_ID2_,String user_name2,String size_string2,String title2)
+	{
+		try {
+			
 			Return_Train_Models models = new Return_Train_Models();
 			String[] models_string = models.Do_The_Work(URL);
+			for(int i = 0; i < models_string.length; i++)
+			{
+				Return_Users_In_Model users = new Return_Users_In_Model();
+				String[] user_String = users.Do_The_Work(URL, models_string[i].split(",")[0]);
+				
+				Return_Images_For_Mobile images = new Return_Images_For_Mobile();
+				String[] images_Strings = images.Do_The_Work(URL);
+				int count_Images = 0;
+				int index = 0; 
+				for(int j = 0; j < images_Strings.length; j++)
+				{
+					if(user_String[user_String.length-1].split(",")[0].equals(images_Strings[j].split(",")[2]))
+					{
+						count_Images++;
+						if(count_Images == 10)
+						{
+							index = j;
+						}
+					}
+				}
+				models_string[i] = models_string[i].split(",")[0] + "," + models_string[i].split(",")[1] + "," + models_string[i].split(",")[2] + "," + images_Strings[index].split(",")[3];
+			}
 			
 			int num_Models = 1;
 			if(models_string.length > 1)
@@ -975,7 +1194,7 @@ public class Client_Handler implements Runnable{
 				while(!matFile.exists() && model_version > 0)
 				{
 					System.out.println(Trained_Model2);
-					model_version--;
+					model_version++;
 					Trained_Model2 = Matlab_Path_train + "/MATLAB_TRAINED_MODELS/" + models_string[i].split(",")[1] + "_" +model_version+ ".mat";						
 					matFile = new File(Trained_Model2);
 				}
@@ -1018,7 +1237,7 @@ public class Client_Handler implements Runnable{
 			else
 			{
 				matEng.eval("imwrite(J,Image_Name_of)",null,null);
-				Return_Accuracy_Users accu_Class = new Return_Accuracy_Users();
+				Return_Accuracy_Users_First_Version accu_Class = new Return_Accuracy_Users_First_Version();
 				String[] accuString = accu_Class.do_The_Work(URL, user_ID2_).split(",");
 				List<Integer> new_Fetch_Match = fet_Match;
 				int max = cal_Max_With_Acc(fet_Match,model_Match_Accuracy,accuString);
@@ -1050,8 +1269,9 @@ public class Client_Handler implements Runnable{
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-
 	}
+	
+	
 	private void Pred_User_VN()
 	{
 		try {
