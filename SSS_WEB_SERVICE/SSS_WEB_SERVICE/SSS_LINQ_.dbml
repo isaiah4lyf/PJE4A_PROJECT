@@ -64,4 +64,14 @@
       <Column Name="Validation_Accuracy_VN" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
     </Type>
   </Table>
+  <Table Name="dbo.Accuracy_Users_First_Version" Member="Accuracy_Users_First_Versions">
+    <Type Name="Accuracy_Users_First_Version">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="User_ID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Prediction_Accuracy_Images" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Validation_Accuracy_Images" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Prediction_Accuracy_VN" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Validation_Accuracy_VN" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+    </Type>
+  </Table>
 </Database>

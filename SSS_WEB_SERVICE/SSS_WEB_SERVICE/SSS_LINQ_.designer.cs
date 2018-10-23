@@ -54,6 +54,9 @@ namespace SSS_WEB_SERVICE
     partial void InsertAccuracy_User(Accuracy_User instance);
     partial void UpdateAccuracy_User(Accuracy_User instance);
     partial void DeleteAccuracy_User(Accuracy_User instance);
+    partial void InsertAccuracy_Users_First_Version(Accuracy_Users_First_Version instance);
+    partial void UpdateAccuracy_Users_First_Version(Accuracy_Users_First_Version instance);
+    partial void DeleteAccuracy_Users_First_Version(Accuracy_Users_First_Version instance);
     #endregion
 		
 		public SSS_LINQ_DataContext() : 
@@ -147,6 +150,14 @@ namespace SSS_WEB_SERVICE
 			get
 			{
 				return this.GetTable<Accuracy_User>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Accuracy_Users_First_Version> Accuracy_Users_First_Versions
+		{
+			get
+			{
+				return this.GetTable<Accuracy_Users_First_Version>();
 			}
 		}
 	}
@@ -1078,6 +1089,188 @@ namespace SSS_WEB_SERVICE
     #endregion
 		
 		public Accuracy_User()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_User_ID", DbType="Int")]
+		public System.Nullable<int> User_ID
+		{
+			get
+			{
+				return this._User_ID;
+			}
+			set
+			{
+				if ((this._User_ID != value))
+				{
+					this.OnUser_IDChanging(value);
+					this.SendPropertyChanging();
+					this._User_ID = value;
+					this.SendPropertyChanged("User_ID");
+					this.OnUser_IDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Prediction_Accuracy_Images", DbType="NVarChar(MAX)")]
+		public string Prediction_Accuracy_Images
+		{
+			get
+			{
+				return this._Prediction_Accuracy_Images;
+			}
+			set
+			{
+				if ((this._Prediction_Accuracy_Images != value))
+				{
+					this.OnPrediction_Accuracy_ImagesChanging(value);
+					this.SendPropertyChanging();
+					this._Prediction_Accuracy_Images = value;
+					this.SendPropertyChanged("Prediction_Accuracy_Images");
+					this.OnPrediction_Accuracy_ImagesChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Validation_Accuracy_Images", DbType="NVarChar(MAX)")]
+		public string Validation_Accuracy_Images
+		{
+			get
+			{
+				return this._Validation_Accuracy_Images;
+			}
+			set
+			{
+				if ((this._Validation_Accuracy_Images != value))
+				{
+					this.OnValidation_Accuracy_ImagesChanging(value);
+					this.SendPropertyChanging();
+					this._Validation_Accuracy_Images = value;
+					this.SendPropertyChanged("Validation_Accuracy_Images");
+					this.OnValidation_Accuracy_ImagesChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Prediction_Accuracy_VN", DbType="NVarChar(MAX)")]
+		public string Prediction_Accuracy_VN
+		{
+			get
+			{
+				return this._Prediction_Accuracy_VN;
+			}
+			set
+			{
+				if ((this._Prediction_Accuracy_VN != value))
+				{
+					this.OnPrediction_Accuracy_VNChanging(value);
+					this.SendPropertyChanging();
+					this._Prediction_Accuracy_VN = value;
+					this.SendPropertyChanged("Prediction_Accuracy_VN");
+					this.OnPrediction_Accuracy_VNChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Validation_Accuracy_VN", DbType="NVarChar(MAX)")]
+		public string Validation_Accuracy_VN
+		{
+			get
+			{
+				return this._Validation_Accuracy_VN;
+			}
+			set
+			{
+				if ((this._Validation_Accuracy_VN != value))
+				{
+					this.OnValidation_Accuracy_VNChanging(value);
+					this.SendPropertyChanging();
+					this._Validation_Accuracy_VN = value;
+					this.SendPropertyChanged("Validation_Accuracy_VN");
+					this.OnValidation_Accuracy_VNChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Accuracy_Users_First_Version")]
+	public partial class Accuracy_Users_First_Version : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private System.Nullable<int> _User_ID;
+		
+		private string _Prediction_Accuracy_Images;
+		
+		private string _Validation_Accuracy_Images;
+		
+		private string _Prediction_Accuracy_VN;
+		
+		private string _Validation_Accuracy_VN;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnUser_IDChanging(System.Nullable<int> value);
+    partial void OnUser_IDChanged();
+    partial void OnPrediction_Accuracy_ImagesChanging(string value);
+    partial void OnPrediction_Accuracy_ImagesChanged();
+    partial void OnValidation_Accuracy_ImagesChanging(string value);
+    partial void OnValidation_Accuracy_ImagesChanged();
+    partial void OnPrediction_Accuracy_VNChanging(string value);
+    partial void OnPrediction_Accuracy_VNChanged();
+    partial void OnValidation_Accuracy_VNChanging(string value);
+    partial void OnValidation_Accuracy_VNChanged();
+    #endregion
+		
+		public Accuracy_Users_First_Version()
 		{
 			OnCreated();
 		}

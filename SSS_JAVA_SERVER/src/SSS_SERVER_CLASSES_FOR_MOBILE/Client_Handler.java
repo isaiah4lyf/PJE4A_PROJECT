@@ -11,12 +11,14 @@ import SSS_SERVER_FUNCTIONS.Decrement_Images_Model_Version;
 import SSS_SERVER_FUNCTIONS.Decrement_Model_Version_VN;
 import SSS_SERVER_FUNCTIONS.Get_Device_Mac_Data_With_Mac;
 import SSS_SERVER_FUNCTIONS.Insert_Accuracy_Users;
+import SSS_SERVER_FUNCTIONS.Insert_Accuracy_Users_First_Version;
 import SSS_SERVER_FUNCTIONS.Insert_Device_Mac;
 import SSS_SERVER_FUNCTIONS.Insert_Image;
 import SSS_SERVER_FUNCTIONS.Insert_User;
 import SSS_SERVER_FUNCTIONS.Insert_Voice_Note;
 import SSS_SERVER_FUNCTIONS.Login;
 import SSS_SERVER_FUNCTIONS.Return_Accuracy_Users;
+import SSS_SERVER_FUNCTIONS.Return_Accuracy_Users_First_Version;
 import SSS_SERVER_FUNCTIONS.Return_Current_Num_Images;
 import SSS_SERVER_FUNCTIONS.Return_Images_For_Mobile;
 import SSS_SERVER_FUNCTIONS.Return_Train_Models;
@@ -27,8 +29,10 @@ import SSS_SERVER_FUNCTIONS.Return_Users_In_Model_VN;
 import SSS_SERVER_FUNCTIONS.Return_VNs_For_Mobile;
 import SSS_SERVER_FUNCTIONS.Train_Images_Model;
 import SSS_SERVER_FUNCTIONS.Update_Accuracy_Users;
+import SSS_SERVER_FUNCTIONS.Update_Accuracy_Users_First_Version;
 import SSS_SERVER_FUNCTIONS.Update_Train_Data;
 import SSS_SERVER_FUNCTIONS.Update_Train_Data_VN;
+import SSS_SERVER_FUNCTIONS.Update_Training_Accuracy_Users_First_Version;
 import SSS_SERVER_FUNCTIONS.Update_Training_Accuracy_Users_New;
 import SSS_SERVER_FUNCTIONS.Update_Training_Accuracy_Users_VN;
 
@@ -177,6 +181,9 @@ public class Client_Handler implements Runnable{
 			String[] user_Details = login_Class.do_The_Work(URL, User_Name, password).split(",");
 			Insert_Accuracy_Users accu_Class = new Insert_Accuracy_Users();		
 			System.out.println(accu_Class.do_The_Work(URL, user_Details[0], "0", "0", "0", "0"));
+			
+			Insert_Accuracy_Users_First_Version accu_Class_First_Version = new Insert_Accuracy_Users_First_Version();		
+			System.out.println(accu_Class_First_Version.do_The_Work(URL, user_Details[0], "0", "0", "0", "0"));
 			
 			Insert_Device_Mac insert_mac = new Insert_Device_Mac();
 			String insert_result = insert_mac.do_The_Work(URL, user_Details[0], Device_Mac);
@@ -604,7 +611,15 @@ public class Client_Handler implements Runnable{
 			
 			Update_Training_Accuracy_Users_New update_Class = new Update_Training_Accuracy_Users_New();
 			update_Class.do_The_Work(URL, user_String[2],String.valueOf(validation_accu), accuString[5]);
+			
+			
+			Return_Accuracy_Users_First_Version accu_Class_First_Version = new Return_Accuracy_Users_First_Version();
+			String[] accuString_First_Version = accu_Class_First_Version.do_The_Work(URL, users_In_Model_String[0].split(",")[0]).split(",");
 
+			Update_Training_Accuracy_Users_First_Version update_Class_First_Version = new Update_Training_Accuracy_Users_First_Version();
+			update_Class_First_Version.do_The_Work(URL,user_String[2],String.valueOf(validation_accu), accuString_First_Version[5]);
+			
+			
 			Return_Users_In_Model users_in_model = new Return_Users_In_Model();
 			String[] users_String = users_in_model.Do_The_Work(URL, user_String[2]);
 			
@@ -614,6 +629,12 @@ public class Client_Handler implements Runnable{
 				String[] accuString_each = accu_Class_each.do_The_Work(URL,  users_String[i].split(",")[0]).split(",");
 				Update_Accuracy_Users update_Class_pred = new Update_Accuracy_Users();
 				update_Class_pred.do_The_Work(URL, users_String[i].split(",")[0],"0", accuString_each[3], accuString_each[4], accuString_each[5]);
+				
+				
+				Return_Accuracy_Users_First_Version accu_Class_each_First_Version = new Return_Accuracy_Users_First_Version();
+				String[] accuString_each_First_Version = accu_Class_each_First_Version.do_The_Work(URL,  users_String[i].split(",")[0]).split(",");
+				Update_Accuracy_Users_First_Version update_Class_pred_First_Version = new Update_Accuracy_Users_First_Version();
+				update_Class_pred_First_Version.do_The_Work(URL, users_String[i].split(",")[0],"0", accuString_each_First_Version[3], accuString_each_First_Version[4], accuString_each_First_Version[5]);
 				
 			}
 			System.out.println("Training first model version....");
