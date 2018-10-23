@@ -6,91 +6,165 @@
     android:layout_height="match_parent"
     tools:context=".Reg_User"
     android:background="@drawable/background">
-    <EditText
-    android:id="@+id/User_Name"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_alignParentTop="true"
-    android:layout_marginTop="100dp"
-    android:layout_centerHorizontal="true"
-    android:drawableLeft="@drawable/user"
-    android:textColorHint="@android:color/black"
-    android:drawablePadding="15dp"
-    android:paddingLeft="10dp"
-    android:ems="10"
-    android:inputType="textPersonName"
-    android:hint="User Name"
-    android:background="@drawable/list_back"/>
-    <EditText
-        android:id="@+id/Email"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:layout_below="@+id/User_Name"
-        android:drawableLeft="@drawable/ic_email_black_24dp"
-        android:textColorHint="@android:color/black"
-        android:drawablePadding="15dp"
-        android:paddingLeft="10dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:hint="Email"
-        android:background="@drawable/list_back"/>
-    <EditText
-        android:id="@+id/ConfirmEmail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:layout_below="@+id/Email"
-        android:drawableLeft="@drawable/ic_email_black_24dp"
-        android:textColorHint="@android:color/black"
-        android:drawablePadding="15dp"
-        android:paddingLeft="10dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:hint="Confirm Email"
-        android:background="@drawable/list_back"/>
-    <EditText
-        android:id="@+id/Password"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:layout_below="@+id/ConfirmEmail"
-        android:drawableLeft="@drawable/password"
-        android:textColorHint="@android:color/black"
-        android:drawablePadding="15dp"
-        android:paddingLeft="10dp"
-        android:ems="10"
-        android:inputType="textPassword"
-        android:hint="Password"
-        android:background="@drawable/list_back"/>
 
-    <EditText
-        android:id="@+id/ConfirmPassword"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/Password"
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:drawableLeft="@drawable/password"
-        android:textColorHint="@android:color/black"
-        android:drawablePadding="15dp"
-        android:paddingLeft="10dp"
-        android:ems="10"
-        android:inputType="textPassword"
-        android:hint="Confirm Password"
-        android:background="@drawable/list_back"/>
-    <Button
-        android:id="@+id/Sign_Up"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        app:srcCompat="@drawable/downloadnew" />
+    <RelativeLayout
+        android:id="@+id/layout"
+        android:layout_width="300dp"
+        android:layout_height="420dp"
+        android:layout_marginTop="5dp"
+        android:layout_below="@+id/imageView"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:layout_below="@+id/ConfirmPassword"
-        android:text="Sign Up"
-        android:background="@drawable/button"/>
+        android:background="@drawable/loginback">
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="20dp"
+            android:text="Welcome to S.S.S"
+            android:textAlignment="center"
+            android:layout_centerHorizontal="true"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
 
+        <EditText
+            android:id="@+id/User_Name"
+            android:layout_width="260dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="20dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textView"
+            android:drawablePadding="15dp"
+            android:ems="10"
+            android:textSize="14sp"
+            android:hint="User Name"
+            android:drawableLeft="@drawable/user"
+            android:inputType="textPersonName" />
+
+        <EditText
+            android:id="@+id/Email"
+            android:layout_width="260dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/User_Name"
+            android:drawablePadding="15dp"
+            android:ems="10"
+            android:textSize="14sp"
+            android:hint="Email"
+            android:inputType="textPersonName"
+            android:drawableLeft="@drawable/ic_email_black_24dp" />
+
+        <EditText
+            android:id="@+id/ConfirmEmail"
+            android:layout_width="260dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/Email"
+            android:drawablePadding="15dp"
+            android:ems="10"
+            android:textSize="14sp"
+            android:inputType="textPersonName"
+            android:hint="Confirm Email"
+            android:drawableLeft="@drawable/ic_email_black_24dp" />
+
+        <EditText
+            android:id="@+id/Password"
+            android:layout_width="260dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ConfirmEmail"
+            android:drawablePadding="15dp"
+            android:ems="10"
+            android:textSize="14sp"
+            android:hint="Password"
+            android:drawableLeft="@drawable/password"
+            android:inputType="textPassword" />
+
+        <EditText
+            android:id="@+id/ConfirmPassword"
+            android:layout_width="260dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/Password"
+            android:drawablePadding="15dp"
+            android:ems="10"
+            android:textSize="14sp"
+            android:hint="Confirm Password"
+            android:drawableLeft="@drawable/password"
+            android:inputType="textPassword" />
+
+        <TextView
+            android:id="@+id/terms_conditionsText"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ConfirmPassword"
+            android:text="By Siqning Up, you agree to our"
+            android:textAlignment="center"
+            android:textSize="11sp"
+            android:textStyle="normal" />
+        <TextView
+            android:id="@+id/terms_conditions"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ConfirmPassword"
+            android:layout_toEndOf="@+id/terms_conditionsText"
+            android:text="Terms and Conditions."
+            android:textColor="#9DC8F9"
+            android:textAlignment="center"
+            android:textSize="11sp"
+            android:textStyle="normal" />
+
+        <Button
+            android:id="@+id/Sign_Up"
+            android:layout_width="250dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/terms_conditions"
+            android:layout_centerHorizontal="true"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/button"
+            android:text="SIGN UP" />
+
+        <TextView
+            android:id="@+id/sign_intext"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="25dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/Sign_Up"
+            android:text="Already have an account?, "
+            android:textAlignment="center"
+            android:textSize="12sp"
+            android:textStyle="normal" />
+        <TextView
+            android:id="@+id/sign_in"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/Sign_Up"
+            android:layout_toEndOf="@+id/sign_intext"
+            android:text="Siqn in."
+            android:textColor="#9DC8F9"
+            android:textAlignment="center"
+            android:textSize="12sp"
+            android:textStyle="normal" />
+    </RelativeLayout>
 </RelativeLayout>
