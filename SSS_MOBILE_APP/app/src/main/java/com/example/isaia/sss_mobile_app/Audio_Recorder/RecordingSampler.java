@@ -35,12 +35,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-/**
- * Sampling AudioRecord Input
- * This output send to {@link VisualizerView}
- *
- * Created by tyorikan on 2015/06/09.
- */
+
 public class RecordingSampler {
 
     private static final int RECORDING_SAMPLE_RATE = 44100;

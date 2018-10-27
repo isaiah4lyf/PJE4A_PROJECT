@@ -7,6 +7,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,11 +18,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.isaia.sss_mobile_app.Lists_Adapters.MyRecyclerViewAdapter;
 import com.example.isaia.sss_mobile_app.Services.Predict_User_Image_Preview;
 import com.ramotion.foldingcell.FoldingCell;
 
-public class Main_Menu extends AppCompatActivity  implements NavigationView.OnNavigationItemSelectedListener{
+import java.util.ArrayList;
 
+public class Main_Menu extends AppCompatActivity  implements NavigationView.OnNavigationItemSelectedListener,  MyRecyclerViewAdapter.ItemClickListener {
+    private MyRecyclerViewAdapter adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,53 +46,46 @@ public class Main_Menu extends AppCompatActivity  implements NavigationView.OnNa
             NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
             navigationView.setNavigationItemSelectedListener(this);
 
-            RelativeLayout previewLayout = (RelativeLayout) findViewById(R.id.preview);
-            previewLayout.setOnClickListener(
+            // data to populate the RecyclerView with
+            ArrayList<String> animalNames = new ArrayList<>();
+            animalNames.add("Horse");
+            animalNames.add("Cow");
+            animalNames.add("Camel");
+            animalNames.add("Sheep");
+            animalNames.add("Goat");
+            animalNames.add("Horse");
+            animalNames.add("Cow");
+            animalNames.add("Camel");
+            animalNames.add("Sheep");
+            animalNames.add("Goat");
+            animalNames.add("Horse");
+            animalNames.add("Cow");
+            animalNames.add("Camel");
+            animalNames.add("Sheep");
+            animalNames.add("Goat");
+            animalNames.add("Horse");
+            animalNames.add("Cow");
+            animalNames.add("Camel");
+            animalNames.add("Sheep");
+            animalNames.add("Goat");
+            animalNames.add("Horse");
+            animalNames.add("Cow");
+            animalNames.add("Camel");
+            animalNames.add("Sheep");
+            animalNames.add("Goat");
+            animalNames.add("Horse");
+            animalNames.add("Cow");
+            animalNames.add("Camel");
+            animalNames.add("Sheep");
+            animalNames.add("Goat");
 
-                    new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent serviceIntent = new Intent(getApplicationContext(),Predict_User_Image_Preview.class);
-                            startService(serviceIntent);
-                        }
-                    }
+            // set up the RecyclerView
+            RecyclerView recyclerView = findViewById(R.id.rvAnimals);
+            recyclerView.setLayoutManager(new LinearLayoutManager(this));
+            adapter = new MyRecyclerViewAdapter(this, animalNames);
+            adapter.setClickListener(this);
+            recyclerView.setAdapter(adapter);
 
-            );
-            RelativeLayout previewLayout2 = (RelativeLayout) findViewById(R.id.uploadVnsLayout);
-            previewLayout2.setOnClickListener(
-
-                    new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent serviceIntent = new Intent(getApplicationContext(),Main_Activity_Voice_Notes.class);
-                            startActivity(serviceIntent);
-                        }
-                    }
-
-            );
-            RelativeLayout previewLayout3 = (RelativeLayout) findViewById(R.id.uploadImagesLayout);
-            previewLayout3.setOnClickListener(
-
-                    new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent serviceIntent = new Intent(getApplicationContext(),Main_Activity_Images.class);
-                            startActivity(serviceIntent);
-                        }
-                    }
-
-            );
-            RelativeLayout previewLayout4 = (RelativeLayout) findViewById(R.id.settingsLayout);
-            previewLayout4.setOnClickListener(
-
-                    new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent serviceIntent = new Intent(getApplicationContext(),Settings_With_Drawer.class);
-                            startActivity(serviceIntent);
-                        }
-                    }
-            );
 
 
         }
@@ -109,13 +107,17 @@ public class Main_Menu extends AppCompatActivity  implements NavigationView.OnNa
             //Do nothing
         }
     }
+    @Override
+    public void onItemClick(View view, int position) {
+        Toast.makeText(this, "You clicked " + adapter.getItem(position) + " on row number " + position, Toast.LENGTH_SHORT).show();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.settings__with__drawer, menu);
-        MenuItem item = menu.findItem(R.id.action_settings);
-        item.setTitle("Logout");
+        //getMenuInflater().inflate(R.menu.settings__with__drawer, menu);
+        //MenuItem item = menu.findItem(R.id.action_settings);
+        //item.setTitle("Logout");
 
         return true;
     }
@@ -144,9 +146,7 @@ public class Main_Menu extends AppCompatActivity  implements NavigationView.OnNa
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.account_man) {
-            // Handle the camera action
-        } else if (id == R.id.upload_Images) {
+         if (id == R.id.upload_Images) {
             Intent intent = null;
             try {
                 intent = new Intent(getApplicationContext(), Class.forName("com.example.isaia.sss_mobile_app.Main_Activity_Images"));
@@ -177,10 +177,30 @@ public class Main_Menu extends AppCompatActivity  implements NavigationView.OnNa
             }
 
 
-        } else if (id == R.id.nav_share) {
+        }  else if (id == R.id.account_man) {
 
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.users) {
+            Intent intent = new Intent(getApplicationContext(),User_And_Roles.class);
+            startActivity(intent);
+        }
+        else if (id == R.id.add_user) {
 
+        }
+        else if (id == R.id.logoff) {
+            try
+            {
+                Intent intent = new Intent(getApplicationContext(),Login.class);
+                intent.putExtra("From_Logout","true");
+                startActivity(intent);
+            }
+            catch (Exception ex)
+            {
+                Toast.makeText(getApplicationContext(),ex.toString(),Toast.LENGTH_LONG).show();
+            }
+        }
+        else if (id == R.id.main_menu) {
+             Intent intent = new Intent(getApplicationContext(),Main_Menu.class);
+             startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

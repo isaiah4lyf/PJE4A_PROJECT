@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.isaia.sss_mobile_app.Database.DBHelper;
@@ -44,7 +45,7 @@ public class Login extends AppCompatActivity {
         FromLogout = "false";
         User_Name = (EditText)findViewById(R.id.User_Name);
         Password = (EditText)findViewById(R.id.Password);
-        final Button Reg_User = (Button) findViewById(R.id.Reg_User);
+        final TextView Reg_User = (TextView) findViewById(R.id.Reg_User);
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             if(extras.getString("From_Logout") != null)

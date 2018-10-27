@@ -51,76 +51,92 @@ public class Reg_User extends AppCompatActivity {
         ConfirmEmail = (EditText) findViewById(R.id.ConfirmEmail);
 
 
+        TextView sin_in = (TextView)findViewById(R.id.sign_in);
+        sin_in.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(),Login.class);
+                startActivity(intent);
+            }
+        });
         final Button reg = (Button) findViewById(R.id.Sign_Up);
         reg.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        User_Name_String = user_Name.getText().toString().replaceAll(" ","");
-                        Password_String = Password.getText().toString().replaceAll(" ","");
-                        ConfirmPassowrd_String = ConfirmPassword.getText().toString().replaceAll(" ","");
-                        Email_String = Email.getText().toString().replaceAll(" ","");
-                        ConfirmEmail_String = ConfirmEmail.getText().toString().replaceAll(" ","");
-
-                        if(!User_Name_String.equals(""))
+                        try
                         {
-                            if(!Password_String.equals(""))
-                            {
-                                if(!ConfirmPassowrd_String.equals(""))
-                                {
-                                    if(!Email_String.equals(""))
-                                    {
-                                        if(!ConfirmEmail_String.equals(""))
-                                        {
-                                            if(Password_String.equals(ConfirmPassowrd_String))
-                                            {
+                            User_Name_String = user_Name.getText().toString().replaceAll(" ","");
+                            Password_String = Password.getText().toString().replaceAll(" ","");
+                            ConfirmPassowrd_String = ConfirmPassword.getText().toString().replaceAll(" ","");
+                            Email_String = Email.getText().toString().replaceAll(" ","");
+                            ConfirmEmail_String = ConfirmEmail.getText().toString().replaceAll(" ","");
 
-                                                if(Email_String.equals(ConfirmEmail_String))
+                            if(!User_Name_String.equals(""))
+                            {
+                                if(!Password_String.equals(""))
+                                {
+                                    if(!ConfirmPassowrd_String.equals(""))
+                                    {
+                                        if(!Email_String.equals(""))
+                                        {
+                                            if(!ConfirmEmail_String.equals(""))
+                                            {
+                                                if(Password_String.equals(ConfirmPassowrd_String))
                                                 {
-                                                    if(haveNetworkConnection() == true)
+
+                                                    if(Email_String.equals(ConfirmEmail_String))
                                                     {
-                                                        reg_us tast = new reg_us();
-                                                        tast.execute();
+                                                        if(haveNetworkConnection() == true)
+                                                        {
+                                                            reg_us tast = new reg_us();
+                                                            tast.execute();
+                                                        }
+                                                        else
+                                                        {
+                                                            Toast.makeText(getApplicationContext(),"No Internet Connection!",Toast.LENGTH_LONG).show();
+                                                        }
                                                     }
                                                     else
                                                     {
-                                                        Toast.makeText(getApplicationContext(),"No Internet Connection!",Toast.LENGTH_LONG).show();
+                                                        Toast.makeText(getApplicationContext(), "Email does not match!", Toast.LENGTH_SHORT).show();
                                                     }
                                                 }
                                                 else
                                                 {
-                                                    Toast.makeText(getApplicationContext(), "Email does not match!", Toast.LENGTH_SHORT).show();
+                                                    Toast.makeText(getApplicationContext(), "Password does not match!", Toast.LENGTH_SHORT).show();
                                                 }
                                             }
                                             else
                                             {
-                                                Toast.makeText(getApplicationContext(), "Password does not match!", Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(getApplicationContext(), "Confirm Password text field empty!", Toast.LENGTH_SHORT).show();
                                             }
                                         }
                                         else
                                         {
-                                            Toast.makeText(getApplicationContext(), "Confirm Password text field empty!", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(getApplicationContext(), "Password text field empty!", Toast.LENGTH_SHORT).show();
                                         }
                                     }
                                     else
                                     {
-                                        Toast.makeText(getApplicationContext(), "Password text field empty!", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getApplicationContext(), "Confirm Email text field empty!", Toast.LENGTH_SHORT).show();
                                     }
                                 }
                                 else
                                 {
-                                    Toast.makeText(getApplicationContext(), "Confirm Email text field empty!", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(), "Email text field empty!", Toast.LENGTH_SHORT).show();
                                 }
                             }
                             else
                             {
-                                Toast.makeText(getApplicationContext(), "Email text field empty!", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), "User name text field empty!", Toast.LENGTH_SHORT).show();
                             }
                         }
-                        else
+                        catch (Exception ex)
                         {
-                            Toast.makeText(getApplicationContext(), "User name text field empty!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(),ex.toString(),Toast.LENGTH_LONG).show();
                         }
+
                     }
                 }
         );

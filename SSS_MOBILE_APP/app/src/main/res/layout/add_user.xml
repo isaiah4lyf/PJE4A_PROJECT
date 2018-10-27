@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/message_exchanged"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_margin="1dp"
+    android:layout_gravity="center_horizontal"
+    android:background="@drawable/bottom_two">
+    >
+
+
+
+    <ImageButton
+        android:id="@+id/close"
+
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/cancel_black"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="195dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:background="@null"
+        />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"
+            android:drawableLeft="@drawable/ic_person_add_black_24dp"
+            android:drawablePadding="10dp"
+        android:text="Add User" />
+        <Space
+        android:layout_width="wrap_content"
+        android:layout_height="10dp"
+        android:layout_weight="1.03" />
+        <EditText
+            android:id="@+id/user_name"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:background="@drawable/textbox5"
+            android:ems="10"
+            android:paddingLeft="10dp"
+            android:drawableLeft="@drawable/user_addition"
+            android:drawablePadding="10dp"
+            android:inputType="textPersonName"
+            android:hint="User Name"/>
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_weight="1.03" />
+        <EditText
+            android:id="@+id/password"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:background="@drawable/textbox5"
+            android:ems="10"
+            android:paddingLeft="10dp"
+            android:drawableLeft="@drawable/password"
+            android:drawablePadding="10dp"
+            android:inputType="textPassword"
+            android:hint="Password"/>
+
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="10dp"
+            android:layout_weight="1.03" />
+
+        <Button
+            android:id="@+id/add_user"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:paddingRight="10dp"
+            android:paddingLeft="10dp"
+            android:drawablePadding="10dp"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/button"
+            android:drawableRight="@drawable/double_arrow_right"
+            android:drawableLeft="@drawable/double_arrow_left"
+            android:text="ADD USER" />
+
+        <RelativeLayout
+            android:id="@+id/layout"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="5dp">
+
+            <TextView
+                android:id="@+id/sign_uptext"
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="0dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/forgotPass"
+                android:text="Don't have an account?, "
+                android:textAlignment="textEnd"
+                android:textSize="12sp"
+                android:textStyle="normal" />
+            <TextView
+                android:id="@+id/Reg_User"
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="1dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/forgotPass"
+                android:layout_toEndOf="@+id/sign_uptext"
+                android:text="Register User."
+                android:textColor="#9DC8F9"
+                android:textAlignment="textStart"
+                android:textSize="12sp"
+                android:textStyle="normal" />
+        </RelativeLayout>
+    </LinearLayout>
+</LinearLayout>

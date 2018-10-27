@@ -40,12 +40,7 @@ import java.util.TimerTask;
 import static android.content.Context.ACTIVITY_SERVICE;
 import static android.content.Context.DEVICE_POLICY_SERVICE;
 
-/**
- * Sampling AudioRecord Input
- * This output send to {@link VisualizerView}
- *
- * Created by tyorikan on 2015/06/09.
- */
+
 public class RecordingSampler_For_Prediction {
 
     private static final int RECORDING_SAMPLE_RATE = 44100;

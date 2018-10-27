@@ -19,6 +19,7 @@
         android:layout_marginTop="20dp"
         android:textStyle="bold"
         android:textSize="16dp"
+        android:textColor="@color/textColor"
         android:textAlignment="center"
         android:text="Read the quote below: Press and Hold to Record" />
 
@@ -44,7 +45,9 @@
         android:layout_marginRight="5dp"
         android:layout_marginStart="53dp"
         android:layout_above="@+id/start"
+        android:textColor="@color/textColor"
         android:textStyle="italic"
+        android:textAlignment="center"
         android:text="'Quote goes here - by Isaiah'" />
     <ImageButton
         android:id="@+id/start"

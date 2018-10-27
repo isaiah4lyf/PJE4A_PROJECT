@@ -11,22 +11,24 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-    <uses-permission android:name="android.permission.WRITE_SETTINGS"
+    <uses-permission
+        android:name="android.permission.WRITE_SETTINGS"
         tools:ignore="ProtectedPermissions" />
-    <uses-permission android:name="android.permission.BIND_DEVICE_ADMIN"
+    <uses-permission
+        android:name="android.permission.BIND_DEVICE_ADMIN"
         tools:ignore="ProtectedPermissions" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/download"
+        android:icon="@drawable/downloadnew"
         android:label="Smartphone Security System"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        android:theme="@style/AppTheme">
         <activity
-            android:name=".Main_Activity_Images">
+            android:name=".Main_Activity_Images"
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="com.example.isaia.sss_mobile_app.Main_Activity" />
 
@@ -40,7 +42,9 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".Login">
+        <activity
+            android:name=".Login"
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -68,7 +72,6 @@
         <service android:name=".Services.Check_Accuracy_Service" />
         <service android:name=".Services.Train_VN_Model_Service" />
 
-
         <receiver android:name=".Services.BootCompletedIntentReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
@@ -82,7 +85,8 @@
 
         <activity
             android:name=".Main_Menu"
-            android:label="Main Menu">
+            android:label="Main Menu"
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="com.example.isaia.sss_mobile_app.Main_Menu" />
 
@@ -92,7 +96,7 @@
         <activity
             android:name=".Settings_With_Drawer"
             android:label="Settings"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="com.example.isaia.sss_mobile_app.Settings_With_Drawer" />
 
@@ -102,7 +106,7 @@
         <activity
             android:name=".View_Images"
             android:label="@string/title_activity_view__images"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="com.example.isaia.sss_mobile_app.View_Images" />
 
@@ -112,13 +116,17 @@
         <activity
             android:name=".Main_Activity_Voice_Notes"
             android:label="Voice Notes Recording"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="com.example.isaia.sss_mobile_app.Main_Activity_Voice_Notes" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".User_And_Roles"
+            android:label="Allowed Users"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

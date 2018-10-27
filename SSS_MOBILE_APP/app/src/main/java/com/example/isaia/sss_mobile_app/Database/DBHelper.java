@@ -12,7 +12,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 public class DBHelper extends SQLiteOpenHelper {
 
-    public static final String DATABASE_NAME = "SSS_DATABASE_V6.db";
+    public static final String DATABASE_NAME = "SSS_DATABASE_V7.db";
     public static final String CONTACTS_TABLE_NAME = "Login_State";
     public static final String CONTACTS_COLUMN_ID = "id";
     public static final String CONTACTS_COLUMN_NAME = "User_Name";
@@ -42,6 +42,16 @@ public class DBHelper extends SQLiteOpenHelper {
                 "create table Voice_Recognition_Settings " +
                         "(id integer primary key, Voice_Prediction_Service_Status text,Voice_Upload_Service_Status text)"
         );
+
+        db.execSQL(
+                "create table Users " +
+                        "(id integer primary key, User_ID text,User_Name text)"
+        );
+
+        db.execSQL(
+                "create table User_Applications " +
+                        "(id integer primary key, User_ID text,Application_Name text, Application_Access_Name text)"
+        );
     }
 
     @Override
@@ -50,6 +60,8 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS Login_State");
         db.execSQL("DROP TABLE IF EXISTS Face_Recognition_Settings");
         db.execSQL("DROP TABLE IF EXISTS Voice_Recognition_Settings");
+        db.execSQL("DROP TABLE IF EXISTS Users");
+        db.execSQL("DROP TABLE IF EXISTS User_Applications");
         onCreate(db);
     }
 
@@ -147,6 +159,47 @@ public class DBHelper extends SQLiteOpenHelper {
         }
         return true;
     }
+
+
+    /// Users and Applications Management
+    public boolean Insert_User(String User_ID, String User_Name) {
+        try
+        {
+            SQLiteDatabase db = this.getWritableDatabase();
+            ContentValues contentValues = new ContentValues();
+            contentValues.put("User_ID", User_ID);
+            contentValues.put("User_Name", User_Name);
+            db.insert("Users", null, contentValues);
+        }
+        catch(Exception e)
+        {
+            return false;
+        }
+        return true;
+    }
+
+    public int Number_Of_Users(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        int numRows = (int) DatabaseUtils.queryNumEntries(db, "Users");
+        return numRows;
+    }
+    public ArrayList<String> Get_Users() {
+        ArrayList<String> array_list = new ArrayList<String>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res =  db.rawQuery( "select * from Users", null );
+        res.moveToFirst();
+        while(res.isAfterLast() == false)
+        {
+            array_list.add(res.getString(res.getColumnIndex("User_Name")));
+            res.moveToNext();
+        }
+        return array_list;
+    }
+
+
+
+
+
 
 
     ///Accuracy Management
