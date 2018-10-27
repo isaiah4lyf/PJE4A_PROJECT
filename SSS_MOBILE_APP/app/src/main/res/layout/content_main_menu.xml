@@ -8,148 +8,72 @@
     android:background="@drawable/background"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".Main_Menu"
-    tools:showIn="@layout/app_bar_main_menu"
-    android:layout_marginTop="60dp">
-    <TableLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
+    tools:showIn="@layout/app_bar_main_menu">
+    <RelativeLayout
+        android:id="@+id/menbar"
+        android:layout_width="330dp"
+        android:layout_height="43dp"
         android:layout_centerHorizontal="true"
-        android:paddingTop="40dp"
-        android:layout_marginTop="24dp">
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <RelativeLayout
-                android:id="@+id/preview"
-                android:layout_width="120dp"
-                android:layout_height="140dp"
-                android:background="@drawable/main_menu_grids">
-                <ImageView
-                    android:id="@+id/sssvision"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginBottom="15dp"
-                    android:src="@drawable/ic_menu_camera" />
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_below="@+id/sssvision"
-                    android:background="@drawable/main_menu_contents">
-                    <TextView
-                        android:id="@+id/textView3"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
-                        android:layout_centerVertical="true"
-                        android:textStyle="bold"
-                        android:textAlignment="center"
-                        android:text="SSS VISION" />
-                </RelativeLayout>
-            </RelativeLayout>
+        android:background="@drawable/menubar"
+        android:layout_marginTop="70dp">
+        <ImageView
+            android:id="@+id/title_from_to_dots"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="25dp"
+            android:src="@drawable/ic_camera_alt_black_dp" />
+        <ImageView
+            android:id="@+id/title_from_to_dots2"
+            android:layout_width="wrap_content"
+            android:layout_toEndOf="@+id/title_from_to_dots"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="25dp"
+            android:src="@drawable/ic_photo_library_black_dp" />
 
-            <RelativeLayout
-                android:id="@+id/uploadVnsLayout"
-                android:layout_width="120dp"
-                android:layout_height="140dp"
-                android:background="@drawable/main_menu_grids"
-                android:layout_marginLeft="50dp">
-                <ImageView
-                    android:id="@+id/UploadVnsImage"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginBottom="15dp"
-                    android:src="@drawable/ic_record_voice_over_black_24dp" />
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_below="@+id/UploadVnsImage"
-                    android:background="@drawable/main_menu_contents">
-                    <TextView
-                        android:id="@+id/textView4"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
-                        android:layout_centerVertical="true"
-                        android:textStyle="bold"
-                        android:textAlignment="center"
-                        android:text="UPLOAD VNs" />
-                </RelativeLayout>
-            </RelativeLayout>
-        </TableRow>
-        <TableRow
-            android:layout_width="match_parent"
-            android:paddingTop="80dp"
-            android:layout_height="match_parent">
-            <RelativeLayout
-                android:id="@+id/uploadImagesLayout"
-                android:layout_width="120dp"
-                android:layout_height="140dp"
-                android:background="@drawable/main_menu_grids">
-                <ImageView
-                    android:id="@+id/upladImagesIcon"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginBottom="15dp"
-                    android:src="@drawable/ic_menu_gallery" />
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_below="@+id/upladImagesIcon"
-                    android:background="@drawable/main_menu_contents">
-                    <TextView
-                        android:id="@+id/textView5"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
-                        android:layout_centerVertical="true"
-                        android:textStyle="bold"
-                        android:textAlignment="center"
-                        android:text="UPLOAD IMAGES" />
-                </RelativeLayout>
-            </RelativeLayout>
+        <ImageView
+            android:id="@+id/title_from_to_dots3"
+            android:layout_width="wrap_content"
+            android:layout_toEndOf="@+id/title_from_to_dots2"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="25dp"
+            android:src="@drawable/ic_record_voice_over_black_dp" />
 
-            <RelativeLayout
-                android:id="@+id/settingsLayout"
-                android:layout_width="120dp"
-                android:layout_height="140dp"
-                android:background="@drawable/main_menu_grids"
-                android:layout_marginLeft="50dp">
-                <ImageView
-                    android:id="@+id/settingsIcon"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginBottom="15dp"
-                    android:src="@drawable/ic_settings_black_24dp" />
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_below="@+id/settingsIcon"
-                    android:background="@drawable/main_menu_contents">
-                    <TextView
-                        android:id="@+id/textView6"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
-                        android:layout_centerVertical="true"
-                        android:textStyle="bold"
-                        android:textAlignment="center"
-                        android:text="SETTINGS" />
-                </RelativeLayout>
-            </RelativeLayout>
-        </TableRow>
+        <ImageView
+            android:id="@+id/title_from_to_dots4"
+            android:layout_width="wrap_content"
+            android:layout_toEndOf="@+id/title_from_to_dots3"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="25dp"
+            android:src="@drawable/ic_group_add_black_dp" />
 
-    </TableLayout>
+        <ImageView
+            android:id="@+id/title_from_to_dots5"
+            android:layout_width="wrap_content"
+            android:layout_toEndOf="@+id/title_from_to_dots4"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="25dp"
+            android:src="@drawable/ic_settings_black_dp" />
+        <ImageView
+            android:id="@+id/title_from_to_dots6"
+            android:layout_width="wrap_content"
+            android:layout_toEndOf="@+id/title_from_to_dots5"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="25dp"
+            android:src="@drawable/ic_settings_power_black_dp" />
+
+
+    </RelativeLayout>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rvAnimals"
+        android:layout_below="@+id/menbar"
+        android:layout_width="350dp"
+        android:padding="10dp"
+        android:layout_centerHorizontal="true"
+        android:layout_height="match_parent"/>
 </RelativeLayout>
