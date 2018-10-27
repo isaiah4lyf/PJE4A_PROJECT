@@ -58,7 +58,7 @@
             android:ems="10"
             android:textSize="14sp"
             android:hint="User Name"
-            android:drawableLeft="@drawable/user"
+            android:drawableLeft="@drawable/user_addition"
             android:inputType="textPersonName" />
         <TextView
             android:id="@+id/passText"

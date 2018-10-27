@@ -115,9 +115,9 @@ public class Main_Menu extends AppCompatActivity  implements NavigationView.OnNa
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.settings__with__drawer, menu);
-        MenuItem item = menu.findItem(R.id.action_settings);
-        item.setTitle("Logout");
+        //getMenuInflater().inflate(R.menu.settings__with__drawer, menu);
+        //MenuItem item = menu.findItem(R.id.action_settings);
+        //item.setTitle("Logout");
 
         return true;
     }
