@@ -138,6 +138,10 @@ public class Client_Handler implements Runnable{
 							Get_Current_Num_Images();
 							processing = false;
 							break;
+						case "ADD_USER":
+							Get_Current_Num_Images();
+							processing = false;
+							break;
 					}
 				
 				} catch (Exception e) {
