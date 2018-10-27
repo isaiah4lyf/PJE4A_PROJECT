@@ -15,6 +15,7 @@
         <item name="android:textColorSecondary">@android:color/white</item>
         <item name="actionMenuTextColor">@android:color/white</item>
     </style>
+
     <style name="WhiteDrawerIconStyle" parent="AppTheme">
         <item name="spinBars">true</item>
         <item name="color">@android:color/white</item>
@@ -23,6 +24,7 @@
     <style name="MyText" parent="AppTheme">
         <item name="android:textColor">#ffffffff</item>
     </style>
+
     <style name="ContentImageBadgeTitle" parent="AppTheme">
         <item name="android:alpha">0.5</item>
         <item name="android:textColor">@android:color/white</item>
@@ -67,12 +69,18 @@
         <item name="android:textSize">18sp</item>
         <item name="android:textColor">#ffffff</item>
     </style>
+
     <style name="pred_vn_dialog" parent="@android:style/Theme.Holo.Dialog">
         <item name="android:windowTitleStyle">@style/pred_vn_dialog_title</item>
     </style>
+
     <style name="pred_vn_dialog_title" parent="android:Widget.TextView">
         <item name="android:background">@color/colorPrimary</item>
         <item name="android:textSize">18sp</item>
         <item name="android:textColor">#ffffff</item>
     </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

@@ -1,10 +1,10 @@
 package com.example.isaia.sss_mobile_app;
 
-import android.app.Dialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -14,24 +14,22 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-public class View_Images extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+import com.example.isaia.sss_mobile_app.Lists_Adapters.MyRecyclerViewAdapter;
+import com.example.isaia.sss_mobile_app.Lists_Adapters.Recycler_View_Adapter_Users;
 
+import java.util.ArrayList;
 
-    private Button button;
-
+public class User_And_Roles extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener,  Recycler_View_Adapter_Users.ItemClickListener {
+    private Recycler_View_Adapter_Users adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view__images);
+        setContentView(R.layout.activity_user__and__roles);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -42,7 +40,31 @@ public class View_Images extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        // data to populate the RecyclerView with
+        ArrayList<String> animalNames = new ArrayList<>();
+        animalNames.add("Horse");
+        animalNames.add("Cow");
+        animalNames.add("Camel");
+        animalNames.add("Sheep");
+        animalNames.add("Goat");
+        animalNames.add("Horse");
+        animalNames.add("Cow");
+        animalNames.add("Camel");
+        animalNames.add("Sheep");
+        animalNames.add("Goat");
+        animalNames.add("Horse");
+        animalNames.add("Cow");
+        animalNames.add("Camel");
+        animalNames.add("Sheep");
+        animalNames.add("Goat");
 
+
+        // set up the RecyclerView
+        RecyclerView recyclerView = findViewById(R.id.users);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new Recycler_View_Adapter_Users(this, animalNames);
+        adapter.setClickListener(this);
+        recyclerView.setAdapter(adapter);
     }
 
     @Override
@@ -51,15 +73,18 @@ public class View_Images extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            //super.onBackPressed();
-            //Do nothing
+            super.onBackPressed();
         }
+    }
+    @Override
+    public void onItemClick(View view, int position) {
+        Toast.makeText(this, "You clicked " + adapter.getItem(position) + " on row number " + position, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.view__images, menu);
+        getMenuInflater().inflate(R.menu.user__and__roles, menu);
         return true;
     }
 
@@ -84,37 +109,13 @@ public class View_Images extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.account_man) {
+        if (id == R.id.nav_camera) {
             // Handle the camera action
-        } else if (id == R.id.upload_Images) {
-            Intent intent = null;
-            try {
-                intent = new Intent(getApplicationContext(), Class.forName("com.example.isaia.sss_mobile_app.Main_Activity_Images"));
-                startActivity(intent);
+        } else if (id == R.id.nav_gallery) {
 
-            } catch (ClassNotFoundException e) {
-                Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_LONG).show();
-            }
+        } else if (id == R.id.nav_slideshow) {
 
-        } else if (id == R.id.Upload_VN) {
-            Intent intent = null;
-            try {
-                intent = new Intent(getApplicationContext(), Class.forName("com.example.isaia.sss_mobile_app.Main_Activity_Voice_Notes"));
-                startActivity(intent);
-
-            } catch (ClassNotFoundException e) {
-                Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_LONG).show();
-            }
-
-        } else if (id == R.id.settings) {
-            Intent intent = null;
-            try {
-                intent = new Intent(getApplicationContext(), Class.forName("com.example.isaia.sss_mobile_app.Settings_With_Drawer"));
-                startActivity(intent);
-
-            } catch (ClassNotFoundException e) {
-                Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_LONG).show();
-            }
+        } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_share) {
 

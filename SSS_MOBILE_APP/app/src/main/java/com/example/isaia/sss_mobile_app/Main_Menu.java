@@ -180,7 +180,8 @@ public class Main_Menu extends AppCompatActivity  implements NavigationView.OnNa
         }  else if (id == R.id.account_man) {
 
         } else if (id == R.id.users) {
-
+            Intent intent = new Intent(getApplicationContext(),User_And_Roles.class);
+            startActivity(intent);
         }
         else if (id == R.id.add_user) {
 

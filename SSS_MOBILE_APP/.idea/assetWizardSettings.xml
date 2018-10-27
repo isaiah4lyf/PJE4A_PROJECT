@@ -28,11 +28,11 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="height" value="80" />
-                            <entry key="outputName" value="ic_person_black_100dp" />
+                            <entry key="height" value="40" />
+                            <entry key="outputName" value="ic_person_black_users" />
                             <entry key="overrideSize" value="true" />
                             <entry key="sourceFile" value="C:\Users\isaia" />
-                            <entry key="width" value="80" />
+                            <entry key="width" value="40" />
                           </map>
                         </option>
                       </PersistentState>
