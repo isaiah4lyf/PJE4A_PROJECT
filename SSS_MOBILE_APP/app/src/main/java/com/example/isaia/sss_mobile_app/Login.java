@@ -229,9 +229,19 @@ public class Login extends AppCompatActivity {
             {
                 try
                 {
-                    if(result.split(",")[2].equals(loginString.split(",")[0]))
+                    DBHelper mydb = new DBHelper(getApplicationContext());
+                    ArrayList<String> users =  mydb.Get_Users();
+                    boolean user_Found = false;
+                    for(int i = 0; i < users.size(); i++)
                     {
-                        DBHelper mydb = new DBHelper(getApplicationContext());
+                        if(users.get(i).equals(User_Name.getText().toString().replaceAll(" ","")))
+                        {
+                            user_Found = true;
+                        }
+                    }
+
+                    if(result.split(",")[2].equals(loginString.split(",")[0]) || user_Found == true)
+                    {
                         try
                         {
                             int settingsRowsVoice = mydb.Number_Of_Rows_Settings_Voice();

@@ -12,7 +12,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 public class DBHelper extends SQLiteOpenHelper {
 
-    public static final String DATABASE_NAME = "SSS_DATABASE_V7.db";
+    public static final String DATABASE_NAME = "SSS_DATABASE_V12.db";
     public static final String CONTACTS_TABLE_NAME = "Login_State";
     public static final String CONTACTS_COLUMN_ID = "id";
     public static final String CONTACTS_COLUMN_NAME = "User_Name";
