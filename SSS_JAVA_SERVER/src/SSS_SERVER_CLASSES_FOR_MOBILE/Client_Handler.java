@@ -35,8 +35,8 @@ import SSS_SERVER_FUNCTIONS.Update_Train_Data_VN;
 import SSS_SERVER_FUNCTIONS.Update_Training_Accuracy_Users_First_Version;
 import SSS_SERVER_FUNCTIONS.Update_Training_Accuracy_Users_New;
 import SSS_SERVER_FUNCTIONS.Update_Training_Accuracy_Users_VN;
-
-
+import SSS_SERVER_FUNCTIONS.Check_User_Name;
+import SSS_SERVER_FUNCTIONS.Confirm_Number;
 public class Client_Handler implements Runnable{
 
 	private Socket connectionToClient;
@@ -142,6 +142,14 @@ public class Client_Handler implements Runnable{
 							Get_Current_Num_Images();
 							processing = false;
 							break;
+						case "CHECK_USER_NAME":
+							Check_User_Name();
+							processing = false;
+							break;
+						case "CONFIRM_NUMBER":
+							Confirm_Number();
+							processing = false;
+							break;
 					}
 				
 				} catch (Exception e) {
@@ -164,6 +172,31 @@ public class Client_Handler implements Runnable{
 
 
 	/// Commands Management functions
+	private void Confirm_Number()
+	{
+		try {
+			String number = in.readUTF();
+			System.out.println(number);
+			Confirm_Number confirm = new Confirm_Number();
+			sendMessage(confirm.do_The_Work(URL,"Phone number confirmation sms from Smartphone Security System.","+15312331112", number));
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	private void Check_User_Name()
+	{
+		try {
+			String User_Name = in.readUTF();
+			Check_User_Name check = new Check_User_Name();
+			sendMessage(check.do_The_Work(URL, User_Name));
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	private void Register_User() throws Exception
 	{
 		String User_Name = in.readUTF();
@@ -190,7 +223,7 @@ public class Client_Handler implements Runnable{
 			System.out.println(accu_Class_First_Version.do_The_Work(URL, user_Details[0], "0", "0", "0", "0"));
 			
 			Insert_Device_Mac insert_mac = new Insert_Device_Mac();
-			String insert_result = insert_mac.do_The_Work(URL, user_Details[0], Device_Mac);
+			String insert_result = insert_mac.do_The_Work(URL, user_Details[0], Device_Mac,email);
 			System.out.println(insert_result);
 		}	
 

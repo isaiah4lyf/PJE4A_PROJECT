@@ -33,13 +33,6 @@
       <Column Name="Model_ID_VN" Type="System.Int32" DbType="Int" CanBeNull="true" />
     </Type>
   </Table>
-  <Table Name="dbo.Devices_Mac" Member="Devices_Macs">
-    <Type Name="Devices_Mac">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="Mac_Address" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
-      <Column Name="User_ID" Type="System.Int32" DbType="Int" CanBeNull="true" />
-    </Type>
-  </Table>
   <Table Name="dbo.Current_Num_Images" Member="Current_Num_Images">
     <Type Name="Current_Num_Image">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -72,6 +65,24 @@
       <Column Name="Validation_Accuracy_Images" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
       <Column Name="Prediction_Accuracy_VN" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
       <Column Name="Validation_Accuracy_VN" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Devices_Mac" Member="Devices_Macs">
+    <Type Name="Devices_Mac">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Mac_Address" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="User_ID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Current_Number" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Device_Coordinates" Member="Device_Coordinates">
+    <Type Name="Device_Coordinate">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Device_ID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Longitude" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Latitude" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Time_At_This_Coordite" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Date_At_This_Coordinate" Type="System.String" DbType="NChar(10)" CanBeNull="true" />
     </Type>
   </Table>
 </Database>

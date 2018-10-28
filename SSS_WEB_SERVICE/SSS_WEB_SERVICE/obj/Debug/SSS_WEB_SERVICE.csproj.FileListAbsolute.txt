@@ -118,3 +118,12 @@ C:\Users\Administrator\PJE4A_PROJECT\SSS_WEB_SERVICE\SSS_WEB_SERVICE\obj\Debug\S
 C:\Users\Administrator\PJE4A_PROJECT\SSS_WEB_SERVICE\SSS_WEB_SERVICE\obj\Debug\SSS_WEB_SERVICE.csproj.CopyComplete
 C:\Users\Administrator\PJE4A_PROJECT\SSS_WEB_SERVICE\SSS_WEB_SERVICE\obj\Debug\SSS_WEB_SERVICE.dll
 C:\Users\Administrator\PJE4A_PROJECT\SSS_WEB_SERVICE\SSS_WEB_SERVICE\obj\Debug\SSS_WEB_SERVICE.pdb
+C:\Users\Administrator\PJE4A_PROJECT\SSS_WEB_SERVICE\SSS_WEB_SERVICE\bin\Microsoft.IdentityModel.Logging.dll
+C:\Users\Administrator\PJE4A_PROJECT\SSS_WEB_SERVICE\SSS_WEB_SERVICE\bin\Microsoft.IdentityModel.Tokens.dll
+C:\Users\Administrator\PJE4A_PROJECT\SSS_WEB_SERVICE\SSS_WEB_SERVICE\bin\Newtonsoft.Json.dll
+C:\Users\Administrator\PJE4A_PROJECT\SSS_WEB_SERVICE\SSS_WEB_SERVICE\bin\System.IdentityModel.Tokens.Jwt.dll
+C:\Users\Administrator\PJE4A_PROJECT\SSS_WEB_SERVICE\SSS_WEB_SERVICE\bin\Twilio.dll
+C:\Users\Administrator\PJE4A_PROJECT\SSS_WEB_SERVICE\SSS_WEB_SERVICE\bin\Microsoft.IdentityModel.Tokens.xml
+C:\Users\Administrator\PJE4A_PROJECT\SSS_WEB_SERVICE\SSS_WEB_SERVICE\bin\Newtonsoft.Json.xml
+C:\Users\Administrator\PJE4A_PROJECT\SSS_WEB_SERVICE\SSS_WEB_SERVICE\bin\System.IdentityModel.Tokens.Jwt.xml
+C:\Users\Administrator\PJE4A_PROJECT\SSS_WEB_SERVICE\SSS_WEB_SERVICE\bin\Twilio.xml

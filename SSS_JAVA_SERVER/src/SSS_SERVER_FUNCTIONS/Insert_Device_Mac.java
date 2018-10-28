@@ -10,7 +10,7 @@ public class Insert_Device_Mac {
 	public Insert_Device_Mac()
 	{
 	}
-	public String do_The_Work(String URL,String user_ID,String Device_Mac)
+	public String do_The_Work(String URL,String user_ID,String Device_Mac,String Current_Number)
 	{
 		 String address = "";
 	        try {
@@ -20,6 +20,7 @@ public class Insert_Device_Mac {
 	            SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
 	            request.addProperty("User_ID",user_ID);
 	            request.addProperty("Device_Mac",Device_Mac);
+	            request.addProperty("Current_Number",Current_Number);
 	            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
 	            envelope.dotNet = true;
 	            envelope.setOutputSoapObject(request);

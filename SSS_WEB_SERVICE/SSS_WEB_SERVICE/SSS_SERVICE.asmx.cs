@@ -1,16 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
-using System.Web;
 using System.Web.Services;
-using MLApp;
-using MathWorks.MATLAB.NET.Arrays;
-using MathWorks.MATLAB.NET.Utility;
-using myIntegrand;
-using System;
-using System.Net;
-using System.Net.Sockets;
+using Twilio;
+using Twilio.Rest.Api.V2010.Account;
+using Twilio.Types;
+
 
 namespace SSS_WEB_SERVICE
 {
@@ -27,8 +22,38 @@ namespace SSS_WEB_SERVICE
 
 		public SSS_LINQ_DataContext linq = new SSS_LINQ_DataContext();
 
-		//GENERAL METHODS
-		[WebMethod]
+        //GENERAL METHODS
+        [WebMethod]
+        public string CHECK_USERNAME(string user_Name)
+        {
+            string status = "false";
+            List<User> userTable = (from User in linq.Users
+                                    where User.User_Name == user_Name
+                                    select User).ToList();
+            if(userTable.Count > 0)
+            {
+                status = "true";
+            }
+            return status;
+        }
+        [WebMethod]
+        public string SEND_SMS(string body, string From_num, string to_num)
+        {
+            var accountSid = "ACc484302f5efe76f989ed842c373f8102";
+            var authToken = "03fc1567dca19d297dbb2fcd3107b36c";
+            TwilioClient.Init(accountSid, authToken);
+
+            var messageOptions = new CreateMessageOptions(
+                new PhoneNumber(to_num));
+            messageOptions.From = new PhoneNumber(From_num);
+            messageOptions.Body = body;
+
+            var message = MessageResource.Create(messageOptions);
+            return message.Body;
+        }
+
+
+        [WebMethod]
 		public string INSERT_USER(string user_Name,string password,string email)
 		{
 			string status = "false";
@@ -356,7 +381,7 @@ namespace SSS_WEB_SERVICE
 
         }
         [WebMethod]
-		public string INSERT_DEVICE_MAC(string User_ID, string Device_Mac)
+		public string INSERT_DEVICE_MAC(string User_ID, string Device_Mac, string Current_Number)
 		{
 			List<Devices_Mac> macs = (from Devices_Mac in linq.Devices_Macs
 									  where Devices_Mac.Mac_Address == Device_Mac
@@ -366,7 +391,8 @@ namespace SSS_WEB_SERVICE
 				Devices_Mac mac = new Devices_Mac();
 				mac.Mac_Address = Device_Mac;
 				mac.User_ID = Convert.ToInt32(User_ID);
-				linq.Devices_Macs.InsertOnSubmit(mac);
+                mac.Current_Number = Current_Number;
+                linq.Devices_Macs.InsertOnSubmit(mac);
 				linq.SubmitChanges();
 			}
 			else
@@ -387,8 +413,8 @@ namespace SSS_WEB_SERVICE
 			}
 			else
 			{
-				return macs.ElementAt(0).Id + "," + macs.ElementAt(0).Mac_Address + "," + macs.ElementAt(0).User_ID;
-			}
+				return macs.ElementAt(0).Id + "," + macs.ElementAt(0).Mac_Address + "," + macs.ElementAt(0).User_ID + "," + macs.ElementAt(0).Current_Number;
+            }
 		}
 
 
