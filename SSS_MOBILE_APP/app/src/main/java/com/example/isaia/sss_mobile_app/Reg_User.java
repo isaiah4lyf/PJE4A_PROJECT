@@ -18,7 +18,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.isaia.sss_mobile_app.Database.DBHelper;
+import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Check_User_Name;
+import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Confirm_Number;
 import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Insert_User;
+import com.example.isaia.sss_mobile_app.Services.Register_User_Service;
+
 import android.view.LayoutInflater;
 import android.widget.PopupWindow;
 import android.view.ViewGroup.LayoutParams;
@@ -89,8 +93,9 @@ public class Reg_User extends AppCompatActivity {
                                                     {
                                                         if(haveNetworkConnection() == true)
                                                         {
-                                                            reg_us tast = new reg_us();
-                                                            tast.execute();
+                                                            Email_String = "+27" + Email_String;
+                                                            check_user_name check = new check_user_name();
+                                                            check.execute();
                                                         }
                                                         else
                                                         {
@@ -157,24 +162,20 @@ public class Reg_User extends AppCompatActivity {
         }
         return haveConnectedWifi || haveConnectedMobile;
     }
-    private class reg_us extends AsyncTask<String, Void, String> {
+
+    private class check_user_name extends AsyncTask<String, Void, String> {
 
         @Override
         protected void onPreExecute() {
             //if you want, start progress dialog here
-            progressDialog = ProgressDialog.show(Reg_User.this,"Please wait.","Connecting..!", true);
-
         }
         @Override
         protected String doInBackground(String... urls) {
             String response = "";
             try
             {
-                WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-                WifiInfo wInfo = wifiManager.getConnectionInfo();
-                String macAddress = wInfo.getMacAddress();
-                Insert_User insert_user = new Insert_User();
-                response =  insert_user.Do_The_work(User_Name_String,Email_String,Password_String,macAddress);
+                Check_User_Name insert_user = new Check_User_Name();
+                response =  insert_user.Do_The_work(User_Name_String);
             }
             catch (Exception ex){
                 response = ex.toString();
@@ -184,23 +185,52 @@ public class Reg_User extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
             //if you started progress dialog dismiss it here
-            progressDialog.dismiss();
             try
             {
-                if(result.equals("false"))
+                if(result.equals("true"))
                 {
                     Toast.makeText(getApplicationContext(),"User name already taken!",Toast.LENGTH_LONG).show();
                 }
-                else if(result.equals("true"))
-                {
-                    Toast.makeText(getApplicationContext(),"Registration Successful!",Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent(getApplicationContext(), Login.class);
-                    startActivity(intent);
-                }
                 else
                 {
-                    Toast.makeText(getApplicationContext(),result,Toast.LENGTH_LONG).show();
+                    DBHelper mydb = new DBHelper(getApplicationContext());
+
+                    Toast.makeText(getApplicationContext(),String.valueOf( mydb.insert_user_reg_temp_data(User_Name_String,Email_String,Password_String)),Toast.LENGTH_LONG).show();
+                    confirm_phone_number confirm = new confirm_phone_number();
+                    confirm.execute();
                 }
+
+            } catch (Exception e) {
+                Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+    private class confirm_phone_number extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected void onPreExecute() {
+            //if you want, start progress dialog here
+        }
+        @Override
+        protected String doInBackground(String... urls) {
+            String response = "";
+            try
+            {
+                Confirm_Number insert_user = new Confirm_Number();
+                response =  insert_user.Do_The_work(Email_String);
+            }
+            catch (Exception ex){
+                response = ex.toString();
+            }
+            return  response;
+        }
+        @Override
+        protected void onPostExecute(String result) {
+            //if you started progress dialog dismiss it here
+            try
+            {
+                Toast.makeText(getApplicationContext(),result,Toast.LENGTH_LONG).show();
+
 
             } catch (Exception e) {
                 Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_LONG).show();

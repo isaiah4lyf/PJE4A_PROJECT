@@ -1,18 +1,23 @@
 package com.example.isaia.sss_mobile_app;
 
+import android.Manifest;
 import android.app.ActivityManager;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.telephony.SmsManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -38,15 +43,18 @@ public class Login extends AppCompatActivity {
     private ProgressDialog progressDialog;
     private String loginString;
     private String FromLogout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         FromLogout = "false";
-        User_Name = (EditText)findViewById(R.id.User_Name);
-        Password = (EditText)findViewById(R.id.Password);
+        User_Name = (EditText) findViewById(R.id.User_Name);
+        Password = (EditText) findViewById(R.id.Password);
         final TextView Reg_User = (TextView) findViewById(R.id.Reg_User);
         Bundle extras = getIntent().getExtras();
+
+        //sendLongSMS();
         if (extras != null) {
             if(extras.getString("From_Logout") != null)
             {
@@ -121,6 +129,22 @@ public class Login extends AppCompatActivity {
                 }
 
         );
+    }
+    public void sendLongSMS() {
+        try
+        {
+            String phoneNumber = "0796559782";
+            String message = "Hello World! Now we are going to demonstrate " +
+                    "how to send a message with more than 160 characters from your Android application.";
+            SmsManager smsManager = SmsManager.getDefault();
+            ArrayList<String> parts = smsManager.divideMessage(message);
+            smsManager.sendMultipartTextMessage(phoneNumber, null, parts, null, null);
+        }
+        catch (Exception ex)
+        {
+            Toast.makeText(getApplicationContext(),ex.toString(),Toast.LENGTH_LONG).show();
+        }
+
     }
     @Override
     public void onBackPressed() {

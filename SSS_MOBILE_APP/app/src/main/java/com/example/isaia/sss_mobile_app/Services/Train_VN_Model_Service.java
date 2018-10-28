@@ -59,7 +59,7 @@ public class Train_VN_Model_Service extends Service {
         @Override
         protected void onPostExecute(String result) {
             //if you started progress dialog dismiss it here
-            Toast.makeText(getApplicationContext(),result,Toast.LENGTH_LONG).toString();
+            Toast.makeText(getApplicationContext(),result,Toast.LENGTH_LONG).show();
             stopService(new Intent(getApplicationContext(), Train_VN_Model_Service.class));
 
         }

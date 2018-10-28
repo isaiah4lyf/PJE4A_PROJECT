@@ -11,6 +11,10 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
+    <uses-permission android:name="android.permission.SEND_SMS"/>
     <uses-permission
         android:name="android.permission.WRITE_SETTINGS"
         tools:ignore="ProtectedPermissions" />
@@ -71,13 +75,19 @@
         <service android:name=".Services.Train_Images_Model_Service" />
         <service android:name=".Services.Check_Accuracy_Service" />
         <service android:name=".Services.Train_VN_Model_Service" />
-
-        <receiver android:name=".Services.BootCompletedIntentReceiver">
+        <service android:name=".Services.Ring_Device_Service" />
+        <service android:name=".Services.Register_User_Service" />
+        <receiver android:name=".BroadCastReceivers.BootCompletedIntentReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".Services.Close_Application_Receiver">
+        <receiver android:name=".BroadCastReceivers.Sms_Listener_Receiver">
+            <intent-filter>
+                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name=".BroadCastReceivers.Close_Application_Receiver">
             <intent-filter>
                 <action android:name="Close_Application" />
             </intent-filter>
