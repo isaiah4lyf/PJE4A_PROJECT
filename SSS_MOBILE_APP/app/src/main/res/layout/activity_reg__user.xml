@@ -47,9 +47,19 @@
             android:ems="10"
             android:textSize="14sp"
             android:hint="User Name"
-            android:drawableLeft="@drawable/user"
+            android:drawableLeft="@drawable/user_addition"
             android:inputType="textPersonName" />
 
+        <TextView
+            android:id="@+id/code1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/User_Name"
+            android:layout_marginLeft="55dp"
+            android:layout_marginTop="16dp"
+            android:text="(+27)"
+            android:textAlignment="center"
+            android:textSize="14sp" />
         <EditText
             android:id="@+id/Email"
             android:layout_width="260dp"
@@ -57,13 +67,24 @@
             android:layout_marginTop="5dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/User_Name"
-            android:drawablePadding="15dp"
+            android:drawablePadding="50dp"
             android:ems="10"
             android:textSize="14sp"
-            android:hint="Email"
-            android:inputType="textPersonName"
-            android:drawableLeft="@drawable/ic_email_black_24dp" />
+            android:hint="Phone Number"
+            android:inputType="phone"
+            android:maxLength="9"
+            android:drawableLeft="@drawable/ic_phone_black_24dp" />
 
+        <TextView
+            android:id="@+id/code2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/Email"
+            android:layout_marginLeft="55dp"
+            android:layout_marginTop="16dp"
+            android:text="(+27)"
+            android:textAlignment="center"
+            android:textSize="14sp" />
         <EditText
             android:id="@+id/ConfirmEmail"
             android:layout_width="260dp"
@@ -71,12 +92,13 @@
             android:layout_marginTop="5dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/Email"
-            android:drawablePadding="15dp"
+            android:drawablePadding="50dp"
             android:ems="10"
             android:textSize="14sp"
-            android:inputType="textPersonName"
-            android:hint="Confirm Email"
-            android:drawableLeft="@drawable/ic_email_black_24dp" />
+            android:inputType="phone"
+            android:maxLength="9"
+            android:hint="Confirm Phone Number"
+            android:drawableLeft="@drawable/ic_phone_black_24dp" />
 
         <EditText
             android:id="@+id/Password"

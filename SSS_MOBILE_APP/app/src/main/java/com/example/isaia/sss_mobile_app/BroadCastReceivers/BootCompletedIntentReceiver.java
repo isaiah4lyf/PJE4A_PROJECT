@@ -1,4 +1,4 @@
-package com.example.isaia.sss_mobile_app.Services;
+package com.example.isaia.sss_mobile_app.BroadCastReceivers;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

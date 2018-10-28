@@ -1,6 +1,7 @@
 package com.example.isaia.sss_mobile_app;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -27,6 +28,7 @@ import android.widget.Toast;
 import com.example.isaia.sss_mobile_app.Database.DBHelper;
 import com.example.isaia.sss_mobile_app.Lists_Adapters.MyRecyclerViewAdapter;
 import com.example.isaia.sss_mobile_app.Lists_Adapters.Recycler_View_Adapter_Users;
+import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Login_Class;
 
 import java.util.ArrayList;
 
@@ -36,6 +38,9 @@ public class User_And_Roles extends AppCompatActivity
     private Toolbar toolbar;
     private DBHelper mydb;
     private ArrayList<String> users;
+    private EditText user_name;
+    private EditText password;
+    private PopupWindow popupWindow;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,7 +84,7 @@ public class User_And_Roles extends AppCompatActivity
                 = (LayoutInflater)getBaseContext()
                 .getSystemService(LAYOUT_INFLATER_SERVICE);
         final View popupView = layoutInflater.inflate(R.layout.add_user, null);
-        final PopupWindow popupWindow = new PopupWindow(
+        popupWindow = new PopupWindow(
                 popupView,
                 ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -94,11 +99,11 @@ public class User_And_Roles extends AppCompatActivity
             }});
 
         popupWindow.showAsDropDown(toolbar,90, 150);
-        final EditText user_name= (EditText)popupView.findViewById(R.id.user_name);
-        final EditText password = (EditText)popupView.findViewById(R.id.password);
+        user_name= (EditText)popupView.findViewById(R.id.user_name);
+        password = (EditText)popupView.findViewById(R.id.password);
 
-        final Button send_message = (Button)popupView.findViewById(R.id.add_user);
-        send_message.setOnClickListener(new Button.OnClickListener(){
+        final Button add_user = (Button)popupView.findViewById(R.id.add_user);
+        add_user.setOnClickListener(new Button.OnClickListener(){
 
             @Override
             public void onClick(View v) {
@@ -108,10 +113,10 @@ public class User_And_Roles extends AppCompatActivity
                 {
                     if(!password.getText().toString().equals(""))
                     {
-                        popupWindow.dismiss();
-                        Toast.makeText(getApplicationContext(),String.valueOf(mydb.Insert_User(password.getText().toString(),user_name.getText().toString())),Toast.LENGTH_LONG).show();
-                        users.add(users.size() - 1, user_name.getText().toString());
-                        adapter.notifyItemInserted(users.size() - 1);
+
+                        login_Asy login = new login_Asy();
+                        login.execute();
+
                     }
                     else
                     {
@@ -198,5 +203,78 @@ public class User_And_Roles extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+    private class login_Asy extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected void onPreExecute() {
+            //if you want, start progress dialog here
+        }
+        @Override
+        protected String doInBackground(String... urls) {
+
+            String response = "";
+            try
+            {
+                Login_Class login = new Login_Class();
+                response = login.Do_The_work(user_name.getText().toString().replaceAll(" ",""),password.getText().toString().replaceAll(" ",""));
+            }
+            catch(Exception ex)
+            {
+                response = "Error: "+ex.getLocalizedMessage();
+            }
+            return  response;
+        }
+        @Override
+        protected void onPostExecute(String result) {
+            //if you started progress dialog dismiss it here
+            if(result.startsWith("Error:"))
+            {
+                Toast.makeText(getApplicationContext(),result,Toast.LENGTH_LONG).show();
+            }
+            if(!result.equals("false"))
+            {
+                boolean user_Found = false;
+                for(int i = 0; i < users.size(); i++)
+                {
+                    if(users.get(i).equals(user_name.getText().toString().replaceAll(" ","")))
+                    {
+                        user_Found = true;
+                    }
+                }
+                if(user_Found == true)
+                {
+                    Toast.makeText(getApplicationContext(),"User already on the list!",Toast.LENGTH_LONG).show();
+                }
+                else
+                {
+                    try
+                    {
+                        mydb.Insert_User(password.getText().toString(),user_name.getText().toString().replaceAll(" ",""));
+                        if(users.size() > 0)
+                        {
+                            users.add(users.size() - 1, user_name.getText().toString().replaceAll(" ",""));
+                            adapter.notifyItemInserted(users.size() - 1);
+                        }
+                        else
+                        {
+                            users.add(0, user_name.getText().toString().replaceAll(" ",""));
+                            adapter.notifyItemInserted(0);
+                        }
+
+                        popupWindow.dismiss();
+                    }
+                    catch (Exception ex)
+                    {
+                        Toast.makeText(getApplicationContext(),ex.toString(),Toast.LENGTH_LONG).show();
+                    }
+
+                }
+            }
+            else
+            {
+                Toast.makeText(getApplicationContext(),"Incorrect details!",Toast.LENGTH_LONG).show();
+            }
+        }
     }
 }

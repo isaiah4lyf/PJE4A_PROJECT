@@ -7,13 +7,8 @@
     android:layout_margin="1dp"
     android:layout_gravity="center_horizontal"
     android:background="@drawable/bottom_two">
-    >
-
-
-
     <ImageButton
         android:id="@+id/close"
-
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:src="@drawable/cancel_black"
@@ -21,28 +16,26 @@
         android:layout_marginLeft="195dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:background="@null"
-        />
-    <LinearLayout
-        android:layout_width="wrap_content"
+        android:background="@null"/>
+    <RelativeLayout
+        android:layout_width="220dp"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_gravity="center_horizontal"
         android:layout_margin="20dp">
 
         <TextView
+            android:id="@+id/addText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#000000"
             android:drawableLeft="@drawable/ic_person_add_black_24dp"
             android:drawablePadding="10dp"
-        android:text="Add User" />
-        <Space
-        android:layout_width="wrap_content"
-        android:layout_height="10dp"
-        android:layout_weight="1.03" />
+            android:text="Add User" />
+
         <EditText
             android:id="@+id/user_name"
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/addText"
             android:layout_width="match_parent"
             android:layout_height="35dp"
             android:background="@drawable/textbox5"
@@ -52,12 +45,11 @@
             android:drawablePadding="10dp"
             android:inputType="textPersonName"
             android:hint="User Name"/>
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:layout_weight="1.03" />
+
         <EditText
             android:id="@+id/password"
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/user_name"
             android:layout_width="match_parent"
             android:layout_height="35dp"
             android:background="@drawable/textbox5"
@@ -68,16 +60,12 @@
             android:inputType="textPassword"
             android:hint="Password"/>
 
-
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="10dp"
-            android:layout_weight="1.03" />
-
         <Button
             android:id="@+id/add_user"
             android:layout_width="match_parent"
             android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/password"
             android:paddingRight="10dp"
             android:paddingLeft="10dp"
             android:drawablePadding="10dp"
@@ -89,8 +77,9 @@
 
         <RelativeLayout
             android:id="@+id/layout"
+            android:layout_below="@+id/add_user"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="5dp">
 
             <TextView
@@ -118,5 +107,5 @@
                 android:textSize="12sp"
                 android:textStyle="normal" />
         </RelativeLayout>
-    </LinearLayout>
+    </RelativeLayout>
 </LinearLayout>

@@ -12,7 +12,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 public class DBHelper extends SQLiteOpenHelper {
 
-    public static final String DATABASE_NAME = "SSS_DATABASE_V7.db";
+    public static final String DATABASE_NAME = "SSS_DATABASE_V12.db";
     public static final String CONTACTS_TABLE_NAME = "Login_State";
     public static final String CONTACTS_COLUMN_ID = "id";
     public static final String CONTACTS_COLUMN_NAME = "User_Name";
@@ -52,6 +52,11 @@ public class DBHelper extends SQLiteOpenHelper {
                 "create table User_Applications " +
                         "(id integer primary key, User_ID text,Application_Name text, Application_Access_Name text)"
         );
+
+        db.execSQL(
+                "create table User_Registration_Table " +
+                        "(id integer primary key, User_Name_String text,Phone_Number text, Password_String text)"
+        );
     }
 
     @Override
@@ -69,6 +74,61 @@ public class DBHelper extends SQLiteOpenHelper {
 
 
     //Login Functions
+    public boolean insert_user_reg_temp_data(String User_Name_String, String Phone_Number,String Password_String) {
+        try
+        {
+            SQLiteDatabase db = this.getWritableDatabase();
+            db.execSQL("DROP TABLE IF EXISTS User_Registration_Table");
+            db.execSQL(
+                    "create table User_Registration_Table " +
+                            "(id integer primary key, User_Name_String text,Phone_Number text, Password_String text)"
+            );
+            ContentValues contentValues = new ContentValues();
+            contentValues.put("User_Name_String", User_Name_String);
+            contentValues.put("Phone_Number", Phone_Number);
+            contentValues.put("Password_String", Password_String);
+            db.insert("User_Registration_Table", null, contentValues);
+
+        }
+        catch(Exception e)
+        {
+            return false;
+        }
+        return true;
+    }
+    public String User_Name_String()
+    {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res =  db.rawQuery( "select * from User_Registration_Table", null );
+        res.moveToLast();
+        return res.getString(res.getColumnIndex("User_Name_String"));
+    }
+    public String Phone_Number()
+    {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res =  db.rawQuery( "select * from User_Registration_Table", null );
+        res.moveToLast();
+        return res.getString(res.getColumnIndex("Phone_Number"));
+    }
+    public boolean drop_user_reg_temp_data() {
+        try
+        {
+            SQLiteDatabase db = this.getWritableDatabase();
+            db.execSQL("DROP TABLE IF EXISTS User_Registration_Table");
+        }
+        catch(Exception e)
+        {
+            return false;
+        }
+        return true;
+    }
+    public String Password_String()
+    {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res =  db.rawQuery( "select * from User_Registration_Table", null );
+        res.moveToLast();
+        return res.getString(res.getColumnIndex("Password_String"));
+    }
     public boolean insert_Login_State (String User_Name, String Password) {
         try
         {
@@ -90,6 +150,7 @@ public class DBHelper extends SQLiteOpenHelper {
         }
         return true;
     }
+
 
     public String User_Name()
     {
