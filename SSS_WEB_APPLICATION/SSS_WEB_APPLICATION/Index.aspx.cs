@@ -13,6 +13,7 @@ namespace SSS_WEB_APPLICATION
 	{
 		protected void Page_Load(object sender, EventArgs e)
 		{
+            /*
 			SSS_SERVICE service = new SSS_SERVICE();
 			List<User> users = service.return_Users().ToList();
 			var images = service.return_Images().ToList();
@@ -39,6 +40,7 @@ namespace SSS_WEB_APPLICATION
 				temp += "</div>";
 			}
 			div.InnerHtml = temp;
+            */
 		}
 	}
 }

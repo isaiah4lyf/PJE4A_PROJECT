@@ -57,6 +57,9 @@ namespace SSS_WEB_SERVICE
     partial void InsertDevices_Mac(Devices_Mac instance);
     partial void UpdateDevices_Mac(Devices_Mac instance);
     partial void DeleteDevices_Mac(Devices_Mac instance);
+    partial void InsertDevice_Coordinate(Device_Coordinate instance);
+    partial void UpdateDevice_Coordinate(Device_Coordinate instance);
+    partial void DeleteDevice_Coordinate(Device_Coordinate instance);
     #endregion
 		
 		public SSS_LINQ_DataContext() : 
@@ -1449,12 +1452,14 @@ namespace SSS_WEB_SERVICE
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Device_Coordinates")]
-	public partial class Device_Coordinate
+	public partial class Device_Coordinate : INotifyPropertyChanging, INotifyPropertyChanged
 	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
 		
 		private int _Id;
 		
-		private System.Nullable<int> _Device_ID;
+		private string _Device_Mac;
 		
 		private string _Longitude;
 		
@@ -1464,11 +1469,30 @@ namespace SSS_WEB_SERVICE
 		
 		private string _Date_At_This_Coordinate;
 		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnDevice_MacChanging(string value);
+    partial void OnDevice_MacChanged();
+    partial void OnLongitudeChanging(string value);
+    partial void OnLongitudeChanged();
+    partial void OnLatitudeChanging(string value);
+    partial void OnLatitudeChanged();
+    partial void OnTime_At_This_CoorditeChanging(string value);
+    partial void OnTime_At_This_CoorditeChanged();
+    partial void OnDate_At_This_CoordinateChanging(string value);
+    partial void OnDate_At_This_CoordinateChanged();
+    #endregion
+		
 		public Device_Coordinate()
 		{
+			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.Always, DbType="Int NOT NULL IDENTITY", IsDbGenerated=true)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
 		public int Id
 		{
 			get
@@ -1479,23 +1503,31 @@ namespace SSS_WEB_SERVICE
 			{
 				if ((this._Id != value))
 				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
 					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Device_ID", DbType="Int")]
-		public System.Nullable<int> Device_ID
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Device_Mac", DbType="NVarChar(MAX)")]
+		public string Device_Mac
 		{
 			get
 			{
-				return this._Device_ID;
+				return this._Device_Mac;
 			}
 			set
 			{
-				if ((this._Device_ID != value))
+				if ((this._Device_Mac != value))
 				{
-					this._Device_ID = value;
+					this.OnDevice_MacChanging(value);
+					this.SendPropertyChanging();
+					this._Device_Mac = value;
+					this.SendPropertyChanged("Device_Mac");
+					this.OnDevice_MacChanged();
 				}
 			}
 		}
@@ -1511,7 +1543,11 @@ namespace SSS_WEB_SERVICE
 			{
 				if ((this._Longitude != value))
 				{
+					this.OnLongitudeChanging(value);
+					this.SendPropertyChanging();
 					this._Longitude = value;
+					this.SendPropertyChanged("Longitude");
+					this.OnLongitudeChanged();
 				}
 			}
 		}
@@ -1527,7 +1563,11 @@ namespace SSS_WEB_SERVICE
 			{
 				if ((this._Latitude != value))
 				{
+					this.OnLatitudeChanging(value);
+					this.SendPropertyChanging();
 					this._Latitude = value;
+					this.SendPropertyChanged("Latitude");
+					this.OnLatitudeChanged();
 				}
 			}
 		}
@@ -1543,7 +1583,11 @@ namespace SSS_WEB_SERVICE
 			{
 				if ((this._Time_At_This_Coordite != value))
 				{
+					this.OnTime_At_This_CoorditeChanging(value);
+					this.SendPropertyChanging();
 					this._Time_At_This_Coordite = value;
+					this.SendPropertyChanged("Time_At_This_Coordite");
+					this.OnTime_At_This_CoorditeChanged();
 				}
 			}
 		}
@@ -1559,8 +1603,32 @@ namespace SSS_WEB_SERVICE
 			{
 				if ((this._Date_At_This_Coordinate != value))
 				{
+					this.OnDate_At_This_CoordinateChanging(value);
+					this.SendPropertyChanging();
 					this._Date_At_This_Coordinate = value;
+					this.SendPropertyChanged("Date_At_This_Coordinate");
+					this.OnDate_At_This_CoordinateChanged();
 				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
 		}
 	}

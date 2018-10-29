@@ -37,6 +37,7 @@ import SSS_SERVER_FUNCTIONS.Update_Training_Accuracy_Users_New;
 import SSS_SERVER_FUNCTIONS.Update_Training_Accuracy_Users_VN;
 import SSS_SERVER_FUNCTIONS.Check_User_Name;
 import SSS_SERVER_FUNCTIONS.Confirm_Number;
+import SSS_SERVER_FUNCTIONS.Insert_Device_Coordinate;
 public class Client_Handler implements Runnable{
 
 	private Socket connectionToClient;
@@ -150,6 +151,10 @@ public class Client_Handler implements Runnable{
 							Confirm_Number();
 							processing = false;
 							break;
+						case "INSERT_DEVICE_COORDINATE":
+							Insert_Device_Coordinate();
+							processing = false;
+							break;
 					}
 				
 				} catch (Exception e) {
@@ -172,6 +177,21 @@ public class Client_Handler implements Runnable{
 
 
 	/// Commands Management functions
+	private void Insert_Device_Coordinate()
+	{
+		try {
+			String Device_Mac = in.readUTF();
+			String Longitude = in.readUTF();
+			String Latitude = in.readUTF();
+			Insert_Device_Coordinate insert = new Insert_Device_Coordinate();
+			sendMessage(insert.do_The_Work(URL, Device_Mac, Longitude, Latitude));
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
 	private void Confirm_Number()
 	{
 		try {

@@ -77,8 +77,8 @@
   </Table>
   <Table Name="dbo.Device_Coordinates" Member="Device_Coordinates">
     <Type Name="Device_Coordinate">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="Device_ID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Device_Mac" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
       <Column Name="Longitude" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
       <Column Name="Latitude" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
       <Column Name="Time_At_This_Coordite" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />

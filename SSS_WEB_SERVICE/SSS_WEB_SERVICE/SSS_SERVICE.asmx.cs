@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web.Script.Serialization;
 using System.Web.Services;
 using Twilio;
 using Twilio.Rest.Api.V2010.Account;
@@ -23,6 +24,47 @@ namespace SSS_WEB_SERVICE
 		public SSS_LINQ_DataContext linq = new SSS_LINQ_DataContext();
 
         //GENERAL METHODS
+        [WebMethod]
+        public string INSERT_DEVICE_COORDINATE(string Device_Mac,string Longitude,string Latitude)
+        {
+            Device_Coordinate coordinate = new Device_Coordinate();
+            coordinate.Device_Mac = Device_Mac;
+            coordinate.Longitude = Longitude;
+            coordinate.Latitude = Latitude;
+            coordinate.Time_At_This_Coordite = DateTime.Now.ToString("HH:mm:ss");
+            coordinate.Date_At_This_Coordinate = DateTime.Today.ToString("dd-MM-yyyy");
+            linq.Device_Coordinates.InsertOnSubmit(coordinate);
+            linq.SubmitChanges();
+            return "true";
+        }
+
+        [WebMethod]
+        public void RETURN_DEVICE_COORDINATE_JS(string Device_Mac)
+        {
+            List<object> cord_ob_list = new List<object>();
+
+            List<Device_Coordinate> coordinates = (from Device_Coordinate in linq.Device_Coordinates
+                                                   where Device_Coordinate.Device_Mac == Device_Mac
+                                                   select Device_Coordinate).ToList();
+
+            if (coordinates.Count > 0)
+            {
+                for(int i = 0; i < coordinates.Count; i++)
+                {
+                    Device_Coordinate coord = new Device_Coordinate();
+                    coord.Id = coordinates.ElementAt(i).Id;
+                    coord.Device_Mac = coordinates.ElementAt(i).Device_Mac;
+                    coord.Longitude = coordinates.ElementAt(i).Longitude;
+                    coord.Latitude = coordinates.ElementAt(i).Latitude;
+                    coord.Time_At_This_Coordite = coordinates.ElementAt(i).Time_At_This_Coordite;
+                    coord.Date_At_This_Coordinate = coordinates.ElementAt(i).Date_At_This_Coordinate;
+                    cord_ob_list.Add(coord);
+                }
+            }
+            JavaScriptSerializer js = new JavaScriptSerializer();
+            Context.Response.Write(js.Serialize(cord_ob_list));
+        }
+
         [WebMethod]
         public string CHECK_USERNAME(string user_Name)
         {
