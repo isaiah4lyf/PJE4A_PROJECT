@@ -92,6 +92,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <Content Include="Index.aspx" />
     <Content Include="SSS_LINQ_.dbml">
       <Generator>MSLinqToSQLGenerator</Generator>
       <LastGenOutput>SSS_LINQ_.designer.cs</LastGenOutput>
@@ -121,6 +122,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Coordinate_Class.cs" />
+    <Compile Include="Index.aspx.cs">
+      <DependentUpon>Index.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Index.aspx.designer.cs">
+      <DependentUpon>Index.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>

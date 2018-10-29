@@ -17,7 +17,7 @@ namespace SSS_WEB_SERVICE
 	[WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
 	[System.ComponentModel.ToolboxItem(false)]
 	// To allow this Web Service to be called from script, using ASP.NET AJAX, uncomment the following line. 
-	// [System.Web.Script.Services.ScriptService]
+	[System.Web.Script.Services.ScriptService]
 	public class SSS_SERVICE : System.Web.Services.WebService
 	{
 
@@ -39,30 +39,14 @@ namespace SSS_WEB_SERVICE
         }
 
         [WebMethod]
-        public void RETURN_DEVICE_COORDINATE_JS(string Device_Mac)
+        public List<Device_Coordinate> RETURN_DEVICE_COORDINATE_JS(string Device_Mac)
         {
             List<object> cord_ob_list = new List<object>();
 
             List<Device_Coordinate> coordinates = (from Device_Coordinate in linq.Device_Coordinates
                                                    where Device_Coordinate.Device_Mac == Device_Mac
                                                    select Device_Coordinate).ToList();
-
-            if (coordinates.Count > 0)
-            {
-                for(int i = 0; i < coordinates.Count; i++)
-                {
-                    Device_Coordinate coord = new Device_Coordinate();
-                    coord.Id = coordinates.ElementAt(i).Id;
-                    coord.Device_Mac = coordinates.ElementAt(i).Device_Mac;
-                    coord.Longitude = coordinates.ElementAt(i).Longitude;
-                    coord.Latitude = coordinates.ElementAt(i).Latitude;
-                    coord.Time_At_This_Coordite = coordinates.ElementAt(i).Time_At_This_Coordite;
-                    coord.Date_At_This_Coordinate = coordinates.ElementAt(i).Date_At_This_Coordinate;
-                    cord_ob_list.Add(coord);
-                }
-            }
-            JavaScriptSerializer js = new JavaScriptSerializer();
-            Context.Response.Write(js.Serialize(cord_ob_list));
+            return coordinates;
         }
 
         [WebMethod]
