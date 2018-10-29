@@ -1,0 +1,1614 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="INSERT_DEVICE_COORDINATE">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Device_Mac" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Longitude" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Latitude" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="INSERT_DEVICE_COORDINATEResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="INSERT_DEVICE_COORDINATEResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RETURN_DEVICE_COORDINATE_JS">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Device_Mac" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RETURN_DEVICE_COORDINATE_JSResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="CHECK_USERNAME">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="user_Name" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CHECK_USERNAMEResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CHECK_USERNAMEResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SEND_SMS">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="body" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="From_num" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="to_num" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SEND_SMSResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SEND_SMSResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="INSERT_USER">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="user_Name" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="email" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="INSERT_USERResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="INSERT_USERResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LOGIN">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="userName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LOGINResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="LOGINResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="INSERT_ACCURACY_USERS">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="User_ID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Prediction_Accuracy_Images" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Validation_Accuracy_Images" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Prediction_Accuracy_VN" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Validation_Accuracy_VN" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="INSERT_ACCURACY_USERSResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="INSERT_ACCURACY_USERSResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RETURN_ACCURACY_USERS">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="User_ID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RETURN_ACCURACY_USERSResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="RETURN_ACCURACY_USERSResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UPDATE_ACCURACY_USERS">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="User_ID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Prediction_Accuracy_Images" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Validation_Accuracy_Images" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Prediction_Accuracy_VN" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Validation_Accuracy_VN" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UPDATE_ACCURACY_USERSResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="UPDATE_ACCURACY_USERSResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UPDATE_TRAINING_ACCURACY_USERS">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Model_ID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Validation_Accuracy_Images" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Validation_Accuracy_VN" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UPDATE_TRAINING_ACCURACY_USERSResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="UPDATE_TRAINING_ACCURACY_USERSResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UPDATE_TRAINING_ACCURACY_USERS_VN">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Model_ID_VN" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Validation_Accuracy_Images" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Validation_Accuracy_VN" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UPDATE_TRAINING_ACCURACY_USERS_VNResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="UPDATE_TRAINING_ACCURACY_USERS_VNResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="INSERT_ACCURACY_USERS_FIRST_VERSION">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="User_ID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Prediction_Accuracy_Images" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Validation_Accuracy_Images" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Prediction_Accuracy_VN" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Validation_Accuracy_VN" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="INSERT_ACCURACY_USERS_FIRST_VERSIONResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="INSERT_ACCURACY_USERS_FIRST_VERSIONResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RETURN_ACCURACY_USERS_FIRST_VERSION">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="User_ID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RETURN_ACCURACY_USERS_FIRST_VERSIONResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="RETURN_ACCURACY_USERS_FIRST_VERSIONResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UPDATE_ACCURACY_USERS_FIRST_VERSION">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="User_ID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Prediction_Accuracy_Images" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Validation_Accuracy_Images" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Prediction_Accuracy_VN" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Validation_Accuracy_VN" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UPDATE_ACCURACY_USERS_FIRST_VERSIONResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="UPDATE_ACCURACY_USERS_FIRST_VERSIONResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UPDATE_TRAINING_ACCURACY_USERS_FIRST_VERSION">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Model_ID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Validation_Accuracy_Images" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Validation_Accuracy_VN" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UPDATE_TRAINING_ACCURACY_USERS_FIRST_VERSIONResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="UPDATE_TRAINING_ACCURACY_USERS_FIRST_VERSIONResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UPDATE_TRAINING_ACCURACY_USERS_VN_FIRST_VERSION">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Model_ID_VN" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Validation_Accuracy_Images" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Validation_Accuracy_VN" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UPDATE_TRAINING_ACCURACY_USERS_VN_FIRST_VERSIONResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="UPDATE_TRAINING_ACCURACY_USERS_VN_FIRST_VERSIONResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="INSERT_DEVICE_MAC">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="User_ID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Device_Mac" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Current_Number" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="INSERT_DEVICE_MACResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="INSERT_DEVICE_MACResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RETURN_DEVICE_MAC">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Device_Mac" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RETURN_DEVICE_MACResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="RETURN_DEVICE_MACResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="INSERT_NUM_IMAGES">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="num_Images" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="INSERT_NUM_IMAGESResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="INSERT_NUM_IMAGESResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UPDATE_NUM_IMAGES">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Incr_Num" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UPDATE_NUM_IMAGESResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="UPDATE_NUM_IMAGESResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RETURN_CURRENT_NUM_IMAGES">
+        <s:complexType />
+      </s:element>
+      <s:element name="RETURN_CURRENT_NUM_IMAGESResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="RETURN_CURRENT_NUM_IMAGESResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="INSERT_IMAGE">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="user_ID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="image_Path" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="model_Version" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="INSERT_IMAGEResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="INSERT_IMAGEResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UPDATE_TRAIN_DATA">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="user_ID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UPDATE_TRAIN_DATAResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="UPDATE_TRAIN_DATAResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="TRAIN_IMAGES_MODEL">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="user_ID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="TRAIN_IMAGES_MODELResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="TRAIN_IMAGES_MODELResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RETURN_TRAINED_MODELS">
+        <s:complexType />
+      </s:element>
+      <s:element name="RETURN_TRAINED_MODELSResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="RETURN_TRAINED_MODELSResult" type="tns:ArrayOfString" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfString">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="string" nillable="true" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="RETURN_USERS_IN_MODEL">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Model_ID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RETURN_USERS_IN_MODELResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="RETURN_USERS_IN_MODELResult" type="tns:ArrayOfString" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RETURN_USER_WITH_ID">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="user_ID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RETURN_USER_WITH_IDResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="RETURN_USER_WITH_IDResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DECREMENT_IMAGES_MODEL_VERSION">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="user_ID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DECREMENT_IMAGES_MODEL_VERSIONResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="DECREMENT_IMAGES_MODEL_VERSIONResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="return_Users">
+        <s:complexType />
+      </s:element>
+      <s:element name="return_UsersResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="return_UsersResult" type="tns:ArrayOfUser" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfUser">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="User" nillable="true" type="tns:User" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="User">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="User_Name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Email" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Model_ID" nillable="true" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="Model_ID_VN" nillable="true" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="return_Images">
+        <s:complexType />
+      </s:element>
+      <s:element name="return_ImagesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="return_ImagesResult" type="tns:ArrayOfImage" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfImage">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Image" nillable="true" type="tns:Image" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Image">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Image_Path" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="User_ID" nillable="true" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Model_Version" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="RETURN_IMAGES_FOR_MOBILE">
+        <s:complexType />
+      </s:element>
+      <s:element name="RETURN_IMAGES_FOR_MOBILEResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="RETURN_IMAGES_FOR_MOBILEResult" type="tns:ArrayOfString" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="INSERT_VOICE_NOTE">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="user_ID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="voice_Note_Path" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="INSERT_VOICE_NOTEResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="INSERT_VOICE_NOTEResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UPDATE_TRAIN_DATA_VN">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="user_ID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UPDATE_TRAIN_DATA_VNResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="UPDATE_TRAIN_DATA_VNResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DECREMENT_IMAGES_MODEL_VERSION_VN">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="user_ID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DECREMENT_IMAGES_MODEL_VERSION_VNResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="DECREMENT_IMAGES_MODEL_VERSION_VNResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RETURN_TRAINED_MODELS_VN">
+        <s:complexType />
+      </s:element>
+      <s:element name="RETURN_TRAINED_MODELS_VNResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="RETURN_TRAINED_MODELS_VNResult" type="tns:ArrayOfString" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RETURN_USERS_IN_MODEL_VN">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Model_ID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RETURN_USERS_IN_MODEL_VNResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="RETURN_USERS_IN_MODEL_VNResult" type="tns:ArrayOfString" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RETURN_VNS_FOR_MOBILE">
+        <s:complexType />
+      </s:element>
+      <s:element name="RETURN_VNS_FOR_MOBILEResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="RETURN_VNS_FOR_MOBILEResult" type="tns:ArrayOfString" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="INSERT_DEVICE_COORDINATESoapIn">
+    <wsdl:part name="parameters" element="tns:INSERT_DEVICE_COORDINATE" />
+  </wsdl:message>
+  <wsdl:message name="INSERT_DEVICE_COORDINATESoapOut">
+    <wsdl:part name="parameters" element="tns:INSERT_DEVICE_COORDINATEResponse" />
+  </wsdl:message>
+  <wsdl:message name="RETURN_DEVICE_COORDINATE_JSSoapIn">
+    <wsdl:part name="parameters" element="tns:RETURN_DEVICE_COORDINATE_JS" />
+  </wsdl:message>
+  <wsdl:message name="RETURN_DEVICE_COORDINATE_JSSoapOut">
+    <wsdl:part name="parameters" element="tns:RETURN_DEVICE_COORDINATE_JSResponse" />
+  </wsdl:message>
+  <wsdl:message name="CHECK_USERNAMESoapIn">
+    <wsdl:part name="parameters" element="tns:CHECK_USERNAME" />
+  </wsdl:message>
+  <wsdl:message name="CHECK_USERNAMESoapOut">
+    <wsdl:part name="parameters" element="tns:CHECK_USERNAMEResponse" />
+  </wsdl:message>
+  <wsdl:message name="SEND_SMSSoapIn">
+    <wsdl:part name="parameters" element="tns:SEND_SMS" />
+  </wsdl:message>
+  <wsdl:message name="SEND_SMSSoapOut">
+    <wsdl:part name="parameters" element="tns:SEND_SMSResponse" />
+  </wsdl:message>
+  <wsdl:message name="INSERT_USERSoapIn">
+    <wsdl:part name="parameters" element="tns:INSERT_USER" />
+  </wsdl:message>
+  <wsdl:message name="INSERT_USERSoapOut">
+    <wsdl:part name="parameters" element="tns:INSERT_USERResponse" />
+  </wsdl:message>
+  <wsdl:message name="LOGINSoapIn">
+    <wsdl:part name="parameters" element="tns:LOGIN" />
+  </wsdl:message>
+  <wsdl:message name="LOGINSoapOut">
+    <wsdl:part name="parameters" element="tns:LOGINResponse" />
+  </wsdl:message>
+  <wsdl:message name="INSERT_ACCURACY_USERSSoapIn">
+    <wsdl:part name="parameters" element="tns:INSERT_ACCURACY_USERS" />
+  </wsdl:message>
+  <wsdl:message name="INSERT_ACCURACY_USERSSoapOut">
+    <wsdl:part name="parameters" element="tns:INSERT_ACCURACY_USERSResponse" />
+  </wsdl:message>
+  <wsdl:message name="RETURN_ACCURACY_USERSSoapIn">
+    <wsdl:part name="parameters" element="tns:RETURN_ACCURACY_USERS" />
+  </wsdl:message>
+  <wsdl:message name="RETURN_ACCURACY_USERSSoapOut">
+    <wsdl:part name="parameters" element="tns:RETURN_ACCURACY_USERSResponse" />
+  </wsdl:message>
+  <wsdl:message name="UPDATE_ACCURACY_USERSSoapIn">
+    <wsdl:part name="parameters" element="tns:UPDATE_ACCURACY_USERS" />
+  </wsdl:message>
+  <wsdl:message name="UPDATE_ACCURACY_USERSSoapOut">
+    <wsdl:part name="parameters" element="tns:UPDATE_ACCURACY_USERSResponse" />
+  </wsdl:message>
+  <wsdl:message name="UPDATE_TRAINING_ACCURACY_USERSSoapIn">
+    <wsdl:part name="parameters" element="tns:UPDATE_TRAINING_ACCURACY_USERS" />
+  </wsdl:message>
+  <wsdl:message name="UPDATE_TRAINING_ACCURACY_USERSSoapOut">
+    <wsdl:part name="parameters" element="tns:UPDATE_TRAINING_ACCURACY_USERSResponse" />
+  </wsdl:message>
+  <wsdl:message name="UPDATE_TRAINING_ACCURACY_USERS_VNSoapIn">
+    <wsdl:part name="parameters" element="tns:UPDATE_TRAINING_ACCURACY_USERS_VN" />
+  </wsdl:message>
+  <wsdl:message name="UPDATE_TRAINING_ACCURACY_USERS_VNSoapOut">
+    <wsdl:part name="parameters" element="tns:UPDATE_TRAINING_ACCURACY_USERS_VNResponse" />
+  </wsdl:message>
+  <wsdl:message name="INSERT_ACCURACY_USERS_FIRST_VERSIONSoapIn">
+    <wsdl:part name="parameters" element="tns:INSERT_ACCURACY_USERS_FIRST_VERSION" />
+  </wsdl:message>
+  <wsdl:message name="INSERT_ACCURACY_USERS_FIRST_VERSIONSoapOut">
+    <wsdl:part name="parameters" element="tns:INSERT_ACCURACY_USERS_FIRST_VERSIONResponse" />
+  </wsdl:message>
+  <wsdl:message name="RETURN_ACCURACY_USERS_FIRST_VERSIONSoapIn">
+    <wsdl:part name="parameters" element="tns:RETURN_ACCURACY_USERS_FIRST_VERSION" />
+  </wsdl:message>
+  <wsdl:message name="RETURN_ACCURACY_USERS_FIRST_VERSIONSoapOut">
+    <wsdl:part name="parameters" element="tns:RETURN_ACCURACY_USERS_FIRST_VERSIONResponse" />
+  </wsdl:message>
+  <wsdl:message name="UPDATE_ACCURACY_USERS_FIRST_VERSIONSoapIn">
+    <wsdl:part name="parameters" element="tns:UPDATE_ACCURACY_USERS_FIRST_VERSION" />
+  </wsdl:message>
+  <wsdl:message name="UPDATE_ACCURACY_USERS_FIRST_VERSIONSoapOut">
+    <wsdl:part name="parameters" element="tns:UPDATE_ACCURACY_USERS_FIRST_VERSIONResponse" />
+  </wsdl:message>
+  <wsdl:message name="UPDATE_TRAINING_ACCURACY_USERS_FIRST_VERSIONSoapIn">
+    <wsdl:part name="parameters" element="tns:UPDATE_TRAINING_ACCURACY_USERS_FIRST_VERSION" />
+  </wsdl:message>
+  <wsdl:message name="UPDATE_TRAINING_ACCURACY_USERS_FIRST_VERSIONSoapOut">
+    <wsdl:part name="parameters" element="tns:UPDATE_TRAINING_ACCURACY_USERS_FIRST_VERSIONResponse" />
+  </wsdl:message>
+  <wsdl:message name="UPDATE_TRAINING_ACCURACY_USERS_VN_FIRST_VERSIONSoapIn">
+    <wsdl:part name="parameters" element="tns:UPDATE_TRAINING_ACCURACY_USERS_VN_FIRST_VERSION" />
+  </wsdl:message>
+  <wsdl:message name="UPDATE_TRAINING_ACCURACY_USERS_VN_FIRST_VERSIONSoapOut">
+    <wsdl:part name="parameters" element="tns:UPDATE_TRAINING_ACCURACY_USERS_VN_FIRST_VERSIONResponse" />
+  </wsdl:message>
+  <wsdl:message name="INSERT_DEVICE_MACSoapIn">
+    <wsdl:part name="parameters" element="tns:INSERT_DEVICE_MAC" />
+  </wsdl:message>
+  <wsdl:message name="INSERT_DEVICE_MACSoapOut">
+    <wsdl:part name="parameters" element="tns:INSERT_DEVICE_MACResponse" />
+  </wsdl:message>
+  <wsdl:message name="RETURN_DEVICE_MACSoapIn">
+    <wsdl:part name="parameters" element="tns:RETURN_DEVICE_MAC" />
+  </wsdl:message>
+  <wsdl:message name="RETURN_DEVICE_MACSoapOut">
+    <wsdl:part name="parameters" element="tns:RETURN_DEVICE_MACResponse" />
+  </wsdl:message>
+  <wsdl:message name="INSERT_NUM_IMAGESSoapIn">
+    <wsdl:part name="parameters" element="tns:INSERT_NUM_IMAGES" />
+  </wsdl:message>
+  <wsdl:message name="INSERT_NUM_IMAGESSoapOut">
+    <wsdl:part name="parameters" element="tns:INSERT_NUM_IMAGESResponse" />
+  </wsdl:message>
+  <wsdl:message name="UPDATE_NUM_IMAGESSoapIn">
+    <wsdl:part name="parameters" element="tns:UPDATE_NUM_IMAGES" />
+  </wsdl:message>
+  <wsdl:message name="UPDATE_NUM_IMAGESSoapOut">
+    <wsdl:part name="parameters" element="tns:UPDATE_NUM_IMAGESResponse" />
+  </wsdl:message>
+  <wsdl:message name="RETURN_CURRENT_NUM_IMAGESSoapIn">
+    <wsdl:part name="parameters" element="tns:RETURN_CURRENT_NUM_IMAGES" />
+  </wsdl:message>
+  <wsdl:message name="RETURN_CURRENT_NUM_IMAGESSoapOut">
+    <wsdl:part name="parameters" element="tns:RETURN_CURRENT_NUM_IMAGESResponse" />
+  </wsdl:message>
+  <wsdl:message name="INSERT_IMAGESoapIn">
+    <wsdl:part name="parameters" element="tns:INSERT_IMAGE" />
+  </wsdl:message>
+  <wsdl:message name="INSERT_IMAGESoapOut">
+    <wsdl:part name="parameters" element="tns:INSERT_IMAGEResponse" />
+  </wsdl:message>
+  <wsdl:message name="UPDATE_TRAIN_DATASoapIn">
+    <wsdl:part name="parameters" element="tns:UPDATE_TRAIN_DATA" />
+  </wsdl:message>
+  <wsdl:message name="UPDATE_TRAIN_DATASoapOut">
+    <wsdl:part name="parameters" element="tns:UPDATE_TRAIN_DATAResponse" />
+  </wsdl:message>
+  <wsdl:message name="TRAIN_IMAGES_MODELSoapIn">
+    <wsdl:part name="parameters" element="tns:TRAIN_IMAGES_MODEL" />
+  </wsdl:message>
+  <wsdl:message name="TRAIN_IMAGES_MODELSoapOut">
+    <wsdl:part name="parameters" element="tns:TRAIN_IMAGES_MODELResponse" />
+  </wsdl:message>
+  <wsdl:message name="RETURN_TRAINED_MODELSSoapIn">
+    <wsdl:part name="parameters" element="tns:RETURN_TRAINED_MODELS" />
+  </wsdl:message>
+  <wsdl:message name="RETURN_TRAINED_MODELSSoapOut">
+    <wsdl:part name="parameters" element="tns:RETURN_TRAINED_MODELSResponse" />
+  </wsdl:message>
+  <wsdl:message name="RETURN_USERS_IN_MODELSoapIn">
+    <wsdl:part name="parameters" element="tns:RETURN_USERS_IN_MODEL" />
+  </wsdl:message>
+  <wsdl:message name="RETURN_USERS_IN_MODELSoapOut">
+    <wsdl:part name="parameters" element="tns:RETURN_USERS_IN_MODELResponse" />
+  </wsdl:message>
+  <wsdl:message name="RETURN_USER_WITH_IDSoapIn">
+    <wsdl:part name="parameters" element="tns:RETURN_USER_WITH_ID" />
+  </wsdl:message>
+  <wsdl:message name="RETURN_USER_WITH_IDSoapOut">
+    <wsdl:part name="parameters" element="tns:RETURN_USER_WITH_IDResponse" />
+  </wsdl:message>
+  <wsdl:message name="DECREMENT_IMAGES_MODEL_VERSIONSoapIn">
+    <wsdl:part name="parameters" element="tns:DECREMENT_IMAGES_MODEL_VERSION" />
+  </wsdl:message>
+  <wsdl:message name="DECREMENT_IMAGES_MODEL_VERSIONSoapOut">
+    <wsdl:part name="parameters" element="tns:DECREMENT_IMAGES_MODEL_VERSIONResponse" />
+  </wsdl:message>
+  <wsdl:message name="return_UsersSoapIn">
+    <wsdl:part name="parameters" element="tns:return_Users" />
+  </wsdl:message>
+  <wsdl:message name="return_UsersSoapOut">
+    <wsdl:part name="parameters" element="tns:return_UsersResponse" />
+  </wsdl:message>
+  <wsdl:message name="return_ImagesSoapIn">
+    <wsdl:part name="parameters" element="tns:return_Images" />
+  </wsdl:message>
+  <wsdl:message name="return_ImagesSoapOut">
+    <wsdl:part name="parameters" element="tns:return_ImagesResponse" />
+  </wsdl:message>
+  <wsdl:message name="RETURN_IMAGES_FOR_MOBILESoapIn">
+    <wsdl:part name="parameters" element="tns:RETURN_IMAGES_FOR_MOBILE" />
+  </wsdl:message>
+  <wsdl:message name="RETURN_IMAGES_FOR_MOBILESoapOut">
+    <wsdl:part name="parameters" element="tns:RETURN_IMAGES_FOR_MOBILEResponse" />
+  </wsdl:message>
+  <wsdl:message name="INSERT_VOICE_NOTESoapIn">
+    <wsdl:part name="parameters" element="tns:INSERT_VOICE_NOTE" />
+  </wsdl:message>
+  <wsdl:message name="INSERT_VOICE_NOTESoapOut">
+    <wsdl:part name="parameters" element="tns:INSERT_VOICE_NOTEResponse" />
+  </wsdl:message>
+  <wsdl:message name="UPDATE_TRAIN_DATA_VNSoapIn">
+    <wsdl:part name="parameters" element="tns:UPDATE_TRAIN_DATA_VN" />
+  </wsdl:message>
+  <wsdl:message name="UPDATE_TRAIN_DATA_VNSoapOut">
+    <wsdl:part name="parameters" element="tns:UPDATE_TRAIN_DATA_VNResponse" />
+  </wsdl:message>
+  <wsdl:message name="DECREMENT_IMAGES_MODEL_VERSION_VNSoapIn">
+    <wsdl:part name="parameters" element="tns:DECREMENT_IMAGES_MODEL_VERSION_VN" />
+  </wsdl:message>
+  <wsdl:message name="DECREMENT_IMAGES_MODEL_VERSION_VNSoapOut">
+    <wsdl:part name="parameters" element="tns:DECREMENT_IMAGES_MODEL_VERSION_VNResponse" />
+  </wsdl:message>
+  <wsdl:message name="RETURN_TRAINED_MODELS_VNSoapIn">
+    <wsdl:part name="parameters" element="tns:RETURN_TRAINED_MODELS_VN" />
+  </wsdl:message>
+  <wsdl:message name="RETURN_TRAINED_MODELS_VNSoapOut">
+    <wsdl:part name="parameters" element="tns:RETURN_TRAINED_MODELS_VNResponse" />
+  </wsdl:message>
+  <wsdl:message name="RETURN_USERS_IN_MODEL_VNSoapIn">
+    <wsdl:part name="parameters" element="tns:RETURN_USERS_IN_MODEL_VN" />
+  </wsdl:message>
+  <wsdl:message name="RETURN_USERS_IN_MODEL_VNSoapOut">
+    <wsdl:part name="parameters" element="tns:RETURN_USERS_IN_MODEL_VNResponse" />
+  </wsdl:message>
+  <wsdl:message name="RETURN_VNS_FOR_MOBILESoapIn">
+    <wsdl:part name="parameters" element="tns:RETURN_VNS_FOR_MOBILE" />
+  </wsdl:message>
+  <wsdl:message name="RETURN_VNS_FOR_MOBILESoapOut">
+    <wsdl:part name="parameters" element="tns:RETURN_VNS_FOR_MOBILEResponse" />
+  </wsdl:message>
+  <wsdl:portType name="SSS_SERVICESoap">
+    <wsdl:operation name="INSERT_DEVICE_COORDINATE">
+      <wsdl:input message="tns:INSERT_DEVICE_COORDINATESoapIn" />
+      <wsdl:output message="tns:INSERT_DEVICE_COORDINATESoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RETURN_DEVICE_COORDINATE_JS">
+      <wsdl:input message="tns:RETURN_DEVICE_COORDINATE_JSSoapIn" />
+      <wsdl:output message="tns:RETURN_DEVICE_COORDINATE_JSSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CHECK_USERNAME">
+      <wsdl:input message="tns:CHECK_USERNAMESoapIn" />
+      <wsdl:output message="tns:CHECK_USERNAMESoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SEND_SMS">
+      <wsdl:input message="tns:SEND_SMSSoapIn" />
+      <wsdl:output message="tns:SEND_SMSSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="INSERT_USER">
+      <wsdl:input message="tns:INSERT_USERSoapIn" />
+      <wsdl:output message="tns:INSERT_USERSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="LOGIN">
+      <wsdl:input message="tns:LOGINSoapIn" />
+      <wsdl:output message="tns:LOGINSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="INSERT_ACCURACY_USERS">
+      <wsdl:input message="tns:INSERT_ACCURACY_USERSSoapIn" />
+      <wsdl:output message="tns:INSERT_ACCURACY_USERSSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RETURN_ACCURACY_USERS">
+      <wsdl:input message="tns:RETURN_ACCURACY_USERSSoapIn" />
+      <wsdl:output message="tns:RETURN_ACCURACY_USERSSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UPDATE_ACCURACY_USERS">
+      <wsdl:input message="tns:UPDATE_ACCURACY_USERSSoapIn" />
+      <wsdl:output message="tns:UPDATE_ACCURACY_USERSSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UPDATE_TRAINING_ACCURACY_USERS">
+      <wsdl:input message="tns:UPDATE_TRAINING_ACCURACY_USERSSoapIn" />
+      <wsdl:output message="tns:UPDATE_TRAINING_ACCURACY_USERSSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UPDATE_TRAINING_ACCURACY_USERS_VN">
+      <wsdl:input message="tns:UPDATE_TRAINING_ACCURACY_USERS_VNSoapIn" />
+      <wsdl:output message="tns:UPDATE_TRAINING_ACCURACY_USERS_VNSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="INSERT_ACCURACY_USERS_FIRST_VERSION">
+      <wsdl:input message="tns:INSERT_ACCURACY_USERS_FIRST_VERSIONSoapIn" />
+      <wsdl:output message="tns:INSERT_ACCURACY_USERS_FIRST_VERSIONSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RETURN_ACCURACY_USERS_FIRST_VERSION">
+      <wsdl:input message="tns:RETURN_ACCURACY_USERS_FIRST_VERSIONSoapIn" />
+      <wsdl:output message="tns:RETURN_ACCURACY_USERS_FIRST_VERSIONSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UPDATE_ACCURACY_USERS_FIRST_VERSION">
+      <wsdl:input message="tns:UPDATE_ACCURACY_USERS_FIRST_VERSIONSoapIn" />
+      <wsdl:output message="tns:UPDATE_ACCURACY_USERS_FIRST_VERSIONSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UPDATE_TRAINING_ACCURACY_USERS_FIRST_VERSION">
+      <wsdl:input message="tns:UPDATE_TRAINING_ACCURACY_USERS_FIRST_VERSIONSoapIn" />
+      <wsdl:output message="tns:UPDATE_TRAINING_ACCURACY_USERS_FIRST_VERSIONSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UPDATE_TRAINING_ACCURACY_USERS_VN_FIRST_VERSION">
+      <wsdl:input message="tns:UPDATE_TRAINING_ACCURACY_USERS_VN_FIRST_VERSIONSoapIn" />
+      <wsdl:output message="tns:UPDATE_TRAINING_ACCURACY_USERS_VN_FIRST_VERSIONSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="INSERT_DEVICE_MAC">
+      <wsdl:input message="tns:INSERT_DEVICE_MACSoapIn" />
+      <wsdl:output message="tns:INSERT_DEVICE_MACSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RETURN_DEVICE_MAC">
+      <wsdl:input message="tns:RETURN_DEVICE_MACSoapIn" />
+      <wsdl:output message="tns:RETURN_DEVICE_MACSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="INSERT_NUM_IMAGES">
+      <wsdl:input message="tns:INSERT_NUM_IMAGESSoapIn" />
+      <wsdl:output message="tns:INSERT_NUM_IMAGESSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UPDATE_NUM_IMAGES">
+      <wsdl:input message="tns:UPDATE_NUM_IMAGESSoapIn" />
+      <wsdl:output message="tns:UPDATE_NUM_IMAGESSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RETURN_CURRENT_NUM_IMAGES">
+      <wsdl:input message="tns:RETURN_CURRENT_NUM_IMAGESSoapIn" />
+      <wsdl:output message="tns:RETURN_CURRENT_NUM_IMAGESSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="INSERT_IMAGE">
+      <wsdl:input message="tns:INSERT_IMAGESoapIn" />
+      <wsdl:output message="tns:INSERT_IMAGESoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UPDATE_TRAIN_DATA">
+      <wsdl:input message="tns:UPDATE_TRAIN_DATASoapIn" />
+      <wsdl:output message="tns:UPDATE_TRAIN_DATASoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="TRAIN_IMAGES_MODEL">
+      <wsdl:input message="tns:TRAIN_IMAGES_MODELSoapIn" />
+      <wsdl:output message="tns:TRAIN_IMAGES_MODELSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RETURN_TRAINED_MODELS">
+      <wsdl:input message="tns:RETURN_TRAINED_MODELSSoapIn" />
+      <wsdl:output message="tns:RETURN_TRAINED_MODELSSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RETURN_USERS_IN_MODEL">
+      <wsdl:input message="tns:RETURN_USERS_IN_MODELSoapIn" />
+      <wsdl:output message="tns:RETURN_USERS_IN_MODELSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RETURN_USER_WITH_ID">
+      <wsdl:input message="tns:RETURN_USER_WITH_IDSoapIn" />
+      <wsdl:output message="tns:RETURN_USER_WITH_IDSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DECREMENT_IMAGES_MODEL_VERSION">
+      <wsdl:input message="tns:DECREMENT_IMAGES_MODEL_VERSIONSoapIn" />
+      <wsdl:output message="tns:DECREMENT_IMAGES_MODEL_VERSIONSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="return_Users">
+      <wsdl:input message="tns:return_UsersSoapIn" />
+      <wsdl:output message="tns:return_UsersSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="return_Images">
+      <wsdl:input message="tns:return_ImagesSoapIn" />
+      <wsdl:output message="tns:return_ImagesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RETURN_IMAGES_FOR_MOBILE">
+      <wsdl:input message="tns:RETURN_IMAGES_FOR_MOBILESoapIn" />
+      <wsdl:output message="tns:RETURN_IMAGES_FOR_MOBILESoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="INSERT_VOICE_NOTE">
+      <wsdl:input message="tns:INSERT_VOICE_NOTESoapIn" />
+      <wsdl:output message="tns:INSERT_VOICE_NOTESoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UPDATE_TRAIN_DATA_VN">
+      <wsdl:input message="tns:UPDATE_TRAIN_DATA_VNSoapIn" />
+      <wsdl:output message="tns:UPDATE_TRAIN_DATA_VNSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DECREMENT_IMAGES_MODEL_VERSION_VN">
+      <wsdl:input message="tns:DECREMENT_IMAGES_MODEL_VERSION_VNSoapIn" />
+      <wsdl:output message="tns:DECREMENT_IMAGES_MODEL_VERSION_VNSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RETURN_TRAINED_MODELS_VN">
+      <wsdl:input message="tns:RETURN_TRAINED_MODELS_VNSoapIn" />
+      <wsdl:output message="tns:RETURN_TRAINED_MODELS_VNSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RETURN_USERS_IN_MODEL_VN">
+      <wsdl:input message="tns:RETURN_USERS_IN_MODEL_VNSoapIn" />
+      <wsdl:output message="tns:RETURN_USERS_IN_MODEL_VNSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RETURN_VNS_FOR_MOBILE">
+      <wsdl:input message="tns:RETURN_VNS_FOR_MOBILESoapIn" />
+      <wsdl:output message="tns:RETURN_VNS_FOR_MOBILESoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="SSS_SERVICESoap" type="tns:SSS_SERVICESoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="INSERT_DEVICE_COORDINATE">
+      <soap:operation soapAction="http://tempuri.org/INSERT_DEVICE_COORDINATE" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RETURN_DEVICE_COORDINATE_JS">
+      <soap:operation soapAction="http://tempuri.org/RETURN_DEVICE_COORDINATE_JS" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CHECK_USERNAME">
+      <soap:operation soapAction="http://tempuri.org/CHECK_USERNAME" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SEND_SMS">
+      <soap:operation soapAction="http://tempuri.org/SEND_SMS" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="INSERT_USER">
+      <soap:operation soapAction="http://tempuri.org/INSERT_USER" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LOGIN">
+      <soap:operation soapAction="http://tempuri.org/LOGIN" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="INSERT_ACCURACY_USERS">
+      <soap:operation soapAction="http://tempuri.org/INSERT_ACCURACY_USERS" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RETURN_ACCURACY_USERS">
+      <soap:operation soapAction="http://tempuri.org/RETURN_ACCURACY_USERS" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UPDATE_ACCURACY_USERS">
+      <soap:operation soapAction="http://tempuri.org/UPDATE_ACCURACY_USERS" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UPDATE_TRAINING_ACCURACY_USERS">
+      <soap:operation soapAction="http://tempuri.org/UPDATE_TRAINING_ACCURACY_USERS" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UPDATE_TRAINING_ACCURACY_USERS_VN">
+      <soap:operation soapAction="http://tempuri.org/UPDATE_TRAINING_ACCURACY_USERS_VN" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="INSERT_ACCURACY_USERS_FIRST_VERSION">
+      <soap:operation soapAction="http://tempuri.org/INSERT_ACCURACY_USERS_FIRST_VERSION" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RETURN_ACCURACY_USERS_FIRST_VERSION">
+      <soap:operation soapAction="http://tempuri.org/RETURN_ACCURACY_USERS_FIRST_VERSION" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UPDATE_ACCURACY_USERS_FIRST_VERSION">
+      <soap:operation soapAction="http://tempuri.org/UPDATE_ACCURACY_USERS_FIRST_VERSION" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UPDATE_TRAINING_ACCURACY_USERS_FIRST_VERSION">
+      <soap:operation soapAction="http://tempuri.org/UPDATE_TRAINING_ACCURACY_USERS_FIRST_VERSION" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UPDATE_TRAINING_ACCURACY_USERS_VN_FIRST_VERSION">
+      <soap:operation soapAction="http://tempuri.org/UPDATE_TRAINING_ACCURACY_USERS_VN_FIRST_VERSION" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="INSERT_DEVICE_MAC">
+      <soap:operation soapAction="http://tempuri.org/INSERT_DEVICE_MAC" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RETURN_DEVICE_MAC">
+      <soap:operation soapAction="http://tempuri.org/RETURN_DEVICE_MAC" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="INSERT_NUM_IMAGES">
+      <soap:operation soapAction="http://tempuri.org/INSERT_NUM_IMAGES" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UPDATE_NUM_IMAGES">
+      <soap:operation soapAction="http://tempuri.org/UPDATE_NUM_IMAGES" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RETURN_CURRENT_NUM_IMAGES">
+      <soap:operation soapAction="http://tempuri.org/RETURN_CURRENT_NUM_IMAGES" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="INSERT_IMAGE">
+      <soap:operation soapAction="http://tempuri.org/INSERT_IMAGE" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UPDATE_TRAIN_DATA">
+      <soap:operation soapAction="http://tempuri.org/UPDATE_TRAIN_DATA" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="TRAIN_IMAGES_MODEL">
+      <soap:operation soapAction="http://tempuri.org/TRAIN_IMAGES_MODEL" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RETURN_TRAINED_MODELS">
+      <soap:operation soapAction="http://tempuri.org/RETURN_TRAINED_MODELS" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RETURN_USERS_IN_MODEL">
+      <soap:operation soapAction="http://tempuri.org/RETURN_USERS_IN_MODEL" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RETURN_USER_WITH_ID">
+      <soap:operation soapAction="http://tempuri.org/RETURN_USER_WITH_ID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DECREMENT_IMAGES_MODEL_VERSION">
+      <soap:operation soapAction="http://tempuri.org/DECREMENT_IMAGES_MODEL_VERSION" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="return_Users">
+      <soap:operation soapAction="http://tempuri.org/return_Users" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="return_Images">
+      <soap:operation soapAction="http://tempuri.org/return_Images" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RETURN_IMAGES_FOR_MOBILE">
+      <soap:operation soapAction="http://tempuri.org/RETURN_IMAGES_FOR_MOBILE" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="INSERT_VOICE_NOTE">
+      <soap:operation soapAction="http://tempuri.org/INSERT_VOICE_NOTE" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UPDATE_TRAIN_DATA_VN">
+      <soap:operation soapAction="http://tempuri.org/UPDATE_TRAIN_DATA_VN" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DECREMENT_IMAGES_MODEL_VERSION_VN">
+      <soap:operation soapAction="http://tempuri.org/DECREMENT_IMAGES_MODEL_VERSION_VN" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RETURN_TRAINED_MODELS_VN">
+      <soap:operation soapAction="http://tempuri.org/RETURN_TRAINED_MODELS_VN" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RETURN_USERS_IN_MODEL_VN">
+      <soap:operation soapAction="http://tempuri.org/RETURN_USERS_IN_MODEL_VN" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RETURN_VNS_FOR_MOBILE">
+      <soap:operation soapAction="http://tempuri.org/RETURN_VNS_FOR_MOBILE" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="SSS_SERVICESoap12" type="tns:SSS_SERVICESoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="INSERT_DEVICE_COORDINATE">
+      <soap12:operation soapAction="http://tempuri.org/INSERT_DEVICE_COORDINATE" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RETURN_DEVICE_COORDINATE_JS">
+      <soap12:operation soapAction="http://tempuri.org/RETURN_DEVICE_COORDINATE_JS" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CHECK_USERNAME">
+      <soap12:operation soapAction="http://tempuri.org/CHECK_USERNAME" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SEND_SMS">
+      <soap12:operation soapAction="http://tempuri.org/SEND_SMS" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="INSERT_USER">
+      <soap12:operation soapAction="http://tempuri.org/INSERT_USER" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LOGIN">
+      <soap12:operation soapAction="http://tempuri.org/LOGIN" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="INSERT_ACCURACY_USERS">
+      <soap12:operation soapAction="http://tempuri.org/INSERT_ACCURACY_USERS" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RETURN_ACCURACY_USERS">
+      <soap12:operation soapAction="http://tempuri.org/RETURN_ACCURACY_USERS" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UPDATE_ACCURACY_USERS">
+      <soap12:operation soapAction="http://tempuri.org/UPDATE_ACCURACY_USERS" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UPDATE_TRAINING_ACCURACY_USERS">
+      <soap12:operation soapAction="http://tempuri.org/UPDATE_TRAINING_ACCURACY_USERS" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UPDATE_TRAINING_ACCURACY_USERS_VN">
+      <soap12:operation soapAction="http://tempuri.org/UPDATE_TRAINING_ACCURACY_USERS_VN" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="INSERT_ACCURACY_USERS_FIRST_VERSION">
+      <soap12:operation soapAction="http://tempuri.org/INSERT_ACCURACY_USERS_FIRST_VERSION" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RETURN_ACCURACY_USERS_FIRST_VERSION">
+      <soap12:operation soapAction="http://tempuri.org/RETURN_ACCURACY_USERS_FIRST_VERSION" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UPDATE_ACCURACY_USERS_FIRST_VERSION">
+      <soap12:operation soapAction="http://tempuri.org/UPDATE_ACCURACY_USERS_FIRST_VERSION" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UPDATE_TRAINING_ACCURACY_USERS_FIRST_VERSION">
+      <soap12:operation soapAction="http://tempuri.org/UPDATE_TRAINING_ACCURACY_USERS_FIRST_VERSION" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UPDATE_TRAINING_ACCURACY_USERS_VN_FIRST_VERSION">
+      <soap12:operation soapAction="http://tempuri.org/UPDATE_TRAINING_ACCURACY_USERS_VN_FIRST_VERSION" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="INSERT_DEVICE_MAC">
+      <soap12:operation soapAction="http://tempuri.org/INSERT_DEVICE_MAC" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RETURN_DEVICE_MAC">
+      <soap12:operation soapAction="http://tempuri.org/RETURN_DEVICE_MAC" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="INSERT_NUM_IMAGES">
+      <soap12:operation soapAction="http://tempuri.org/INSERT_NUM_IMAGES" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UPDATE_NUM_IMAGES">
+      <soap12:operation soapAction="http://tempuri.org/UPDATE_NUM_IMAGES" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RETURN_CURRENT_NUM_IMAGES">
+      <soap12:operation soapAction="http://tempuri.org/RETURN_CURRENT_NUM_IMAGES" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="INSERT_IMAGE">
+      <soap12:operation soapAction="http://tempuri.org/INSERT_IMAGE" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UPDATE_TRAIN_DATA">
+      <soap12:operation soapAction="http://tempuri.org/UPDATE_TRAIN_DATA" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="TRAIN_IMAGES_MODEL">
+      <soap12:operation soapAction="http://tempuri.org/TRAIN_IMAGES_MODEL" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RETURN_TRAINED_MODELS">
+      <soap12:operation soapAction="http://tempuri.org/RETURN_TRAINED_MODELS" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RETURN_USERS_IN_MODEL">
+      <soap12:operation soapAction="http://tempuri.org/RETURN_USERS_IN_MODEL" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RETURN_USER_WITH_ID">
+      <soap12:operation soapAction="http://tempuri.org/RETURN_USER_WITH_ID" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DECREMENT_IMAGES_MODEL_VERSION">
+      <soap12:operation soapAction="http://tempuri.org/DECREMENT_IMAGES_MODEL_VERSION" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="return_Users">
+      <soap12:operation soapAction="http://tempuri.org/return_Users" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="return_Images">
+      <soap12:operation soapAction="http://tempuri.org/return_Images" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RETURN_IMAGES_FOR_MOBILE">
+      <soap12:operation soapAction="http://tempuri.org/RETURN_IMAGES_FOR_MOBILE" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="INSERT_VOICE_NOTE">
+      <soap12:operation soapAction="http://tempuri.org/INSERT_VOICE_NOTE" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UPDATE_TRAIN_DATA_VN">
+      <soap12:operation soapAction="http://tempuri.org/UPDATE_TRAIN_DATA_VN" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DECREMENT_IMAGES_MODEL_VERSION_VN">
+      <soap12:operation soapAction="http://tempuri.org/DECREMENT_IMAGES_MODEL_VERSION_VN" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RETURN_TRAINED_MODELS_VN">
+      <soap12:operation soapAction="http://tempuri.org/RETURN_TRAINED_MODELS_VN" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RETURN_USERS_IN_MODEL_VN">
+      <soap12:operation soapAction="http://tempuri.org/RETURN_USERS_IN_MODEL_VN" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RETURN_VNS_FOR_MOBILE">
+      <soap12:operation soapAction="http://tempuri.org/RETURN_VNS_FOR_MOBILE" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="SSS_SERVICE">
+    <wsdl:port name="SSS_SERVICESoap" binding="tns:SSS_SERVICESoap">
+      <soap:address location="http://smartphonesecuritysystem.dedicated.co.za:8080/SSS_SERVICE.asmx" />
+    </wsdl:port>
+    <wsdl:port name="SSS_SERVICESoap12" binding="tns:SSS_SERVICESoap12">
+      <soap12:address location="http://smartphonesecuritysystem.dedicated.co.za:8080/SSS_SERVICE.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

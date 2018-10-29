@@ -26,10 +26,10 @@ namespace SSS_WEB_APPLICATION.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://192.168.43.175:8080/SSS_SERVICE.asmx")]
-        public string SSS_WEB_APPLICATION_SSS_WEB_SERVICE_SSS_SERVICE {
+        [global::System.Configuration.DefaultSettingValueAttribute("http://smartphonesecuritysystem.dedicated.co.za:8080/SSS_SERVICE.asmx")]
+        public string SSS_WEB_APPLICATION_SSS_SERVICE_SSS_SERVICE {
             get {
-                return ((string)(this["SSS_WEB_APPLICATION_SSS_WEB_SERVICE_SSS_SERVICE"]));
+                return ((string)(this["SSS_WEB_APPLICATION_SSS_SERVICE_SSS_SERVICE"]));
             }
         }
     }

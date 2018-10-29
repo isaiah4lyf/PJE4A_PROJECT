@@ -4,35 +4,42 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using System.IO;
 
-namespace SSS_WEB_SERVICE
+
+namespace SSS_WEB_APPLICATION
 {
 	public partial class Index : System.Web.UI.Page
 	{
-		public MLApp.MLApp matlab;
 		protected void Page_Load(object sender, EventArgs e)
 		{
-			matlab = new MLApp.MLApp();
-		}
-
-		protected void Button1_Click(object sender, EventArgs e)
-		{
-			String[] Data = new String[] { "isaiah", "Cool" };
-			matlab.PutWorkspaceData("varName", "base", Data);
-
-			//matlab.Execute("run('C:/Users/isaia/PJE4A_PROJECT/SSS_WEB_APPLICATION/SSS_WEB_APPLICATION/MATLAB_SCRIPTS/RUN_ESS.m')");
-			//Label1.Text = matlab.Execute("run('C:/Users/isaia/Downloads/201400517/Load_Data_and_Run_Algorithm.m')");
-			//Label1.Text = matlab.Execute("varName[1]");
-			//string  response = matlab.Execute("Gog_F") +"\n";
-			//response += matlab.Execute("Cow_F") + "\n";
-			//Label1.Text = response;
-
-
-			string image_Path = Server.MapPath(FileUpload1.FileName);
+            /*
 			SSS_SERVICE service = new SSS_SERVICE();
+			List<User> users = service.return_Users().ToList();
+			var images = service.return_Images().ToList();
+			
+			string temp = "";
+			string path = "MATLAB_TRAIN_DATA/";
+			for (int i = 0; i < users.Count; i++)
+			{
+				temp += "<br/><h3>" + users.ElementAt(i).User_Name + "</h3><br/>";
+				temp += "<div class='row'>";
 
-			Label1.Text = service.INSERT_IMAGE(0, image_Path);
+				for (int j = 0; j < images.Count; j++)
+				{
+					if (images.ElementAt(j).User_ID == users.ElementAt(i).Id)
+					{
+						temp += "<div class='col-lg-3 col-md-6'>";
+						temp += "<div class='single-service'>";
+						temp += "<img style='border-radius:25px'  class='img-fluid' src='" + path + users.ElementAt(i).User_Name + "/" + images.ElementAt(j).Image_Path + "' alt=''>";
+						temp += "</div>";
+						temp += "</div>";
+					}
+
+				}
+				temp += "</div>";
+			}
+			div.InnerHtml = temp;
+            */
 		}
 	}
 }

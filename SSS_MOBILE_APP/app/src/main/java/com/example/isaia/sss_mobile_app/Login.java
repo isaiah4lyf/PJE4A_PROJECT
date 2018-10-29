@@ -32,6 +32,7 @@ import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Get_Device_Mac;
 import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Login_Class;
 import com.example.isaia.sss_mobile_app.Services.Predict_User_Image_Preview;
 import com.example.isaia.sss_mobile_app.Services.Predict_User_Service;
+import com.example.isaia.sss_mobile_app.Services.Send_Coordinates_Service;
 import com.example.isaia.sss_mobile_app.Services.Take_Pictures_Service;
 import com.example.isaia.sss_mobile_app.Services.Train_Images_Model_Service;
 
@@ -54,6 +55,8 @@ public class Login extends AppCompatActivity {
         final TextView Reg_User = (TextView) findViewById(R.id.Reg_User);
         Bundle extras = getIntent().getExtras();
 
+        Intent coordIntent = new Intent(getApplicationContext(),Send_Coordinates_Service.class);
+        startService(coordIntent);
         //sendLongSMS();
         if (extras != null) {
             if(extras.getString("From_Logout") != null)
