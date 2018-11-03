@@ -1,6 +1,9 @@
 package com.example.isaia.sss_mobile_app;
 
 import android.content.Intent;
+import android.media.MediaMetadataRetriever;
+import android.net.Uri;
+import android.os.Environment;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -13,19 +16,29 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.MediaController;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.VideoView;
 
+import com.example.isaia.sss_mobile_app.Lists_Adapters.Advert_Data;
 import com.example.isaia.sss_mobile_app.Lists_Adapters.MyRecyclerViewAdapter;
 import com.example.isaia.sss_mobile_app.Services.Predict_User_Image_Preview;
+import com.example.isaia.sss_mobile_app.Services.SSS_Vision_Service;
 import com.ramotion.foldingcell.FoldingCell;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class Main_Menu extends AppCompatActivity  implements NavigationView.OnNavigationItemSelectedListener,  MyRecyclerViewAdapter.ItemClickListener {
     private MyRecyclerViewAdapter adapter;
+    private RecyclerView recyclerView;
+    private ImageView sss_vision;
+    @SuppressWarnings("deprecation")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,48 +59,55 @@ public class Main_Menu extends AppCompatActivity  implements NavigationView.OnNa
             NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
             navigationView.setNavigationItemSelectedListener(this);
 
-            // data to populate the RecyclerView with
-            ArrayList<String> animalNames = new ArrayList<>();
-            animalNames.add("Horse");
-            animalNames.add("Cow");
-            animalNames.add("Camel");
-            animalNames.add("Sheep");
-            animalNames.add("Goat");
-            animalNames.add("Horse");
-            animalNames.add("Cow");
-            animalNames.add("Camel");
-            animalNames.add("Sheep");
-            animalNames.add("Goat");
-            animalNames.add("Horse");
-            animalNames.add("Cow");
-            animalNames.add("Camel");
-            animalNames.add("Sheep");
-            animalNames.add("Goat");
-            animalNames.add("Horse");
-            animalNames.add("Cow");
-            animalNames.add("Camel");
-            animalNames.add("Sheep");
-            animalNames.add("Goat");
-            animalNames.add("Horse");
-            animalNames.add("Cow");
-            animalNames.add("Camel");
-            animalNames.add("Sheep");
-            animalNames.add("Goat");
-            animalNames.add("Horse");
-            animalNames.add("Cow");
-            animalNames.add("Camel");
-            animalNames.add("Sheep");
-            animalNames.add("Goat");
+            ArrayList<Advert_Data> dataArray = new ArrayList<>();
+            Advert_Data data = new Advert_Data();
+            data.setTitle("Video Play");
+            data.setDescription("fsergtd");
+            data.setImageUrl("http://smartphonesecuritysystem.dedicated.co.za:8080/Videos/harry.jpg");
+            File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
+                    Environment.DIRECTORY_PICTURES), "MyCameraApp");
+            File fileWithinMyDir = new File(mediaStorageDir, "Vid2.mp4");
+            String LINK = fileWithinMyDir.getPath();
+            data.setVideoUrl(LINK);
+            dataArray.add(data);
+
+            Advert_Data data2 = new Advert_Data();
+            data2.setTitle("Video Play");
+            data2.setDescription("fsergtd");
+            data2.setImageUrl("false");
+
+            String LINK2 = "http://smartphonesecuritysystem.dedicated.co.za:8080/Videos/runDry.MP4";
+            data2.setVideoUrl(LINK2);
+            dataArray.add(data2);
+
 
             // set up the RecyclerView
-            RecyclerView recyclerView = findViewById(R.id.rvAnimals);
+            recyclerView = findViewById(R.id.rvAnimals);
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
-            adapter = new MyRecyclerViewAdapter(this, animalNames);
+            adapter = new MyRecyclerViewAdapter(this, dataArray);
             adapter.setClickListener(this);
+            recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+                int ydy = 0;
+                @Override
+                public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                    super.onScrollStateChanged(recyclerView, newState);
+
+                }
+
+                @Override
+                public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                    super.onScrolled(recyclerView, dx, dy);
+                }
+            });
             recyclerView.setAdapter(adapter);
-
-
-
+            sss_vision = findViewById(R.id.sss_vision);
+            sss_vision.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getApplicationContext(), SSS_Vision_Service.class);
+                    startService(intent);
+                }
+            });
         }
         catch(Exception e)
         {
@@ -109,7 +129,7 @@ public class Main_Menu extends AppCompatActivity  implements NavigationView.OnNa
     }
     @Override
     public void onItemClick(View view, int position) {
-        Toast.makeText(this, "You clicked " + adapter.getItem(position) + " on row number " + position, Toast.LENGTH_SHORT).show();
+
     }
 
     @Override

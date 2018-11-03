@@ -15,4 +15,5 @@
     <color name="mainTextColor">#adafb1</color>
     <color name="btnRequest">#ffbf12</color>
     <color name="textColor">#f5f5dc</color>
+    <color name="black">#000</color>
 </resources>

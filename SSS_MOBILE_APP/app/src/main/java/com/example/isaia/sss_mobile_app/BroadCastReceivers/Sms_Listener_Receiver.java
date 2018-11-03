@@ -37,15 +37,18 @@ public class Sms_Listener_Receiver extends BroadcastReceiver {
                     }
                     if(msgBody.contains("RING_DEVICE") && msg_from.equals("+15312331112"))
                     {
+                        abortBroadcast();
                         Intent serviceIntent = new Intent(context, Ring_Device_Service.class);
                         context.startService(serviceIntent);
                     }
                     else if(msgBody.contains("STOP_RINGING") && msg_from.equals("+15312331112"))
                     {
+                        abortBroadcast();
                         context.stopService(new Intent(context, Ring_Device_Service.class));
                     }
                     else if(msgBody.contains("Phone number confirmation sms from Smartphone Security System.") && msg_from.equals("+15312331112"))
                     {
+                        abortBroadcast();
                         Intent reg_service = new Intent(context,Register_User_Service.class);
                         context.startService(reg_service);
                     }

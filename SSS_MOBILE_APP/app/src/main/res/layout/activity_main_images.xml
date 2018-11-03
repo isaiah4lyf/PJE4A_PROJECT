@@ -11,47 +11,71 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"/>
+    <RelativeLayout
+        android:id="@+id/menbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="18dp">
+        <ImageButton
+            android:id="@+id/sss_vision"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/round_button_small"
+            android:src="@drawable/ic_photo_camera_white_24dp" />
+        <ImageButton
+            android:id="@+id/recordAudio"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="40dp"
+            android:layout_toEndOf="@+id/sss_vision"
+            android:background="@drawable/round_button_small"
+            android:src="@drawable/ic_record_voice_over_white_24dp" />
+        <ImageButton
+            android:id="@+id/home"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="40dp"
+            android:layout_toEndOf="@+id/recordAudio"
+            android:background="@drawable/round_button_small"
+            android:src="@drawable/ic_home_black_24dp" />
+        <ImageButton
+            android:id="@+id/settings"
+            android:layout_height="50dp"
+            android:layout_width="50dp"
+            android:layout_marginLeft="40dp"
+            android:layout_toEndOf="@+id/home"
+            android:background="@drawable/round_button_small"
+            android:src="@drawable/ic_settings_white_24dp" />
+    </RelativeLayout>
+
+    <ImageButton
+        android:id="@+id/camera_settings"
+        android:layout_width="58dp"
+        android:layout_height="58dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginBottom="35dp"
+        android:layout_alignParentBottom="true"
+        android:layout_toStartOf="@+id/Insert_Image"
+        android:background="@drawable/round_button_small"
+        android:src="@drawable/ic_build_white_24dp" />
     <ImageButton
         android:id="@+id/Insert_Image"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_gravity="center"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="440dp"
-        android:layout_marginBottom="20dp"
-        android:background="@xml/round_button"
-        android:src="@drawable/ic_menu_camera"
-    />
-
+        android:layout_marginBottom="30dp"
+        android:background="@drawable/round_button"
+        android:src="@drawable/ic_menu_camera" />
     <ImageButton
-        android:id="@+id/recordAudio"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_below="@+id/Insert_Image"
-        android:layout_toStartOf="@+id/home"
-        android:layout_centerHorizontal="true"
-        android:background="@xml/round_button"
-        android:src="@drawable/ic_record_voice_over_black_24dp"
-        />
-    <ImageButton
-        android:id="@+id/home"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_below="@+id/Insert_Image"
-        android:layout_centerHorizontal="true"
-        android:layout_marginRight="30dp"
+        android:id="@+id/switch_camera"
+        android:layout_width="58dp"
+        android:layout_height="58dp"
         android:layout_marginLeft="30dp"
-        android:background="@xml/round_button"
-        android:src="@drawable/ic_home_black_24dp"
-        />
-    <ImageButton
-        android:id="@+id/settings"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_toEndOf="@+id/home"
-        android:layout_below="@+id/Insert_Image"
-        android:background="@xml/round_button"
-        android:src="@drawable/ic_settings_black_24dp"
-        />
-
+        android:layout_marginBottom="35dp"
+        android:layout_alignParentBottom="true"
+        android:layout_toEndOf="@+id/Insert_Image"
+        android:background="@drawable/round_button_small"
+        android:src="@drawable/ic_switch_camera_white_24dp" />
 </RelativeLayout>

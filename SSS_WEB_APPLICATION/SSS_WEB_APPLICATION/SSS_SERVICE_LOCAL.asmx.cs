@@ -17,11 +17,21 @@ namespace SSS_WEB_APPLICATION
 	[System.Web.Script.Services.ScriptService]
 	public class SSS_SERVICE_LOCAL : System.Web.Services.WebService
 	{
-
+		private SSS_SERVICE.SSS_SERVICE remote_service = new SSS_SERVICE.SSS_SERVICE();
 		[WebMethod]
 		public List<Device_Coordinate> RETURN_DEVICE_COORDINATE_JS(string Device_Mac) {
-			SSS_SERVICE.SSS_SERVICE remote_service = new SSS_SERVICE.SSS_SERVICE();
+			
 			return remote_service.RETURN_DEVICE_COORDINATE_JS(Device_Mac).ToList();
+		}
+		[WebMethod]
+		public string RING_DEVICE(string body, string From_num, string to_num)
+		{
+			return remote_service.SEND_SMS(body, From_num, to_num);
+		}
+		[WebMethod]
+		public string STOP_RINGING_DEVICE(string body, string From_num, string to_num)
+		{
+			return remote_service.SEND_SMS(body, From_num, to_num);
 		}
 	}
 }

@@ -56,22 +56,15 @@ public class User_And_Roles extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
-        // data to populate the RecyclerView with
         mydb = new DBHelper(getApplicationContext());
         users =  mydb.Get_Users();
-
-
-
-        // set up the RecyclerView
         RecyclerView recyclerView = findViewById(R.id.users);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new Recycler_View_Adapter_Users(this, users);
         adapter.setClickListener(this);
         recyclerView.setAdapter(adapter);
-
-        FloatingActionButton myFab = (FloatingActionButton) findViewById(R.id.fab);
-        myFab.setOnClickListener(new View.OnClickListener() {
+        ImageButton add_user = (ImageButton) findViewById(R.id.add_user);
+        add_user.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 add_User();
             }
@@ -155,7 +148,6 @@ public class User_And_Roles extends AppCompatActivity
     }
     @Override
     public void onItemClick(View view, int position) {
-        Toast.makeText(this, "You clicked " + adapter.getItem(position) + " on row number " + position, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -253,13 +245,13 @@ public class User_And_Roles extends AppCompatActivity
                         mydb.Insert_User(password.getText().toString(),user_name.getText().toString().replaceAll(" ",""));
                         if(users.size() > 0)
                         {
-                            users.add(users.size() - 1, user_name.getText().toString().replaceAll(" ",""));
-                            adapter.notifyItemInserted(users.size() - 1);
+                            users.add(users.size(), user_name.getText().toString().replaceAll(" ",""));
+                            adapter.notifyDataSetChanged();
                         }
                         else
                         {
                             users.add(0, user_name.getText().toString().replaceAll(" ",""));
-                            adapter.notifyItemInserted(0);
+                            adapter.notifyDataSetChanged();
                         }
 
                         popupWindow.dismiss();

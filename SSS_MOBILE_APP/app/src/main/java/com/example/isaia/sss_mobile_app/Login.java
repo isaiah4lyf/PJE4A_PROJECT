@@ -55,8 +55,8 @@ public class Login extends AppCompatActivity {
         final TextView Reg_User = (TextView) findViewById(R.id.Reg_User);
         Bundle extras = getIntent().getExtras();
 
-        Intent coordIntent = new Intent(getApplicationContext(),Send_Coordinates_Service.class);
-        startService(coordIntent);
+        //Intent coordIntent = new Intent(getApplicationContext(),Send_Coordinates_Service.class);
+        //startService(coordIntent);
         //sendLongSMS();
         if (extras != null) {
             if(extras.getString("From_Logout") != null)
