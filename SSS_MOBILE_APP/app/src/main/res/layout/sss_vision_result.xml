@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/background"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <android.support.v7.widget.CardView
+        android:id="@+id/imagecardview"
+        android:layout_width="350dp"
+        android:layout_height="320dp"
+        app:cardCornerRadius="15dp"
+        android:layout_marginTop="2dp"
+        app:cardBackgroundColor="@color/black"
+        android:layout_centerHorizontal="true">>
+        <ImageView
+            android:id="@+id/result_image"
+            android:layout_below="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="fitXY" />
+    </android.support.v7.widget.CardView>
+    <TextView
+        android:id="@+id/username"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imagecardview"
+        android:text="Name: "
+        android:textAlignment="center"
+        android:textColor="#FFFF"
+        android:textSize="12sp"
+        android:textStyle="normal" />
+    <TextView
+        android:id="@+id/accuracy"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/username"
+        android:text="Prediction Accuracy: "
+        android:textAlignment="center"
+        android:textColor="#FFFF"
+        android:textSize="12sp"
+        android:textStyle="normal" />
+    <RelativeLayout
+        android:id="@+id/buttons"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/accuracy"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp">
+        <ImageButton
+            android:id="@+id/close"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:background="@drawable/round_button_small"
+            android:src="@drawable/ic_cancel_white_24dp" />
+        <ImageButton
+            android:id="@+id/test_again"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:layout_marginLeft="35dp"
+            android:layout_toEndOf="@+id/close"
+            android:background="@drawable/round_button_small"
+            android:src="@drawable/ic_refresh_black_24dp" />
+        <ImageButton
+            android:id="@+id/add_user"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:layout_marginLeft="35dp"
+            android:layout_toEndOf="@+id/test_again"
+            android:background="@drawable/round_button_small"
+            android:src="@drawable/ic_person_add_white_24dp" />
+    </RelativeLayout>
+
+
+</RelativeLayout>

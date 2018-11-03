@@ -62,6 +62,7 @@ public class Main_Activity_Images extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_images);
+
         function = "Insert_Image";
         DBHelper mydb = new DBHelper(getApplicationContext());
         User_Name = mydb.User_Name();

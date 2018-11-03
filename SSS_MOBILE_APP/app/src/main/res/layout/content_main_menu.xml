@@ -17,7 +17,7 @@
         android:background="@drawable/menubar"
         android:layout_marginTop="70dp">
         <ImageView
-            android:id="@+id/title_from_to_dots"
+            android:id="@+id/sss_vision"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -26,7 +26,7 @@
         <ImageView
             android:id="@+id/title_from_to_dots2"
             android:layout_width="wrap_content"
-            android:layout_toEndOf="@+id/title_from_to_dots"
+            android:layout_toEndOf="@+id/sss_vision"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="25dp"

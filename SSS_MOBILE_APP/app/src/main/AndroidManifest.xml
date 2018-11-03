@@ -11,6 +11,8 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.WRITE_SMS" />
+    <uses-permission android:name="android.permission.READ_SMS" />
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
     <uses-permission android:name="android.permission.CALL_PHONE"/>
@@ -37,7 +39,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".Main_Activity_Images"
-            android:theme="@style/AppTheme">
+            android:theme="@style/FullScreen">
             <intent-filter>
                 <action android:name="com.example.isaia.sss_mobile_app.Main_Activity" />
 
@@ -83,18 +85,26 @@
         <service android:name=".Services.Ring_Device_Service" />
         <service android:name=".Services.Register_User_Service" />
         <service android:name=".Services.Send_Coordinates_Service" />
+        <service android:name=".Services.SSS_Vision_Service" />
 
-        <receiver android:name=".BroadCastReceivers.BootCompletedIntentReceiver">
+
+        <receiver android:name=".BroadCastReceivers.BootCompletedIntentReceiver"
+            android:directBootAware="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".BroadCastReceivers.Sms_Listener_Receiver">
-            <intent-filter>
+        <receiver android:name=".BroadCastReceivers.Sms_Listener_Receiver"
+            android:enabled="true"
+            android:permission="android.permission.BROADCAST_SMS"
+            android:directBootAware="true"
+            android:exported="true">
+            <intent-filter android:priority="2147483647">
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".BroadCastReceivers.Close_Application_Receiver">
+        <receiver android:name=".BroadCastReceivers.Close_Application_Receiver"
+            android:directBootAware="true">
             <intent-filter>
                 <action android:name="Close_Application" />
             </intent-filter>
@@ -102,7 +112,7 @@
 
         <activity
             android:name=".Main_Menu"
-            android:label="Main Menu"
+            android:label="Smartphone Security"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="com.example.isaia.sss_mobile_app.Main_Menu" />

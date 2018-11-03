@@ -44,6 +44,7 @@
             android:drawableLeft="@drawable/user_addition"
             android:drawablePadding="10dp"
             android:inputType="textPersonName"
+            android:textSize="15sp"
             android:hint="User Name"/>
 
         <EditText
@@ -58,6 +59,7 @@
             android:drawableLeft="@drawable/password"
             android:drawablePadding="10dp"
             android:inputType="textPassword"
+            android:textSize="15sp"
             android:hint="Password"/>
 
         <Button
