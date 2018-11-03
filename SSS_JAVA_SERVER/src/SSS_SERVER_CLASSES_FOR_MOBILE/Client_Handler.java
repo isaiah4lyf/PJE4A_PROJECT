@@ -36,6 +36,7 @@ import SSS_SERVER_FUNCTIONS.Update_Training_Accuracy_Users_First_Version;
 import SSS_SERVER_FUNCTIONS.Update_Training_Accuracy_Users_New;
 import SSS_SERVER_FUNCTIONS.Update_Training_Accuracy_Users_VN;
 import SSS_SERVER_FUNCTIONS.Check_User_Name;
+import SSS_SERVER_FUNCTIONS.Check_User_Name_Vision;
 import SSS_SERVER_FUNCTIONS.Confirm_Number;
 import SSS_SERVER_FUNCTIONS.Insert_Device_Coordinate;
 public class Client_Handler implements Runnable{
@@ -47,6 +48,7 @@ public class Client_Handler implements Runnable{
 	private String URL;
 	private String Matlab_Path_train;
 	private TextArea console_Like;
+	private String ServerUrl = "http://smartphonesecuritysystem.dedicated.co.za:8080/SSS_JAVA_SERVER/data/SSS_VISION/";
 	
 	
 	public Client_Handler(Socket socketConnectionToClient,MatlabEngine matEng,String URL,TextArea console_Like)
@@ -155,6 +157,14 @@ public class Client_Handler implements Runnable{
 							Insert_Device_Coordinate();
 							processing = false;
 							break;
+						case "SSS_VISION":
+							SSS_Vision();
+							processing = false;
+							break;
+						case "ADD_USER_FROM_VISION":
+							Add_User_From_Vision();
+							processing = false;
+							break;
 					}
 				
 				} catch (Exception e) {
@@ -177,6 +187,196 @@ public class Client_Handler implements Runnable{
 
 
 	/// Commands Management functions
+	private void Add_User_From_Vision() 
+	{
+		try {
+			String User_Name = in.readUTF();
+			Check_User_Name_Vision insert = new Check_User_Name_Vision();
+			sendMessage(insert.do_The_Work(URL, User_Name));
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	private void SSS_Vision()
+	{	
+		try
+		{
+			String size_string2 = in.readUTF();
+			System.out.println(size_string2);
+			int size2 = Integer.parseInt(size_string2);
+			String title2 = in.readUTF();
+			System.out.println(title2);
+			BufferedOutputStream ByteToFile2 = null;
+			try{
+				System.out.println(size2);
+				byte[] buffer = new byte[size2];
+				readFully(in,buffer,0,size2);
+				int extra = in.available();
+				if (extra > 0)
+				{
+					byte[] buffer2 = new byte[extra];
+					in.read(buffer2);
+				}
+				ByteToFile2 = new BufferedOutputStream(new FileOutputStream(new File("data/SSS_VISION/"+title2+".jpg")));
+				ByteToFile2.write(buffer);
+				ByteToFile2.flush();
+				ByteToFile2.close();
+				
+			}
+			catch(IOException ex){
+				ex.printStackTrace();
+
+			}
+			finally
+			{
+				if (ByteToFile2 != null)
+					try {
+						ByteToFile2.close();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}				
+			}
+			
+
+				Return_Train_Models models = new Return_Train_Models();
+				String[] models_string = models.Do_The_Work(URL);
+				
+				String model_ID2 = models_string[models_string.length - 1].split(",")[0];
+				Return_Users_In_Model users2 = new Return_Users_In_Model();
+				String[] users_string2 = users2.Do_The_Work(URL,model_ID2);
+				int num_Models = models_string.length;
+				if(users_string2.length == 1 || models_string[users_string2.length - 1].split(",")[3].equals(1))
+				{
+					num_Models = models_string.length - 1;
+				}
+				
+
+				int[] results = new int[num_Models];
+				List<Integer> fet_Match = new ArrayList<Integer>(num_Models);
+				List<Double> model_Match_Accuracy = new ArrayList<Double>(num_Models);
+				
+				File image2 = null;
+				
+				for (int i = 0; i < num_Models; i++)
+				{
+
+					String model_ID = models_string[i].split(",")[0];
+					Return_Users_In_Model users = new Return_Users_In_Model();
+					String[] users_string = users.Do_The_Work(URL,model_ID);
+					System.out.println(users_string[0]);
+					
+					matEng.eval("clear all",null,null);
+					
+					if (users_string.length  == 4)
+					{
+						matEng.eval("class_1 = "+Integer.parseInt(users_string[0].split(",")[0]),null,null);
+						matEng.eval("class_2 = "+Integer.parseInt(users_string[1].split(",")[0]),null,null);
+						matEng.eval("class_3 = "+Integer.parseInt(users_string[2].split(",")[0]),null,null);
+						matEng.eval("class_4 = "+Integer.parseInt(users_string[3].split(",")[0]),null,null);
+
+					}
+					else if (users_string.length == 3)
+					{
+						matEng.eval("class_1 = "+Integer.parseInt(users_string[0].split(",")[0]),null,null);
+						matEng.eval("class_2 = "+Integer.parseInt(users_string[1].split(",")[0]),null,null);
+						matEng.eval("class_3 = "+Integer.parseInt(users_string[2].split(",")[0]),null,null);
+						matEng.eval("class_4 = "+Integer.parseInt(users_string[2].split(",")[0]+1),null,null);
+
+					}
+					else if (users_string.length == 2)
+					{
+						matEng.eval("class_1 = "+Integer.parseInt(users_string[0].split(",")[0]),null,null);
+						matEng.eval("class_2 = "+Integer.parseInt(users_string[1].split(",")[0]),null,null);
+						matEng.eval("class_3 = "+Integer.parseInt(users_string[1].split(",")[0]+1),null,null);
+						matEng.eval("class_4 = "+Integer.parseInt(users_string[1].split(",")[0]+2),null,null);
+
+					}
+					else
+					{
+						matEng.eval("class_1 = "+Integer.parseInt(users_string[0].split(",")[0]),null,null);
+						matEng.eval("class_2 = "+Integer.parseInt(users_string[0].split(",")[0]+2),null,null);
+						matEng.eval("class_3 = "+Integer.parseInt(users_string[0].split(",")[0]+3),null,null);
+						matEng.eval("class_4 = "+Integer.parseInt(users_string[0].split(",")[0]+4),null,null);
+
+					}
+					image2 = new File("data/SSS_VISION/"+title2+".jpg");
+					System.out.println(image2.getAbsolutePath());
+					matEng.eval("Image_Name_of = '"+ image2.getAbsolutePath().toString()+"'",null,null);
+					
+					int model_version = Integer.parseInt(models_string[i].split(",")[3] );
+					String Trained_Model2 = Matlab_Path_train + "/MATLAB_TRAINED_MODELS/" + models_string[i].split(",")[1] + "_" +model_version+ ".mat";
+					File matFile = new File(Trained_Model2);
+					
+					while(!matFile.exists() && model_version > 0)
+					{
+						System.out.println(Trained_Model2);
+						model_version--;
+						Trained_Model2 = Matlab_Path_train + "/MATLAB_TRAINED_MODELS/" + models_string[i].split(",")[1] + "_" +model_version+ ".mat";						
+						matFile = new File(Trained_Model2);
+					}
+					matEng.eval("path = '"+Trained_Model2+"'",null,null);
+					matEng.eval("run('" + Matlab_Path_train + "/MATLAB_SCRIPTS/Predict_User10.m')",null,null);
+					double status2 = matEng.getVariable("status");
+					double exception2 = matEng.getVariable("exception");
+
+					if(status2 == 1.0 || exception2 == 1.0)
+					{
+						image2.delete();
+						System.out.println("Ex" + status2);
+						System.out.println("Ex" + exception2);
+						System.out.println("here");
+						break;									
+					}
+					else
+					{
+						StringWriter output_class = new StringWriter();
+						matEng.eval("max_Class",output_class,null);
+						String max_class_String = output_class.toString().replaceAll("\n","");
+						int max_class = Integer.parseInt(max_class_String.split("=")[1].replaceAll(" ",""));							
+						StringWriter output_num = new StringWriter();
+						matEng.eval("max_Num",output_num,null);
+						String max_num_String = output_num.toString().replaceAll("\n","");
+						int max_num = Integer.parseInt(max_num_String.split("=")[1].replaceAll(" ",""));
+						results[i] = max_class;
+						fet_Match.add(i, max_num);
+						double prediction_Accuracy = matEng.getVariable("predAccuracy");
+						model_Match_Accuracy.add(i, prediction_Accuracy);
+					}																							
+				}									
+				double status2 = matEng.getVariable("status");
+				double exception2 = matEng.getVariable("exception");												
+				if(status2 == 1.0 || exception2 == 1.0)
+				{
+					image2.delete();
+					sendMessage("Invalid Image");
+				}
+				else
+				{
+					int max = fet_Match.get(0);
+					int index = 0;
+					for(int i = 0; i < fet_Match.size(); i++)
+					{
+						if(fet_Match.get(i) > max)
+						{
+							max = fet_Match.get(i);
+							index = i;
+						}
+					}
+					Return_User_With_ID user = new Return_User_With_ID();										
+					String result_With_Max = user.do_The_Work(URL, String.valueOf(results[index]));
+					sendMessage(ServerUrl+title2+".jpg"+","+result_With_Max.split(",")[1]+","+model_Match_Accuracy.get(index));
+					//sendMessage("http://smartphonesecuritysystem.dedicated.co.za:8080/Videos/harry.jpg");
+					
+				}
+
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	}
 	private void Insert_Device_Coordinate()
 	{
 		try {
@@ -1096,7 +1296,8 @@ public class Client_Handler implements Runnable{
 				}
 				else
 				{
-					matEng.eval("imwrite(J,Image_Name_of)",null,null);
+					//matEng.eval("imwrite(J,Image_Name_of)",null,null);					
+
 					Return_Accuracy_Users accu_Class = new Return_Accuracy_Users();
 					String[] accuString = accu_Class.do_The_Work(URL, user_ID2_).split(",");
 					List<Integer> new_Fetch_Match = fet_Match;
@@ -1293,7 +1494,7 @@ public class Client_Handler implements Runnable{
 			}
 			else
 			{
-				matEng.eval("imwrite(J,Image_Name_of)",null,null);
+				//matEng.eval("imwrite(J,Image_Name_of)",null,null);
 				Return_Accuracy_Users_First_Version accu_Class = new Return_Accuracy_Users_First_Version();
 				String[] accuString = accu_Class.do_The_Work(URL, user_ID2_).split(",");
 				List<Integer> new_Fetch_Match = fet_Match;

@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Web;
 using System.Web.Script.Serialization;
+using System.Web.Script.Services;
 using System.Web.Services;
 using Twilio;
 using Twilio.Rest.Api.V2010.Account;
@@ -77,8 +80,36 @@ namespace SSS_WEB_SERVICE
             var message = MessageResource.Create(messageOptions);
             return message.Body;
         }
+        [WebMethod]
+        public string CHECK_USER_NAME_VISION(string User_Name)
+        {
+            List<User> user = (from User in linq.Users
+                               where User.User_Name == User_Name
+                               select User).ToList();
+            if(user.Count > 0)
+            {
+                return user.ElementAt(0).Id + "," + user.ElementAt(0).User_Name;
+            }
+            else
+            {
+                return "false";
+            }
+        }
 
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public void  DOWNLOAD_FILE()
+        {
 
+            HttpContext.Current.Response.Clear();
+            HttpContext.Current.Response.ContentType = "application/octet-stream";
+            HttpContext.Current.Response.AppendHeader("Content-Disposition", "filename="
+                + "harry.jpg");
+            HttpContext.Current.Response.TransmitFile(Server.MapPath("~/Videos/")
+                + "harry.jpg");
+            HttpContext.Current.Response.End();
+
+        }
         [WebMethod]
 		public string INSERT_USER(string user_Name,string password,string email)
 		{

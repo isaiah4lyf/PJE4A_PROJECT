@@ -118,6 +118,7 @@
       <DependentUpon>SSS_DATABASE.mdf</DependentUpon>
     </Content>
     <Content Include="SSS_SERVICE.asmx" />
+    <Content Include="Videos\harry.jpg" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -159,6 +160,7 @@
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

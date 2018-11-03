@@ -81,18 +81,6 @@ try
 		predAccuracy = max_Num/m *100
 		max_Num
 		max_Class
-		
-		h=figure;
-		imshow(J); hold on;
-		plot(ptsOriginal.selectStrongest(500));
-		saveas(h,Image_Name_of)
-		close(h);
-		twiIm = imread(Image_Name_of);
-		image2 = undistortImage(twiIm,stereoParams.CameraParameters1);
-		faceDetector2 = vision.CascadeObjectDetector;
-		face2 = step(faceDetector2,image2);
-		k = imcrop(twiIm,face2);
-		imwrite(k,Image_Name_of)
 	else
 		status = 1;
 	end	
