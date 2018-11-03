@@ -3,6 +3,7 @@ package com.example.isaia.sss_mobile_app;
 import android.content.Intent;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Environment;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -38,6 +39,8 @@ public class Main_Menu extends AppCompatActivity  implements NavigationView.OnNa
     private MyRecyclerViewAdapter adapter;
     private RecyclerView recyclerView;
     private ImageView sss_vision;
+    private boolean loading = true;
+    private ArrayList<Advert_Data> dataArray;
     @SuppressWarnings("deprecation")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +62,7 @@ public class Main_Menu extends AppCompatActivity  implements NavigationView.OnNa
             NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
             navigationView.setNavigationItemSelectedListener(this);
 
-            ArrayList<Advert_Data> dataArray = new ArrayList<>();
+            dataArray = new ArrayList<>();
             Advert_Data data = new Advert_Data();
             data.setTitle("Video Play");
             data.setDescription("fsergtd");
@@ -68,7 +71,7 @@ public class Main_Menu extends AppCompatActivity  implements NavigationView.OnNa
                     Environment.DIRECTORY_PICTURES), "MyCameraApp");
             File fileWithinMyDir = new File(mediaStorageDir, "Vid2.mp4");
             String LINK = fileWithinMyDir.getPath();
-            data.setVideoUrl(LINK);
+            data.setVideoUrl("false");
             dataArray.add(data);
 
             Advert_Data data2 = new Advert_Data();
@@ -86,17 +89,42 @@ public class Main_Menu extends AppCompatActivity  implements NavigationView.OnNa
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
             adapter = new MyRecyclerViewAdapter(this, dataArray);
             adapter.setClickListener(this);
-            recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
-                int ydy = 0;
+
+
+            recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
                 @Override
                 public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                     super.onScrollStateChanged(recyclerView, newState);
-
                 }
 
+
                 @Override
-                public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                    super.onScrolled(recyclerView, dx, dy);
+                public void onScrolled(RecyclerView recyclerView, int dx, int dy)
+                {
+
+                    if (loading) {
+                        if (dy > 0) //check for scroll down
+                        {
+                            int visibleItemCount = recyclerView.getLayoutManager().getChildCount();
+                            int  totalItemCount = recyclerView.getLayoutManager().getItemCount();
+                            int pastVisiblesItems = ((LinearLayoutManager) recyclerView.getLayoutManager()).findFirstVisibleItemPosition();
+
+                            if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
+                                loading = false;
+                                Thread thread = new Thread() {
+                                    @Override
+                                    public void run() {
+                                        // TODO Auto-generated method stub
+                                        super.run();
+                                        load_more_asy task = new load_more_asy();
+                                        task.execute();
+                                    }
+                                };
+                                thread.start();
+                            }
+
+                        }
+                    }
                 }
             });
             recyclerView.setAdapter(adapter);
@@ -226,5 +254,41 @@ public class Main_Menu extends AppCompatActivity  implements NavigationView.OnNa
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+    private class load_more_asy extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected void onPreExecute() {
+            //if you want, start progress dialog here
+        }
+        @Override
+        protected String doInBackground(String... urls) {
+
+            String response = "";
+            try
+            {
+
+            }
+            catch(Exception ex)
+            {
+                response = "Error: "+ex.getLocalizedMessage();
+            }
+            return  response;
+        }
+        @Override
+        protected void onPostExecute(String result) {
+            //if you started progress dialog dismiss it here
+            Toast.makeText(getApplicationContext(),"Hllo",Toast.LENGTH_LONG).show();
+            Advert_Data data2 = new Advert_Data();
+            data2.setTitle("Video Play");
+            data2.setDescription("fsergtd");
+            data2.setImageUrl("false");
+
+            String LINK2 = "http://smartphonesecuritysystem.dedicated.co.za:8080/Videos/runDry.MP4";
+            data2.setVideoUrl(LINK2);
+            dataArray.add(data2);
+            adapter.notifyItemInserted(dataArray.size()-1);
+            loading = true;
+        }
     }
 }
