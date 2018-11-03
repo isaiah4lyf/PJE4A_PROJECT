@@ -64,9 +64,11 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
             Uri video = Uri.parse( mData.get(position).getVideoUrl());
             holder.videoView.setVideoURI(video);
             holder.videoView.seekTo(1);
+            holder.imageCard.setVisibility(View.GONE);
         }
         else
         {
+            holder.videoCard.setVisibility(View.GONE);
             holder.imageCard.setVisibility(View.VISIBLE);
             new DownloadImageTask(holder.image)
                     .execute(mData.get(position).getImageUrl());
