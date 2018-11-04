@@ -85,4 +85,17 @@
       <Column Name="Date_At_This_Coordinate" Type="System.String" DbType="NChar(10)" CanBeNull="true" />
     </Type>
   </Table>
+  <Table Name="dbo.News_Feeds" Member="News_Feeds">
+    <Type Name="News_Feed">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Title" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="ReadMoreLink" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="TitleImage" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Video" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Image" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="UploadTime" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="UploadDate" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+    </Type>
+  </Table>
 </Database>

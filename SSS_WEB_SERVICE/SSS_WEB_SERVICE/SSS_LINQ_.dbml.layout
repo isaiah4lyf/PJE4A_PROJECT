@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.875" name="SSS_LINQ_">
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 9.875" name="SSS_LINQ_">
   <DataContextMoniker Name="/SSS_LINQ_DataContext" />
   <nestedChildShapes>
     <classShape Id="00dbf276-b2fb-4bcf-9b0c-192285d60e40" absoluteBounds="0.5, 0.5, 2, 1.5785953776041666">
@@ -60,6 +60,12 @@
       <DataClassMoniker Name="/SSS_LINQ_DataContext/Device_Coordinate" />
       <nestedChildShapes>
         <elementListCompartment Id="c8e8c2c9-1449-4e21-a0f2-41730ff7a739" absoluteBounds="3.015, 7.085, 1.9700000000000002, 1.4031982421875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="071d1bc1-9833-4acc-a1d9-b65904226fd8" absoluteBounds="0.5, 7.125, 2, 2.5401025390625">
+      <DataClassMoniker Name="/SSS_LINQ_DataContext/News_Feed" />
+      <nestedChildShapes>
+        <elementListCompartment Id="40331070-0286-4055-a066-b3a74d78e723" absoluteBounds="0.51500000000000012, 7.5850000000000009, 1.9700000000000002, 1.9801025390625" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
   </nestedChildShapes>

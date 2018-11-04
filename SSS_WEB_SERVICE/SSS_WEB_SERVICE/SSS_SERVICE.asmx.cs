@@ -13,22 +13,22 @@ using Twilio.Types;
 
 namespace SSS_WEB_SERVICE
 {
-	/// <summary>
-	/// Summary description for SSS_SERVICE
-	/// </summary>
-	[WebService(Namespace = "http://tempuri.org/")]
-	[WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
-	[System.ComponentModel.ToolboxItem(false)]
-	// To allow this Web Service to be called from script, using ASP.NET AJAX, uncomment the following line. 
-	[System.Web.Script.Services.ScriptService]
-	public class SSS_SERVICE : System.Web.Services.WebService
-	{
+    /// <summary>
+    /// Summary description for SSS_SERVICE
+    /// </summary>
+    [WebService(Namespace = "http://tempuri.org/")]
+    [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
+    [System.ComponentModel.ToolboxItem(false)]
+    // To allow this Web Service to be called from script, using ASP.NET AJAX, uncomment the following line. 
+    [System.Web.Script.Services.ScriptService]
+    public class SSS_SERVICE : System.Web.Services.WebService
+    {
 
-		public SSS_LINQ_DataContext linq = new SSS_LINQ_DataContext();
+        public SSS_LINQ_DataContext linq = new SSS_LINQ_DataContext();
 
         //GENERAL METHODS
         [WebMethod]
-        public string INSERT_DEVICE_COORDINATE(string Device_Mac,string Longitude,string Latitude)
+        public string INSERT_DEVICE_COORDINATE(string Device_Mac, string Longitude, string Latitude)
         {
             Device_Coordinate coordinate = new Device_Coordinate();
             coordinate.Device_Mac = Device_Mac;
@@ -59,7 +59,7 @@ namespace SSS_WEB_SERVICE
             List<User> userTable = (from User in linq.Users
                                     where User.User_Name == user_Name
                                     select User).ToList();
-            if(userTable.Count > 0)
+            if (userTable.Count > 0)
             {
                 status = "true";
             }
@@ -86,9 +86,99 @@ namespace SSS_WEB_SERVICE
             List<User> user = (from User in linq.Users
                                where User.User_Name == User_Name
                                select User).ToList();
-            if(user.Count > 0)
+            if (user.Count > 0)
             {
                 return user.ElementAt(0).Id + "," + user.ElementAt(0).User_Name;
+            }
+            else
+            {
+                return "false";
+            }
+        }
+        [WebMethod]
+        public void UPLOAD_NEWS_FEED_VIDEO(string title, string description, string readMoreLink, byte[] titleImageContents, string titleImageName, byte[] VideoContents, string VideoFilename)
+        {
+            News_Feed feed = new News_Feed();
+            feed.Title = title;
+            feed.Description = description;
+            feed.ReadMoreLink = readMoreLink;
+            feed.TitleImage = titleImageName;
+            feed.Video = VideoFilename;
+            feed.Image = "false";
+            feed.UploadTime = DateTime.Now.ToString("HH:mm:ss");
+            feed.UploadDate = DateTime.Today.ToString("dd-MM-yyyy");
+            linq.News_Feeds.InsertOnSubmit(feed);
+            linq.SubmitChanges();
+
+            var videos = Server.MapPath("~/Videos");
+            var file = Path.Combine(videos, Path.GetFileName(VideoFilename));
+            File.WriteAllBytes(file, VideoContents);
+
+            var file2 = Path.Combine(videos, Path.GetFileName(titleImageName));
+            File.WriteAllBytes(file2, titleImageContents);
+        }
+        [WebMethod]
+        public void UPLOAD_NEWS_FEED_IMAGE(string title, string description, string readMoreLink, byte[] titleImageContents, string titleImageName, byte[] ImageContents, string ImageFilename)
+        {
+            News_Feed feed = new News_Feed();
+            feed.Title = title;
+            feed.Description = description;
+            feed.ReadMoreLink = readMoreLink;
+            feed.TitleImage = titleImageName;
+            feed.Video = "false";
+            feed.Image = ImageFilename;
+            feed.UploadTime = DateTime.Now.ToString("HH:mm:ss");
+            feed.UploadDate = DateTime.Today.ToString("dd-MM-yyyy");
+            linq.News_Feeds.InsertOnSubmit(feed);
+            linq.SubmitChanges();
+
+            var images = Server.MapPath("~/Images");
+
+            var file = Path.Combine(images, Path.GetFileName(ImageFilename));
+            File.WriteAllBytes(file, ImageContents);
+
+            var file2 = Path.Combine(images, Path.GetFileName(titleImageName));
+            File.WriteAllBytes(file2, titleImageContents);
+        }
+        [WebMethod]
+        public List<News_Feed> RETURN_NEWS_FEED_ALL_WEB()
+        {
+            return (from News_Feed in linq.News_Feeds
+                    select News_Feed).ToList();
+        }
+        [WebMethod]
+        public string RETURN_NEWS_FEED_ABOVE_ID_MOBILE(string id)
+        {
+            List<News_Feed> feedWithId = (from News_Feed in linq.News_Feeds
+                                     where News_Feed.Id == Convert.ToInt32(id)
+                                     select News_Feed).ToList();
+            List<News_Feed> feeds = (from News_Feed in linq.News_Feeds
+                                           select News_Feed).ToList();
+            int index = 0;
+            for (int i = 0; i < feeds.Count; i++)
+            {
+                if(feeds.ElementAt(i).Id == feedWithId.ElementAt(0).Id)
+                {
+                    index = i - 1;
+                }
+            }
+            if(feeds.Count > 1 && index > -1)
+            {
+                return feeds.ElementAt(index).Id + "//.///" + feeds.ElementAt(index).Title + "//.///" + feeds.ElementAt(index).Description + "//.///" + feeds.ElementAt(index).ReadMoreLink + "//.///" + feeds.ElementAt(index).TitleImage + "//.///" + feeds.ElementAt(index).Video + "//.///" + feeds.ElementAt(index).Image + "//.///" + feeds.ElementAt(index).UploadTime + "//.///" + feeds.ElementAt(index).UploadDate;
+            }
+            else
+            {
+                return "false";
+            }
+        }
+        [WebMethod]
+        public string RETURN_NEWS_FEED_LAST_MOBILE()
+        {
+            List<News_Feed> feeds = (from News_Feed in linq.News_Feeds
+                                    select News_Feed).ToList();
+            if(feeds.Count > 0)
+            {
+                return feeds.ElementAt(feeds.Count - 1).Id + "//.///" + feeds.ElementAt(feeds.Count - 1).Title + "//.///" + feeds.ElementAt(feeds.Count - 1).Description + "//.///" + feeds.ElementAt(feeds.Count - 1).ReadMoreLink + "//.///" + feeds.ElementAt(feeds.Count - 1).TitleImage + "//.///" + feeds.ElementAt(feeds.Count - 1).Video + "//.///" + feeds.ElementAt(feeds.Count - 1).Image + "//.///" + feeds.ElementAt(feeds.Count - 1).UploadTime + "//.///" + feeds.ElementAt(feeds.Count - 1).UploadDate;
             }
             else
             {
