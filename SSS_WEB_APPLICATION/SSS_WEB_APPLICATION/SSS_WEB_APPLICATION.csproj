@@ -67,7 +67,22 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Client_Master.Master" />
+    <Content Include="Admin_Master.Master" />
     <None Include="packages.config" />
+    <Content Include="Web References\SSS_SERVICE\Device_Coordinate.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\SSS_SERVICE\Image.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\SSS_SERVICE\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </Content>
+    <None Include="Web References\SSS_SERVICE\SSS_SERVICE.wsdl" />
+    <Content Include="Web References\SSS_SERVICE\User.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -88,24 +103,18 @@
     <Content Include="ServerJavasripts\TrackerClientScripts\StopRingingDevice.js" />
     <Content Include="SSS_SERVICE_LOCAL.asmx" />
     <Content Include="TrackerClient.aspx" />
-    <Content Include="Web References\SSS_SERVICE\Device_Coordinate.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </Content>
-    <Content Include="Web References\SSS_SERVICE\Image.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </Content>
-    <Content Include="Web References\SSS_SERVICE\Reference.map">
-      <Generator>MSDiscoCodeGenerator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </Content>
+    <Content Include="UploadNewsFeed.aspx" />
     <None Include="Web References\SSS_SERVICE\SSS_SERVICE.disco" />
     <Content Include="Web.config" />
-    <None Include="Web References\SSS_SERVICE\SSS_SERVICE.wsdl" />
-    <Content Include="Web References\SSS_SERVICE\User.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Admin_Master.Master.cs">
+      <DependentUpon>Admin_Master.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin_Master.Master.designer.cs">
+      <DependentUpon>Admin_Master.Master</DependentUpon>
+    </Compile>
     <Compile Include="Client_Master.Master.cs">
       <DependentUpon>Client_Master.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -151,6 +160,13 @@
     <Compile Include="TrackerClient.aspx.designer.cs">
       <DependentUpon>TrackerClient.aspx</DependentUpon>
     </Compile>
+    <Compile Include="UploadNewsFeed.aspx.cs">
+      <DependentUpon>UploadNewsFeed.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UploadNewsFeed.aspx.designer.cs">
+      <DependentUpon>UploadNewsFeed.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Web References\SSS_SERVICE\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -164,10 +180,13 @@
     <WebReferences Include="Web References\" />
   </ItemGroup>
   <ItemGroup>
-    <WebReferenceUrl Include="http://smartphonesecuritysystem.dedicated.co.za:8080/SSS_SERVICE.asmx">
+    <Folder Include="ServerJavasripts\UploadNewsFeedScripts\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferenceUrl Include="http://smartphonesecuritysystem.dedicated.co.za:8080/">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\SSS_SERVICE\</RelPath>
-      <UpdateFromURL>http://smartphonesecuritysystem.dedicated.co.za:8080/SSS_SERVICE.asmx</UpdateFromURL>
+      <UpdateFromURL>http://smartphonesecuritysystem.dedicated.co.za:8080/</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>

@@ -77,6 +77,58 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="CHECK_USER_NAME_VISION">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="User_Name" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CHECK_USER_NAME_VISIONResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CHECK_USER_NAME_VISIONResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UPLOAD_NEWS_FEED_VIDEO">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="title" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="description" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="readMoreLink" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="titleImageContents" type="s:base64Binary" />
+            <s:element minOccurs="0" maxOccurs="1" name="titleImageName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="VideoContents" type="s:base64Binary" />
+            <s:element minOccurs="0" maxOccurs="1" name="VideoFilename" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UPLOAD_NEWS_FEED_VIDEOResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="UPLOAD_NEWS_FEED_IMAGE">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="title" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="description" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="readMoreLink" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="titleImageContents" type="s:base64Binary" />
+            <s:element minOccurs="0" maxOccurs="1" name="titleImageName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ImageContents" type="s:base64Binary" />
+            <s:element minOccurs="0" maxOccurs="1" name="ImageFilename" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UPLOAD_NEWS_FEED_IMAGEResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="DOWNLOAD_FILE">
+        <s:complexType />
+      </s:element>
+      <s:element name="DOWNLOAD_FILEResponse">
+        <s:complexType />
+      </s:element>
       <s:element name="INSERT_USER">
         <s:complexType>
           <s:sequence>
@@ -602,6 +654,30 @@
   <wsdl:message name="SEND_SMSSoapOut">
     <wsdl:part name="parameters" element="tns:SEND_SMSResponse" />
   </wsdl:message>
+  <wsdl:message name="CHECK_USER_NAME_VISIONSoapIn">
+    <wsdl:part name="parameters" element="tns:CHECK_USER_NAME_VISION" />
+  </wsdl:message>
+  <wsdl:message name="CHECK_USER_NAME_VISIONSoapOut">
+    <wsdl:part name="parameters" element="tns:CHECK_USER_NAME_VISIONResponse" />
+  </wsdl:message>
+  <wsdl:message name="UPLOAD_NEWS_FEED_VIDEOSoapIn">
+    <wsdl:part name="parameters" element="tns:UPLOAD_NEWS_FEED_VIDEO" />
+  </wsdl:message>
+  <wsdl:message name="UPLOAD_NEWS_FEED_VIDEOSoapOut">
+    <wsdl:part name="parameters" element="tns:UPLOAD_NEWS_FEED_VIDEOResponse" />
+  </wsdl:message>
+  <wsdl:message name="UPLOAD_NEWS_FEED_IMAGESoapIn">
+    <wsdl:part name="parameters" element="tns:UPLOAD_NEWS_FEED_IMAGE" />
+  </wsdl:message>
+  <wsdl:message name="UPLOAD_NEWS_FEED_IMAGESoapOut">
+    <wsdl:part name="parameters" element="tns:UPLOAD_NEWS_FEED_IMAGEResponse" />
+  </wsdl:message>
+  <wsdl:message name="DOWNLOAD_FILESoapIn">
+    <wsdl:part name="parameters" element="tns:DOWNLOAD_FILE" />
+  </wsdl:message>
+  <wsdl:message name="DOWNLOAD_FILESoapOut">
+    <wsdl:part name="parameters" element="tns:DOWNLOAD_FILEResponse" />
+  </wsdl:message>
   <wsdl:message name="INSERT_USERSoapIn">
     <wsdl:part name="parameters" element="tns:INSERT_USER" />
   </wsdl:message>
@@ -817,6 +893,22 @@
       <wsdl:input message="tns:SEND_SMSSoapIn" />
       <wsdl:output message="tns:SEND_SMSSoapOut" />
     </wsdl:operation>
+    <wsdl:operation name="CHECK_USER_NAME_VISION">
+      <wsdl:input message="tns:CHECK_USER_NAME_VISIONSoapIn" />
+      <wsdl:output message="tns:CHECK_USER_NAME_VISIONSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UPLOAD_NEWS_FEED_VIDEO">
+      <wsdl:input message="tns:UPLOAD_NEWS_FEED_VIDEOSoapIn" />
+      <wsdl:output message="tns:UPLOAD_NEWS_FEED_VIDEOSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UPLOAD_NEWS_FEED_IMAGE">
+      <wsdl:input message="tns:UPLOAD_NEWS_FEED_IMAGESoapIn" />
+      <wsdl:output message="tns:UPLOAD_NEWS_FEED_IMAGESoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DOWNLOAD_FILE">
+      <wsdl:input message="tns:DOWNLOAD_FILESoapIn" />
+      <wsdl:output message="tns:DOWNLOAD_FILESoapOut" />
+    </wsdl:operation>
     <wsdl:operation name="INSERT_USER">
       <wsdl:input message="tns:INSERT_USERSoapIn" />
       <wsdl:output message="tns:INSERT_USERSoapOut" />
@@ -981,6 +1073,42 @@
     </wsdl:operation>
     <wsdl:operation name="SEND_SMS">
       <soap:operation soapAction="http://tempuri.org/SEND_SMS" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CHECK_USER_NAME_VISION">
+      <soap:operation soapAction="http://tempuri.org/CHECK_USER_NAME_VISION" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UPLOAD_NEWS_FEED_VIDEO">
+      <soap:operation soapAction="http://tempuri.org/UPLOAD_NEWS_FEED_VIDEO" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UPLOAD_NEWS_FEED_IMAGE">
+      <soap:operation soapAction="http://tempuri.org/UPLOAD_NEWS_FEED_IMAGE" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DOWNLOAD_FILE">
+      <soap:operation soapAction="http://tempuri.org/DOWNLOAD_FILE" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -1317,6 +1445,42 @@
     </wsdl:operation>
     <wsdl:operation name="SEND_SMS">
       <soap12:operation soapAction="http://tempuri.org/SEND_SMS" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CHECK_USER_NAME_VISION">
+      <soap12:operation soapAction="http://tempuri.org/CHECK_USER_NAME_VISION" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UPLOAD_NEWS_FEED_VIDEO">
+      <soap12:operation soapAction="http://tempuri.org/UPLOAD_NEWS_FEED_VIDEO" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UPLOAD_NEWS_FEED_IMAGE">
+      <soap12:operation soapAction="http://tempuri.org/UPLOAD_NEWS_FEED_IMAGE" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DOWNLOAD_FILE">
+      <soap12:operation soapAction="http://tempuri.org/DOWNLOAD_FILE" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

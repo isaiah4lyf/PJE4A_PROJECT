@@ -37,6 +37,14 @@ namespace SSS_WEB_APPLICATION.SSS_SERVICE {
         
         private System.Threading.SendOrPostCallback SEND_SMSOperationCompleted;
         
+        private System.Threading.SendOrPostCallback CHECK_USER_NAME_VISIONOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback UPLOAD_NEWS_FEED_VIDEOOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback UPLOAD_NEWS_FEED_IMAGEOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback DOWNLOAD_FILEOperationCompleted;
+        
         private System.Threading.SendOrPostCallback INSERT_USEROperationCompleted;
         
         private System.Threading.SendOrPostCallback LOGINOperationCompleted;
@@ -152,6 +160,18 @@ namespace SSS_WEB_APPLICATION.SSS_SERVICE {
         
         /// <remarks/>
         public event SEND_SMSCompletedEventHandler SEND_SMSCompleted;
+        
+        /// <remarks/>
+        public event CHECK_USER_NAME_VISIONCompletedEventHandler CHECK_USER_NAME_VISIONCompleted;
+        
+        /// <remarks/>
+        public event UPLOAD_NEWS_FEED_VIDEOCompletedEventHandler UPLOAD_NEWS_FEED_VIDEOCompleted;
+        
+        /// <remarks/>
+        public event UPLOAD_NEWS_FEED_IMAGECompletedEventHandler UPLOAD_NEWS_FEED_IMAGECompleted;
+        
+        /// <remarks/>
+        public event DOWNLOAD_FILECompletedEventHandler DOWNLOAD_FILECompleted;
         
         /// <remarks/>
         public event INSERT_USERCompletedEventHandler INSERT_USERCompleted;
@@ -373,6 +393,141 @@ namespace SSS_WEB_APPLICATION.SSS_SERVICE {
             if ((this.SEND_SMSCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.SEND_SMSCompleted(this, new SEND_SMSCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/CHECK_USER_NAME_VISION", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public string CHECK_USER_NAME_VISION(string User_Name) {
+            object[] results = this.Invoke("CHECK_USER_NAME_VISION", new object[] {
+                        User_Name});
+            return ((string)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void CHECK_USER_NAME_VISIONAsync(string User_Name) {
+            this.CHECK_USER_NAME_VISIONAsync(User_Name, null);
+        }
+        
+        /// <remarks/>
+        public void CHECK_USER_NAME_VISIONAsync(string User_Name, object userState) {
+            if ((this.CHECK_USER_NAME_VISIONOperationCompleted == null)) {
+                this.CHECK_USER_NAME_VISIONOperationCompleted = new System.Threading.SendOrPostCallback(this.OnCHECK_USER_NAME_VISIONOperationCompleted);
+            }
+            this.InvokeAsync("CHECK_USER_NAME_VISION", new object[] {
+                        User_Name}, this.CHECK_USER_NAME_VISIONOperationCompleted, userState);
+        }
+        
+        private void OnCHECK_USER_NAME_VISIONOperationCompleted(object arg) {
+            if ((this.CHECK_USER_NAME_VISIONCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.CHECK_USER_NAME_VISIONCompleted(this, new CHECK_USER_NAME_VISIONCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/UPLOAD_NEWS_FEED_VIDEO", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public void UPLOAD_NEWS_FEED_VIDEO(string title, string description, string readMoreLink, [System.Xml.Serialization.XmlElementAttribute(DataType="base64Binary")] byte[] titleImageContents, string titleImageName, [System.Xml.Serialization.XmlElementAttribute(DataType="base64Binary")] byte[] VideoContents, string VideoFilename) {
+            this.Invoke("UPLOAD_NEWS_FEED_VIDEO", new object[] {
+                        title,
+                        description,
+                        readMoreLink,
+                        titleImageContents,
+                        titleImageName,
+                        VideoContents,
+                        VideoFilename});
+        }
+        
+        /// <remarks/>
+        public void UPLOAD_NEWS_FEED_VIDEOAsync(string title, string description, string readMoreLink, byte[] titleImageContents, string titleImageName, byte[] VideoContents, string VideoFilename) {
+            this.UPLOAD_NEWS_FEED_VIDEOAsync(title, description, readMoreLink, titleImageContents, titleImageName, VideoContents, VideoFilename, null);
+        }
+        
+        /// <remarks/>
+        public void UPLOAD_NEWS_FEED_VIDEOAsync(string title, string description, string readMoreLink, byte[] titleImageContents, string titleImageName, byte[] VideoContents, string VideoFilename, object userState) {
+            if ((this.UPLOAD_NEWS_FEED_VIDEOOperationCompleted == null)) {
+                this.UPLOAD_NEWS_FEED_VIDEOOperationCompleted = new System.Threading.SendOrPostCallback(this.OnUPLOAD_NEWS_FEED_VIDEOOperationCompleted);
+            }
+            this.InvokeAsync("UPLOAD_NEWS_FEED_VIDEO", new object[] {
+                        title,
+                        description,
+                        readMoreLink,
+                        titleImageContents,
+                        titleImageName,
+                        VideoContents,
+                        VideoFilename}, this.UPLOAD_NEWS_FEED_VIDEOOperationCompleted, userState);
+        }
+        
+        private void OnUPLOAD_NEWS_FEED_VIDEOOperationCompleted(object arg) {
+            if ((this.UPLOAD_NEWS_FEED_VIDEOCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.UPLOAD_NEWS_FEED_VIDEOCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/UPLOAD_NEWS_FEED_IMAGE", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public void UPLOAD_NEWS_FEED_IMAGE(string title, string description, string readMoreLink, [System.Xml.Serialization.XmlElementAttribute(DataType="base64Binary")] byte[] titleImageContents, string titleImageName, [System.Xml.Serialization.XmlElementAttribute(DataType="base64Binary")] byte[] ImageContents, string ImageFilename) {
+            this.Invoke("UPLOAD_NEWS_FEED_IMAGE", new object[] {
+                        title,
+                        description,
+                        readMoreLink,
+                        titleImageContents,
+                        titleImageName,
+                        ImageContents,
+                        ImageFilename});
+        }
+        
+        /// <remarks/>
+        public void UPLOAD_NEWS_FEED_IMAGEAsync(string title, string description, string readMoreLink, byte[] titleImageContents, string titleImageName, byte[] ImageContents, string ImageFilename) {
+            this.UPLOAD_NEWS_FEED_IMAGEAsync(title, description, readMoreLink, titleImageContents, titleImageName, ImageContents, ImageFilename, null);
+        }
+        
+        /// <remarks/>
+        public void UPLOAD_NEWS_FEED_IMAGEAsync(string title, string description, string readMoreLink, byte[] titleImageContents, string titleImageName, byte[] ImageContents, string ImageFilename, object userState) {
+            if ((this.UPLOAD_NEWS_FEED_IMAGEOperationCompleted == null)) {
+                this.UPLOAD_NEWS_FEED_IMAGEOperationCompleted = new System.Threading.SendOrPostCallback(this.OnUPLOAD_NEWS_FEED_IMAGEOperationCompleted);
+            }
+            this.InvokeAsync("UPLOAD_NEWS_FEED_IMAGE", new object[] {
+                        title,
+                        description,
+                        readMoreLink,
+                        titleImageContents,
+                        titleImageName,
+                        ImageContents,
+                        ImageFilename}, this.UPLOAD_NEWS_FEED_IMAGEOperationCompleted, userState);
+        }
+        
+        private void OnUPLOAD_NEWS_FEED_IMAGEOperationCompleted(object arg) {
+            if ((this.UPLOAD_NEWS_FEED_IMAGECompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.UPLOAD_NEWS_FEED_IMAGECompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/DOWNLOAD_FILE", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public void DOWNLOAD_FILE() {
+            this.Invoke("DOWNLOAD_FILE", new object[0]);
+        }
+        
+        /// <remarks/>
+        public void DOWNLOAD_FILEAsync() {
+            this.DOWNLOAD_FILEAsync(null);
+        }
+        
+        /// <remarks/>
+        public void DOWNLOAD_FILEAsync(object userState) {
+            if ((this.DOWNLOAD_FILEOperationCompleted == null)) {
+                this.DOWNLOAD_FILEOperationCompleted = new System.Threading.SendOrPostCallback(this.OnDOWNLOAD_FILEOperationCompleted);
+            }
+            this.InvokeAsync("DOWNLOAD_FILE", new object[0], this.DOWNLOAD_FILEOperationCompleted, userState);
+        }
+        
+        private void OnDOWNLOAD_FILEOperationCompleted(object arg) {
+            if ((this.DOWNLOAD_FILECompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.DOWNLOAD_FILECompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -1727,6 +1882,44 @@ namespace SSS_WEB_APPLICATION.SSS_SERVICE {
             }
         }
     }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3056.0")]
+    public delegate void CHECK_USER_NAME_VISIONCompletedEventHandler(object sender, CHECK_USER_NAME_VISIONCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3056.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class CHECK_USER_NAME_VISIONCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal CHECK_USER_NAME_VISIONCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public string Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3056.0")]
+    public delegate void UPLOAD_NEWS_FEED_VIDEOCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3056.0")]
+    public delegate void UPLOAD_NEWS_FEED_IMAGECompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3056.0")]
+    public delegate void DOWNLOAD_FILECompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3056.0")]

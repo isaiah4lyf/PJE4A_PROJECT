@@ -33,5 +33,17 @@ namespace SSS_WEB_APPLICATION
 		{
 			return remote_service.SEND_SMS(body, From_num, to_num);
 		}
+		[WebMethod]
+		public string UPLOAD_NEWS_FEED_IMAGE(string title, string description, string readMoreLink, byte[] titleImageContents, string titleImageName, byte[] ImageContents, string ImageFilename)
+		{
+			remote_service.UPLOAD_NEWS_FEED_IMAGE(title, description, readMoreLink,titleImageContents,  titleImageName, ImageContents, ImageFilename);
+			return "true";
+		}
+		[WebMethod]
+		public string UPLOAD_NEWS_FEED_VIDEO(string title, string description, string readMoreLink, byte[] titleImageContents, string titleImageName, byte[] VideoContents, string VideoFilename)
+		{
+			remote_service.UPLOAD_NEWS_FEED_VIDEO(title, description, readMoreLink, titleImageContents, titleImageName, VideoContents, VideoFilename);
+			return "true";
+		}
 	}
 }
