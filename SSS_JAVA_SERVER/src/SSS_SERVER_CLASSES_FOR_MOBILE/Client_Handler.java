@@ -248,7 +248,7 @@ public class Client_Handler implements Runnable{
 				Return_Users_In_Model users2 = new Return_Users_In_Model();
 				String[] users_string2 = users2.Do_The_Work(URL,model_ID2);
 				int num_Models = models_string.length;
-				if(users_string2.length == 1 || models_string[users_string2.length - 1].split(",")[3].equals(1))
+				if(users_string2.length == 1 || Integer.parseInt(models_string[users_string2.length - 1].split(",")[3]) < 11)
 				{
 					num_Models = models_string.length - 1;
 				}

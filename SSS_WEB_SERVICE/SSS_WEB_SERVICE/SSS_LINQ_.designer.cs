@@ -60,6 +60,9 @@ namespace SSS_WEB_SERVICE
     partial void InsertDevice_Coordinate(Device_Coordinate instance);
     partial void UpdateDevice_Coordinate(Device_Coordinate instance);
     partial void DeleteDevice_Coordinate(Device_Coordinate instance);
+    partial void InsertNews_Feed(News_Feed instance);
+    partial void UpdateNews_Feed(News_Feed instance);
+    partial void DeleteNews_Feed(News_Feed instance);
     #endregion
 		
 		public SSS_LINQ_DataContext() : 
@@ -169,6 +172,14 @@ namespace SSS_WEB_SERVICE
 			get
 			{
 				return this.GetTable<Device_Coordinate>();
+			}
+		}
+		
+		public System.Data.Linq.Table<News_Feed> News_Feeds
+		{
+			get
+			{
+				return this.GetTable<News_Feed>();
 			}
 		}
 	}
@@ -1608,6 +1619,260 @@ namespace SSS_WEB_SERVICE
 					this._Date_At_This_Coordinate = value;
 					this.SendPropertyChanged("Date_At_This_Coordinate");
 					this.OnDate_At_This_CoordinateChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.News_Feeds")]
+	public partial class News_Feed : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private string _Title;
+		
+		private string _Description;
+		
+		private string _ReadMoreLink;
+		
+		private string _TitleImage;
+		
+		private string _Video;
+		
+		private string _Image;
+		
+		private string _UploadTime;
+		
+		private string _UploadDate;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnTitleChanging(string value);
+    partial void OnTitleChanged();
+    partial void OnDescriptionChanging(string value);
+    partial void OnDescriptionChanged();
+    partial void OnReadMoreLinkChanging(string value);
+    partial void OnReadMoreLinkChanged();
+    partial void OnTitleImageChanging(string value);
+    partial void OnTitleImageChanged();
+    partial void OnVideoChanging(string value);
+    partial void OnVideoChanged();
+    partial void OnImageChanging(string value);
+    partial void OnImageChanged();
+    partial void OnUploadTimeChanging(string value);
+    partial void OnUploadTimeChanged();
+    partial void OnUploadDateChanging(string value);
+    partial void OnUploadDateChanged();
+    #endregion
+		
+		public News_Feed()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Title", DbType="NVarChar(MAX)")]
+		public string Title
+		{
+			get
+			{
+				return this._Title;
+			}
+			set
+			{
+				if ((this._Title != value))
+				{
+					this.OnTitleChanging(value);
+					this.SendPropertyChanging();
+					this._Title = value;
+					this.SendPropertyChanged("Title");
+					this.OnTitleChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Description", DbType="NVarChar(MAX)")]
+		public string Description
+		{
+			get
+			{
+				return this._Description;
+			}
+			set
+			{
+				if ((this._Description != value))
+				{
+					this.OnDescriptionChanging(value);
+					this.SendPropertyChanging();
+					this._Description = value;
+					this.SendPropertyChanged("Description");
+					this.OnDescriptionChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ReadMoreLink", DbType="NVarChar(MAX)")]
+		public string ReadMoreLink
+		{
+			get
+			{
+				return this._ReadMoreLink;
+			}
+			set
+			{
+				if ((this._ReadMoreLink != value))
+				{
+					this.OnReadMoreLinkChanging(value);
+					this.SendPropertyChanging();
+					this._ReadMoreLink = value;
+					this.SendPropertyChanged("ReadMoreLink");
+					this.OnReadMoreLinkChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TitleImage", DbType="NVarChar(MAX)")]
+		public string TitleImage
+		{
+			get
+			{
+				return this._TitleImage;
+			}
+			set
+			{
+				if ((this._TitleImage != value))
+				{
+					this.OnTitleImageChanging(value);
+					this.SendPropertyChanging();
+					this._TitleImage = value;
+					this.SendPropertyChanged("TitleImage");
+					this.OnTitleImageChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Video", DbType="NVarChar(MAX)")]
+		public string Video
+		{
+			get
+			{
+				return this._Video;
+			}
+			set
+			{
+				if ((this._Video != value))
+				{
+					this.OnVideoChanging(value);
+					this.SendPropertyChanging();
+					this._Video = value;
+					this.SendPropertyChanged("Video");
+					this.OnVideoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Image", DbType="NVarChar(MAX)")]
+		public string Image
+		{
+			get
+			{
+				return this._Image;
+			}
+			set
+			{
+				if ((this._Image != value))
+				{
+					this.OnImageChanging(value);
+					this.SendPropertyChanging();
+					this._Image = value;
+					this.SendPropertyChanged("Image");
+					this.OnImageChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UploadTime", DbType="NVarChar(MAX)")]
+		public string UploadTime
+		{
+			get
+			{
+				return this._UploadTime;
+			}
+			set
+			{
+				if ((this._UploadTime != value))
+				{
+					this.OnUploadTimeChanging(value);
+					this.SendPropertyChanging();
+					this._UploadTime = value;
+					this.SendPropertyChanged("UploadTime");
+					this.OnUploadTimeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UploadDate", DbType="NVarChar(MAX)")]
+		public string UploadDate
+		{
+			get
+			{
+				return this._UploadDate;
+			}
+			set
+			{
+				if ((this._UploadDate != value))
+				{
+					this.OnUploadDateChanging(value);
+					this.SendPropertyChanging();
+					this._UploadDate = value;
+					this.SendPropertyChanged("UploadDate");
+					this.OnUploadDateChanged();
 				}
 			}
 		}
