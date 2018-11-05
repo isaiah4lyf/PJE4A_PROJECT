@@ -1,7 +1,10 @@
 package com.example.isaia.sss_mobile_app;
 
+import android.content.Context;
 import android.content.Intent;
 import android.media.MediaMetadataRetriever;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
@@ -28,6 +31,8 @@ import android.widget.VideoView;
 
 import com.example.isaia.sss_mobile_app.Lists_Adapters.Advert_Data;
 import com.example.isaia.sss_mobile_app.Lists_Adapters.MyRecyclerViewAdapter;
+import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Load_Last_News_Feed;
+import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Load_More_News_Feed;
 import com.example.isaia.sss_mobile_app.Services.Predict_User_Image_Preview;
 import com.example.isaia.sss_mobile_app.Services.SSS_Vision_Service;
 import com.ramotion.foldingcell.FoldingCell;
@@ -63,28 +68,9 @@ public class Main_Menu extends AppCompatActivity  implements NavigationView.OnNa
             navigationView.setNavigationItemSelectedListener(this);
 
             dataArray = new ArrayList<>();
-            Advert_Data data = new Advert_Data();
-            data.setTitle("Video Play");
-            data.setDescription("fsergtd");
-            data.setImageUrl("http://smartphonesecuritysystem.dedicated.co.za:8080/Videos/harry.jpg");
-            File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
-                    Environment.DIRECTORY_PICTURES), "MyCameraApp");
-            File fileWithinMyDir = new File(mediaStorageDir, "Vid2.mp4");
-            String LINK = fileWithinMyDir.getPath();
-            data.setVideoUrl("false");
-            dataArray.add(data);
+            load_Last_asy task = new load_Last_asy();
+            task.execute();
 
-            Advert_Data data2 = new Advert_Data();
-            data2.setTitle("Video Play");
-            data2.setDescription("fsergtd");
-            data2.setImageUrl("false");
-
-            String LINK2 = "http://smartphonesecuritysystem.dedicated.co.za:8080/Videos/runDry.MP4";
-            data2.setVideoUrl(LINK2);
-            dataArray.add(data2);
-
-
-            // set up the RecyclerView
             recyclerView = findViewById(R.id.rvAnimals);
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
             adapter = new MyRecyclerViewAdapter(this, dataArray);
@@ -116,7 +102,7 @@ public class Main_Menu extends AppCompatActivity  implements NavigationView.OnNa
                                     public void run() {
                                         // TODO Auto-generated method stub
                                         super.run();
-                                        load_more_asy task = new load_more_asy();
+                                        load_more_asy task =  new load_more_asy();
                                         task.execute();
                                     }
                                 };
@@ -144,7 +130,22 @@ public class Main_Menu extends AppCompatActivity  implements NavigationView.OnNa
 
 
     }
+    private boolean haveNetworkConnection() {
+        boolean haveConnectedWifi = false;
+        boolean haveConnectedMobile = false;
 
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo[] netInfo = cm.getAllNetworkInfo();
+        for (NetworkInfo ni : netInfo) {
+            if (ni.getTypeName().equalsIgnoreCase("WIFI"))
+                if (ni.isConnected())
+                    haveConnectedWifi = true;
+            if (ni.getTypeName().equalsIgnoreCase("MOBILE"))
+                if (ni.isConnected())
+                    haveConnectedMobile = true;
+        }
+        return haveConnectedWifi || haveConnectedMobile;
+    }
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -255,40 +256,95 @@ public class Main_Menu extends AppCompatActivity  implements NavigationView.OnNa
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-    private class load_more_asy extends AsyncTask<String, Void, String> {
+    private class load_Last_asy extends AsyncTask<String, Void, Advert_Data> {
 
         @Override
         protected void onPreExecute() {
             //if you want, start progress dialog here
         }
         @Override
-        protected String doInBackground(String... urls) {
+        protected Advert_Data doInBackground(String... urls) {
 
-            String response = "";
+            Advert_Data response = null;
             try
             {
+                if(haveNetworkConnection() == true)
+                {
+                    Load_Last_News_Feed loadLast = new Load_Last_News_Feed();
+                    response = loadLast.Do_The_work();
+                }
+                else
+                {
+                    response.setId("No Internet Connection!");
+                }
 
             }
             catch(Exception ex)
             {
-                response = "Error: "+ex.getLocalizedMessage();
+                response.setId("Error: " + ex.getLocalizedMessage());
             }
             return  response;
         }
         @Override
-        protected void onPostExecute(String result) {
-            //if you started progress dialog dismiss it here
-            Toast.makeText(getApplicationContext(),"Hllo",Toast.LENGTH_LONG).show();
-            Advert_Data data2 = new Advert_Data();
-            data2.setTitle("Video Play");
-            data2.setDescription("fsergtd");
-            data2.setImageUrl("false");
+        protected void onPostExecute(Advert_Data result) {
+            if (!result.getId().equals("false")) {
+                if (!result.getId().equals("No Internet Connection!") || !result.getId().contains("Error:")) {
+                    dataArray.add(result);
+                    adapter.notifyItemInserted(dataArray.size() - 1);
+                    loading = true;
+                    load_more_asy task = new load_more_asy();
+                    task.execute();
+                } else {
+                    Toast.makeText(getApplicationContext(), result.getId(), Toast.LENGTH_LONG).show();
+                }
+            } else {
+                loading = true;
+            }
+        }
+    }
+    private class load_more_asy extends AsyncTask<String, Void, Advert_Data> {
 
-            String LINK2 = "http://smartphonesecuritysystem.dedicated.co.za:8080/Videos/runDry.MP4";
-            data2.setVideoUrl(LINK2);
-            dataArray.add(data2);
-            adapter.notifyItemInserted(dataArray.size()-1);
-            loading = true;
+        @Override
+        protected void onPreExecute() {
+            //if you want, start progress dialog here
+        }
+        @Override
+        protected Advert_Data doInBackground(String... urls) {
+
+            Advert_Data response = null;
+            try
+            {
+
+                if(haveNetworkConnection() == true)
+                {
+                    Load_More_News_Feed feed = new Load_More_News_Feed();
+                    response = feed.Do_The_work(dataArray.get(dataArray.size() -1 ).getId());
+                }
+                else {
+                    response.setId("No Internet Connection!");
+                }
+
+            }
+            catch(Exception ex) {
+                response.setId("Error: " + ex.getLocalizedMessage());
+            }
+            return  response;
+        }
+        @Override
+        protected void onPostExecute(Advert_Data result) {
+            //if you started progress dialog dismiss it here
+            if (!result.getId().equals("false")) {
+                if (!result.getId().equals("No Internet Connection!") || !result.getId().contains("Error:")) {
+                    dataArray.add(result);
+                    adapter.notifyItemInserted(dataArray.size() - 1);
+                    loading = true;
+                } else {
+                    Toast.makeText(getApplicationContext(), result.getId(), Toast.LENGTH_LONG).show();
+                }
+
+            } else {
+                loading = false;
+            }
         }
     }
 }
