@@ -162,9 +162,99 @@ namespace SSS_WEB_SERVICE
                     index = i - 1;
                 }
             }
-            if(feeds.Count > 1 && index > -1)
+            if (feeds.Count > 0)
             {
-                return feeds.ElementAt(index).Id + "//.///" + feeds.ElementAt(index).Title + "//.///" + feeds.ElementAt(index).Description + "//.///" + feeds.ElementAt(index).ReadMoreLink + "//.///" + feeds.ElementAt(index).TitleImage + "//.///" + feeds.ElementAt(index).Video + "//.///" + feeds.ElementAt(index).Image + "//.///" + feeds.ElementAt(index).UploadTime + "//.///" + feeds.ElementAt(index).UploadDate;
+                if(Convert.ToInt32(id) == feeds.ElementAt(0).Id)
+                {
+                    return "false";
+                }
+                else
+                {
+                    int Current_Year = Convert.ToInt32(DateTime.Today.Year);
+                    int Upload_Year = Convert.ToInt32((feeds.ElementAt(index).UploadDate).Split('-')[2]);
+                    int year_Difference = Current_Year - Upload_Year;
+                    if (year_Difference > 0)
+                    {
+                        if (year_Difference > 1)
+                        {
+                            return feeds.ElementAt(index).Id + "//.///" + feeds.ElementAt(index).Title + "//.///" + feeds.ElementAt(index).Description + "//.///" + feeds.ElementAt(index).ReadMoreLink + "//.///" + feeds.ElementAt(index).TitleImage + "//.///" + feeds.ElementAt(index).Video + "//.///" + feeds.ElementAt(index).Image + "//.///" + year_Difference.ToString() + " years ago";
+
+                        }
+                        else
+                        {
+                            return feeds.ElementAt(index).Id + "//.///" + feeds.ElementAt(index).Title + "//.///" + feeds.ElementAt(index).Description + "//.///" + feeds.ElementAt(index).ReadMoreLink + "//.///" + feeds.ElementAt(index).TitleImage + "//.///" + feeds.ElementAt(index).Video + "//.///" + feeds.ElementAt(index).Image + "//.///" + year_Difference.ToString() + " year ago";
+
+                        }
+                    }
+                    else
+                    {
+                        int current_month = Convert.ToInt32(DateTime.Today.Month);
+                        int UploadMoth = Convert.ToInt32((feeds.ElementAt(index).UploadDate).Split('-')[1]);
+                        int monthDifference = current_month - UploadMoth;
+                        if (monthDifference > 0)
+                        {
+                            if (monthDifference > 1)
+                            {
+                                return feeds.ElementAt(index).Id + "//.///" + feeds.ElementAt(index).Title + "//.///" + feeds.ElementAt(index).Description + "//.///" + feeds.ElementAt(index).ReadMoreLink + "//.///" + feeds.ElementAt(index).TitleImage + "//.///" + feeds.ElementAt(index).Video + "//.///" + feeds.ElementAt(index).Image + "//.///" + monthDifference.ToString() + " months ago";
+                            }
+                            else
+                            {
+                                return feeds.ElementAt(index).Id + "//.///" + feeds.ElementAt(index).Title + "//.///" + feeds.ElementAt(index).Description + "//.///" + feeds.ElementAt(index).ReadMoreLink + "//.///" + feeds.ElementAt(index).TitleImage + "//.///" + feeds.ElementAt(index).Video + "//.///" + feeds.ElementAt(index).Image + "//.///" + monthDifference.ToString() + " month ago";
+                            }
+                        }
+                        else
+                        {
+                            int currentDay = Convert.ToInt32(DateTime.Today.Day);
+                            int UploadDay = Convert.ToInt32((feeds.ElementAt(index).UploadDate).Split('-')[0]);
+                            int dayDifference = currentDay - UploadDay;
+                            if (dayDifference > 0)
+                            {
+                                if (dayDifference > 1)
+                                {
+                                    return feeds.ElementAt(index).Id + "//.///" + feeds.ElementAt(index).Title + "//.///" + feeds.ElementAt(index).Description + "//.///" + feeds.ElementAt(index).ReadMoreLink + "//.///" + feeds.ElementAt(index).TitleImage + "//.///" + feeds.ElementAt(index).Video + "//.///" + feeds.ElementAt(index).Image + "//.///" + dayDifference.ToString() + " days ago";
+                                }
+                                else
+                                {
+                                    return feeds.ElementAt(index).Id + "//.///" + feeds.ElementAt(index).Title + "//.///" + feeds.ElementAt(index).Description + "//.///" + feeds.ElementAt(index).ReadMoreLink + "//.///" + feeds.ElementAt(index).TitleImage + "//.///" + feeds.ElementAt(index).Video + "//.///" + feeds.ElementAt(index).Image + "//.///" + dayDifference.ToString() + " day ago";
+                                }
+                            }
+                            else
+                            {
+                                int currentHour = Convert.ToInt32(DateTime.Now.Hour);
+                                int UploadHour = Convert.ToInt32((feeds.ElementAt(index).UploadTime).Split(':')[0]);
+                                int HourDifference = currentHour - UploadHour;
+                                if (HourDifference > 0)
+                                {
+                                    if (HourDifference > 1)
+                                    {
+                                        return feeds.ElementAt(index).Id + "//.///" + feeds.ElementAt(index).Title + "//.///" + feeds.ElementAt(index).Description + "//.///" + feeds.ElementAt(index).ReadMoreLink + "//.///" + feeds.ElementAt(index).TitleImage + "//.///" + feeds.ElementAt(index).Video + "//.///" + feeds.ElementAt(index).Image + "//.///" + HourDifference.ToString() + " hours ago";
+                                    }
+                                    else
+                                    {
+                                        return feeds.ElementAt(index).Id + "//.///" + feeds.ElementAt(index).Title + "//.///" + feeds.ElementAt(index).Description + "//.///" + feeds.ElementAt(index).ReadMoreLink + "//.///" + feeds.ElementAt(index).TitleImage + "//.///" + feeds.ElementAt(index).Video + "//.///" + feeds.ElementAt(index).Image + "//.///" + HourDifference.ToString() + " hour ago";
+
+                                    }
+                                }
+                                else
+                                {
+                                    int currentMinute = Convert.ToInt32(DateTime.Now.Minute);
+                                    int UploadMinute = Convert.ToInt32((feeds.ElementAt(index).UploadTime).Split(':')[1]);
+                                    int MinuteDifference = currentMinute - UploadMinute;
+                                    if (MinuteDifference > 1)
+                                    {
+                                        return feeds.ElementAt(index).Id + "//.///" + feeds.ElementAt(index).Title + "//.///" + feeds.ElementAt(index).Description + "//.///" + feeds.ElementAt(index).ReadMoreLink + "//.///" + feeds.ElementAt(index).TitleImage + "//.///" + feeds.ElementAt(index).Video + "//.///" + feeds.ElementAt(index).Image + "//.///" + MinuteDifference.ToString() + " minutes ago";
+                                    }
+                                    else
+                                    {
+                                        return feeds.ElementAt(index).Id + "//.///" + feeds.ElementAt(index).Title + "//.///" + feeds.ElementAt(index).Description + "//.///" + feeds.ElementAt(index).ReadMoreLink + "//.///" + feeds.ElementAt(index).TitleImage + "//.///" + feeds.ElementAt(index).Video + "//.///" + feeds.ElementAt(index).Image + "//.///" + MinuteDifference.ToString() + " minute ago";
+
+                                    }
+                                }
+                            }
+
+                        }
+                    }
+                }
             }
             else
             {
@@ -178,7 +268,91 @@ namespace SSS_WEB_SERVICE
                                     select News_Feed).ToList();
             if(feeds.Count > 0)
             {
-                return feeds.ElementAt(feeds.Count - 1).Id + "//.///" + feeds.ElementAt(feeds.Count - 1).Title + "//.///" + feeds.ElementAt(feeds.Count - 1).Description + "//.///" + feeds.ElementAt(feeds.Count - 1).ReadMoreLink + "//.///" + feeds.ElementAt(feeds.Count - 1).TitleImage + "//.///" + feeds.ElementAt(feeds.Count - 1).Video + "//.///" + feeds.ElementAt(feeds.Count - 1).Image + "//.///" + feeds.ElementAt(feeds.Count - 1).UploadTime + "//.///" + feeds.ElementAt(feeds.Count - 1).UploadDate;
+                int Current_Year = Convert.ToInt32(DateTime.Today.Year);
+                int Upload_Year = Convert.ToInt32((feeds.ElementAt(feeds.Count - 1).UploadDate).Split('-')[2]);
+                int year_Difference = Current_Year - Upload_Year;
+                if(year_Difference > 0)
+                {
+                    if(year_Difference > 1)
+                    {
+                        return feeds.ElementAt(feeds.Count - 1).Id + "//.///" + feeds.ElementAt(feeds.Count - 1).Title + "//.///" + feeds.ElementAt(feeds.Count - 1).Description + "//.///" + feeds.ElementAt(feeds.Count - 1).ReadMoreLink + "//.///" + feeds.ElementAt(feeds.Count - 1).TitleImage + "//.///" + feeds.ElementAt(feeds.Count - 1).Video + "//.///" + feeds.ElementAt(feeds.Count - 1).Image + "//.///" + year_Difference.ToString() + " years ago";
+
+                    }
+                    else
+                    {
+                        return feeds.ElementAt(feeds.Count - 1).Id + "//.///" + feeds.ElementAt(feeds.Count - 1).Title + "//.///" + feeds.ElementAt(feeds.Count - 1).Description + "//.///" + feeds.ElementAt(feeds.Count - 1).ReadMoreLink + "//.///" + feeds.ElementAt(feeds.Count - 1).TitleImage + "//.///" + feeds.ElementAt(feeds.Count - 1).Video + "//.///" + feeds.ElementAt(feeds.Count - 1).Image + "//.///" + year_Difference.ToString() + " year ago";
+
+                    }
+                }
+                else 
+                {
+                    int current_month = Convert.ToInt32(DateTime.Today.Month);
+                    int UploadMoth = Convert.ToInt32((feeds.ElementAt(feeds.Count - 1).UploadDate).Split('-')[1]);
+                    int monthDifference = current_month - UploadMoth;
+                    if(monthDifference > 0)
+                    {
+                        if(monthDifference > 1)
+                        {
+                            return feeds.ElementAt(feeds.Count - 1).Id + "//.///" + feeds.ElementAt(feeds.Count - 1).Title + "//.///" + feeds.ElementAt(feeds.Count - 1).Description + "//.///" + feeds.ElementAt(feeds.Count - 1).ReadMoreLink + "//.///" + feeds.ElementAt(feeds.Count - 1).TitleImage + "//.///" + feeds.ElementAt(feeds.Count - 1).Video + "//.///" + feeds.ElementAt(feeds.Count - 1).Image + "//.///" + monthDifference.ToString() + " months ago";
+                        }
+                        else
+                        {
+                            return feeds.ElementAt(feeds.Count - 1).Id + "//.///" + feeds.ElementAt(feeds.Count - 1).Title + "//.///" + feeds.ElementAt(feeds.Count - 1).Description + "//.///" + feeds.ElementAt(feeds.Count - 1).ReadMoreLink + "//.///" + feeds.ElementAt(feeds.Count - 1).TitleImage + "//.///" + feeds.ElementAt(feeds.Count - 1).Video + "//.///" + feeds.ElementAt(feeds.Count - 1).Image + "//.///" + monthDifference.ToString() + " month ago";
+                        }
+                    }
+                    else
+                    {
+                        int currentDay = Convert.ToInt32(DateTime.Today.Day);
+                        int UploadDay = Convert.ToInt32((feeds.ElementAt(feeds.Count - 1).UploadDate).Split('-')[0]);
+                        int dayDifference = currentDay - UploadDay;
+                        if(dayDifference > 0)
+                        {
+                            if(dayDifference > 1)
+                            {
+                                return feeds.ElementAt(feeds.Count - 1).Id + "//.///" + feeds.ElementAt(feeds.Count - 1).Title + "//.///" + feeds.ElementAt(feeds.Count - 1).Description + "//.///" + feeds.ElementAt(feeds.Count - 1).ReadMoreLink + "//.///" + feeds.ElementAt(feeds.Count - 1).TitleImage + "//.///" + feeds.ElementAt(feeds.Count - 1).Video + "//.///" + feeds.ElementAt(feeds.Count - 1).Image + "//.///" + dayDifference.ToString() + " days ago";
+                            }
+                            else
+                            {
+                                return feeds.ElementAt(feeds.Count - 1).Id + "//.///" + feeds.ElementAt(feeds.Count - 1).Title + "//.///" + feeds.ElementAt(feeds.Count - 1).Description + "//.///" + feeds.ElementAt(feeds.Count - 1).ReadMoreLink + "//.///" + feeds.ElementAt(feeds.Count - 1).TitleImage + "//.///" + feeds.ElementAt(feeds.Count - 1).Video + "//.///" + feeds.ElementAt(feeds.Count - 1).Image + "//.///" + dayDifference.ToString() + " day ago";
+                            }
+                        }
+                        else
+                        {
+                            int currentHour = Convert.ToInt32(DateTime.Now.Hour);
+                            int UploadHour = Convert.ToInt32((feeds.ElementAt(feeds.Count - 1).UploadTime).Split(':')[0]);
+                            int HourDifference = currentHour - UploadHour; 
+                            if (HourDifference > 0)
+                            {
+                                if(HourDifference > 1)
+                                {
+                                    return feeds.ElementAt(feeds.Count - 1).Id + "//.///" + feeds.ElementAt(feeds.Count - 1).Title + "//.///" + feeds.ElementAt(feeds.Count - 1).Description + "//.///" + feeds.ElementAt(feeds.Count - 1).ReadMoreLink + "//.///" + feeds.ElementAt(feeds.Count - 1).TitleImage + "//.///" + feeds.ElementAt(feeds.Count - 1).Video + "//.///" + feeds.ElementAt(feeds.Count - 1).Image + "//.///" + HourDifference.ToString() + " hours ago";
+                                }
+                                else
+                                {
+                                    return feeds.ElementAt(feeds.Count - 1).Id + "//.///" + feeds.ElementAt(feeds.Count - 1).Title + "//.///" + feeds.ElementAt(feeds.Count - 1).Description + "//.///" + feeds.ElementAt(feeds.Count - 1).ReadMoreLink + "//.///" + feeds.ElementAt(feeds.Count - 1).TitleImage + "//.///" + feeds.ElementAt(feeds.Count - 1).Video + "//.///" + feeds.ElementAt(feeds.Count - 1).Image + "//.///" + HourDifference.ToString() + " hour ago";
+
+                                }
+                            }
+                            else
+                            {
+                                int currentMinute = Convert.ToInt32(DateTime.Now.Minute);
+                                int UploadMinute = Convert.ToInt32((feeds.ElementAt(feeds.Count - 1).UploadTime).Split(':')[1]);
+                                int MinuteDifference = currentMinute - UploadMinute;
+                                if(MinuteDifference > 1)
+                                {
+                                    return feeds.ElementAt(feeds.Count - 1).Id + "//.///" + feeds.ElementAt(feeds.Count - 1).Title + "//.///" + feeds.ElementAt(feeds.Count - 1).Description + "//.///" + feeds.ElementAt(feeds.Count - 1).ReadMoreLink + "//.///" + feeds.ElementAt(feeds.Count - 1).TitleImage + "//.///" + feeds.ElementAt(feeds.Count - 1).Video + "//.///" + feeds.ElementAt(feeds.Count - 1).Image + "//.///" + MinuteDifference.ToString() + " minutes ago";
+                                }
+                                else
+                                {
+                                    return feeds.ElementAt(feeds.Count - 1).Id + "//.///" + feeds.ElementAt(feeds.Count - 1).Title + "//.///" + feeds.ElementAt(feeds.Count - 1).Description + "//.///" + feeds.ElementAt(feeds.Count - 1).ReadMoreLink + "//.///" + feeds.ElementAt(feeds.Count - 1).TitleImage + "//.///" + feeds.ElementAt(feeds.Count - 1).Video + "//.///" + feeds.ElementAt(feeds.Count - 1).Image + "//.///" + MinuteDifference.ToString() + " minute ago";
+
+                                }
+                            }
+                        }
+                        
+                    }
+                }
+               
             }
             else
             {

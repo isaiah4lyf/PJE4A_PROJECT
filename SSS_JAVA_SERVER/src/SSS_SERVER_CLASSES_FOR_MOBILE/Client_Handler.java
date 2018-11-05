@@ -39,6 +39,8 @@ import SSS_SERVER_FUNCTIONS.Check_User_Name;
 import SSS_SERVER_FUNCTIONS.Check_User_Name_Vision;
 import SSS_SERVER_FUNCTIONS.Confirm_Number;
 import SSS_SERVER_FUNCTIONS.Insert_Device_Coordinate;
+import SSS_SERVER_FUNCTIONS.Get_News_Feed_Last;
+import SSS_SERVER_FUNCTIONS.Get_News_Feed_Above_ID;
 public class Client_Handler implements Runnable{
 
 	private Socket connectionToClient;
@@ -49,8 +51,8 @@ public class Client_Handler implements Runnable{
 	private String Matlab_Path_train;
 	private TextArea console_Like;
 	private String ServerUrl = "http://smartphonesecuritysystem.dedicated.co.za:8080/SSS_JAVA_SERVER/data/SSS_VISION/";
-	
-	
+	private String News_Feeds_Images_Path = "http://smartphonesecuritysystem.dedicated.co.za:8080/Images/";
+	private String News_Feeds_Videos_Path = "http://smartphonesecuritysystem.dedicated.co.za:8080/Videos/";
 	public Client_Handler(Socket socketConnectionToClient,MatlabEngine matEng,String URL,TextArea console_Like)
 	{
 		this.connectionToClient = socketConnectionToClient;
@@ -165,6 +167,14 @@ public class Client_Handler implements Runnable{
 							Add_User_From_Vision();
 							processing = false;
 							break;
+						case "GET_NEWS_FEED_ABOVE_ID":
+							Get_News_Feed_Above_ID();
+							processing = false;
+							break;
+						case "GET_NEWS_FEED_LAST":
+							Get_News_Feed_Last();
+							processing = false;
+							break;
 					}
 				
 				} catch (Exception e) {
@@ -187,6 +197,96 @@ public class Client_Handler implements Runnable{
 
 
 	/// Commands Management functions
+	private void Get_News_Feed_Last()
+	{
+		try {
+			Get_News_Feed_Last get = new Get_News_Feed_Last();
+			String feed = get.do_The_Work(URL);
+			if(feed.equals("false"))
+			{
+				sendMessage("false");
+			}
+			else
+			{
+				String[] feedTokens = feed.split("//.///");
+				//System.out.println(feed);
+				sendMessage(feedTokens[0]);
+				sendMessage(feedTokens[1]);
+				sendMessage(feedTokens[2]);
+				sendMessage(feedTokens[3]);
+				sendMessage(News_Feeds_Images_Path +feedTokens[4]);
+				if(feedTokens[5].equals("false"))
+				{
+					sendMessage(feedTokens[5]);
+				}
+				else
+				{
+					sendMessage(News_Feeds_Videos_Path+feedTokens[5]);
+				}				
+				if(feedTokens[6].equals("false"))
+				{
+					sendMessage(feedTokens[6]);;
+					
+				}
+				else
+				{
+					sendMessage(News_Feeds_Images_Path + feedTokens[6]);
+					System.out.println(News_Feeds_Images_Path + feedTokens[6]);
+				}
+				sendMessage(feedTokens[7]);
+			}
+
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	private void Get_News_Feed_Above_ID()
+	{
+		try {
+			String id = in.readUTF();
+			Get_News_Feed_Above_ID get = new Get_News_Feed_Above_ID();
+			String feed = get.do_The_Work(URL,id);
+			if(feed.equals("false"))
+			{
+				sendMessage("false");
+			}
+			else
+			{
+				String[] feedTokens = feed.split("//.///");
+				//System.out.println(feed);
+				sendMessage(feedTokens[0]);
+				sendMessage(feedTokens[1]);
+				sendMessage(feedTokens[2]);
+				sendMessage(feedTokens[3]);
+				sendMessage(News_Feeds_Images_Path +feedTokens[4]);
+				if(feedTokens[5].equals("false"))
+				{
+					sendMessage(feedTokens[5]);
+				}
+				else
+				{
+					sendMessage(News_Feeds_Videos_Path+feedTokens[5]);
+				}				
+				if(feedTokens[6].equals("false"))
+				{
+					sendMessage(feedTokens[6]);;
+					
+				}
+				else
+				{
+					sendMessage(News_Feeds_Images_Path + feedTokens[6]);
+					System.out.println(News_Feeds_Images_Path + feedTokens[6]);
+				}
+				sendMessage(feedTokens[7]);
+			}
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	private void Add_User_From_Vision() 
 	{
 		try {
