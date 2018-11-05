@@ -20,8 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="fitXY"
-            android:layout_gravity="center"
-            android:src="@drawable/bixby" />
+            android:layout_gravity="center" />
     </android.support.v7.widget.CardView>
     <TextView
         android:id="@+id/title"
@@ -133,7 +132,6 @@
         android:drawablePadding="5dp"
         android:gravity="center"
         android:drawableLeft="@drawable/ic_adjust_black_dp"
-        android:text="15 Minutes ago."
         android:textSize="12sp"/>
 
 </RelativeLayout>

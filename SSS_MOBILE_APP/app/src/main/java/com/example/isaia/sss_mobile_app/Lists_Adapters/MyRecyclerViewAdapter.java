@@ -1,7 +1,9 @@
 package com.example.isaia.sss_mobile_app.Lists_Adapters;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaMetadataRetriever;
@@ -55,9 +57,30 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         return new ViewHolder(view);
     }
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, final int position) {
         holder.title.setText(mData.get(position).getTitle());
         holder.description.setText(mData.get(position).getDescription());
+        holder.time.setText(mData.get(position).getUploadTime());
+        holder.readMoreLink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                try
+                {
+                    Uri uri = Uri.parse(mData.get(position).getReadMoreLink());
+                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent);
+                }
+                catch (Exception ex)
+                {
+                    Toast.makeText(context,ex.getMessage(),Toast.LENGTH_LONG).show();
+                }
+
+            }
+        });
+        new DownloadImageTask(holder.titleImage)
+                .execute(mData.get(position).getTitleImage());
         if( mData.get(position).getImageUrl().equals("false"))
         {
             holder.videoCard.setVisibility(View.VISIBLE);
@@ -87,6 +110,9 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         ImageView image;
         ImageButton playButton;
         VideoView videoView;
+        ImageView titleImage;
+        TextView readMoreLink;
+        TextView time;
         boolean playStatus;
         boolean threadStatus;
         SeekBar seek;
@@ -98,6 +124,9 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
             videoView = itemView.findViewById(R.id.videoView);
             description = itemView.findViewById(R.id.content);
             image = itemView.findViewById(R.id.image);
+            titleImage = itemView.findViewById(R.id.titleImage);
+            readMoreLink = itemView.findViewById(R.id.readMore);
+            time = itemView.findViewById(R.id.time);
             playButton = itemView.findViewById(R.id.playButton);
             title = itemView.findViewById(R.id.title);
             seek = itemView.findViewById(R.id.seekBar2);
