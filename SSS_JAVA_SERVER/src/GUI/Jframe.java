@@ -42,7 +42,7 @@ public class Jframe extends JFrame{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		setLayout(new GridLayout(2,1));
+		setLayout(new GridLayout(1,1));
 		console_Like = new TextArea();
 		console_Like.setEditable(false);
 		JButton train_all_models = new JButton("Train All Images Models");
@@ -263,7 +263,7 @@ public class Jframe extends JFrame{
 
 		
 		add(console_Like);
-		add(menu_Panel);
+		//add(menu_Panel);
 		
 		
 		
