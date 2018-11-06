@@ -21,6 +21,7 @@ import com.example.isaia.sss_mobile_app.Database.DBHelper;
 import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Check_User_Name;
 import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Confirm_Number;
 import com.example.isaia.sss_mobile_app.SSS_CLIENT_FUNCTIONS.Insert_User;
+import com.example.isaia.sss_mobile_app.Services.Progress_Dialog_Service;
 import com.example.isaia.sss_mobile_app.Services.Register_User_Service;
 
 import android.view.LayoutInflater;
@@ -54,7 +55,6 @@ public class Reg_User extends AppCompatActivity {
         Email = (EditText) findViewById(R.id.Email);
         ConfirmEmail = (EditText) findViewById(R.id.ConfirmEmail);
 
-
         TextView sin_in = (TextView)findViewById(R.id.sign_in);
         sin_in.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,7 +75,6 @@ public class Reg_User extends AppCompatActivity {
                             ConfirmPassowrd_String = ConfirmPassword.getText().toString().replaceAll(" ","");
                             Email_String = Email.getText().toString().replaceAll(" ","");
                             ConfirmEmail_String = ConfirmEmail.getText().toString().replaceAll(" ","");
-
                             if(!User_Name_String.equals(""))
                             {
                                 if(!Password_String.equals(""))
@@ -194,10 +193,11 @@ public class Reg_User extends AppCompatActivity {
                 else
                 {
                     DBHelper mydb = new DBHelper(getApplicationContext());
-
-                    Toast.makeText(getApplicationContext(),String.valueOf( mydb.insert_user_reg_temp_data(User_Name_String,Email_String,Password_String)),Toast.LENGTH_LONG).show();
+                    String.valueOf( mydb.insert_user_reg_temp_data(User_Name_String,Email_String,Password_String));
                     confirm_phone_number confirm = new confirm_phone_number();
                     confirm.execute();
+                    Intent intent2 = new Intent(getApplicationContext(), Progress_Dialog_Service.class);
+                    startService(intent2);
                 }
 
             } catch (Exception e) {
@@ -229,9 +229,7 @@ public class Reg_User extends AppCompatActivity {
             //if you started progress dialog dismiss it here
             try
             {
-                Toast.makeText(getApplicationContext(),result,Toast.LENGTH_LONG).show();
-
-
+                //Toast.makeText(getApplicationContext(),result,Toast.LENGTH_LONG).show();
             } catch (Exception e) {
                 Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_LONG).show();
             }

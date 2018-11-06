@@ -29,8 +29,8 @@ public class Pred_User_Image_Preview_Test_Accu {
         }
     }
 
-    public String Do_The_work(String User_Name, String User_ID, String image_Name) {
-        String response = "";
+    public String[] Do_The_work(String User_Name, String User_ID, String image_Name) {
+        String[] response = new String[2];
         File pictureFile = getOutputMediaFile(image_Name);
         BufferedInputStream imageByte = null;
         try {
@@ -47,10 +47,16 @@ public class Pred_User_Image_Preview_Test_Accu {
             sendCommand(name);
             out.write(buffer);
             out.flush();
-            response = readResponse();
+            String First_Response = readResponse();
+            response[0] = First_Response;
+            if(First_Response.equals("Incorrect User") || First_Response.equals("Invalid Image"))
+            {
+                response[1] = readResponse();
+            }
+
 
         } catch (Exception e) {
-            e.printStackTrace();
+            response[0] = e.toString();
         }
         return response;
     }

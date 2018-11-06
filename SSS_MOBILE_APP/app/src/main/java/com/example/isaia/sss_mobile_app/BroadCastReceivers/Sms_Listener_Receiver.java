@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.telephony.SmsMessage;
 import android.widget.Toast;
 
+import com.example.isaia.sss_mobile_app.Services.Progress_Dialog_Service;
 import com.example.isaia.sss_mobile_app.Services.Register_User_Service;
 import com.example.isaia.sss_mobile_app.Services.Ring_Device_Service;
 
@@ -51,6 +52,7 @@ public class Sms_Listener_Receiver extends BroadcastReceiver {
                         abortBroadcast();
                         Intent reg_service = new Intent(context,Register_User_Service.class);
                         context.startService(reg_service);
+
                     }
 
                 }catch(Exception e){

@@ -8,6 +8,8 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.hardware.Camera;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -26,6 +28,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
@@ -43,6 +46,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -313,7 +317,7 @@ public class Predict_User_Image_Preview extends Service{
         return mediaFile;
     }
 
-    private class pred_user_asy extends AsyncTask<String, Void, String> {
+    private class pred_user_asy extends AsyncTask<String, Void, String[]> {
 
         @Override
         protected void onPreExecute() {
@@ -321,23 +325,23 @@ public class Predict_User_Image_Preview extends Service{
         }
 
         @Override
-        protected String doInBackground(String... urls) {
-            String response = "";
+        protected String[] doInBackground(String... urls) {
+            String[] response = new String[2];
             Pred_User_Image_Preview_Test_Accu pred = new Pred_User_Image_Preview_Test_Accu();
             response = pred.Do_The_work(User_Name, Password, file_Name);
             return response;
         }
 
         @Override
-        protected void onPostExecute(String result) {
+        protected void onPostExecute(String[] result) {
             //if you started progress dialog dismiss it here
 
-            if(result.equals("Invalid Image"))
+            if(result[0].equals("Invalid Image"))
             {
                 mCamera.startPreview();
                 Toast.makeText(getApplicationContext(),"Invalid Image, Test again.",Toast.LENGTH_LONG).show();
             }
-            else if(result.equals("Incorrect User"))
+            else if(result[0].equals("Incorrect User"))
             {
                 mCamera.startPreview();
                 Toast.makeText(getApplicationContext(),"Incorrect User, Test again.",Toast.LENGTH_LONG).show();
@@ -347,9 +351,27 @@ public class Predict_User_Image_Preview extends Service{
                 final Dialog dialog2 = new Dialog(getApplicationContext(),R.style.test_pred_images_dialog);
                 dialog2.setContentView(R.layout.confirm_accuracy_dialog);
                 dialog2.setTitle("S.S.S: Confirm Accuracy");
-                final TextView data = dialog2.findViewById(R.id.data);
-                data.setText(result);
-                final TextView test_again = dialog2.findViewById(R.id.test_again);
+                final TextView acurr = dialog2.findViewById(R.id.accuracy);
+                final TextView name = dialog2.findViewById(R.id.username);
+                name.setText("Name: " + result[0].split("-")[0]);
+                acurr.setText("Prediction Accuracy: " + result[0].split("-")[1]);
+                final ImageView iamge = dialog2.findViewById(R.id.result_image);
+                new DownloadImageTask(iamge)
+                        .execute(result[1]);
+                final ImageButton test_again = dialog2.findViewById(R.id.test_again);
+                final ImageButton ok = dialog2.findViewById(R.id.ok);
+
+                ok.setOnClickListener(
+                        new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                // get an image from the camera
+                                dialog2.dismiss();
+                                dialog.dismiss();
+                                stopService(new Intent(getApplicationContext(), Predict_User_Image_Preview.class));
+                            }
+                        }
+                );
                 test_again.setOnClickListener(
                         new View.OnClickListener() {
                             @Override
@@ -360,7 +382,7 @@ public class Predict_User_Image_Preview extends Service{
                             }
                         }
                 );
-                final TextView close = dialog2.findViewById(R.id.close);
+                final ImageButton close = dialog2.findViewById(R.id.close);
                 close.setOnClickListener(
                         new View.OnClickListener() {
                             @Override
@@ -396,6 +418,28 @@ public class Predict_User_Image_Preview extends Service{
                 dialog2.setCanceledOnTouchOutside(false);
                 dialog2.show();
             }
+        }
+    }
+    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
+        ImageView bmImage;
+
+        public DownloadImageTask(ImageView bmImage) {
+            this.bmImage = bmImage;
+        }
+
+        protected Bitmap doInBackground(String... urls) {
+            String urldisplay = urls[0];
+            Bitmap mIcon11 = null;
+            try {
+                InputStream in = new java.net.URL(urldisplay).openStream();
+                mIcon11 = BitmapFactory.decodeStream(in);
+            } catch (Exception e) {
+            }
+            return mIcon11;
+        }
+
+        protected void onPostExecute(Bitmap result) {
+            bmImage.setImageBitmap(result);
         }
     }
     private class count_VNS_FOR_SETTINGS_asy extends AsyncTask<String, Void, String> {

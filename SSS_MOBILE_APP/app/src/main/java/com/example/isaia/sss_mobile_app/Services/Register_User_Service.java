@@ -45,8 +45,6 @@ public class Register_User_Service extends Service {
 
         @Override
         protected void onPreExecute() {
-            //if you want, start progress dialog here
-
 
         }
         @Override
@@ -73,6 +71,7 @@ public class Register_User_Service extends Service {
                 if(result.equals("false"))
                 {
                     Toast.makeText(getApplicationContext(),"User name already taken!",Toast.LENGTH_LONG).show();
+                    stopService(new Intent(getApplicationContext(),Progress_Dialog_Service.class));
                 }
                 else if(result.equals("true"))
                 {
@@ -80,14 +79,17 @@ public class Register_User_Service extends Service {
                     Intent intent = new Intent(getApplicationContext(), Login.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
+                    stopService(new Intent(getApplicationContext(),Progress_Dialog_Service.class));
                 }
                 else
                 {
                     Toast.makeText(getApplicationContext(),result,Toast.LENGTH_LONG).show();
+                    stopService(new Intent(getApplicationContext(),Progress_Dialog_Service.class));
                 }
 
             } catch (Exception e) {
                 Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_LONG).show();
+                stopService(new Intent(getApplicationContext(),Progress_Dialog_Service.class));
             }
         }
     }

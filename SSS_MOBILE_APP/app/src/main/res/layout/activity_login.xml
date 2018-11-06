@@ -127,7 +127,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/forgotPass"
             android:layout_toEndOf="@+id/sign_uptext"
-            android:text="Siqn up."
+            android:text="Sign up."
             android:textColor="#9DC8F9"
             android:textAlignment="center"
             android:textSize="12sp"

@@ -183,7 +183,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/Sign_Up"
             android:layout_toEndOf="@+id/sign_intext"
-            android:text="Siqn in."
+            android:text="Sign in."
             android:textColor="#9DC8F9"
             android:textAlignment="center"
             android:textSize="12sp"

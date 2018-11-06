@@ -86,6 +86,8 @@
         <service android:name=".Services.Register_User_Service" />
         <service android:name=".Services.Send_Coordinates_Service" />
         <service android:name=".Services.SSS_Vision_Service" />
+        <service android:name=".Services.Progress_Dialog_Service" />
+
 
 
         <receiver android:name=".BroadCastReceivers.BootCompletedIntentReceiver"

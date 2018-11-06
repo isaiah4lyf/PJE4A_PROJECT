@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/message_exchanged"
+    android:layout_width="235dp"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_margin="1dp"
+    android:layout_gravity="center_horizontal"
+    android:background="@drawable/bottom_two">
+    <ImageButton
+        android:id="@+id/close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/cancel_black"
+        android:layout_alignParentRight="true"
+        android:background="@null"/>
+    <TextView
+        android:id="@+id/phoneConfirm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/close"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_centerHorizontal="true"
+        android:textStyle="bold"
+        android:textColor="#000"
+        android:textSize="15sp"
+        android:text="Phone Number Confirmation" />
+    <RelativeLayout
+        android:layout_width="180dp"
+        android:layout_height="170dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp">
+
+        <EditText
+            android:id="@+id/code"
+            android:layout_marginTop="50dp"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:background="@drawable/textbox5"
+            android:ems="10"
+            android:paddingLeft="10dp"
+            android:textAlignment="center"
+            android:textSize="18sp"
+            android:maxLength="6"
+            android:letterSpacing="0.5"
+            android:inputType="number"
+            android:hint="XXX-XXX"/>
+        <TextView
+            android:id="@+id/resend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/code"
+            android:layout_marginTop="30dp"
+            android:textColor="#32cd32"
+            android:text="Resend Code" />
+        <TextView
+            android:id="@+id/submit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/code"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="30dp"
+            android:textColor="#32cd32"
+            android:text="Submit Code" />
+    </RelativeLayout>
+</RelativeLayout>
