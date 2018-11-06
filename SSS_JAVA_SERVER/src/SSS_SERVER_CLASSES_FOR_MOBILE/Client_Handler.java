@@ -53,6 +53,7 @@ public class Client_Handler implements Runnable{
 	private String ServerUrl = "http://smartphonesecuritysystem.dedicated.co.za:8080/SSS_JAVA_SERVER/data/SSS_VISION/";
 	private String News_Feeds_Images_Path = "http://smartphonesecuritysystem.dedicated.co.za:8080/Images/";
 	private String News_Feeds_Videos_Path = "http://smartphonesecuritysystem.dedicated.co.za:8080/Videos/";
+	private String prediction_Path = "http://smartphonesecuritysystem.dedicated.co.za:8080/SSS_JAVA_SERVER/data/MATLAB_TRAIN_DATA/";
 	public Client_Handler(Socket socketConnectionToClient,MatlabEngine matEng,String URL,TextArea console_Like)
 	{
 		this.connectionToClient = socketConnectionToClient;
@@ -348,7 +349,7 @@ public class Client_Handler implements Runnable{
 				Return_Users_In_Model users2 = new Return_Users_In_Model();
 				String[] users_string2 = users2.Do_The_Work(URL,model_ID2);
 				int num_Models = models_string.length;
-				if(users_string2.length == 1 || Integer.parseInt(models_string[users_string2.length - 1].split(",")[3]) < 11)
+				if(users_string2.length == 1 || Integer.parseInt(models_string[models_string.length - 1].split(",")[3]) < 11)
 				{
 					num_Models = models_string.length - 1;
 				}
@@ -455,6 +456,17 @@ public class Client_Handler implements Runnable{
 				}
 				else
 				{
+					matEng.eval("h=figure",null,null);
+					matEng.eval("imshow(J); hold on;",null,null);
+					matEng.eval("plot(ptsOriginal.selectStrongest(500));",null,null);
+					matEng.eval("saveas(h,Image_Name_of);",null,null);
+					matEng.eval("close(h);",null,null);
+					matEng.eval("twiIm = imread(Image_Name_of);",null,null);
+					matEng.eval("image2 = undistortImage(twiIm,stereoParams.CameraParameters1);",null,null);
+					matEng.eval("faceDetector2 = vision.CascadeObjectDetector;",null,null);
+					matEng.eval("face2 = step(faceDetector2,image2);",null,null);
+					matEng.eval("k = imcrop(twiIm,face2);",null,null);
+					matEng.eval("imwrite(k,Image_Name_of);",null,null);
 					int max = fet_Match.get(0);
 					int index = 0;
 					for(int i = 0; i < fet_Match.size(); i++)
@@ -468,8 +480,6 @@ public class Client_Handler implements Runnable{
 					Return_User_With_ID user = new Return_User_With_ID();										
 					String result_With_Max = user.do_The_Work(URL, String.valueOf(results[index]));
 					sendMessage(ServerUrl+title2+".jpg"+","+result_With_Max.split(",")[1]+","+model_Match_Accuracy.get(index));
-					//sendMessage("http://smartphonesecuritysystem.dedicated.co.za:8080/Videos/harry.jpg");
-					
 				}
 
 		} catch (Exception e1) {
@@ -752,7 +762,17 @@ public class Client_Handler implements Runnable{
 				sendMessage("Upload Successful");
 				Insert_Image insert_class = new Insert_Image();
 				console_Like.append(insert_class.do_The_Work(URL,user_ID_,image.getName(),model_Name_Tokens[2])+"\n");
-				
+				matEng.eval("h=figure",null,null);
+				matEng.eval("imshow(J); hold on;",null,null);
+				matEng.eval("plot(ptsOriginal.selectStrongest(500));",null,null);
+				matEng.eval("saveas(h,image_Path);",null,null);
+				matEng.eval("close(h);",null,null);
+				matEng.eval("twiIm = imread(Image_Name_of);",null,null);
+				matEng.eval("image2 = undistortImage(twiIm,stereoParams.CameraParameters1);",null,null);
+				matEng.eval("faceDetector2 = vision.CascadeObjectDetector;",null,null);
+				matEng.eval("face2 = step(faceDetector2,image2);",null,null);
+				matEng.eval("k = imcrop(twiIm,face2);",null,null);
+				matEng.eval("imwrite(k,image_Path);",null,null);
 			}
 			
 		} catch (Exception e1) {
@@ -1396,8 +1416,17 @@ public class Client_Handler implements Runnable{
 				}
 				else
 				{
-					//matEng.eval("imwrite(J,Image_Name_of)",null,null);					
-
+					matEng.eval("h=figure",null,null);
+					matEng.eval("imshow(J); hold on;",null,null);
+					matEng.eval("plot(ptsOriginal.selectStrongest(500));",null,null);
+					matEng.eval("saveas(h,Image_Name_of);",null,null);
+					matEng.eval("close(h);",null,null);
+					matEng.eval("twiIm = imread(Image_Name_of);",null,null);
+					matEng.eval("image2 = undistortImage(twiIm,stereoParams.CameraParameters1);",null,null);
+					matEng.eval("faceDetector2 = vision.CascadeObjectDetector;",null,null);
+					matEng.eval("face2 = step(faceDetector2,image2);",null,null);
+					matEng.eval("k = imcrop(twiIm,face2);",null,null);
+					matEng.eval("imwrite(k,Image_Name_of);",null,null);
 					Return_Accuracy_Users accu_Class = new Return_Accuracy_Users();
 					String[] accuString = accu_Class.do_The_Work(URL, user_ID2_).split(",");
 					List<Integer> new_Fetch_Match = fet_Match;
@@ -1594,7 +1623,17 @@ public class Client_Handler implements Runnable{
 			}
 			else
 			{
-				//matEng.eval("imwrite(J,Image_Name_of)",null,null);
+				matEng.eval("h=figure",null,null);
+				matEng.eval("imshow(J); hold on;",null,null);
+				matEng.eval("plot(ptsOriginal.selectStrongest(500));",null,null);
+				matEng.eval("saveas(h,Image_Name_of);",null,null);
+				matEng.eval("close(h);",null,null);
+				matEng.eval("twiIm = imread(Image_Name_of);",null,null);
+				matEng.eval("image2 = undistortImage(twiIm,stereoParams.CameraParameters1);",null,null);
+				matEng.eval("faceDetector2 = vision.CascadeObjectDetector;",null,null);
+				matEng.eval("face2 = step(faceDetector2,image2);",null,null);
+				matEng.eval("k = imcrop(twiIm,face2);",null,null);
+				matEng.eval("imwrite(k,Image_Name_of);",null,null);
 				Return_Accuracy_Users_First_Version accu_Class = new Return_Accuracy_Users_First_Version();
 				String[] accuString = accu_Class.do_The_Work(URL, user_ID2_).split(",");
 				List<Integer> new_Fetch_Match = fet_Match;
@@ -2034,8 +2073,17 @@ public class Client_Handler implements Runnable{
 		}
 		else
 		{
-			
-			matEng.eval("imwrite(J,Image_Name_of)",null,null);
+			matEng.eval("h=figure",null,null);
+			matEng.eval("imshow(J); hold on;",null,null);
+			matEng.eval("plot(ptsOriginal.selectStrongest(500));",null,null);
+			matEng.eval("saveas(h,Image_Name_of);",null,null);
+			matEng.eval("close(h);",null,null);
+			matEng.eval("twiIm = imread(Image_Name_of);",null,null);
+			matEng.eval("image2 = undistortImage(twiIm,stereoParams.CameraParameters1);",null,null);
+			matEng.eval("faceDetector2 = vision.CascadeObjectDetector;",null,null);
+			matEng.eval("face2 = step(faceDetector2,image2);",null,null);
+			matEng.eval("k = imcrop(twiIm,face2);",null,null);
+			matEng.eval("imwrite(k,Image_Name_of);",null,null);
 			Return_Accuracy_Users accu_Class = new Return_Accuracy_Users();
 			String[] accuString = accu_Class.do_The_Work(URL, Variables_Array[0]).split(",");
 			List<Integer> new_Fetch_Match = fet_Match;
@@ -2064,7 +2112,8 @@ public class Client_Handler implements Runnable{
 					
 					System.out.println(update_String);
 					sendMessage(results_tokens[1] + " - " + String.valueOf(new_model_Match_Accuracy.get(0)) + "%");
-
+					sendMessage(prediction_Path+results_tokens[1]+"/MATLAB_PRED_DATA/"+Variables_Array[3]+".jpg");
+					System.out.println(prediction_Path+results_tokens[1]+"/MATLAB_PRED_DATA/"+Variables_Array[3]+".jpg");
 				}
 				else
 				{
