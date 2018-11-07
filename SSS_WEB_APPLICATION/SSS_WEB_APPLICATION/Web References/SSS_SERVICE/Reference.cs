@@ -43,6 +43,12 @@ namespace SSS_WEB_APPLICATION.SSS_SERVICE {
         
         private System.Threading.SendOrPostCallback UPLOAD_NEWS_FEED_IMAGEOperationCompleted;
         
+        private System.Threading.SendOrPostCallback RETURN_NEWS_FEED_ALL_WEBOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback RETURN_NEWS_FEED_ABOVE_ID_MOBILEOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback RETURN_NEWS_FEED_LAST_MOBILEOperationCompleted;
+        
         private System.Threading.SendOrPostCallback DOWNLOAD_FILEOperationCompleted;
         
         private System.Threading.SendOrPostCallback INSERT_USEROperationCompleted;
@@ -111,6 +117,18 @@ namespace SSS_WEB_APPLICATION.SSS_SERVICE {
         
         private System.Threading.SendOrPostCallback RETURN_VNS_FOR_MOBILEOperationCompleted;
         
+        private System.Threading.SendOrPostCallback INSERT_PREDICTION_IMAGEOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback RETURN_PREDICTION_IMAGES_WEBOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback RETURN_TRAINING_IMAGES_WEBOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback LOGIN_WEBOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback RETURN_USER_WITH_ID_WEBOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback RETURN_DEVICE_WITH_USER_IDOperationCompleted;
+        
         private bool useDefaultCredentialsSetExplicitly;
         
         /// <remarks/>
@@ -169,6 +187,15 @@ namespace SSS_WEB_APPLICATION.SSS_SERVICE {
         
         /// <remarks/>
         public event UPLOAD_NEWS_FEED_IMAGECompletedEventHandler UPLOAD_NEWS_FEED_IMAGECompleted;
+        
+        /// <remarks/>
+        public event RETURN_NEWS_FEED_ALL_WEBCompletedEventHandler RETURN_NEWS_FEED_ALL_WEBCompleted;
+        
+        /// <remarks/>
+        public event RETURN_NEWS_FEED_ABOVE_ID_MOBILECompletedEventHandler RETURN_NEWS_FEED_ABOVE_ID_MOBILECompleted;
+        
+        /// <remarks/>
+        public event RETURN_NEWS_FEED_LAST_MOBILECompletedEventHandler RETURN_NEWS_FEED_LAST_MOBILECompleted;
         
         /// <remarks/>
         public event DOWNLOAD_FILECompletedEventHandler DOWNLOAD_FILECompleted;
@@ -271,6 +298,24 @@ namespace SSS_WEB_APPLICATION.SSS_SERVICE {
         
         /// <remarks/>
         public event RETURN_VNS_FOR_MOBILECompletedEventHandler RETURN_VNS_FOR_MOBILECompleted;
+        
+        /// <remarks/>
+        public event INSERT_PREDICTION_IMAGECompletedEventHandler INSERT_PREDICTION_IMAGECompleted;
+        
+        /// <remarks/>
+        public event RETURN_PREDICTION_IMAGES_WEBCompletedEventHandler RETURN_PREDICTION_IMAGES_WEBCompleted;
+        
+        /// <remarks/>
+        public event RETURN_TRAINING_IMAGES_WEBCompletedEventHandler RETURN_TRAINING_IMAGES_WEBCompleted;
+        
+        /// <remarks/>
+        public event LOGIN_WEBCompletedEventHandler LOGIN_WEBCompleted;
+        
+        /// <remarks/>
+        public event RETURN_USER_WITH_ID_WEBCompletedEventHandler RETURN_USER_WITH_ID_WEBCompleted;
+        
+        /// <remarks/>
+        public event RETURN_DEVICE_WITH_USER_IDCompletedEventHandler RETURN_DEVICE_WITH_USER_IDCompleted;
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/INSERT_DEVICE_COORDINATE", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
@@ -502,6 +547,89 @@ namespace SSS_WEB_APPLICATION.SSS_SERVICE {
             if ((this.UPLOAD_NEWS_FEED_IMAGECompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.UPLOAD_NEWS_FEED_IMAGECompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/RETURN_NEWS_FEED_ALL_WEB", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public News_Feed[] RETURN_NEWS_FEED_ALL_WEB() {
+            object[] results = this.Invoke("RETURN_NEWS_FEED_ALL_WEB", new object[0]);
+            return ((News_Feed[])(results[0]));
+        }
+        
+        /// <remarks/>
+        public void RETURN_NEWS_FEED_ALL_WEBAsync() {
+            this.RETURN_NEWS_FEED_ALL_WEBAsync(null);
+        }
+        
+        /// <remarks/>
+        public void RETURN_NEWS_FEED_ALL_WEBAsync(object userState) {
+            if ((this.RETURN_NEWS_FEED_ALL_WEBOperationCompleted == null)) {
+                this.RETURN_NEWS_FEED_ALL_WEBOperationCompleted = new System.Threading.SendOrPostCallback(this.OnRETURN_NEWS_FEED_ALL_WEBOperationCompleted);
+            }
+            this.InvokeAsync("RETURN_NEWS_FEED_ALL_WEB", new object[0], this.RETURN_NEWS_FEED_ALL_WEBOperationCompleted, userState);
+        }
+        
+        private void OnRETURN_NEWS_FEED_ALL_WEBOperationCompleted(object arg) {
+            if ((this.RETURN_NEWS_FEED_ALL_WEBCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.RETURN_NEWS_FEED_ALL_WEBCompleted(this, new RETURN_NEWS_FEED_ALL_WEBCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/RETURN_NEWS_FEED_ABOVE_ID_MOBILE", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public string RETURN_NEWS_FEED_ABOVE_ID_MOBILE(string id) {
+            object[] results = this.Invoke("RETURN_NEWS_FEED_ABOVE_ID_MOBILE", new object[] {
+                        id});
+            return ((string)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void RETURN_NEWS_FEED_ABOVE_ID_MOBILEAsync(string id) {
+            this.RETURN_NEWS_FEED_ABOVE_ID_MOBILEAsync(id, null);
+        }
+        
+        /// <remarks/>
+        public void RETURN_NEWS_FEED_ABOVE_ID_MOBILEAsync(string id, object userState) {
+            if ((this.RETURN_NEWS_FEED_ABOVE_ID_MOBILEOperationCompleted == null)) {
+                this.RETURN_NEWS_FEED_ABOVE_ID_MOBILEOperationCompleted = new System.Threading.SendOrPostCallback(this.OnRETURN_NEWS_FEED_ABOVE_ID_MOBILEOperationCompleted);
+            }
+            this.InvokeAsync("RETURN_NEWS_FEED_ABOVE_ID_MOBILE", new object[] {
+                        id}, this.RETURN_NEWS_FEED_ABOVE_ID_MOBILEOperationCompleted, userState);
+        }
+        
+        private void OnRETURN_NEWS_FEED_ABOVE_ID_MOBILEOperationCompleted(object arg) {
+            if ((this.RETURN_NEWS_FEED_ABOVE_ID_MOBILECompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.RETURN_NEWS_FEED_ABOVE_ID_MOBILECompleted(this, new RETURN_NEWS_FEED_ABOVE_ID_MOBILECompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/RETURN_NEWS_FEED_LAST_MOBILE", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public string RETURN_NEWS_FEED_LAST_MOBILE() {
+            object[] results = this.Invoke("RETURN_NEWS_FEED_LAST_MOBILE", new object[0]);
+            return ((string)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void RETURN_NEWS_FEED_LAST_MOBILEAsync() {
+            this.RETURN_NEWS_FEED_LAST_MOBILEAsync(null);
+        }
+        
+        /// <remarks/>
+        public void RETURN_NEWS_FEED_LAST_MOBILEAsync(object userState) {
+            if ((this.RETURN_NEWS_FEED_LAST_MOBILEOperationCompleted == null)) {
+                this.RETURN_NEWS_FEED_LAST_MOBILEOperationCompleted = new System.Threading.SendOrPostCallback(this.OnRETURN_NEWS_FEED_LAST_MOBILEOperationCompleted);
+            }
+            this.InvokeAsync("RETURN_NEWS_FEED_LAST_MOBILE", new object[0], this.RETURN_NEWS_FEED_LAST_MOBILEOperationCompleted, userState);
+        }
+        
+        private void OnRETURN_NEWS_FEED_LAST_MOBILEOperationCompleted(object arg) {
+            if ((this.RETURN_NEWS_FEED_LAST_MOBILECompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.RETURN_NEWS_FEED_LAST_MOBILECompleted(this, new RETURN_NEWS_FEED_LAST_MOBILECompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -1539,6 +1667,186 @@ namespace SSS_WEB_APPLICATION.SSS_SERVICE {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/INSERT_PREDICTION_IMAGE", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public string INSERT_PREDICTION_IMAGE(string Image_Path, string Prediction_Correct, string User_ID) {
+            object[] results = this.Invoke("INSERT_PREDICTION_IMAGE", new object[] {
+                        Image_Path,
+                        Prediction_Correct,
+                        User_ID});
+            return ((string)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void INSERT_PREDICTION_IMAGEAsync(string Image_Path, string Prediction_Correct, string User_ID) {
+            this.INSERT_PREDICTION_IMAGEAsync(Image_Path, Prediction_Correct, User_ID, null);
+        }
+        
+        /// <remarks/>
+        public void INSERT_PREDICTION_IMAGEAsync(string Image_Path, string Prediction_Correct, string User_ID, object userState) {
+            if ((this.INSERT_PREDICTION_IMAGEOperationCompleted == null)) {
+                this.INSERT_PREDICTION_IMAGEOperationCompleted = new System.Threading.SendOrPostCallback(this.OnINSERT_PREDICTION_IMAGEOperationCompleted);
+            }
+            this.InvokeAsync("INSERT_PREDICTION_IMAGE", new object[] {
+                        Image_Path,
+                        Prediction_Correct,
+                        User_ID}, this.INSERT_PREDICTION_IMAGEOperationCompleted, userState);
+        }
+        
+        private void OnINSERT_PREDICTION_IMAGEOperationCompleted(object arg) {
+            if ((this.INSERT_PREDICTION_IMAGECompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.INSERT_PREDICTION_IMAGECompleted(this, new INSERT_PREDICTION_IMAGECompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/RETURN_PREDICTION_IMAGES_WEB", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public Prediction_Image[] RETURN_PREDICTION_IMAGES_WEB(string User_ID) {
+            object[] results = this.Invoke("RETURN_PREDICTION_IMAGES_WEB", new object[] {
+                        User_ID});
+            return ((Prediction_Image[])(results[0]));
+        }
+        
+        /// <remarks/>
+        public void RETURN_PREDICTION_IMAGES_WEBAsync(string User_ID) {
+            this.RETURN_PREDICTION_IMAGES_WEBAsync(User_ID, null);
+        }
+        
+        /// <remarks/>
+        public void RETURN_PREDICTION_IMAGES_WEBAsync(string User_ID, object userState) {
+            if ((this.RETURN_PREDICTION_IMAGES_WEBOperationCompleted == null)) {
+                this.RETURN_PREDICTION_IMAGES_WEBOperationCompleted = new System.Threading.SendOrPostCallback(this.OnRETURN_PREDICTION_IMAGES_WEBOperationCompleted);
+            }
+            this.InvokeAsync("RETURN_PREDICTION_IMAGES_WEB", new object[] {
+                        User_ID}, this.RETURN_PREDICTION_IMAGES_WEBOperationCompleted, userState);
+        }
+        
+        private void OnRETURN_PREDICTION_IMAGES_WEBOperationCompleted(object arg) {
+            if ((this.RETURN_PREDICTION_IMAGES_WEBCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.RETURN_PREDICTION_IMAGES_WEBCompleted(this, new RETURN_PREDICTION_IMAGES_WEBCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/RETURN_TRAINING_IMAGES_WEB", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public Image[] RETURN_TRAINING_IMAGES_WEB(string User_ID) {
+            object[] results = this.Invoke("RETURN_TRAINING_IMAGES_WEB", new object[] {
+                        User_ID});
+            return ((Image[])(results[0]));
+        }
+        
+        /// <remarks/>
+        public void RETURN_TRAINING_IMAGES_WEBAsync(string User_ID) {
+            this.RETURN_TRAINING_IMAGES_WEBAsync(User_ID, null);
+        }
+        
+        /// <remarks/>
+        public void RETURN_TRAINING_IMAGES_WEBAsync(string User_ID, object userState) {
+            if ((this.RETURN_TRAINING_IMAGES_WEBOperationCompleted == null)) {
+                this.RETURN_TRAINING_IMAGES_WEBOperationCompleted = new System.Threading.SendOrPostCallback(this.OnRETURN_TRAINING_IMAGES_WEBOperationCompleted);
+            }
+            this.InvokeAsync("RETURN_TRAINING_IMAGES_WEB", new object[] {
+                        User_ID}, this.RETURN_TRAINING_IMAGES_WEBOperationCompleted, userState);
+        }
+        
+        private void OnRETURN_TRAINING_IMAGES_WEBOperationCompleted(object arg) {
+            if ((this.RETURN_TRAINING_IMAGES_WEBCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.RETURN_TRAINING_IMAGES_WEBCompleted(this, new RETURN_TRAINING_IMAGES_WEBCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/LOGIN_WEB", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public User LOGIN_WEB(string username, string password) {
+            object[] results = this.Invoke("LOGIN_WEB", new object[] {
+                        username,
+                        password});
+            return ((User)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void LOGIN_WEBAsync(string username, string password) {
+            this.LOGIN_WEBAsync(username, password, null);
+        }
+        
+        /// <remarks/>
+        public void LOGIN_WEBAsync(string username, string password, object userState) {
+            if ((this.LOGIN_WEBOperationCompleted == null)) {
+                this.LOGIN_WEBOperationCompleted = new System.Threading.SendOrPostCallback(this.OnLOGIN_WEBOperationCompleted);
+            }
+            this.InvokeAsync("LOGIN_WEB", new object[] {
+                        username,
+                        password}, this.LOGIN_WEBOperationCompleted, userState);
+        }
+        
+        private void OnLOGIN_WEBOperationCompleted(object arg) {
+            if ((this.LOGIN_WEBCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.LOGIN_WEBCompleted(this, new LOGIN_WEBCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/RETURN_USER_WITH_ID_WEB", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public User RETURN_USER_WITH_ID_WEB(string User_ID) {
+            object[] results = this.Invoke("RETURN_USER_WITH_ID_WEB", new object[] {
+                        User_ID});
+            return ((User)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void RETURN_USER_WITH_ID_WEBAsync(string User_ID) {
+            this.RETURN_USER_WITH_ID_WEBAsync(User_ID, null);
+        }
+        
+        /// <remarks/>
+        public void RETURN_USER_WITH_ID_WEBAsync(string User_ID, object userState) {
+            if ((this.RETURN_USER_WITH_ID_WEBOperationCompleted == null)) {
+                this.RETURN_USER_WITH_ID_WEBOperationCompleted = new System.Threading.SendOrPostCallback(this.OnRETURN_USER_WITH_ID_WEBOperationCompleted);
+            }
+            this.InvokeAsync("RETURN_USER_WITH_ID_WEB", new object[] {
+                        User_ID}, this.RETURN_USER_WITH_ID_WEBOperationCompleted, userState);
+        }
+        
+        private void OnRETURN_USER_WITH_ID_WEBOperationCompleted(object arg) {
+            if ((this.RETURN_USER_WITH_ID_WEBCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.RETURN_USER_WITH_ID_WEBCompleted(this, new RETURN_USER_WITH_ID_WEBCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/RETURN_DEVICE_WITH_USER_ID", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public Devices_Mac RETURN_DEVICE_WITH_USER_ID(string User_ID) {
+            object[] results = this.Invoke("RETURN_DEVICE_WITH_USER_ID", new object[] {
+                        User_ID});
+            return ((Devices_Mac)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void RETURN_DEVICE_WITH_USER_IDAsync(string User_ID) {
+            this.RETURN_DEVICE_WITH_USER_IDAsync(User_ID, null);
+        }
+        
+        /// <remarks/>
+        public void RETURN_DEVICE_WITH_USER_IDAsync(string User_ID, object userState) {
+            if ((this.RETURN_DEVICE_WITH_USER_IDOperationCompleted == null)) {
+                this.RETURN_DEVICE_WITH_USER_IDOperationCompleted = new System.Threading.SendOrPostCallback(this.OnRETURN_DEVICE_WITH_USER_IDOperationCompleted);
+            }
+            this.InvokeAsync("RETURN_DEVICE_WITH_USER_ID", new object[] {
+                        User_ID}, this.RETURN_DEVICE_WITH_USER_IDOperationCompleted, userState);
+        }
+        
+        private void OnRETURN_DEVICE_WITH_USER_IDOperationCompleted(object arg) {
+            if ((this.RETURN_DEVICE_WITH_USER_IDCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.RETURN_DEVICE_WITH_USER_IDCompleted(this, new RETURN_DEVICE_WITH_USER_IDCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
         public new void CancelAsync(object userState) {
             base.CancelAsync(userState);
         }
@@ -1634,6 +1942,121 @@ namespace SSS_WEB_APPLICATION.SSS_SERVICE {
             }
             set {
                 this.date_At_This_CoordinateField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.3056.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://tempuri.org/")]
+    public partial class Devices_Mac {
+        
+        private int idField;
+        
+        private string mac_AddressField;
+        
+        private System.Nullable<int> user_IDField;
+        
+        private string current_NumberField;
+        
+        /// <remarks/>
+        public int Id {
+            get {
+                return this.idField;
+            }
+            set {
+                this.idField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Mac_Address {
+            get {
+                return this.mac_AddressField;
+            }
+            set {
+                this.mac_AddressField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)]
+        public System.Nullable<int> User_ID {
+            get {
+                return this.user_IDField;
+            }
+            set {
+                this.user_IDField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Current_Number {
+            get {
+                return this.current_NumberField;
+            }
+            set {
+                this.current_NumberField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.3056.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://tempuri.org/")]
+    public partial class Prediction_Image {
+        
+        private int idField;
+        
+        private string image_PathField;
+        
+        private string prediction_CorrectField;
+        
+        private string user_IDField;
+        
+        /// <remarks/>
+        public int Id {
+            get {
+                return this.idField;
+            }
+            set {
+                this.idField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Image_Path {
+            get {
+                return this.image_PathField;
+            }
+            set {
+                this.image_PathField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Prediction_Correct {
+            get {
+                return this.prediction_CorrectField;
+            }
+            set {
+                this.prediction_CorrectField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string User_ID {
+            get {
+                return this.user_IDField;
+            }
+            set {
+                this.user_IDField = value;
             }
         }
     }
@@ -1780,6 +2203,123 @@ namespace SSS_WEB_APPLICATION.SSS_SERVICE {
     }
     
     /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.3056.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://tempuri.org/")]
+    public partial class News_Feed {
+        
+        private int idField;
+        
+        private string titleField;
+        
+        private string descriptionField;
+        
+        private string readMoreLinkField;
+        
+        private string titleImageField;
+        
+        private string videoField;
+        
+        private string imageField;
+        
+        private string uploadTimeField;
+        
+        private string uploadDateField;
+        
+        /// <remarks/>
+        public int Id {
+            get {
+                return this.idField;
+            }
+            set {
+                this.idField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Title {
+            get {
+                return this.titleField;
+            }
+            set {
+                this.titleField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Description {
+            get {
+                return this.descriptionField;
+            }
+            set {
+                this.descriptionField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string ReadMoreLink {
+            get {
+                return this.readMoreLinkField;
+            }
+            set {
+                this.readMoreLinkField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string TitleImage {
+            get {
+                return this.titleImageField;
+            }
+            set {
+                this.titleImageField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Video {
+            get {
+                return this.videoField;
+            }
+            set {
+                this.videoField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Image {
+            get {
+                return this.imageField;
+            }
+            set {
+                this.imageField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string UploadTime {
+            get {
+                return this.uploadTimeField;
+            }
+            set {
+                this.uploadTimeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string UploadDate {
+            get {
+                return this.uploadDateField;
+            }
+            set {
+                this.uploadDateField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3056.0")]
     public delegate void INSERT_DEVICE_COORDINATECompletedEventHandler(object sender, INSERT_DEVICE_COORDINATECompletedEventArgs e);
     
@@ -1916,6 +2456,84 @@ namespace SSS_WEB_APPLICATION.SSS_SERVICE {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3056.0")]
     public delegate void UPLOAD_NEWS_FEED_IMAGECompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3056.0")]
+    public delegate void RETURN_NEWS_FEED_ALL_WEBCompletedEventHandler(object sender, RETURN_NEWS_FEED_ALL_WEBCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3056.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class RETURN_NEWS_FEED_ALL_WEBCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal RETURN_NEWS_FEED_ALL_WEBCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public News_Feed[] Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((News_Feed[])(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3056.0")]
+    public delegate void RETURN_NEWS_FEED_ABOVE_ID_MOBILECompletedEventHandler(object sender, RETURN_NEWS_FEED_ABOVE_ID_MOBILECompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3056.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class RETURN_NEWS_FEED_ABOVE_ID_MOBILECompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal RETURN_NEWS_FEED_ABOVE_ID_MOBILECompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public string Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3056.0")]
+    public delegate void RETURN_NEWS_FEED_LAST_MOBILECompletedEventHandler(object sender, RETURN_NEWS_FEED_LAST_MOBILECompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3056.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class RETURN_NEWS_FEED_LAST_MOBILECompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal RETURN_NEWS_FEED_LAST_MOBILECompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public string Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[0]));
+            }
+        }
+    }
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3056.0")]
@@ -2775,6 +3393,162 @@ namespace SSS_WEB_APPLICATION.SSS_SERVICE {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((string[])(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3056.0")]
+    public delegate void INSERT_PREDICTION_IMAGECompletedEventHandler(object sender, INSERT_PREDICTION_IMAGECompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3056.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class INSERT_PREDICTION_IMAGECompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal INSERT_PREDICTION_IMAGECompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public string Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3056.0")]
+    public delegate void RETURN_PREDICTION_IMAGES_WEBCompletedEventHandler(object sender, RETURN_PREDICTION_IMAGES_WEBCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3056.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class RETURN_PREDICTION_IMAGES_WEBCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal RETURN_PREDICTION_IMAGES_WEBCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public Prediction_Image[] Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((Prediction_Image[])(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3056.0")]
+    public delegate void RETURN_TRAINING_IMAGES_WEBCompletedEventHandler(object sender, RETURN_TRAINING_IMAGES_WEBCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3056.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class RETURN_TRAINING_IMAGES_WEBCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal RETURN_TRAINING_IMAGES_WEBCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public Image[] Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((Image[])(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3056.0")]
+    public delegate void LOGIN_WEBCompletedEventHandler(object sender, LOGIN_WEBCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3056.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class LOGIN_WEBCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal LOGIN_WEBCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public User Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((User)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3056.0")]
+    public delegate void RETURN_USER_WITH_ID_WEBCompletedEventHandler(object sender, RETURN_USER_WITH_ID_WEBCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3056.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class RETURN_USER_WITH_ID_WEBCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal RETURN_USER_WITH_ID_WEBCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public User Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((User)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3056.0")]
+    public delegate void RETURN_DEVICE_WITH_USER_IDCompletedEventHandler(object sender, RETURN_DEVICE_WITH_USER_IDCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3056.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class RETURN_DEVICE_WITH_USER_IDCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal RETURN_DEVICE_WITH_USER_IDCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public Devices_Mac Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((Devices_Mac)(this.results[0]));
             }
         }
     }
