@@ -1,9 +1,0 @@
-﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="SSS_WEB_APPLICATION.Properties" GeneratedClassName="Settings">
-  <Profiles />
-  <Settings>
-    <Setting Name="SSS_WEB_APPLICATION_SSS_SERVICE_REFERENCE_SSS_SERVICE" Type="(Web Service URL)" Scope="Application">
-      <Value Profile="(Default)">http://smartphonesecuritysystem.dedicated.co.za:8080/SSS_SERVICE.asmx</Value>
-    </Setting>
-  </Settings>
-</SettingsFile>
