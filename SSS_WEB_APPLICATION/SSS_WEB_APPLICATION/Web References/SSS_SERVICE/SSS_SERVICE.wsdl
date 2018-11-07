@@ -123,6 +123,58 @@
       <s:element name="UPLOAD_NEWS_FEED_IMAGEResponse">
         <s:complexType />
       </s:element>
+      <s:element name="RETURN_NEWS_FEED_ALL_WEB">
+        <s:complexType />
+      </s:element>
+      <s:element name="RETURN_NEWS_FEED_ALL_WEBResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="RETURN_NEWS_FEED_ALL_WEBResult" type="tns:ArrayOfNews_Feed" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfNews_Feed">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="News_Feed" nillable="true" type="tns:News_Feed" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="News_Feed">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Title" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ReadMoreLink" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="TitleImage" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Video" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Image" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="UploadTime" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="UploadDate" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="RETURN_NEWS_FEED_ABOVE_ID_MOBILE">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="id" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RETURN_NEWS_FEED_ABOVE_ID_MOBILEResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="RETURN_NEWS_FEED_ABOVE_ID_MOBILEResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RETURN_NEWS_FEED_LAST_MOBILE">
+        <s:complexType />
+      </s:element>
+      <s:element name="RETURN_NEWS_FEED_LAST_MOBILEResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="RETURN_NEWS_FEED_LAST_MOBILEResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="DOWNLOAD_FILE">
         <s:complexType />
       </s:element>
@@ -628,6 +680,114 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="INSERT_PREDICTION_IMAGE">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Image_Path" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Prediction_Correct" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="User_ID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="INSERT_PREDICTION_IMAGEResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="INSERT_PREDICTION_IMAGEResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RETURN_PREDICTION_IMAGES_WEB">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="User_ID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RETURN_PREDICTION_IMAGES_WEBResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="RETURN_PREDICTION_IMAGES_WEBResult" type="tns:ArrayOfPrediction_Image" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfPrediction_Image">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Prediction_Image" nillable="true" type="tns:Prediction_Image" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Prediction_Image">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Image_Path" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Prediction_Correct" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="User_ID" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="RETURN_TRAINING_IMAGES_WEB">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="User_ID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RETURN_TRAINING_IMAGES_WEBResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="RETURN_TRAINING_IMAGES_WEBResult" type="tns:ArrayOfImage" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LOGIN_WEB">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LOGIN_WEBResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="LOGIN_WEBResult" type="tns:User" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RETURN_USER_WITH_ID_WEB">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="User_ID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RETURN_USER_WITH_ID_WEBResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="RETURN_USER_WITH_ID_WEBResult" type="tns:User" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RETURN_DEVICE_WITH_USER_ID">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="User_ID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RETURN_DEVICE_WITH_USER_IDResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="RETURN_DEVICE_WITH_USER_IDResult" type="tns:Devices_Mac" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="Devices_Mac">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Mac_Address" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="User_ID" nillable="true" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Current_Number" type="s:string" />
+        </s:sequence>
+      </s:complexType>
     </s:schema>
   </wsdl:types>
   <wsdl:message name="INSERT_DEVICE_COORDINATESoapIn">
@@ -671,6 +831,24 @@
   </wsdl:message>
   <wsdl:message name="UPLOAD_NEWS_FEED_IMAGESoapOut">
     <wsdl:part name="parameters" element="tns:UPLOAD_NEWS_FEED_IMAGEResponse" />
+  </wsdl:message>
+  <wsdl:message name="RETURN_NEWS_FEED_ALL_WEBSoapIn">
+    <wsdl:part name="parameters" element="tns:RETURN_NEWS_FEED_ALL_WEB" />
+  </wsdl:message>
+  <wsdl:message name="RETURN_NEWS_FEED_ALL_WEBSoapOut">
+    <wsdl:part name="parameters" element="tns:RETURN_NEWS_FEED_ALL_WEBResponse" />
+  </wsdl:message>
+  <wsdl:message name="RETURN_NEWS_FEED_ABOVE_ID_MOBILESoapIn">
+    <wsdl:part name="parameters" element="tns:RETURN_NEWS_FEED_ABOVE_ID_MOBILE" />
+  </wsdl:message>
+  <wsdl:message name="RETURN_NEWS_FEED_ABOVE_ID_MOBILESoapOut">
+    <wsdl:part name="parameters" element="tns:RETURN_NEWS_FEED_ABOVE_ID_MOBILEResponse" />
+  </wsdl:message>
+  <wsdl:message name="RETURN_NEWS_FEED_LAST_MOBILESoapIn">
+    <wsdl:part name="parameters" element="tns:RETURN_NEWS_FEED_LAST_MOBILE" />
+  </wsdl:message>
+  <wsdl:message name="RETURN_NEWS_FEED_LAST_MOBILESoapOut">
+    <wsdl:part name="parameters" element="tns:RETURN_NEWS_FEED_LAST_MOBILEResponse" />
   </wsdl:message>
   <wsdl:message name="DOWNLOAD_FILESoapIn">
     <wsdl:part name="parameters" element="tns:DOWNLOAD_FILE" />
@@ -876,6 +1054,42 @@
   <wsdl:message name="RETURN_VNS_FOR_MOBILESoapOut">
     <wsdl:part name="parameters" element="tns:RETURN_VNS_FOR_MOBILEResponse" />
   </wsdl:message>
+  <wsdl:message name="INSERT_PREDICTION_IMAGESoapIn">
+    <wsdl:part name="parameters" element="tns:INSERT_PREDICTION_IMAGE" />
+  </wsdl:message>
+  <wsdl:message name="INSERT_PREDICTION_IMAGESoapOut">
+    <wsdl:part name="parameters" element="tns:INSERT_PREDICTION_IMAGEResponse" />
+  </wsdl:message>
+  <wsdl:message name="RETURN_PREDICTION_IMAGES_WEBSoapIn">
+    <wsdl:part name="parameters" element="tns:RETURN_PREDICTION_IMAGES_WEB" />
+  </wsdl:message>
+  <wsdl:message name="RETURN_PREDICTION_IMAGES_WEBSoapOut">
+    <wsdl:part name="parameters" element="tns:RETURN_PREDICTION_IMAGES_WEBResponse" />
+  </wsdl:message>
+  <wsdl:message name="RETURN_TRAINING_IMAGES_WEBSoapIn">
+    <wsdl:part name="parameters" element="tns:RETURN_TRAINING_IMAGES_WEB" />
+  </wsdl:message>
+  <wsdl:message name="RETURN_TRAINING_IMAGES_WEBSoapOut">
+    <wsdl:part name="parameters" element="tns:RETURN_TRAINING_IMAGES_WEBResponse" />
+  </wsdl:message>
+  <wsdl:message name="LOGIN_WEBSoapIn">
+    <wsdl:part name="parameters" element="tns:LOGIN_WEB" />
+  </wsdl:message>
+  <wsdl:message name="LOGIN_WEBSoapOut">
+    <wsdl:part name="parameters" element="tns:LOGIN_WEBResponse" />
+  </wsdl:message>
+  <wsdl:message name="RETURN_USER_WITH_ID_WEBSoapIn">
+    <wsdl:part name="parameters" element="tns:RETURN_USER_WITH_ID_WEB" />
+  </wsdl:message>
+  <wsdl:message name="RETURN_USER_WITH_ID_WEBSoapOut">
+    <wsdl:part name="parameters" element="tns:RETURN_USER_WITH_ID_WEBResponse" />
+  </wsdl:message>
+  <wsdl:message name="RETURN_DEVICE_WITH_USER_IDSoapIn">
+    <wsdl:part name="parameters" element="tns:RETURN_DEVICE_WITH_USER_ID" />
+  </wsdl:message>
+  <wsdl:message name="RETURN_DEVICE_WITH_USER_IDSoapOut">
+    <wsdl:part name="parameters" element="tns:RETURN_DEVICE_WITH_USER_IDResponse" />
+  </wsdl:message>
   <wsdl:portType name="SSS_SERVICESoap">
     <wsdl:operation name="INSERT_DEVICE_COORDINATE">
       <wsdl:input message="tns:INSERT_DEVICE_COORDINATESoapIn" />
@@ -904,6 +1118,18 @@
     <wsdl:operation name="UPLOAD_NEWS_FEED_IMAGE">
       <wsdl:input message="tns:UPLOAD_NEWS_FEED_IMAGESoapIn" />
       <wsdl:output message="tns:UPLOAD_NEWS_FEED_IMAGESoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RETURN_NEWS_FEED_ALL_WEB">
+      <wsdl:input message="tns:RETURN_NEWS_FEED_ALL_WEBSoapIn" />
+      <wsdl:output message="tns:RETURN_NEWS_FEED_ALL_WEBSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RETURN_NEWS_FEED_ABOVE_ID_MOBILE">
+      <wsdl:input message="tns:RETURN_NEWS_FEED_ABOVE_ID_MOBILESoapIn" />
+      <wsdl:output message="tns:RETURN_NEWS_FEED_ABOVE_ID_MOBILESoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RETURN_NEWS_FEED_LAST_MOBILE">
+      <wsdl:input message="tns:RETURN_NEWS_FEED_LAST_MOBILESoapIn" />
+      <wsdl:output message="tns:RETURN_NEWS_FEED_LAST_MOBILESoapOut" />
     </wsdl:operation>
     <wsdl:operation name="DOWNLOAD_FILE">
       <wsdl:input message="tns:DOWNLOAD_FILESoapIn" />
@@ -1041,6 +1267,30 @@
       <wsdl:input message="tns:RETURN_VNS_FOR_MOBILESoapIn" />
       <wsdl:output message="tns:RETURN_VNS_FOR_MOBILESoapOut" />
     </wsdl:operation>
+    <wsdl:operation name="INSERT_PREDICTION_IMAGE">
+      <wsdl:input message="tns:INSERT_PREDICTION_IMAGESoapIn" />
+      <wsdl:output message="tns:INSERT_PREDICTION_IMAGESoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RETURN_PREDICTION_IMAGES_WEB">
+      <wsdl:input message="tns:RETURN_PREDICTION_IMAGES_WEBSoapIn" />
+      <wsdl:output message="tns:RETURN_PREDICTION_IMAGES_WEBSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RETURN_TRAINING_IMAGES_WEB">
+      <wsdl:input message="tns:RETURN_TRAINING_IMAGES_WEBSoapIn" />
+      <wsdl:output message="tns:RETURN_TRAINING_IMAGES_WEBSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="LOGIN_WEB">
+      <wsdl:input message="tns:LOGIN_WEBSoapIn" />
+      <wsdl:output message="tns:LOGIN_WEBSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RETURN_USER_WITH_ID_WEB">
+      <wsdl:input message="tns:RETURN_USER_WITH_ID_WEBSoapIn" />
+      <wsdl:output message="tns:RETURN_USER_WITH_ID_WEBSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RETURN_DEVICE_WITH_USER_ID">
+      <wsdl:input message="tns:RETURN_DEVICE_WITH_USER_IDSoapIn" />
+      <wsdl:output message="tns:RETURN_DEVICE_WITH_USER_IDSoapOut" />
+    </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="SSS_SERVICESoap" type="tns:SSS_SERVICESoap">
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
@@ -1100,6 +1350,33 @@
     </wsdl:operation>
     <wsdl:operation name="UPLOAD_NEWS_FEED_IMAGE">
       <soap:operation soapAction="http://tempuri.org/UPLOAD_NEWS_FEED_IMAGE" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RETURN_NEWS_FEED_ALL_WEB">
+      <soap:operation soapAction="http://tempuri.org/RETURN_NEWS_FEED_ALL_WEB" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RETURN_NEWS_FEED_ABOVE_ID_MOBILE">
+      <soap:operation soapAction="http://tempuri.org/RETURN_NEWS_FEED_ABOVE_ID_MOBILE" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RETURN_NEWS_FEED_LAST_MOBILE">
+      <soap:operation soapAction="http://tempuri.org/RETURN_NEWS_FEED_LAST_MOBILE" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -1413,6 +1690,60 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="INSERT_PREDICTION_IMAGE">
+      <soap:operation soapAction="http://tempuri.org/INSERT_PREDICTION_IMAGE" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RETURN_PREDICTION_IMAGES_WEB">
+      <soap:operation soapAction="http://tempuri.org/RETURN_PREDICTION_IMAGES_WEB" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RETURN_TRAINING_IMAGES_WEB">
+      <soap:operation soapAction="http://tempuri.org/RETURN_TRAINING_IMAGES_WEB" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LOGIN_WEB">
+      <soap:operation soapAction="http://tempuri.org/LOGIN_WEB" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RETURN_USER_WITH_ID_WEB">
+      <soap:operation soapAction="http://tempuri.org/RETURN_USER_WITH_ID_WEB" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RETURN_DEVICE_WITH_USER_ID">
+      <soap:operation soapAction="http://tempuri.org/RETURN_DEVICE_WITH_USER_ID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
   </wsdl:binding>
   <wsdl:binding name="SSS_SERVICESoap12" type="tns:SSS_SERVICESoap">
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
@@ -1472,6 +1803,33 @@
     </wsdl:operation>
     <wsdl:operation name="UPLOAD_NEWS_FEED_IMAGE">
       <soap12:operation soapAction="http://tempuri.org/UPLOAD_NEWS_FEED_IMAGE" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RETURN_NEWS_FEED_ALL_WEB">
+      <soap12:operation soapAction="http://tempuri.org/RETURN_NEWS_FEED_ALL_WEB" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RETURN_NEWS_FEED_ABOVE_ID_MOBILE">
+      <soap12:operation soapAction="http://tempuri.org/RETURN_NEWS_FEED_ABOVE_ID_MOBILE" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RETURN_NEWS_FEED_LAST_MOBILE">
+      <soap12:operation soapAction="http://tempuri.org/RETURN_NEWS_FEED_LAST_MOBILE" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -1778,6 +2136,60 @@
     </wsdl:operation>
     <wsdl:operation name="RETURN_VNS_FOR_MOBILE">
       <soap12:operation soapAction="http://tempuri.org/RETURN_VNS_FOR_MOBILE" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="INSERT_PREDICTION_IMAGE">
+      <soap12:operation soapAction="http://tempuri.org/INSERT_PREDICTION_IMAGE" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RETURN_PREDICTION_IMAGES_WEB">
+      <soap12:operation soapAction="http://tempuri.org/RETURN_PREDICTION_IMAGES_WEB" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RETURN_TRAINING_IMAGES_WEB">
+      <soap12:operation soapAction="http://tempuri.org/RETURN_TRAINING_IMAGES_WEB" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LOGIN_WEB">
+      <soap12:operation soapAction="http://tempuri.org/LOGIN_WEB" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RETURN_USER_WITH_ID_WEB">
+      <soap12:operation soapAction="http://tempuri.org/RETURN_USER_WITH_ID_WEB" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RETURN_DEVICE_WITH_USER_ID">
+      <soap12:operation soapAction="http://tempuri.org/RETURN_DEVICE_WITH_USER_ID" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

@@ -7,9 +7,7 @@
       }
 
     </style>
-	<script src="ServerJavasripts/TrackerClientScripts/StopRingingDevice.js"></script>
-	<script src="ServerJavasripts/TrackerClientScripts/RingDevice.js"></script>
-	<script src="ServerJavasripts/TrackerClientScripts/InitializeMap.js"></script>
+	<script src="ServerJavasripts/TrackerClient.js"></script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 	<div>
