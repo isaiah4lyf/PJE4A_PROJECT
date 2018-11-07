@@ -150,21 +150,21 @@ namespace SSS_WEB_SERVICE
         public string RETURN_NEWS_FEED_ABOVE_ID_MOBILE(string id)
         {
             List<News_Feed> feedWithId = (from News_Feed in linq.News_Feeds
-                                     where News_Feed.Id == Convert.ToInt32(id)
-                                     select News_Feed).ToList();
+                                          where News_Feed.Id == Convert.ToInt32(id)
+                                          select News_Feed).ToList();
             List<News_Feed> feeds = (from News_Feed in linq.News_Feeds
-                                           select News_Feed).ToList();
+                                     select News_Feed).ToList();
             int index = 0;
             for (int i = 0; i < feeds.Count; i++)
             {
-                if(feeds.ElementAt(i).Id == feedWithId.ElementAt(0).Id)
+                if (feeds.ElementAt(i).Id == feedWithId.ElementAt(0).Id)
                 {
                     index = i - 1;
                 }
             }
             if (feeds.Count > 0)
             {
-                if(Convert.ToInt32(id) == feeds.ElementAt(0).Id)
+                if (Convert.ToInt32(id) == feeds.ElementAt(0).Id)
                 {
                     return "false";
                 }
@@ -265,15 +265,15 @@ namespace SSS_WEB_SERVICE
         public string RETURN_NEWS_FEED_LAST_MOBILE()
         {
             List<News_Feed> feeds = (from News_Feed in linq.News_Feeds
-                                    select News_Feed).ToList();
-            if(feeds.Count > 0)
+                                     select News_Feed).ToList();
+            if (feeds.Count > 0)
             {
                 int Current_Year = Convert.ToInt32(DateTime.Today.Year);
                 int Upload_Year = Convert.ToInt32((feeds.ElementAt(feeds.Count - 1).UploadDate).Split('-')[2]);
                 int year_Difference = Current_Year - Upload_Year;
-                if(year_Difference > 0)
+                if (year_Difference > 0)
                 {
-                    if(year_Difference > 1)
+                    if (year_Difference > 1)
                     {
                         return feeds.ElementAt(feeds.Count - 1).Id + "//.///" + feeds.ElementAt(feeds.Count - 1).Title + "//.///" + feeds.ElementAt(feeds.Count - 1).Description + "//.///" + feeds.ElementAt(feeds.Count - 1).ReadMoreLink + "//.///" + feeds.ElementAt(feeds.Count - 1).TitleImage + "//.///" + feeds.ElementAt(feeds.Count - 1).Video + "//.///" + feeds.ElementAt(feeds.Count - 1).Image + "//.///" + year_Difference.ToString() + " years ago";
 
@@ -284,14 +284,14 @@ namespace SSS_WEB_SERVICE
 
                     }
                 }
-                else 
+                else
                 {
                     int current_month = Convert.ToInt32(DateTime.Today.Month);
                     int UploadMoth = Convert.ToInt32((feeds.ElementAt(feeds.Count - 1).UploadDate).Split('-')[1]);
                     int monthDifference = current_month - UploadMoth;
-                    if(monthDifference > 0)
+                    if (monthDifference > 0)
                     {
-                        if(monthDifference > 1)
+                        if (monthDifference > 1)
                         {
                             return feeds.ElementAt(feeds.Count - 1).Id + "//.///" + feeds.ElementAt(feeds.Count - 1).Title + "//.///" + feeds.ElementAt(feeds.Count - 1).Description + "//.///" + feeds.ElementAt(feeds.Count - 1).ReadMoreLink + "//.///" + feeds.ElementAt(feeds.Count - 1).TitleImage + "//.///" + feeds.ElementAt(feeds.Count - 1).Video + "//.///" + feeds.ElementAt(feeds.Count - 1).Image + "//.///" + monthDifference.ToString() + " months ago";
                         }
@@ -305,9 +305,9 @@ namespace SSS_WEB_SERVICE
                         int currentDay = Convert.ToInt32(DateTime.Today.Day);
                         int UploadDay = Convert.ToInt32((feeds.ElementAt(feeds.Count - 1).UploadDate).Split('-')[0]);
                         int dayDifference = currentDay - UploadDay;
-                        if(dayDifference > 0)
+                        if (dayDifference > 0)
                         {
-                            if(dayDifference > 1)
+                            if (dayDifference > 1)
                             {
                                 return feeds.ElementAt(feeds.Count - 1).Id + "//.///" + feeds.ElementAt(feeds.Count - 1).Title + "//.///" + feeds.ElementAt(feeds.Count - 1).Description + "//.///" + feeds.ElementAt(feeds.Count - 1).ReadMoreLink + "//.///" + feeds.ElementAt(feeds.Count - 1).TitleImage + "//.///" + feeds.ElementAt(feeds.Count - 1).Video + "//.///" + feeds.ElementAt(feeds.Count - 1).Image + "//.///" + dayDifference.ToString() + " days ago";
                             }
@@ -320,10 +320,10 @@ namespace SSS_WEB_SERVICE
                         {
                             int currentHour = Convert.ToInt32(DateTime.Now.Hour);
                             int UploadHour = Convert.ToInt32((feeds.ElementAt(feeds.Count - 1).UploadTime).Split(':')[0]);
-                            int HourDifference = currentHour - UploadHour; 
+                            int HourDifference = currentHour - UploadHour;
                             if (HourDifference > 0)
                             {
-                                if(HourDifference > 1)
+                                if (HourDifference > 1)
                                 {
                                     return feeds.ElementAt(feeds.Count - 1).Id + "//.///" + feeds.ElementAt(feeds.Count - 1).Title + "//.///" + feeds.ElementAt(feeds.Count - 1).Description + "//.///" + feeds.ElementAt(feeds.Count - 1).ReadMoreLink + "//.///" + feeds.ElementAt(feeds.Count - 1).TitleImage + "//.///" + feeds.ElementAt(feeds.Count - 1).Video + "//.///" + feeds.ElementAt(feeds.Count - 1).Image + "//.///" + HourDifference.ToString() + " hours ago";
                                 }
@@ -338,7 +338,7 @@ namespace SSS_WEB_SERVICE
                                 int currentMinute = Convert.ToInt32(DateTime.Now.Minute);
                                 int UploadMinute = Convert.ToInt32((feeds.ElementAt(feeds.Count - 1).UploadTime).Split(':')[1]);
                                 int MinuteDifference = currentMinute - UploadMinute;
-                                if(MinuteDifference > 1)
+                                if (MinuteDifference > 1)
                                 {
                                     return feeds.ElementAt(feeds.Count - 1).Id + "//.///" + feeds.ElementAt(feeds.Count - 1).Title + "//.///" + feeds.ElementAt(feeds.Count - 1).Description + "//.///" + feeds.ElementAt(feeds.Count - 1).ReadMoreLink + "//.///" + feeds.ElementAt(feeds.Count - 1).TitleImage + "//.///" + feeds.ElementAt(feeds.Count - 1).Video + "//.///" + feeds.ElementAt(feeds.Count - 1).Image + "//.///" + MinuteDifference.ToString() + " minutes ago";
                                 }
@@ -349,10 +349,10 @@ namespace SSS_WEB_SERVICE
                                 }
                             }
                         }
-                        
+
                     }
                 }
-               
+
             }
             else
             {
@@ -362,7 +362,7 @@ namespace SSS_WEB_SERVICE
 
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public void  DOWNLOAD_FILE()
+        public void DOWNLOAD_FILE()
         {
 
             HttpContext.Current.Response.Clear();
@@ -375,187 +375,187 @@ namespace SSS_WEB_SERVICE
 
         }
         [WebMethod]
-		public string INSERT_USER(string user_Name,string password,string email)
-		{
-			string status = "false";
-			List<User> userTable = (from User in linq.Users
-									where User.User_Name == user_Name
-									select User).ToList();
+        public string INSERT_USER(string user_Name, string password, string email)
+        {
+            string status = "false";
+            List<User> userTable = (from User in linq.Users
+                                    where User.User_Name == user_Name
+                                    select User).ToList();
 
-			if(userTable.Count == 0)
-			{
-				List<Trained_Model> table = (from Trained_Model in linq.Trained_Models
-											 select Trained_Model).ToList();
-				List<Trained_Models_Voice_Note> table_VN = (from Trained_Models_Voice_Note in linq.Trained_Models_Voice_Notes
-															select Trained_Models_Voice_Note).ToList();
+            if (userTable.Count == 0)
+            {
+                List<Trained_Model> table = (from Trained_Model in linq.Trained_Models
+                                             select Trained_Model).ToList();
+                List<Trained_Models_Voice_Note> table_VN = (from Trained_Models_Voice_Note in linq.Trained_Models_Voice_Notes
+                                                            select Trained_Models_Voice_Note).ToList();
 
-				if (table.Count == 0)
-				{
-					Trained_Model model = new Trained_Model();
-					/// Model_'model number'_'Model version'
-					model.Model_Name = "Model_01";
-					model.Number_OF_Users = 1;
-					model.Model_Version = 1;
-					linq.Trained_Models.InsertOnSubmit(model);
-					linq.SubmitChanges();
+                if (table.Count == 0)
+                {
+                    Trained_Model model = new Trained_Model();
+                    /// Model_'model number'_'Model version'
+                    model.Model_Name = "Model_01";
+                    model.Number_OF_Users = 1;
+                    model.Model_Version = 1;
+                    linq.Trained_Models.InsertOnSubmit(model);
+                    linq.SubmitChanges();
 
-					Trained_Models_Voice_Note VN_model = new Trained_Models_Voice_Note();
-					VN_model.Model_Name = "Model_01";
-					VN_model.Number_OF_Users = 1;
-					VN_model.Model_Version = 1;
-					linq.Trained_Models_Voice_Notes.InsertOnSubmit(VN_model);
-					linq.SubmitChanges();
+                    Trained_Models_Voice_Note VN_model = new Trained_Models_Voice_Note();
+                    VN_model.Model_Name = "Model_01";
+                    VN_model.Number_OF_Users = 1;
+                    VN_model.Model_Version = 1;
+                    linq.Trained_Models_Voice_Notes.InsertOnSubmit(VN_model);
+                    linq.SubmitChanges();
 
-					List<Trained_Model> updated_Models = (from Trained_Model in linq.Trained_Models
-														  select Trained_Model).ToList();
+                    List<Trained_Model> updated_Models = (from Trained_Model in linq.Trained_Models
+                                                          select Trained_Model).ToList();
 
-					List<Trained_Models_Voice_Note> updated_Models_vn = (from Trained_Models_Voice_Note in linq.Trained_Models_Voice_Notes
-																		 select Trained_Models_Voice_Note).ToList();
-					User user = new User();
-					user.User_Name = user_Name;
-					user.Password = password;
-					user.Email = email;
-					user.Model_ID = updated_Models.ElementAt(0).Id;
-					user.Model_ID_VN = updated_Models_vn.ElementAt(0).Id;
-					linq.Users.InsertOnSubmit(user);
-					linq.SubmitChanges();
-
-
-					status = "true";
-				}
-				else
-				{
-					if (table.ElementAt(table.Count - 1).Number_OF_Users < 4)
-					{
-						Trained_Model row_To_Update = (from Trained_Model in linq.Trained_Models
-													   where Trained_Model.Id == table.ElementAt(table.Count - 1).Id
-													   select Trained_Model).First();
-						row_To_Update.Number_OF_Users = row_To_Update.Number_OF_Users + 1;
-						linq.SubmitChanges();
-
-						Trained_Models_Voice_Note model_to_Update_VN = (from Trained_Models_Voice_Note in linq.Trained_Models_Voice_Notes
-																		where Trained_Models_Voice_Note.Id == table_VN.ElementAt(table_VN.Count - 1).Id
-																		select Trained_Models_Voice_Note).First();
-						model_to_Update_VN.Number_OF_Users = model_to_Update_VN.Number_OF_Users + 1;
-						linq.SubmitChanges();
-
-						User user = new User();
-						user.User_Name = user_Name;
-						user.Password = password;
-						user.Email = email;
-						user.Model_ID = table.ElementAt(table.Count - 1).Id;
-						user.Model_ID_VN = table_VN.ElementAt(table_VN.Count - 1).Id;
-						linq.Users.InsertOnSubmit(user);
-						linq.SubmitChanges();
-						status = "true";
-					}
-					else
-					{
-						Trained_Model model = new Trained_Model();
-						int model_num = table.Count + 1;
-						model.Model_Name = "Model_0" + model_num;
-						model.Number_OF_Users = 1;
-						model.Model_Version = 1;
-						linq.Trained_Models.InsertOnSubmit(model);
-						linq.SubmitChanges();
-
-						Trained_Models_Voice_Note model_vn = new Trained_Models_Voice_Note();
-
-						model_vn.Model_Name = "Model_0" + model_num;
-						model_vn.Number_OF_Users = 1;
-						model_vn.Model_Version = 1;
-						linq.Trained_Models_Voice_Notes.InsertOnSubmit(model_vn);
-						linq.SubmitChanges();
+                    List<Trained_Models_Voice_Note> updated_Models_vn = (from Trained_Models_Voice_Note in linq.Trained_Models_Voice_Notes
+                                                                         select Trained_Models_Voice_Note).ToList();
+                    User user = new User();
+                    user.User_Name = user_Name;
+                    user.Password = password;
+                    user.Email = email;
+                    user.Model_ID = updated_Models.ElementAt(0).Id;
+                    user.Model_ID_VN = updated_Models_vn.ElementAt(0).Id;
+                    linq.Users.InsertOnSubmit(user);
+                    linq.SubmitChanges();
 
 
-						List<Trained_Model> updated_Models = (from Trained_Model in linq.Trained_Models
-															  select Trained_Model).ToList();
-						List<Trained_Models_Voice_Note> updated_Models_vn = (from Trained_Models_Voice_Note in linq.Trained_Models_Voice_Notes
-																			 select Trained_Models_Voice_Note).ToList();
-						User user = new User();
-						user.User_Name = user_Name;
-						user.Password = password;
-						user.Email = email;
-						user.Model_ID = updated_Models.ElementAt(updated_Models.Count - 1).Id;
-						user.Model_ID_VN = updated_Models_vn.ElementAt(updated_Models_vn.Count - 1).Id;
-						linq.Users.InsertOnSubmit(user);
-						linq.SubmitChanges();
-						status = "true";
-					}
-				}
-			}
+                    status = "true";
+                }
+                else
+                {
+                    if (table.ElementAt(table.Count - 1).Number_OF_Users < 4)
+                    {
+                        Trained_Model row_To_Update = (from Trained_Model in linq.Trained_Models
+                                                       where Trained_Model.Id == table.ElementAt(table.Count - 1).Id
+                                                       select Trained_Model).First();
+                        row_To_Update.Number_OF_Users = row_To_Update.Number_OF_Users + 1;
+                        linq.SubmitChanges();
 
-			return status;
-		}
-		[WebMethod]
-		public string LOGIN(string userName,string password)
-		{
-			List<User> userTable = (from User in linq.Users
-									where User.User_Name == userName && User.Password == password
-									select User).ToList();
-			if(userTable.Count == 1)
-			{
-				return userTable.ElementAt(0).Id + "," + userTable.ElementAt(0).User_Name + "," + userTable.ElementAt(0).Password + "," + userTable.ElementAt(0).Email + "," + userTable.ElementAt(0).Model_ID + "," + userTable.ElementAt(0).Model_ID_VN;
-			}
-			else
-			{
-				return "false";
-			}
-		}
+                        Trained_Models_Voice_Note model_to_Update_VN = (from Trained_Models_Voice_Note in linq.Trained_Models_Voice_Notes
+                                                                        where Trained_Models_Voice_Note.Id == table_VN.ElementAt(table_VN.Count - 1).Id
+                                                                        select Trained_Models_Voice_Note).First();
+                        model_to_Update_VN.Number_OF_Users = model_to_Update_VN.Number_OF_Users + 1;
+                        linq.SubmitChanges();
 
-		[WebMethod]
-		public string INSERT_ACCURACY_USERS(string User_ID, string Prediction_Accuracy_Images, string Validation_Accuracy_Images, string Prediction_Accuracy_VN, string Validation_Accuracy_VN)
-		{
-			Accuracy_User acc_Table = new Accuracy_User();
-			acc_Table.User_ID = Convert.ToUInt16(User_ID);
-			acc_Table.Prediction_Accuracy_Images = Math.Round(decimal.Parse(Prediction_Accuracy_Images.Replace(".", ",")), 0).ToString();
-			acc_Table.Validation_Accuracy_Images = Math.Round(decimal.Parse(Validation_Accuracy_Images.Replace(".", ",")), 0).ToString();
-			acc_Table.Prediction_Accuracy_VN = Math.Round(decimal.Parse(Prediction_Accuracy_VN.Replace(".", ",")), 0).ToString();
-			acc_Table.Validation_Accuracy_VN = Math.Round(decimal.Parse(Validation_Accuracy_VN.Replace(".", ",")), 0).ToString();
-			linq.Accuracy_Users.InsertOnSubmit(acc_Table);
-			linq.SubmitChanges();
-			return "true";
-		}
-		[WebMethod]
-		public string RETURN_ACCURACY_USERS(string User_ID)
-		{
-			List<Accuracy_User> accur_Table = (from Accuracy_User in linq.Accuracy_Users
-											 where Accuracy_User.User_ID == Convert.ToInt16(User_ID)
-											select Accuracy_User).ToList();
-			if (accur_Table.Count == 1)
-			{
-				return accur_Table.ElementAt(0).Id + "," + accur_Table.ElementAt(0).User_ID + "," + accur_Table.ElementAt(0).Prediction_Accuracy_Images + "," + accur_Table.ElementAt(0).Validation_Accuracy_Images + "," + accur_Table.ElementAt(0).Prediction_Accuracy_VN + "," + accur_Table.ElementAt(0).Validation_Accuracy_VN;
-			}
-			else
-			{
-				return "false";
-			}
-		}
+                        User user = new User();
+                        user.User_Name = user_Name;
+                        user.Password = password;
+                        user.Email = email;
+                        user.Model_ID = table.ElementAt(table.Count - 1).Id;
+                        user.Model_ID_VN = table_VN.ElementAt(table_VN.Count - 1).Id;
+                        linq.Users.InsertOnSubmit(user);
+                        linq.SubmitChanges();
+                        status = "true";
+                    }
+                    else
+                    {
+                        Trained_Model model = new Trained_Model();
+                        int model_num = table.Count + 1;
+                        model.Model_Name = "Model_0" + model_num;
+                        model.Number_OF_Users = 1;
+                        model.Model_Version = 1;
+                        linq.Trained_Models.InsertOnSubmit(model);
+                        linq.SubmitChanges();
 
-		[WebMethod]
-		public string UPDATE_ACCURACY_USERS(string User_ID, string Prediction_Accuracy_Images, string Validation_Accuracy_Images, string Prediction_Accuracy_VN, string Validation_Accuracy_VN)
-		{
+                        Trained_Models_Voice_Note model_vn = new Trained_Models_Voice_Note();
 
-			Accuracy_User acc_Table = (from Accuracy_User in linq.Accuracy_Users
-									   where Accuracy_User.User_ID == Convert.ToInt16(User_ID)
-										select Accuracy_User).First();
-			acc_Table.Prediction_Accuracy_Images = Math.Round(decimal.Parse(Prediction_Accuracy_Images.Replace(".", ",")), 0).ToString();
-			acc_Table.Validation_Accuracy_Images = Math.Round(decimal.Parse(Validation_Accuracy_Images.Replace(".", ",")), 0).ToString();
-			acc_Table.Prediction_Accuracy_VN = Math.Round(decimal.Parse(Prediction_Accuracy_VN.Replace(".", ",")), 0).ToString();
-			acc_Table.Validation_Accuracy_VN = Math.Round(decimal.Parse(Validation_Accuracy_VN.Replace(".", ",")), 0).ToString();
-			linq.SubmitChanges();
-			return "true";
-		}
+                        model_vn.Model_Name = "Model_0" + model_num;
+                        model_vn.Number_OF_Users = 1;
+                        model_vn.Model_Version = 1;
+                        linq.Trained_Models_Voice_Notes.InsertOnSubmit(model_vn);
+                        linq.SubmitChanges();
 
-		[WebMethod]
-		public string UPDATE_TRAINING_ACCURACY_USERS(string Model_ID,  string Validation_Accuracy_Images, string Validation_Accuracy_VN)
-		{
-			List<User> userTable = (from User in linq.Users
-									where User.Model_ID == Convert.ToInt32(Model_ID)
+
+                        List<Trained_Model> updated_Models = (from Trained_Model in linq.Trained_Models
+                                                              select Trained_Model).ToList();
+                        List<Trained_Models_Voice_Note> updated_Models_vn = (from Trained_Models_Voice_Note in linq.Trained_Models_Voice_Notes
+                                                                             select Trained_Models_Voice_Note).ToList();
+                        User user = new User();
+                        user.User_Name = user_Name;
+                        user.Password = password;
+                        user.Email = email;
+                        user.Model_ID = updated_Models.ElementAt(updated_Models.Count - 1).Id;
+                        user.Model_ID_VN = updated_Models_vn.ElementAt(updated_Models_vn.Count - 1).Id;
+                        linq.Users.InsertOnSubmit(user);
+                        linq.SubmitChanges();
+                        status = "true";
+                    }
+                }
+            }
+
+            return status;
+        }
+        [WebMethod]
+        public string LOGIN(string userName, string password)
+        {
+            List<User> userTable = (from User in linq.Users
+                                    where User.User_Name == userName && User.Password == password
+                                    select User).ToList();
+            if (userTable.Count == 1)
+            {
+                return userTable.ElementAt(0).Id + "," + userTable.ElementAt(0).User_Name + "," + userTable.ElementAt(0).Password + "," + userTable.ElementAt(0).Email + "," + userTable.ElementAt(0).Model_ID + "," + userTable.ElementAt(0).Model_ID_VN;
+            }
+            else
+            {
+                return "false";
+            }
+        }
+
+        [WebMethod]
+        public string INSERT_ACCURACY_USERS(string User_ID, string Prediction_Accuracy_Images, string Validation_Accuracy_Images, string Prediction_Accuracy_VN, string Validation_Accuracy_VN)
+        {
+            Accuracy_User acc_Table = new Accuracy_User();
+            acc_Table.User_ID = Convert.ToUInt16(User_ID);
+            acc_Table.Prediction_Accuracy_Images = Math.Round(decimal.Parse(Prediction_Accuracy_Images.Replace(".", ",")), 0).ToString();
+            acc_Table.Validation_Accuracy_Images = Math.Round(decimal.Parse(Validation_Accuracy_Images.Replace(".", ",")), 0).ToString();
+            acc_Table.Prediction_Accuracy_VN = Math.Round(decimal.Parse(Prediction_Accuracy_VN.Replace(".", ",")), 0).ToString();
+            acc_Table.Validation_Accuracy_VN = Math.Round(decimal.Parse(Validation_Accuracy_VN.Replace(".", ",")), 0).ToString();
+            linq.Accuracy_Users.InsertOnSubmit(acc_Table);
+            linq.SubmitChanges();
+            return "true";
+        }
+        [WebMethod]
+        public string RETURN_ACCURACY_USERS(string User_ID)
+        {
+            List<Accuracy_User> accur_Table = (from Accuracy_User in linq.Accuracy_Users
+                                               where Accuracy_User.User_ID == Convert.ToInt16(User_ID)
+                                               select Accuracy_User).ToList();
+            if (accur_Table.Count == 1)
+            {
+                return accur_Table.ElementAt(0).Id + "," + accur_Table.ElementAt(0).User_ID + "," + accur_Table.ElementAt(0).Prediction_Accuracy_Images + "," + accur_Table.ElementAt(0).Validation_Accuracy_Images + "," + accur_Table.ElementAt(0).Prediction_Accuracy_VN + "," + accur_Table.ElementAt(0).Validation_Accuracy_VN;
+            }
+            else
+            {
+                return "false";
+            }
+        }
+
+        [WebMethod]
+        public string UPDATE_ACCURACY_USERS(string User_ID, string Prediction_Accuracy_Images, string Validation_Accuracy_Images, string Prediction_Accuracy_VN, string Validation_Accuracy_VN)
+        {
+
+            Accuracy_User acc_Table = (from Accuracy_User in linq.Accuracy_Users
+                                       where Accuracy_User.User_ID == Convert.ToInt16(User_ID)
+                                       select Accuracy_User).First();
+            acc_Table.Prediction_Accuracy_Images = Math.Round(decimal.Parse(Prediction_Accuracy_Images.Replace(".", ",")), 0).ToString();
+            acc_Table.Validation_Accuracy_Images = Math.Round(decimal.Parse(Validation_Accuracy_Images.Replace(".", ",")), 0).ToString();
+            acc_Table.Prediction_Accuracy_VN = Math.Round(decimal.Parse(Prediction_Accuracy_VN.Replace(".", ",")), 0).ToString();
+            acc_Table.Validation_Accuracy_VN = Math.Round(decimal.Parse(Validation_Accuracy_VN.Replace(".", ",")), 0).ToString();
+            linq.SubmitChanges();
+            return "true";
+        }
+
+        [WebMethod]
+        public string UPDATE_TRAINING_ACCURACY_USERS(string Model_ID, string Validation_Accuracy_Images, string Validation_Accuracy_VN)
+        {
+            List<User> userTable = (from User in linq.Users
+                                    where User.Model_ID == Convert.ToInt32(Model_ID)
                                     select User).ToList();
             if (userTable.Count > 0)
             {
-                
+
                 for (int i = 0; i < userTable.Count; i++)
                 {
                     Accuracy_User acc_Table = (from Accuracy_User in linq.Accuracy_Users
@@ -572,16 +572,16 @@ namespace SSS_WEB_SERVICE
                 return "false";
             }
 
-			
-		}
 
-		[WebMethod]
-		public string UPDATE_TRAINING_ACCURACY_USERS_VN(string Model_ID_VN, string Validation_Accuracy_Images, string Validation_Accuracy_VN)
-		{
-			List<User> userTable = (from User in linq.Users
-									where User.Model_ID_VN == Convert.ToInt32(Model_ID_VN)
-									select User).ToList();
-            if(userTable.Count > 0)
+        }
+
+        [WebMethod]
+        public string UPDATE_TRAINING_ACCURACY_USERS_VN(string Model_ID_VN, string Validation_Accuracy_Images, string Validation_Accuracy_VN)
+        {
+            List<User> userTable = (from User in linq.Users
+                                    where User.Model_ID_VN == Convert.ToInt32(Model_ID_VN)
+                                    select User).ToList();
+            if (userTable.Count > 0)
             {
                 for (int i = 0; i < userTable.Count; i++)
                 {
@@ -599,9 +599,9 @@ namespace SSS_WEB_SERVICE
                 return "false";
             }
 
-        
-			
-		}
+
+
+        }
         [WebMethod]
         public string INSERT_ACCURACY_USERS_FIRST_VERSION(string User_ID, string Prediction_Accuracy_Images, string Validation_Accuracy_Images, string Prediction_Accuracy_VN, string Validation_Accuracy_VN)
         {
@@ -620,7 +620,7 @@ namespace SSS_WEB_SERVICE
         {
             List<Accuracy_Users_First_Version> accur_Table = (from Accuracy_Users_First_Version in linq.Accuracy_Users_First_Versions
                                                               where Accuracy_Users_First_Version.User_ID == Convert.ToInt16(User_ID)
-                                               select Accuracy_Users_First_Version).ToList();
+                                                              select Accuracy_Users_First_Version).ToList();
             if (accur_Table.Count == 1)
             {
                 return accur_Table.ElementAt(0).Id + "," + accur_Table.ElementAt(0).User_ID + "," + accur_Table.ElementAt(0).Prediction_Accuracy_Images + "," + accur_Table.ElementAt(0).Validation_Accuracy_Images + "," + accur_Table.ElementAt(0).Prediction_Accuracy_VN + "," + accur_Table.ElementAt(0).Validation_Accuracy_VN;
@@ -637,7 +637,7 @@ namespace SSS_WEB_SERVICE
 
             Accuracy_Users_First_Version acc_Table = (from Accuracy_Users_First_Version in linq.Accuracy_Users_First_Versions
                                                       where Accuracy_Users_First_Version.User_ID == Convert.ToInt16(User_ID)
-                                                       select Accuracy_Users_First_Version).First();
+                                                      select Accuracy_Users_First_Version).First();
             acc_Table.Prediction_Accuracy_Images = Math.Round(decimal.Parse(Prediction_Accuracy_Images.Replace(".", ",")), 0).ToString();
             acc_Table.Validation_Accuracy_Images = Math.Round(decimal.Parse(Validation_Accuracy_Images.Replace(".", ",")), 0).ToString();
             acc_Table.Prediction_Accuracy_VN = Math.Round(decimal.Parse(Prediction_Accuracy_VN.Replace(".", ",")), 0).ToString();
@@ -659,7 +659,7 @@ namespace SSS_WEB_SERVICE
                 {
                     Accuracy_Users_First_Version acc_Table = (from Accuracy_Users_First_Version in linq.Accuracy_Users_First_Versions
                                                               where Accuracy_Users_First_Version.User_ID == userTable.ElementAt(i).Id
-                                                               select Accuracy_Users_First_Version).First();
+                                                              select Accuracy_Users_First_Version).First();
                     acc_Table.Validation_Accuracy_Images = Math.Round(decimal.Parse(Validation_Accuracy_Images.Replace(".", ",")), 0).ToString();
                     acc_Table.Validation_Accuracy_VN = Math.Round(decimal.Parse(Validation_Accuracy_VN.Replace(".", ",")), 0).ToString();
                     linq.SubmitChanges();
@@ -702,316 +702,316 @@ namespace SSS_WEB_SERVICE
 
         }
         [WebMethod]
-		public string INSERT_DEVICE_MAC(string User_ID, string Device_Mac, string Current_Number)
-		{
-			List<Devices_Mac> macs = (from Devices_Mac in linq.Devices_Macs
-									  where Devices_Mac.Mac_Address == Device_Mac
-									  select Devices_Mac).ToList();
-			if(macs.Count == 0)
-			{
-				Devices_Mac mac = new Devices_Mac();
-				mac.Mac_Address = Device_Mac;
-				mac.User_ID = Convert.ToInt32(User_ID);
+        public string INSERT_DEVICE_MAC(string User_ID, string Device_Mac, string Current_Number)
+        {
+            List<Devices_Mac> macs = (from Devices_Mac in linq.Devices_Macs
+                                      where Devices_Mac.Mac_Address == Device_Mac
+                                      select Devices_Mac).ToList();
+            if (macs.Count == 0)
+            {
+                Devices_Mac mac = new Devices_Mac();
+                mac.Mac_Address = Device_Mac;
+                mac.User_ID = Convert.ToInt32(User_ID);
                 mac.Current_Number = Current_Number;
                 linq.Devices_Macs.InsertOnSubmit(mac);
-				linq.SubmitChanges();
-			}
-			else
-			{
-				return "false";
-			}
-			return "true";
-		}
-		[WebMethod]
-		public string RETURN_DEVICE_MAC(string Device_Mac)
-		{
-			List<Devices_Mac> macs = (from Devices_Mac in linq.Devices_Macs
-									  where Devices_Mac.Mac_Address == Device_Mac
-									  select Devices_Mac).ToList();
-			if(macs.Count == 0)
-			{
-				return "false";
-			}
-			else
-			{
-				return macs.ElementAt(0).Id + "," + macs.ElementAt(0).Mac_Address + "," + macs.ElementAt(0).User_ID + "," + macs.ElementAt(0).Current_Number;
+                linq.SubmitChanges();
             }
-		}
-
-
-		//IMAGE PROCESSING 
-		[WebMethod]
-		public string INSERT_NUM_IMAGES(string num_Images)
-		{
-			List<Current_Num_Image> num = (from Current_Num_Image in linq.Current_Num_Images
-										   select Current_Num_Image).ToList();
-			if(num.Count == 0)
-			{
-				Current_Num_Image num_tab = new Current_Num_Image();
-				num_tab.Number = Convert.ToInt32(num_Images);
-				linq.Current_Num_Images.InsertOnSubmit(num_tab);
-				linq.SubmitChanges();
-				return "true";
-			}
-			return "false";
-		}
-		[WebMethod]
-		public string UPDATE_NUM_IMAGES(string Incr_Num)
-		{
-			List<Current_Num_Image> num = (from Current_Num_Image in linq.Current_Num_Images
-										   select Current_Num_Image).ToList();
-			Current_Num_Image new_Num = (from Current_Num_Image in linq.Current_Num_Images
-										 where Current_Num_Image.Id == num.ElementAt(0).Id
-										 select Current_Num_Image).First();
-			new_Num.Number = num.ElementAt(0).Number + Convert.ToInt32(Incr_Num);
-			linq.SubmitChanges();
-			return "true";
-		}
-		[WebMethod]
-		public string RETURN_CURRENT_NUM_IMAGES()
-		{
-			List<Current_Num_Image> num = (from Current_Num_Image in linq.Current_Num_Images
-										   select Current_Num_Image).ToList();
-			return num.ElementAt(0).Id + "," + num.ElementAt(0).Number;
-		}
-		[WebMethod]
-		public string INSERT_IMAGE(string user_ID, string image_Path,string model_Version)
-		{
-
-			Image image_Table = new Image();
-			image_Table.User_ID = Convert.ToUInt16(user_ID);
-			image_Table.Image_Path = image_Path;
-			image_Table.Model_Version = model_Version;
-			linq.Images.InsertOnSubmit(image_Table);
-			linq.SubmitChanges();
-
-			return "true";
-
-		}
-
-
-		[WebMethod]
-		public string UPDATE_TRAIN_DATA(String user_ID)
-		{
-
-			User user = (from User in linq.Users
-						 where Convert.ToInt32(User.Id) == Convert.ToInt32(user_ID)
-						 select User).First();
-
-			Trained_Model model_To_Update = (from Trained_Model in linq.Trained_Models
-											 where Trained_Model.Id == user.Model_ID
-											 select Trained_Model).First();
-
-			int new_Model_Verion = Convert.ToInt32(model_To_Update.Model_Version + 1);
-			string new_model_Name = model_To_Update.Model_Name + "_" + new_Model_Verion;
-
-
-			model_To_Update.Model_Version = new_Model_Verion;
-			linq.SubmitChanges();
-			return new_model_Name;
-		}
-
-
-		[WebMethod]
-		public string TRAIN_IMAGES_MODEL(string user_ID)
-		{
-
-			User user = (from User in linq.Users
-						 where User.Id == Convert.ToInt16(user_ID)
-						 select User).First();
-			Trained_Model model_To_Update = (from Trained_Model in linq.Trained_Models
-											 where Trained_Model.Id == user.Model_ID
-											 select Trained_Model).First();
-
-			List<User> users = (from User in linq.Users
-								where User.Model_ID == model_To_Update.Id
-								select User).ToList();
-
-			string users_ID = model_To_Update.Model_Name + "_" + model_To_Update.Model_Version;
-			for(int i = 0; i < users.Count; i++)
-			{
-				users_ID += "," + users.ElementAt(i).Id;
-			}
-			return users_ID;
-		}
-		[WebMethod]
-		public string[] RETURN_TRAINED_MODELS()
-		{
-			List<Trained_Model> trained_Models = (from Trained_Model in linq.Trained_Models
-												  select Trained_Model).ToList();
-			string[] trained_models = new string[trained_Models.Count];
-			for(int i = 0; i < trained_Models.Count; i++)
-			{
-				trained_models[i] = trained_Models.ElementAt(i).Id + "," + trained_Models.ElementAt(i).Model_Name + "," + trained_Models.ElementAt(i).Number_OF_Users + "," + trained_Models.ElementAt(i).Model_Version;
-			}
-			return trained_models;
-		}
-
-		[WebMethod]
-		public string[] RETURN_USERS_IN_MODEL(string Model_ID)
-		{
-			List<User> users = (from User in linq.Users
-								where User.Model_ID == Convert.ToInt16(Model_ID)
-								select User).ToList();
-			string[] users_string = new string[users.Count];
-			for(int i = 0; i < users.Count; i++ )
-			{
-				users_string[i] = users.ElementAt(i).Id + "," + users.ElementAt(i).User_Name + "," + users.ElementAt(i).Model_ID;
-			}
-			return users_string;
-		}
-
-		[WebMethod]
-		public string RETURN_USER_WITH_ID(string user_ID)
-		{
-			User user = (from User in linq.Users
-						 where User.Id == Convert.ToInt16(user_ID)
-						 select User).First();
-			string user_string = user.Id + "," + user.User_Name + "," + user.Model_ID + "," + user.Model_ID_VN;
-			return user_string;
-		}
-
-		[WebMethod]
-		public string DECREMENT_IMAGES_MODEL_VERSION(string user_ID)
-		{
-			User user = (from User in linq.Users
-						 where Convert.ToInt32(User.Id) == Convert.ToInt32(user_ID)
-						 select User).First();
-			Trained_Model model_To_Update = (from Trained_Model in linq.Trained_Models
-											 where Trained_Model.Id == user.Model_ID
-											 select Trained_Model).First();
-
-			int new_Model_Verion = Convert.ToInt32(model_To_Update.Model_Version - 1);
-
-			model_To_Update.Model_Version = new_Model_Verion;
-			linq.SubmitChanges();
-			return "ok";
-		}
-
-
-		[WebMethod]
-		public List<User> return_Users()
-		{
-			List<User> users = (from User in linq.Users
-								select User).ToList();
-			return users;
-		}
-
-		[WebMethod]
-		public List<Image> return_Images()
-		{
-			List<Image> images = (from Image in linq.Images
-								  select Image).ToList();
-			return images;
-		}
-
-		[WebMethod]
-		public string[] RETURN_IMAGES_FOR_MOBILE()
-		{
-			List<Image> images = (from Image in linq.Images
-								  select Image).ToList();
-			string[] images_arr = new string[images.Count];
-			for(int i = 0; i < images.Count; i++)
-			{
-				images_arr[i] = images.ElementAt(i).Id + "," + images.ElementAt(i).Image_Path + "," + images.ElementAt(i).User_ID + "," + images.ElementAt(i).Model_Version;
-			}
-			return images_arr;
-		}
-
-
-		//SOUND PROCESSING METHODS
-		[WebMethod]
-		public string INSERT_VOICE_NOTE(string user_ID, string voice_Note_Path)
-		{
-
-			Voice_Note VN_Table = new Voice_Note();
-			VN_Table.User_ID = Convert.ToUInt16(user_ID);
-			VN_Table.Voice_Note_Path = voice_Note_Path;
-			linq.Voice_Notes.InsertOnSubmit(VN_Table);
-			linq.SubmitChanges();
-			return "true";
-
-		}
-
-		[WebMethod]
-		public string UPDATE_TRAIN_DATA_VN(string user_ID)
-		{
-
-			User user = (from User in linq.Users
-						 where Convert.ToInt32(User.Id) == Convert.ToInt32(user_ID)
-						 select User).First();
-
-			Trained_Models_Voice_Note model_To_Update = (from Trained_Models_Voice_Note in linq.Trained_Models_Voice_Notes
-														 where Trained_Models_Voice_Note.Id == user.Model_ID_VN
-											 select Trained_Models_Voice_Note).First();
-
-			int new_Model_Verion = Convert.ToInt32(model_To_Update.Model_Version + 1);
-			string new_model_Name = model_To_Update.Model_Name + "_" + new_Model_Verion;
-
-
-			model_To_Update.Model_Version = new_Model_Verion;
-			linq.SubmitChanges();
-			return new_model_Name;
-		}
-
-		[WebMethod]
-		public string DECREMENT_IMAGES_MODEL_VERSION_VN(string user_ID)
-		{
-			User user = (from User in linq.Users
-						 where Convert.ToInt32(User.Id) == Convert.ToInt32(user_ID)
-						 select User).First();
-			Trained_Models_Voice_Note model_To_Update = (from Trained_Models_Voice_Note in linq.Trained_Models_Voice_Notes
-														 where Trained_Models_Voice_Note.Id == user.Model_ID_VN
-											 select Trained_Models_Voice_Note).First();
-
-			int new_Model_Verion = Convert.ToInt32(model_To_Update.Model_Version - 1);
-
-			model_To_Update.Model_Version = new_Model_Verion;
-			linq.SubmitChanges();
-			return "ok";
-		}
-
-		[WebMethod]
-		public string[] RETURN_TRAINED_MODELS_VN()
-		{
-			List<Trained_Models_Voice_Note> trained_Models = (from Trained_Models_Voice_Note in linq.Trained_Models_Voice_Notes
-															  select Trained_Models_Voice_Note).ToList();
-			string[] trained_models = new string[trained_Models.Count];
-			for (int i = 0; i < trained_Models.Count; i++)
-			{
-				trained_models[i] = trained_Models.ElementAt(i).Id + "," + trained_Models.ElementAt(i).Model_Name + "," + trained_Models.ElementAt(i).Number_OF_Users + "," + trained_Models.ElementAt(i).Model_Version;
-			}
-			return trained_models;
-		}
-
-		[WebMethod]
-		public string[] RETURN_USERS_IN_MODEL_VN(string Model_ID)
-		{
-			List<User> users = (from User in linq.Users
-								where User.Model_ID_VN == Convert.ToInt16(Model_ID)
-								select User).ToList();
-			string[] users_string = new string[users.Count];
-			for (int i = 0; i < users.Count; i++)
-			{
-				users_string[i] = users.ElementAt(i).Id + "," + users.ElementAt(i).User_Name + "," + users.ElementAt(i).Model_ID_VN;
-			}
-			return users_string;
-		}
-
-		[WebMethod]
-		public string[] RETURN_VNS_FOR_MOBILE()
-		{
-			List<Voice_Note> vns = (from Voice_Note in linq.Voice_Notes
-									   select Voice_Note).ToList();
-			string[] vns_arr = new string[vns.Count];
-			for (int i = 0; i < vns.Count; i++)
-			{
-				vns_arr[i] = vns.ElementAt(i).Id + "," + vns.ElementAt(i).Voice_Note_Path + "," + vns.ElementAt(i).User_ID;
-			}
-			return vns_arr;
-		}
+            else
+            {
+                return "false";
+            }
+            return "true";
+        }
         [WebMethod]
-        public string INSERT_PREDICTION_IMAGE(string Image_Path,string Prediction_Correct,string User_ID)
+        public string RETURN_DEVICE_MAC(string Device_Mac)
+        {
+            List<Devices_Mac> macs = (from Devices_Mac in linq.Devices_Macs
+                                      where Devices_Mac.Mac_Address == Device_Mac
+                                      select Devices_Mac).ToList();
+            if (macs.Count == 0)
+            {
+                return "false";
+            }
+            else
+            {
+                return macs.ElementAt(0).Id + "," + macs.ElementAt(0).Mac_Address + "," + macs.ElementAt(0).User_ID + "," + macs.ElementAt(0).Current_Number;
+            }
+        }
+
+
+        //IMAGE PROCESSING 
+        [WebMethod]
+        public string INSERT_NUM_IMAGES(string num_Images)
+        {
+            List<Current_Num_Image> num = (from Current_Num_Image in linq.Current_Num_Images
+                                           select Current_Num_Image).ToList();
+            if (num.Count == 0)
+            {
+                Current_Num_Image num_tab = new Current_Num_Image();
+                num_tab.Number = Convert.ToInt32(num_Images);
+                linq.Current_Num_Images.InsertOnSubmit(num_tab);
+                linq.SubmitChanges();
+                return "true";
+            }
+            return "false";
+        }
+        [WebMethod]
+        public string UPDATE_NUM_IMAGES(string Incr_Num)
+        {
+            List<Current_Num_Image> num = (from Current_Num_Image in linq.Current_Num_Images
+                                           select Current_Num_Image).ToList();
+            Current_Num_Image new_Num = (from Current_Num_Image in linq.Current_Num_Images
+                                         where Current_Num_Image.Id == num.ElementAt(0).Id
+                                         select Current_Num_Image).First();
+            new_Num.Number = num.ElementAt(0).Number + Convert.ToInt32(Incr_Num);
+            linq.SubmitChanges();
+            return "true";
+        }
+        [WebMethod]
+        public string RETURN_CURRENT_NUM_IMAGES()
+        {
+            List<Current_Num_Image> num = (from Current_Num_Image in linq.Current_Num_Images
+                                           select Current_Num_Image).ToList();
+            return num.ElementAt(0).Id + "," + num.ElementAt(0).Number;
+        }
+        [WebMethod]
+        public string INSERT_IMAGE(string user_ID, string image_Path, string model_Version)
+        {
+
+            Image image_Table = new Image();
+            image_Table.User_ID = Convert.ToUInt16(user_ID);
+            image_Table.Image_Path = image_Path;
+            image_Table.Model_Version = model_Version;
+            linq.Images.InsertOnSubmit(image_Table);
+            linq.SubmitChanges();
+
+            return "true";
+
+        }
+
+
+        [WebMethod]
+        public string UPDATE_TRAIN_DATA(String user_ID)
+        {
+
+            User user = (from User in linq.Users
+                         where Convert.ToInt32(User.Id) == Convert.ToInt32(user_ID)
+                         select User).First();
+
+            Trained_Model model_To_Update = (from Trained_Model in linq.Trained_Models
+                                             where Trained_Model.Id == user.Model_ID
+                                             select Trained_Model).First();
+
+            int new_Model_Verion = Convert.ToInt32(model_To_Update.Model_Version + 1);
+            string new_model_Name = model_To_Update.Model_Name + "_" + new_Model_Verion;
+
+
+            model_To_Update.Model_Version = new_Model_Verion;
+            linq.SubmitChanges();
+            return new_model_Name;
+        }
+
+
+        [WebMethod]
+        public string TRAIN_IMAGES_MODEL(string user_ID)
+        {
+
+            User user = (from User in linq.Users
+                         where User.Id == Convert.ToInt16(user_ID)
+                         select User).First();
+            Trained_Model model_To_Update = (from Trained_Model in linq.Trained_Models
+                                             where Trained_Model.Id == user.Model_ID
+                                             select Trained_Model).First();
+
+            List<User> users = (from User in linq.Users
+                                where User.Model_ID == model_To_Update.Id
+                                select User).ToList();
+
+            string users_ID = model_To_Update.Model_Name + "_" + model_To_Update.Model_Version;
+            for (int i = 0; i < users.Count; i++)
+            {
+                users_ID += "," + users.ElementAt(i).Id;
+            }
+            return users_ID;
+        }
+        [WebMethod]
+        public string[] RETURN_TRAINED_MODELS()
+        {
+            List<Trained_Model> trained_Models = (from Trained_Model in linq.Trained_Models
+                                                  select Trained_Model).ToList();
+            string[] trained_models = new string[trained_Models.Count];
+            for (int i = 0; i < trained_Models.Count; i++)
+            {
+                trained_models[i] = trained_Models.ElementAt(i).Id + "," + trained_Models.ElementAt(i).Model_Name + "," + trained_Models.ElementAt(i).Number_OF_Users + "," + trained_Models.ElementAt(i).Model_Version;
+            }
+            return trained_models;
+        }
+
+        [WebMethod]
+        public string[] RETURN_USERS_IN_MODEL(string Model_ID)
+        {
+            List<User> users = (from User in linq.Users
+                                where User.Model_ID == Convert.ToInt16(Model_ID)
+                                select User).ToList();
+            string[] users_string = new string[users.Count];
+            for (int i = 0; i < users.Count; i++)
+            {
+                users_string[i] = users.ElementAt(i).Id + "," + users.ElementAt(i).User_Name + "," + users.ElementAt(i).Model_ID;
+            }
+            return users_string;
+        }
+
+        [WebMethod]
+        public string RETURN_USER_WITH_ID(string user_ID)
+        {
+            User user = (from User in linq.Users
+                         where User.Id == Convert.ToInt16(user_ID)
+                         select User).First();
+            string user_string = user.Id + "," + user.User_Name + "," + user.Model_ID + "," + user.Model_ID_VN;
+            return user_string;
+        }
+
+        [WebMethod]
+        public string DECREMENT_IMAGES_MODEL_VERSION(string user_ID)
+        {
+            User user = (from User in linq.Users
+                         where Convert.ToInt32(User.Id) == Convert.ToInt32(user_ID)
+                         select User).First();
+            Trained_Model model_To_Update = (from Trained_Model in linq.Trained_Models
+                                             where Trained_Model.Id == user.Model_ID
+                                             select Trained_Model).First();
+
+            int new_Model_Verion = Convert.ToInt32(model_To_Update.Model_Version - 1);
+
+            model_To_Update.Model_Version = new_Model_Verion;
+            linq.SubmitChanges();
+            return "ok";
+        }
+
+
+        [WebMethod]
+        public List<User> return_Users()
+        {
+            List<User> users = (from User in linq.Users
+                                select User).ToList();
+            return users;
+        }
+
+        [WebMethod]
+        public List<Image> return_Images()
+        {
+            List<Image> images = (from Image in linq.Images
+                                  select Image).ToList();
+            return images;
+        }
+
+        [WebMethod]
+        public string[] RETURN_IMAGES_FOR_MOBILE()
+        {
+            List<Image> images = (from Image in linq.Images
+                                  select Image).ToList();
+            string[] images_arr = new string[images.Count];
+            for (int i = 0; i < images.Count; i++)
+            {
+                images_arr[i] = images.ElementAt(i).Id + "," + images.ElementAt(i).Image_Path + "," + images.ElementAt(i).User_ID + "," + images.ElementAt(i).Model_Version;
+            }
+            return images_arr;
+        }
+
+
+        //SOUND PROCESSING METHODS
+        [WebMethod]
+        public string INSERT_VOICE_NOTE(string user_ID, string voice_Note_Path)
+        {
+
+            Voice_Note VN_Table = new Voice_Note();
+            VN_Table.User_ID = Convert.ToUInt16(user_ID);
+            VN_Table.Voice_Note_Path = voice_Note_Path;
+            linq.Voice_Notes.InsertOnSubmit(VN_Table);
+            linq.SubmitChanges();
+            return "true";
+
+        }
+
+        [WebMethod]
+        public string UPDATE_TRAIN_DATA_VN(string user_ID)
+        {
+
+            User user = (from User in linq.Users
+                         where Convert.ToInt32(User.Id) == Convert.ToInt32(user_ID)
+                         select User).First();
+
+            Trained_Models_Voice_Note model_To_Update = (from Trained_Models_Voice_Note in linq.Trained_Models_Voice_Notes
+                                                         where Trained_Models_Voice_Note.Id == user.Model_ID_VN
+                                                         select Trained_Models_Voice_Note).First();
+
+            int new_Model_Verion = Convert.ToInt32(model_To_Update.Model_Version + 1);
+            string new_model_Name = model_To_Update.Model_Name + "_" + new_Model_Verion;
+
+
+            model_To_Update.Model_Version = new_Model_Verion;
+            linq.SubmitChanges();
+            return new_model_Name;
+        }
+
+        [WebMethod]
+        public string DECREMENT_IMAGES_MODEL_VERSION_VN(string user_ID)
+        {
+            User user = (from User in linq.Users
+                         where Convert.ToInt32(User.Id) == Convert.ToInt32(user_ID)
+                         select User).First();
+            Trained_Models_Voice_Note model_To_Update = (from Trained_Models_Voice_Note in linq.Trained_Models_Voice_Notes
+                                                         where Trained_Models_Voice_Note.Id == user.Model_ID_VN
+                                                         select Trained_Models_Voice_Note).First();
+
+            int new_Model_Verion = Convert.ToInt32(model_To_Update.Model_Version - 1);
+
+            model_To_Update.Model_Version = new_Model_Verion;
+            linq.SubmitChanges();
+            return "ok";
+        }
+
+        [WebMethod]
+        public string[] RETURN_TRAINED_MODELS_VN()
+        {
+            List<Trained_Models_Voice_Note> trained_Models = (from Trained_Models_Voice_Note in linq.Trained_Models_Voice_Notes
+                                                              select Trained_Models_Voice_Note).ToList();
+            string[] trained_models = new string[trained_Models.Count];
+            for (int i = 0; i < trained_Models.Count; i++)
+            {
+                trained_models[i] = trained_Models.ElementAt(i).Id + "," + trained_Models.ElementAt(i).Model_Name + "," + trained_Models.ElementAt(i).Number_OF_Users + "," + trained_Models.ElementAt(i).Model_Version;
+            }
+            return trained_models;
+        }
+
+        [WebMethod]
+        public string[] RETURN_USERS_IN_MODEL_VN(string Model_ID)
+        {
+            List<User> users = (from User in linq.Users
+                                where User.Model_ID_VN == Convert.ToInt16(Model_ID)
+                                select User).ToList();
+            string[] users_string = new string[users.Count];
+            for (int i = 0; i < users.Count; i++)
+            {
+                users_string[i] = users.ElementAt(i).Id + "," + users.ElementAt(i).User_Name + "," + users.ElementAt(i).Model_ID_VN;
+            }
+            return users_string;
+        }
+
+        [WebMethod]
+        public string[] RETURN_VNS_FOR_MOBILE()
+        {
+            List<Voice_Note> vns = (from Voice_Note in linq.Voice_Notes
+                                    select Voice_Note).ToList();
+            string[] vns_arr = new string[vns.Count];
+            for (int i = 0; i < vns.Count; i++)
+            {
+                vns_arr[i] = vns.ElementAt(i).Id + "," + vns.ElementAt(i).Voice_Note_Path + "," + vns.ElementAt(i).User_ID;
+            }
+            return vns_arr;
+        }
+        [WebMethod]
+        public string INSERT_PREDICTION_IMAGE(string Image_Path, string Prediction_Correct, string User_ID)
         {
             Prediction_Image pred = new Prediction_Image();
             pred.Image_Path = Image_Path;
@@ -1036,12 +1036,12 @@ namespace SSS_WEB_SERVICE
                     select Image).ToList();
         }
         [WebMethod]
-        public User LOGIN_WEB(string username,string password)
+        public User LOGIN_WEB(string username, string password)
         {
-            List<User> user =  (from User in linq.Users
-                                where User.User_Name == username && User.Password == password
-                                select User).ToList();
-            if(user.Count > 0)
+            List<User> user = (from User in linq.Users
+                               where User.User_Name == username && User.Password == password
+                               select User).ToList();
+            if (user.Count > 0)
             {
                 return user.ElementAt(0);
             }
@@ -1051,6 +1051,37 @@ namespace SSS_WEB_SERVICE
             }
 
         }
-	}
+        [WebMethod]
+        public User RETURN_USER_WITH_ID_WEB(string User_ID)
+        {
+            List<User> user = (from User in linq.Users
+                               where User.Id == Convert.ToInt32(User_ID)
+                               select User).ToList();
+            if (user.Count > 0)
+            {
+                return user.ElementAt(0);
+            }
+            else
+            {
+                return null;
+            }
+
+        }
+        [WebMethod]
+        public Devices_Mac RETURN_DEVICE_WITH_USER_ID(string User_ID)
+        {
+            List<Devices_Mac> device = (from Devices_Mac in linq.Devices_Macs
+                                      where Devices_Mac.User_ID == Convert.ToInt32(User_ID)
+                                      select Devices_Mac).ToList();
+            if (device.Count > 0)
+            {
+                return device.ElementAt(0);
+            }
+            else
+            {
+                return null;
+            }
+        }
+    }
 
 }
