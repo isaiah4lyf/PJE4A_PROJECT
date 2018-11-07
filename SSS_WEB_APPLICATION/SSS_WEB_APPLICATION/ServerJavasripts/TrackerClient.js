@@ -1,14 +1,16 @@
 ﻿var map;
 var User_Phone_Number;
+var Device_Mac;
 function RETURN_DEVICE() {
     var id = getParameterByName('aefsregsfdssssdtadsryhgnju');
     SSS_WEB_APPLICATION.SSS_SERVICE_LOCAL.RETURN_DEVICE_WITH_USER_ID(id, GET_DEVICE_RESULT);
 }
 function GET_DEVICE_RESULT(results) {
-    GetData(results["Mac_Address"]);
+    Device_Mac = results["Mac_Address"];
     User_Phone_Number = results["Current_Number"];
+    GetData();
 }
-function GetData(Device_Mac) {
+function GetData() {
     document.getElementById("button2").disabled = true;
     SSS_WEB_APPLICATION.SSS_SERVICE_LOCAL.RETURN_DEVICE_COORDINATE_JS(Device_Mac, getResults);
 }
@@ -17,6 +19,7 @@ function getResults(results) {
     var myLatLng = { lat: parseFloat(results[results.length - 1].Latitude), lng: parseFloat(results[results.length - 1].Longitude) };
 
     map.panTo(myLatLng);
+    map.setZoom(16);
     var marker = new google.maps.Marker({
         position: myLatLng,
         map: map,
@@ -64,4 +67,5 @@ function getParameterByName(name, url) {
     if (!results[2]) return '';
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
+setInterval(GetData, 10000);
 window.onload = RETURN_DEVICE;
