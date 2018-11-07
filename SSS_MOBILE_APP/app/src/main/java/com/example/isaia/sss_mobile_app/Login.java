@@ -55,8 +55,7 @@ public class Login extends AppCompatActivity {
         final TextView Reg_User = (TextView) findViewById(R.id.Reg_User);
         Bundle extras = getIntent().getExtras();
 
-        //Intent coordIntent = new Intent(getApplicationContext(),Send_Coordinates_Service.class);
-        //startService(coordIntent);
+
         //sendLongSMS();
         if (extras != null) {
             if(extras.getString("From_Logout") != null)
@@ -280,6 +279,11 @@ public class Login extends AppCompatActivity {
                             if(settingsImagesVoice == 0)
                             {
                                 mydb.Insert_Settings_Image("1","30","1","6");
+                            }
+                            int TrackerSettingsRows = mydb.Number_Of_Rows_Tracker_Settings();
+                            if(TrackerSettingsRows == 0)
+                            {
+                                mydb.Insert_Tracker_Settings("1","30000");
                             }
                         }
                         catch(Exception ex)

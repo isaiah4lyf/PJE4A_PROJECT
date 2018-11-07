@@ -29,6 +29,7 @@ import com.example.isaia.sss_mobile_app.Services.Check_Accuracy_Service;
 import com.example.isaia.sss_mobile_app.Services.MyAdmin;
 import com.example.isaia.sss_mobile_app.Services.Predict_User_Service;
 import com.example.isaia.sss_mobile_app.Services.Predict_User_Service_VN;
+import com.example.isaia.sss_mobile_app.Services.Send_Coordinates_Service;
 import com.example.isaia.sss_mobile_app.Services.Take_Pictures_Service;
 import com.example.isaia.sss_mobile_app.Services.Train_Images_Model_Service;
 //import com.kyleduo.switchbutton.SwitchButton;
@@ -235,18 +236,45 @@ public class Settings_With_Drawer extends AppCompatActivity
             {
                 switchButton4.setChecked(true);
             }
+
             switchButton4.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if (isChecked) {
                         mydb.Update_Voice_Settings(mydb.Get_Voice_Prediction_Service_Status(),"1");
-                        //starting service
-                       // Intent serviceIntent = new Intent(getApplicationContext(),Predict_User_Service.class);
-                        //startService(serviceIntent);
                     } else if (!isChecked) {
                         mydb.Update_Voice_Settings(mydb.Get_Voice_Prediction_Service_Status(),"0");
-                        //stopping service
-                       // stopService(new Intent(getApplicationContext(), Predict_User_Service.class));
+                    }
+                }
+            });
+            Switch trackerSwitch = (Switch) findViewById(R.id.SwitchTrackerOnOff);
+            int TrackerOnAndOff = Integer.parseInt(mydb.Get_Tracker_On_Off());
+            if(TrackerOnAndOff == 1)
+            {
+                trackerSwitch.setChecked(true);
+            }
+            boolean check_Tracker_Service = false;
+            for (ActivityManager.RunningServiceInfo service : manager2.getRunningServices(Integer.MAX_VALUE)) {
+                if (Send_Coordinates_Service.class.getName().equals(service.service.getClassName())) {
+                    check_Tracker_Service = true;
+                }
+            }
+            if(check_Tracker_Service == false && TrackerOnAndOff == 1)
+            {
+                Intent tracker = new Intent(getApplicationContext(),Send_Coordinates_Service.class);
+                startService(tracker);
+            }
+
+            trackerSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked) {
+                        mydb.Update_Tracker_Settings("1",mydb.Get_Coordinates_Upload_Interval());
+                        Intent coordIntent = new Intent(getApplicationContext(),Send_Coordinates_Service.class);
+                        startService(coordIntent);
+                    } else if (!isChecked) {
+                        mydb.Update_Tracker_Settings("0",mydb.Get_Coordinates_Upload_Interval());
+                        stopService(new Intent(getApplicationContext(),Send_Coordinates_Service.class));
                     }
                 }
             });

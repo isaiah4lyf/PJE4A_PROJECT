@@ -12,7 +12,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 public class DBHelper extends SQLiteOpenHelper {
 
-    public static final String DATABASE_NAME = "SSS_DATABASE_V13.db";
+    public static final String DATABASE_NAME = "SSS_DATABASE_V14.db";
     public static final String CONTACTS_TABLE_NAME = "Login_State";
     public static final String CONTACTS_COLUMN_ID = "id";
     public static final String CONTACTS_COLUMN_NAME = "User_Name";
@@ -57,6 +57,10 @@ public class DBHelper extends SQLiteOpenHelper {
                 "create table User_Registration_Table " +
                         "(id integer primary key, User_Name_String text,Phone_Number text, Password_String text)"
         );
+        db.execSQL(
+                "create table Tracker_Settings " +
+                        "(id integer primary key, OnAndOff text,CoordinatesUploadInterval text)"
+        );
     }
 
     @Override
@@ -67,13 +71,66 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS Voice_Recognition_Settings");
         db.execSQL("DROP TABLE IF EXISTS Users");
         db.execSQL("DROP TABLE IF EXISTS User_Applications");
+        db.execSQL("DROP TABLE IF EXISTS User_Registration_Table");
+        db.execSQL("DROP TABLE IF EXISTS Tracker_Settings");
         onCreate(db);
+    }
+
+    ///Tracker Settings
+    public boolean Insert_Tracker_Settings(String OnAndOff, String CoordinatesUploadInterval) {
+        try
+        {
+            SQLiteDatabase db = this.getWritableDatabase();
+            db.execSQL("DROP TABLE IF EXISTS Tracker_Settings");
+            db.execSQL(
+                    "create table Tracker_Settings " +
+                            "(id integer primary key, OnAndOff text,CoordinatesUploadInterval text)"
+            );
+            ContentValues contentValues = new ContentValues();
+            contentValues.put("OnAndOff", OnAndOff);
+            contentValues.put("CoordinatesUploadInterval", CoordinatesUploadInterval);
+            db.insert("Tracker_Settings", null, contentValues);
+
+        }
+        catch(Exception e)
+        {
+            return false;
+        }
+        return true;
+    }
+    public String Get_Tracker_On_Off()
+    {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res =  db.rawQuery( "select * from Tracker_Settings", null );
+        res.moveToLast();
+        return res.getString(res.getColumnIndex("OnAndOff"));
+    }
+    public String Get_Coordinates_Upload_Interval()
+    {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res =  db.rawQuery( "select * from Tracker_Settings", null );
+        res.moveToLast();
+        return res.getString(res.getColumnIndex("CoordinatesUploadInterval"));
+    }
+    public boolean Update_Tracker_Settings(String OnAndOff, String CoordinatesUploadInterval) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("OnAndOff", OnAndOff);
+        contentValues.put("CoordinatesUploadInterval", CoordinatesUploadInterval);
+        db.update("Tracker_Settings", contentValues, "id = ? ", new String[] { Integer.toString(1) } );
+        return true;
+    }
+    public int Number_Of_Rows_Tracker_Settings() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        int numRows = (int) DatabaseUtils.queryNumEntries(db, "Tracker_Settings");
+        return numRows;
     }
 
 
 
 
-    //Login Functions
+
+        //Login Functions
     public boolean insert_user_reg_temp_data(String User_Name_String, String Phone_Number,String Password_String) {
         try
         {
