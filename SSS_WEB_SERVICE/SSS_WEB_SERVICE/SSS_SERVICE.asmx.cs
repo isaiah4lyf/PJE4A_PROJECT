@@ -1010,8 +1010,47 @@ namespace SSS_WEB_SERVICE
 			}
 			return vns_arr;
 		}
+        [WebMethod]
+        public string INSERT_PREDICTION_IMAGE(string Image_Path,string Prediction_Correct,string User_ID)
+        {
+            Prediction_Image pred = new Prediction_Image();
+            pred.Image_Path = Image_Path;
+            pred.Prediction_Correct = Prediction_Correct;
+            pred.User_ID = User_ID;
+            linq.Prediction_Images.InsertOnSubmit(pred);
+            linq.SubmitChanges();
+            return "true";
+        }
+        [WebMethod]
+        public List<Prediction_Image> RETURN_PREDICTION_IMAGES_WEB(string User_ID)
+        {
+            return (from Prediction_Image in linq.Prediction_Images
+                    where Prediction_Image.User_ID == User_ID
+                    select Prediction_Image).ToList();
+        }
+        [WebMethod]
+        public List<Image> RETURN_TRAINING_IMAGES_WEB(string User_ID)
+        {
+            return (from Image in linq.Images
+                    where Image.User_ID == Convert.ToInt32(User_ID)
+                    select Image).ToList();
+        }
+        [WebMethod]
+        public User LOGIN_WEB(string username,string password)
+        {
+            List<User> user =  (from User in linq.Users
+                                where User.User_Name == username && User.Password == password
+                                select User).ToList();
+            if(user.Count > 0)
+            {
+                return user.ElementAt(0);
+            }
+            else
+            {
+                return null;
+            }
 
-
+        }
 	}
 
 }

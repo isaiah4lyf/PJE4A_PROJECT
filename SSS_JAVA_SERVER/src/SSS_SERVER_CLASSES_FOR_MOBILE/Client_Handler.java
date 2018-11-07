@@ -14,6 +14,7 @@ import SSS_SERVER_FUNCTIONS.Insert_Accuracy_Users;
 import SSS_SERVER_FUNCTIONS.Insert_Accuracy_Users_First_Version;
 import SSS_SERVER_FUNCTIONS.Insert_Device_Mac;
 import SSS_SERVER_FUNCTIONS.Insert_Image;
+import SSS_SERVER_FUNCTIONS.Insert_Prediction_Image;
 import SSS_SERVER_FUNCTIONS.Insert_User;
 import SSS_SERVER_FUNCTIONS.Insert_Voice_Note;
 import SSS_SERVER_FUNCTIONS.Login;
@@ -1447,10 +1448,22 @@ public class Client_Handler implements Runnable{
 						System.out.println(result_With_Max);
 						String[] results_tokens = result_With_Max.split(",");
 						sendMessage(results_tokens[1]);	
+						Insert_Prediction_Image insert = new Insert_Prediction_Image();
+						if(results_tokens[1].equals(user_name2))
+						{
+							insert.do_The_Work(URL, title2, "True", user_ID2_);
+						}
+						else
+						{
+							insert.do_The_Work(URL, title2, "False", user_ID2_);
+						}
+
 					}
 					else
 					{
 						sendMessage("Incorrect User");	
+						Insert_Prediction_Image insert = new Insert_Prediction_Image();
+						insert.do_The_Work(URL, title2, "False", user_ID2_);
 					}
 
 					
@@ -1654,10 +1667,22 @@ public class Client_Handler implements Runnable{
 					System.out.println(result_With_Max);
 					String[] results_tokens = result_With_Max.split(",");
 					sendMessage(results_tokens[1]);	
+					Insert_Prediction_Image insert = new Insert_Prediction_Image();
+					if(results_tokens[1].equals(user_name2))
+					{
+						insert.do_The_Work(URL, title2, "True", user_ID2_);
+					}
+					else
+					{
+						insert.do_The_Work(URL, title2, "False", user_ID2_);
+					}
+					
 				}
 				else
 				{
 					sendMessage("Incorrect User");	
+					Insert_Prediction_Image insert = new Insert_Prediction_Image();
+					insert.do_The_Work(URL, title2, "False", user_ID2_);
 				}
 
 				
@@ -2114,15 +2139,21 @@ public class Client_Handler implements Runnable{
 					sendMessage(results_tokens[1] + " - " + String.valueOf(new_model_Match_Accuracy.get(0)) + "%");
 					sendMessage(prediction_Path+results_tokens[1]+"/MATLAB_PRED_DATA/"+Variables_Array[3]+".jpg");
 					System.out.println(prediction_Path+results_tokens[1]+"/MATLAB_PRED_DATA/"+Variables_Array[3]+".jpg");
+					Insert_Prediction_Image insert = new Insert_Prediction_Image();
+					insert.do_The_Work(URL, Variables_Array[3], "True", Variables_Array[0]);
 				}
 				else
 				{
 					sendMessage("Incorrect User");
+					Insert_Prediction_Image insert = new Insert_Prediction_Image();
+					insert.do_The_Work(URL, Variables_Array[3], "False", Variables_Array[0]);
 				}	
 			}
 			else
 			{
 				sendMessage("Incorrect User");	
+				Insert_Prediction_Image insert = new Insert_Prediction_Image();
+				insert.do_The_Work(URL, Variables_Array[3], "False", Variables_Array[0]);
 			}
 			
 			/*

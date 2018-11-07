@@ -98,4 +98,12 @@
       <Column Name="UploadDate" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
     </Type>
   </Table>
+  <Table Name="dbo.Prediction_Images" Member="Prediction_Images">
+    <Type Name="Prediction_Image">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Image_Path" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Prediction_Correct" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="User_ID" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+    </Type>
+  </Table>
 </Database>
