@@ -48,6 +48,7 @@ public class Client_Handler implements Runnable{
 	private DataInputStream in;
 	private DataOutputStream out;
 	private MatlabEngine matEng;
+	private ArrayList<MATLAB_Instances> matlab_Instances;
 	private String URL;
 	private String Matlab_Path_train;
 	private TextArea console_Like;
@@ -55,10 +56,10 @@ public class Client_Handler implements Runnable{
 	private String News_Feeds_Images_Path = "http://smartphonesecuritysystem.dedicated.co.za:8080/Images/";
 	private String News_Feeds_Videos_Path = "http://smartphonesecuritysystem.dedicated.co.za:8080/Videos/";
 	private String prediction_Path = "http://smartphonesecuritysystem.dedicated.co.za:8080/SSS_JAVA_SERVER/data/MATLAB_TRAIN_DATA/";
-	public Client_Handler(Socket socketConnectionToClient,MatlabEngine matEng,String URL,TextArea console_Like)
+	public Client_Handler(Socket socketConnectionToClient,ArrayList<MATLAB_Instances> matlab_Instances,String URL,TextArea console_Like)
 	{
 		this.connectionToClient = socketConnectionToClient;
-		this.matEng = matEng;
+		this.matlab_Instances = matlab_Instances;
 		this.URL = URL;
 		this.console_Like = console_Like;
 		try
@@ -85,6 +86,7 @@ public class Client_Handler implements Runnable{
 			{
 				String command = in.readUTF();
 				console_Like.append(command + "\n");
+				int Engine_ID;
 				try 
 				{
 					switch (command)
@@ -110,31 +112,45 @@ public class Client_Handler implements Runnable{
 							processing = false;
 							break;
 						case "INSERT_IMAGE":
+							Engine_ID = set_Available_Mat_Engie();
 							Insert_Image();
+							matlab_Instances.get(Engine_ID).setEngine_In_Use(false);
 							processing = false;
 							break;
 						case "INSERT_VN":
+							Engine_ID = set_Available_Mat_Engie();
 							Insert_VN();
+							matlab_Instances.get(Engine_ID).setEngine_In_Use(false);
 							processing = false;
 							break;
-						case "TRAIN_IMAGES_MODEL":						
+						case "TRAIN_IMAGES_MODEL":
+							Engine_ID = set_Available_Mat_Engie();
 							Train_Images_Model();
+							matlab_Instances.get(Engine_ID).setEngine_In_Use(false);
 							processing = false;
 							break;			
-						case "TRAIN_VN_MODEL":						
+						case "TRAIN_VN_MODEL":
+							Engine_ID = set_Available_Mat_Engie();
 							Train_VN_Model();
+							matlab_Instances.get(Engine_ID).setEngine_In_Use(false);
 							processing = false;
 							break;	
 						case "PRED_USER":
+							Engine_ID = set_Available_Mat_Engie();
 							Pred_User_Image();
+							matlab_Instances.get(Engine_ID).setEngine_In_Use(false);
 							processing = false;
 							break;
 						case "TEST_IMAGE_PRED_ACCU":
+							Engine_ID = set_Available_Mat_Engie();
 							Test_Prediction_Accuracy_Images(); 
+							matlab_Instances.get(Engine_ID).setEngine_In_Use(false);
 							processing = false;
 							break;
 						case "PRED_USER_VN":
+							Engine_ID = set_Available_Mat_Engie();
 							Pred_User_VN();
+							matlab_Instances.get(Engine_ID).setEngine_In_Use(false);
 							processing = false;
 							break;
 						case "GET_DEVICE_MAC":
@@ -162,7 +178,9 @@ public class Client_Handler implements Runnable{
 							processing = false;
 							break;
 						case "SSS_VISION":
+							Engine_ID = set_Available_Mat_Engie();
 							SSS_Vision();
+							matlab_Instances.get(Engine_ID).setEngine_In_Use(false);
 							processing = false;
 							break;
 						case "ADD_USER_FROM_VISION":
@@ -199,6 +217,27 @@ public class Client_Handler implements Runnable{
 
 
 	/// Commands Management functions
+	public int set_Available_Mat_Engie()
+	{
+		boolean avail_Eng_Found = false;
+		int engi_ID = 0;
+		while(avail_Eng_Found == false)
+		{
+			for(int i = 0; i < matlab_Instances.size(); i++)
+			{
+				if(matlab_Instances.get(i).isEngine_In_Use() == false)
+				{
+					matlab_Instances.get(i).setEngine_In_Use(true);
+					engi_ID = i;
+					avail_Eng_Found = true;
+					break;
+				}
+			}
+		} 		
+		matEng = matlab_Instances.get(engi_ID).getMatEng();
+		return	engi_ID;
+	}
+	
 	private void Get_News_Feed_Last()
 	{
 		try {
@@ -457,17 +496,11 @@ public class Client_Handler implements Runnable{
 				}
 				else
 				{
-					matEng.eval("h=figure",null,null);
-					matEng.eval("imshow(J); hold on;",null,null);
-					matEng.eval("plot(ptsOriginal.selectStrongest(500));",null,null);
-					matEng.eval("saveas(h,Image_Name_of);",null,null);
-					matEng.eval("close(h);",null,null);
-					matEng.eval("twiIm = imread(Image_Name_of);",null,null);
-					matEng.eval("image2 = undistortImage(twiIm,stereoParams.CameraParameters1);",null,null);
-					matEng.eval("faceDetector2 = vision.CascadeObjectDetector;",null,null);
-					matEng.eval("face2 = step(faceDetector2,image2);",null,null);
-					matEng.eval("k = imcrop(twiIm,face2);",null,null);
-					matEng.eval("imwrite(k,Image_Name_of);",null,null);
+					matEng.eval("array = ptsOriginal.selectStrongest(500);",null,null);
+					matEng.eval("RGB = insertMarker(J,array,'x','color','green','size',25);",null,null);
+					matEng.eval("RGB2 = insertMarker(RGB,array,'o','color','green','size',40);",null,null);
+					matEng.eval("imwrite(RGB2,Image_Name_of);",null,null);
+					
 					int max = fet_Match.get(0);
 					int index = 0;
 					for(int i = 0; i < fet_Match.size(); i++)
@@ -761,19 +794,13 @@ public class Client_Handler implements Runnable{
 					Insert_Image_To_First_Version(user_ID_,user_name,title,model_Name_Tokens[0],model_Name_Tokens[1],users_Array);
 				}
 				sendMessage("Upload Successful");
+				matEng.eval("array = ptsOriginal.selectStrongest(500);",null,null);
+				matEng.eval("RGB = insertMarker(J,array,'x','color','green','size',25);",null,null);
+				matEng.eval("RGB2 = insertMarker(RGB,array,'o','color','green','size',40);",null,null);
+				matEng.eval("imwrite(RGB2,image_Path);",null,null);
 				Insert_Image insert_class = new Insert_Image();
 				console_Like.append(insert_class.do_The_Work(URL,user_ID_,image.getName(),model_Name_Tokens[2])+"\n");
-				matEng.eval("h=figure",null,null);
-				matEng.eval("imshow(J); hold on;",null,null);
-				matEng.eval("plot(ptsOriginal.selectStrongest(500));",null,null);
-				matEng.eval("saveas(h,image_Path);",null,null);
-				matEng.eval("close(h);",null,null);
-				matEng.eval("twiIm = imread(Image_Name_of);",null,null);
-				matEng.eval("image2 = undistortImage(twiIm,stereoParams.CameraParameters1);",null,null);
-				matEng.eval("faceDetector2 = vision.CascadeObjectDetector;",null,null);
-				matEng.eval("face2 = step(faceDetector2,image2);",null,null);
-				matEng.eval("k = imcrop(twiIm,face2);",null,null);
-				matEng.eval("imwrite(k,image_Path);",null,null);
+
 			}
 			
 		} catch (Exception e1) {
@@ -1417,17 +1444,10 @@ public class Client_Handler implements Runnable{
 				}
 				else
 				{
-					matEng.eval("h=figure",null,null);
-					matEng.eval("imshow(J); hold on;",null,null);
-					matEng.eval("plot(ptsOriginal.selectStrongest(500));",null,null);
-					matEng.eval("saveas(h,Image_Name_of);",null,null);
-					matEng.eval("close(h);",null,null);
-					matEng.eval("twiIm = imread(Image_Name_of);",null,null);
-					matEng.eval("image2 = undistortImage(twiIm,stereoParams.CameraParameters1);",null,null);
-					matEng.eval("faceDetector2 = vision.CascadeObjectDetector;",null,null);
-					matEng.eval("face2 = step(faceDetector2,image2);",null,null);
-					matEng.eval("k = imcrop(twiIm,face2);",null,null);
-					matEng.eval("imwrite(k,Image_Name_of);",null,null);
+					matEng.eval("array = ptsOriginal.selectStrongest(500);",null,null);
+					matEng.eval("RGB = insertMarker(J,array,'x','color','green','size',25);",null,null);
+					matEng.eval("RGB2 = insertMarker(RGB,array,'o','color','green','size',40);",null,null);
+					matEng.eval("imwrite(RGB2,Image_Name_of);",null,null);
 					Return_Accuracy_Users accu_Class = new Return_Accuracy_Users();
 					String[] accuString = accu_Class.do_The_Work(URL, user_ID2_).split(",");
 					List<Integer> new_Fetch_Match = fet_Match;
@@ -1636,17 +1656,10 @@ public class Client_Handler implements Runnable{
 			}
 			else
 			{
-				matEng.eval("h=figure",null,null);
-				matEng.eval("imshow(J); hold on;",null,null);
-				matEng.eval("plot(ptsOriginal.selectStrongest(500));",null,null);
-				matEng.eval("saveas(h,Image_Name_of);",null,null);
-				matEng.eval("close(h);",null,null);
-				matEng.eval("twiIm = imread(Image_Name_of);",null,null);
-				matEng.eval("image2 = undistortImage(twiIm,stereoParams.CameraParameters1);",null,null);
-				matEng.eval("faceDetector2 = vision.CascadeObjectDetector;",null,null);
-				matEng.eval("face2 = step(faceDetector2,image2);",null,null);
-				matEng.eval("k = imcrop(twiIm,face2);",null,null);
-				matEng.eval("imwrite(k,Image_Name_of);",null,null);
+				matEng.eval("array = ptsOriginal.selectStrongest(500);",null,null);
+				matEng.eval("RGB = insertMarker(J,array,'x','color','green','size',25);",null,null);
+				matEng.eval("RGB2 = insertMarker(RGB,array,'o','color','green','size',40);",null,null);
+				matEng.eval("imwrite(RGB2,Image_Name_of);",null,null);
 				Return_Accuracy_Users_First_Version accu_Class = new Return_Accuracy_Users_First_Version();
 				String[] accuString = accu_Class.do_The_Work(URL, user_ID2_).split(",");
 				List<Integer> new_Fetch_Match = fet_Match;
@@ -2098,17 +2111,10 @@ public class Client_Handler implements Runnable{
 		}
 		else
 		{
-			matEng.eval("h=figure",null,null);
-			matEng.eval("imshow(J); hold on;",null,null);
-			matEng.eval("plot(ptsOriginal.selectStrongest(500));",null,null);
-			matEng.eval("saveas(h,Image_Name_of);",null,null);
-			matEng.eval("close(h);",null,null);
-			matEng.eval("twiIm = imread(Image_Name_of);",null,null);
-			matEng.eval("image2 = undistortImage(twiIm,stereoParams.CameraParameters1);",null,null);
-			matEng.eval("faceDetector2 = vision.CascadeObjectDetector;",null,null);
-			matEng.eval("face2 = step(faceDetector2,image2);",null,null);
-			matEng.eval("k = imcrop(twiIm,face2);",null,null);
-			matEng.eval("imwrite(k,Image_Name_of);",null,null);
+			matEng.eval("array = ptsOriginal.selectStrongest(500);",null,null);
+			matEng.eval("RGB = insertMarker(J,array,'x','color','green','size',25);",null,null);
+			matEng.eval("RGB2 = insertMarker(RGB,array,'o','color','green','size',40);",null,null);
+			matEng.eval("imwrite(RGB2,Image_Name_of);",null,null);
 			Return_Accuracy_Users accu_Class = new Return_Accuracy_Users();
 			String[] accuString = accu_Class.do_The_Work(URL, Variables_Array[0]).split(",");
 			List<Integer> new_Fetch_Match = fet_Match;
