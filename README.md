@@ -1,5 +1,5 @@
 # Smartphone Security System
-##Headings
+#Headings
 ###Headings
 ![image](https://user-images.githubusercontent.com/22587190/59605480-2dc60580-910f-11e9-8c8e-9b1420e8edc2.png)
 ![image](https://user-images.githubusercontent.com/22587190/59605102-4d106300-910e-11e9-932f-10482d2ff550.png)
